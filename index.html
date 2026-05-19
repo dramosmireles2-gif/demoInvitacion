@@ -761,6 +761,10 @@ body::before {
     0 0 0 8px rgba(245, 240, 232, 0.7),
     0 0 0 10px var(--parchment),
     0 16px 48px rgba(0, 0, 0, 0.13);
+  background: linear-gradient(160deg, var(--parchment) 0%, var(--cream2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .couple-frame img {
@@ -768,6 +772,27 @@ body::before {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.couple-frame-placeholder {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.placeholder-icon {
+  font-size: 36px;
+  opacity: 0.5;
+}
+
+.placeholder-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--gold-light);
+  opacity: 0.7;
 }
 
 .couple-caption {
@@ -851,9 +876,14 @@ body::before {
     <div class="couple-frame">
       <img
         src="https://images.unsplash.com/photo-1537907510278-e3e3bdaff1e7?w=600&q=80"
-        alt="Andrea & Saúl"
-        loading="lazy"
+        alt=""
+        referrerpolicy="no-referrer"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
       />
+      <div class="couple-frame-placeholder">
+        <span class="placeholder-icon">🤍</span>
+        <span class="placeholder-text">Foto de la pareja</span>
+      </div>
     </div>
     <p class="couple-caption">Andrea &amp; Saúl</p>
   </div>
