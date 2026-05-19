@@ -51,12 +51,12 @@ body::before {
   align-items: center;
   justify-content: center;
   z-index: 100;
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 1s ease, transform 1s ease;
 }
 
 #envelope-screen.hide {
   opacity: 0;
-  transform: scale(0.97);
+  transform: scale(0.98);
   pointer-events: none;
 }
 
@@ -247,7 +247,7 @@ body::before {
   min-height: 100vh;
   padding: 0 0 60px;
   opacity: 0;
-  transition: opacity 1s ease;
+  transition: opacity 1.1s ease;
 }
 
 #invitation.show {
@@ -1005,16 +1005,25 @@ function openEnvelope() {
   env.classList.add('opening');
   spawnPetals();
 
+  // Cross-dissolve: sobre e invitación transicionan al mismo tiempo
   setTimeout(() => {
-    document.getElementById('envelope-screen').classList.add('hide');
-  }, 900);
+    const screen = document.getElementById('envelope-screen');
+    const inv    = document.getElementById('invitation');
 
-  setTimeout(() => {
-    const inv = document.getElementById('invitation');
+    screen.classList.add('hide');
+
     inv.style.display = 'flex';
-    requestAnimationFrame(() => inv.classList.add('show'));
-    startCountdown();
-  }, 1200);
+    // Doble rAF: asegura que display:flex esté pintado antes de la transición
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        inv.classList.add('show');
+        startCountdown();
+      });
+    });
+
+    // Limpia el sobre del DOM cuando termina su transición
+    setTimeout(() => { screen.style.display = 'none'; }, 1100);
+  }, 950);
 }
 
 // ── PETALS ──
