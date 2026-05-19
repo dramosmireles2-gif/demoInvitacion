@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -116,7 +117,21 @@ body {
   background: rgba(184,151,106,0.08);
 }
 
-.nav-icon { font-size: 15px; width: 18px; text-align: center; }
+.nav-icon {
+  width: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nav-icon svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  fill: none;
+}
 
 .sidebar-footer {
   padding: 20px 24px;
@@ -674,7 +689,20 @@ body.sidebar-open .sidebar-overlay { display: block; }
   border-top-color: var(--gold);
 }
 
-.bn-icon { font-size: 18px; line-height: 1; }
+.bn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+}
+
+.bn-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  fill: none;
+}
 .bn-label { font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; }
 
 /* ── RESPONSIVE: TABLET (≤ 1023px) ── */
@@ -781,32 +809,32 @@ body.sidebar-open .sidebar-overlay { display: block; }
   <nav class="sidebar-nav">
     <span class="nav-section">General</span>
     <a class="nav-item active" href="#">
-      <span class="nav-icon">◈</span> Dashboard
+      <span class="nav-icon"><i data-feather="home"></i></span> Dashboard
     </a>
     <a class="nav-item" href="#">
-      <span class="nav-icon">◻</span> Invitados
+      <span class="nav-icon"><i data-feather="users"></i></span> Invitados
     </a>
     <a class="nav-item" href="#">
-      <span class="nav-icon">◻</span> Confirmaciones
+      <span class="nav-icon"><i data-feather="check-square"></i></span> Confirmaciones
     </a>
 
     <span class="nav-section">Evento</span>
     <a class="nav-item" href="#">
-      <span class="nav-icon">◻</span> Mesas
+      <span class="nav-icon"><i data-feather="layout"></i></span> Mesas
     </a>
     <a class="nav-item" href="#">
-      <span class="nav-icon">◻</span> Programa
+      <span class="nav-icon"><i data-feather="calendar"></i></span> Programa
     </a>
     <a class="nav-item" href="#">
-      <span class="nav-icon">◻</span> Proveedores
+      <span class="nav-icon"><i data-feather="package"></i></span> Proveedores
     </a>
 
     <span class="nav-section">Configuración</span>
     <a class="nav-item" href="#">
-      <span class="nav-icon">◻</span> Invitación digital
+      <span class="nav-icon"><i data-feather="mail"></i></span> Invitación digital
     </a>
     <a class="nav-item" href="#">
-      <span class="nav-icon">◻</span> Ajustes
+      <span class="nav-icon"><i data-feather="settings"></i></span> Ajustes
     </a>
   </nav>
 
@@ -1121,25 +1149,28 @@ body.sidebar-open .sidebar-overlay { display: block; }
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
     <a class="bn-item active" href="#">
-      <span class="bn-icon">◈</span>
+      <span class="bn-icon"><i data-feather="home"></i></span>
       <span class="bn-label">Inicio</span>
     </a>
     <a class="bn-item" href="#">
-      <span class="bn-icon">◻</span>
+      <span class="bn-icon"><i data-feather="users"></i></span>
       <span class="bn-label">Invitados</span>
     </a>
     <a class="bn-item" href="#">
-      <span class="bn-icon">◻</span>
+      <span class="bn-icon"><i data-feather="layout"></i></span>
       <span class="bn-label">Mesas</span>
     </a>
     <a class="bn-item" href="#">
-      <span class="bn-icon">◻</span>
+      <span class="bn-icon"><i data-feather="check-circle"></i></span>
       <span class="bn-label">RSVP</span>
     </a>
   </div>
 </nav>
 
 <script>
+// ── ICONS ──
+feather.replace();
+
 // ── SIDEBAR TOGGLE ──
 function toggleSidebar() {
   document.body.classList.toggle('sidebar-open');
