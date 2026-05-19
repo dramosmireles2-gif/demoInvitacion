@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Admin · Boda Andrea & Saúl</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -26,12 +27,14 @@
 }
 
 body {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
   background: var(--cream);
   color: var(--text);
   display: flex;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ── SIDEBAR ── */
@@ -61,8 +64,8 @@ body {
 }
 
 .brand-label {
-  font-size: 9px;
-  letter-spacing: 3px;
+  font-size: 10px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.3);
   margin-top: 4px;
@@ -70,8 +73,8 @@ body {
 }
 
 .brand-date {
-  font-size: 10px;
-  letter-spacing: 2px;
+  font-size: 11px;
+  letter-spacing: 1px;
   color: var(--gold);
   margin-top: 8px;
   display: block;
@@ -84,11 +87,12 @@ body {
 
 .nav-section {
   padding: 8px 24px 4px;
-  font-size: 8px;
-  letter-spacing: 3px;
+  font-size: 10px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.25);
   margin-top: 8px;
+  font-weight: 500;
 }
 
 .nav-item {
@@ -96,8 +100,8 @@ body {
   align-items: center;
   gap: 12px;
   padding: 11px 24px;
-  font-size: 12px;
-  letter-spacing: 1px;
+  font-size: 13px;
+  letter-spacing: 0.2px;
   color: rgba(255,255,255,0.5);
   cursor: pointer;
   transition: all 0.2s;
@@ -117,8 +121,8 @@ body {
 .sidebar-footer {
   padding: 20px 24px;
   border-top: 1px solid rgba(255,255,255,0.06);
-  font-size: 10px;
-  letter-spacing: 1px;
+  font-size: 11px;
+  letter-spacing: 0.2px;
   color: rgba(255,255,255,0.2);
 }
 
@@ -152,8 +156,8 @@ body {
 }
 
 .topbar-sub {
-  font-size: 11px;
-  letter-spacing: 1px;
+  font-size: 12px;
+  letter-spacing: 0.2px;
   color: var(--text-light);
   margin-top: 2px;
 }
@@ -169,12 +173,12 @@ body {
   background: linear-gradient(135deg, var(--gold-dark), var(--gold));
   border: none;
   border-radius: 3px;
-  font-family: 'Jost', sans-serif;
-  font-size: 11px;
-  letter-spacing: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   color: var(--white);
   cursor: pointer;
-  text-transform: uppercase;
 }
 
 .btn-ghost {
@@ -182,9 +186,9 @@ body {
   background: transparent;
   border: 1px solid var(--parchment);
   border-radius: 3px;
-  font-family: 'Jost', sans-serif;
-  font-size: 11px;
-  letter-spacing: 1px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.2px;
   color: var(--text-light);
   cursor: pointer;
 }
@@ -226,9 +230,10 @@ body {
 .stat-card.gray::before  { background: var(--parchment); }
 
 .stat-label {
-  font-size: 9px;
-  letter-spacing: 3px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  font-weight: 500;
   color: var(--text-light);
   margin-bottom: 8px;
 }
@@ -247,8 +252,8 @@ body {
 .stat-number.red   { color: var(--red); }
 
 .stat-detail {
-  font-size: 10px;
-  letter-spacing: 1px;
+  font-size: 11px;
+  letter-spacing: 0.1px;
   color: var(--text-light);
 }
 
@@ -275,8 +280,9 @@ body {
 }
 
 .progress-pct {
-  font-size: 11px;
-  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   color: var(--gold);
 }
 
@@ -305,8 +311,8 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 10px;
-  letter-spacing: 1px;
+  font-size: 12px;
+  letter-spacing: 0.1px;
   color: var(--text-light);
 }
 
@@ -347,11 +353,11 @@ body {
 }
 
 .panel-action {
-  font-size: 10px;
-  letter-spacing: 1px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
   color: var(--gold);
   cursor: pointer;
-  text-transform: uppercase;
   border: none;
   background: none;
   padding: 0;
@@ -364,13 +370,13 @@ body {
 
 .guest-table th {
   text-align: left;
-  font-size: 8px;
-  letter-spacing: 3px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  font-weight: 500;
   color: var(--text-light);
   padding: 12px 24px;
   border-bottom: 1px solid var(--parchment);
-  font-weight: 400;
   background: var(--cream);
 }
 
@@ -386,13 +392,13 @@ body {
 
 .guest-name-cell {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text);
 }
 
 .guest-name-sub {
-  font-size: 10px;
-  letter-spacing: 1px;
+  font-size: 11px;
+  letter-spacing: 0.1px;
   color: var(--text-light);
   margin-top: 2px;
 }
@@ -402,10 +408,10 @@ body {
   align-items: center;
   padding: 3px 10px;
   border-radius: 20px;
-  font-size: 9px;
-  letter-spacing: 2px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  font-weight: 400;
 }
 
 .badge-confirmed { background: rgba(90,138,110,0.12); color: var(--green); }
@@ -445,8 +451,9 @@ body {
 }
 
 .countdown-admin-label {
-  font-size: 9px;
-  letter-spacing: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--text-light);
   margin-bottom: 16px;
@@ -477,8 +484,9 @@ body {
 }
 
 .cd-u {
-  font-size: 8px;
-  letter-spacing: 2px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-light);
   margin-top: 4px;
@@ -508,9 +516,9 @@ body {
 }
 
 .mesa-row-sub {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-light);
-  letter-spacing: 1px;
+  letter-spacing: 0.1px;
 }
 
 .mesa-capacity {
@@ -534,8 +542,9 @@ body {
 }
 
 .cap-text {
-  font-size: 10px;
-  letter-spacing: 1px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
   color: var(--text-light);
   min-width: 28px;
   text-align: right;
@@ -566,7 +575,7 @@ body {
 }
 
 .activity-text {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text);
   line-height: 1.5;
 }
@@ -577,8 +586,8 @@ body {
 }
 
 .activity-time {
-  font-size: 9px;
-  letter-spacing: 1px;
+  font-size: 11px;
+  letter-spacing: 0.1px;
   color: var(--text-light);
   margin-top: 3px;
 }
