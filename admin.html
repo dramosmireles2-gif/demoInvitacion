@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin · Boda Andrea & Saúl</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #f5f0e8;
+  --cream2: #ede6d6;
+  --parchment: #e8dfc8;
+  --gold: #b8976a;
+  --gold-light: #d4b896;
+  --gold-dark: #8a6d4a;
+  --text: #2c2416;
+  --text-light: #6b5a3e;
+  --white: #faf8f4;
+  --sidebar: #1e1810;
+  --green: #5a8a6e;
+  --red: #a85a5a;
+  --yellow: #b89650;
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  background: var(--cream);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--sidebar);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 10;
+}
+
+.sidebar-brand {
+  padding: 32px 24px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.brand-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--gold-light);
+  display: block;
+  letter-spacing: 0.5px;
+}
+
+.brand-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-top: 4px;
+  display: block;
+}
+
+.brand-date {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-top: 8px;
+  display: block;
+}
+
+.sidebar-nav {
+  padding: 16px 0;
+  flex: 1;
+}
+
+.nav-section {
+  padding: 8px 24px 4px;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  margin-top: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 24px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 2px solid transparent;
+  text-decoration: none;
+}
+
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.04); }
+.nav-item.active {
+  color: var(--gold-light);
+  border-left-color: var(--gold);
+  background: rgba(184,151,106,0.08);
+}
+
+.nav-icon { font-size: 15px; width: 18px; text-align: center; }
+
+.sidebar-footer {
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.2);
+}
+
+/* ── MAIN ── */
+.main {
+  margin-left: 240px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--parchment);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.topbar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.topbar-sub {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-primary {
+  padding: 9px 20px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  border: none;
+  border-radius: 3px;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--white);
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.btn-ghost {
+  padding: 9px 16px;
+  background: transparent;
+  border: 1px solid var(--parchment);
+  border-radius: 3px;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+/* ── CONTENT ── */
+.content {
+  padding: 32px;
+  flex: 1;
+}
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  border-radius: 4px;
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+}
+
+.stat-card.gold::before  { background: var(--gold); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.red::before   { background: var(--red); }
+.stat-card.gray::before  { background: var(--parchment); }
+
+.stat-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.stat-number.gold  { color: var(--gold-dark); }
+.stat-number.green { color: var(--green); }
+.stat-number.red   { color: var(--red); }
+
+.stat-detail {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+}
+
+/* ── PROGRESS BAR ── */
+.progress-section {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin-bottom: 32px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.progress-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.progress-pct {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--cream2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--gold-dark), var(--gold));
+  border-radius: 3px;
+  width: 68%;
+  transition: width 1s ease;
+}
+
+.progress-legend {
+  display: flex;
+  gap: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* ── TWO COLUMN LAYOUT ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+/* ── GUEST TABLE ── */
+.panel {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--parchment);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.panel-action {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  cursor: pointer;
+  text-transform: uppercase;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.guest-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.guest-table th {
+  text-align: left;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--parchment);
+  font-weight: 400;
+  background: var(--cream);
+}
+
+.guest-table td {
+  padding: 14px 24px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(232,223,200,0.5);
+  vertical-align: middle;
+}
+
+.guest-table tr:last-child td { border-bottom: none; }
+.guest-table tr:hover td { background: var(--cream); }
+
+.guest-name-cell {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.guest-name-sub {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.badge-confirmed { background: rgba(90,138,110,0.12); color: var(--green); }
+.badge-pending   { background: rgba(184,150,80,0.12); color: var(--yellow); }
+.badge-declined  { background: rgba(168,90,90,0.1);  color: var(--red); }
+
+.mesa-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--parchment);
+  font-size: 12px;
+  color: var(--gold-dark);
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.pases-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+/* ── SIDE PANELS ── */
+.side-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.countdown-admin {
+  padding: 24px;
+}
+
+.countdown-admin-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.countdown-admin-nums {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.cd-box {
+  text-align: center;
+  background: var(--cream);
+  border-radius: 3px;
+  padding: 14px 8px;
+  border: 1px solid var(--parchment);
+}
+
+.cd-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--gold-dark);
+  line-height: 1;
+  display: block;
+}
+
+.cd-u {
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-top: 4px;
+  display: block;
+}
+
+/* ── MESAS ── */
+.mesa-list {
+  padding: 8px 0;
+}
+
+.mesa-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(232,223,200,0.5);
+  font-size: 12px;
+}
+
+.mesa-row:last-child { border-bottom: none; }
+
+.mesa-row-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.mesa-row-sub {
+  font-size: 10px;
+  color: var(--text-light);
+  letter-spacing: 1px;
+}
+
+.mesa-capacity {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cap-bar {
+  width: 60px;
+  height: 4px;
+  background: var(--cream2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cap-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+.cap-text {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* ── ACTIVITY ── */
+.activity-list { padding: 8px 0; }
+
+.activity-item {
+  display: flex;
+  gap: 14px;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(232,223,200,0.5);
+}
+
+.activity-item:last-child { border-bottom: none; }
+
+.activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.activity-body {
+  flex: 1;
+}
+
+.activity-text {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.activity-text strong {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.activity-time {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+  margin-top: 3px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .sidebar { width: 200px; }
+  .main { margin-left: 200px; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-names">Andrea &amp; Saúl</span>
+    <span class="brand-label">Panel de administración</span>
+    <span class="brand-date">02 · Octubre · 2027</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <span class="nav-section">General</span>
+    <a class="nav-item active" href="#">
+      <span class="nav-icon">◈</span> Dashboard
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">◻</span> Invitados
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">◻</span> Confirmaciones
+    </a>
+
+    <span class="nav-section">Evento</span>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">◻</span> Mesas
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">◻</span> Programa
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">◻</span> Proveedores
+    </a>
+
+    <span class="nav-section">Configuración</span>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">◻</span> Invitación digital
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">◻</span> Ajustes
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">RMKT Web &amp; Apps · 2027</div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-sub">Boda · 02 Octubre 2027 · Hacienda San Antonio Calichar</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-ghost">Exportar lista</button>
+      <button class="btn-primary">+ Agregar invitado</button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card gold">
+        <div class="stat-label">Total invitados</div>
+        <div class="stat-number gold">180</div>
+        <div class="stat-detail">90 invitaciones · 36 mesas</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Confirmados</div>
+        <div class="stat-number green">122</div>
+        <div class="stat-detail">68% del total</div>
+      </div>
+      <div class="stat-card gray">
+        <div class="stat-label">Pendientes</div>
+        <div class="stat-number">41</div>
+        <div class="stat-detail">23% sin responder</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">No asistirán</div>
+        <div class="stat-number red">17</div>
+        <div class="stat-detail">9% declinaron</div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-section">
+      <div class="progress-header">
+        <span class="progress-title">Confirmaciones recibidas</span>
+        <span class="progress-pct">68% completado</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+      <div class="progress-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--green)"></div>
+          Confirmados (122)
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--yellow)"></div>
+          Pendientes (41)
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--red)"></div>
+          No asistirán (17)
+        </div>
+      </div>
+    </div>
+
+    <!-- TWO COLUMN -->
+    <div class="two-col">
+
+      <!-- LEFT: guest table -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Lista de invitados</span>
+            <button class="panel-action">Ver todos →</button>
+          </div>
+          <table class="guest-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Pases</th>
+                <th>Mesa</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="guest-name-cell">Familia Rodríguez</div>
+                  <div class="guest-name-sub">fam.rodriguez@correo.com</div>
+                </td>
+                <td><span class="pases-dot">🎟 2</span></td>
+                <td><span class="mesa-badge">5</span></td>
+                <td><span class="badge badge-confirmed">Confirmado</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="guest-name-cell">Dr. Martín Herrera</div>
+                  <div class="guest-name-sub">Sin correo</div>
+                </td>
+                <td><span class="pases-dot">🎟 4</span></td>
+                <td><span class="mesa-badge">2</span></td>
+                <td><span class="badge badge-confirmed">Confirmado</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="guest-name-cell">Valentina Soto</div>
+                  <div class="guest-name-sub">v.soto@correo.com</div>
+                </td>
+                <td><span class="pases-dot">🎟 1</span></td>
+                <td><span class="mesa-badge">8</span></td>
+                <td><span class="badge badge-pending">Pendiente</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="guest-name-cell">Familia Garza Leal</div>
+                  <div class="guest-name-sub">garza.leal@correo.com</div>
+                </td>
+                <td><span class="pases-dot">🎟 6</span></td>
+                <td><span class="mesa-badge">1</span></td>
+                <td><span class="badge badge-confirmed">Confirmado</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="guest-name-cell">Roberto Cisneros</div>
+                  <div class="guest-name-sub">Sin correo</div>
+                </td>
+                <td><span class="pases-dot">🎟 2</span></td>
+                <td><span class="mesa-badge">11</span></td>
+                <td><span class="badge badge-declined">No asistirá</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="guest-name-cell">Ing. Carlos Peña</div>
+                  <div class="guest-name-sub">c.pena@correo.com</div>
+                </td>
+                <td><span class="pases-dot">🎟 2</span></td>
+                <td><span class="mesa-badge">7</span></td>
+                <td><span class="badge badge-pending">Pendiente</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="guest-name-cell">Familia Torres</div>
+                  <div class="guest-name-sub">fam.torres@correo.com</div>
+                </td>
+                <td><span class="pases-dot">🎟 4</span></td>
+                <td><span class="mesa-badge">3</span></td>
+                <td><span class="badge badge-confirmed">Confirmado</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="guest-name-cell">Lic. María Fuentes</div>
+                  <div class="guest-name-sub">m.fuentes@correo.com</div>
+                </td>
+                <td><span class="pases-dot">🎟 2</span></td>
+                <td><span class="mesa-badge">9</span></td>
+                <td><span class="badge badge-confirmed">Confirmado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ACTIVITY -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Actividad reciente</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--green)"></div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Familia Rodríguez</strong> confirmó asistencia · 2 pases</div>
+                <div class="activity-time">Hoy · 10:24 AM</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--red)"></div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Roberto Cisneros</strong> no podrá asistir</div>
+                <div class="activity-time">Hoy · 09:11 AM</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--green)"></div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Lic. María Fuentes</strong> confirmó asistencia · 2 pases</div>
+                <div class="activity-time">Ayer · 06:48 PM</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--green)"></div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Familia Torres</strong> confirmó asistencia · 4 pases</div>
+                <div class="activity-time">Ayer · 03:22 PM</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--yellow)"></div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>Ing. Carlos Peña</strong> abrió la invitación pero no confirmó</div>
+                <div class="activity-time">Hace 2 días</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANELS -->
+      <div class="side-panels">
+
+        <!-- Countdown -->
+        <div class="panel">
+          <div class="countdown-admin">
+            <div class="countdown-admin-label">Faltan para la boda</div>
+            <div class="countdown-admin-nums">
+              <div class="cd-box">
+                <span class="cd-n" id="a-days">--</span>
+                <span class="cd-u">Días</span>
+              </div>
+              <div class="cd-box">
+                <span class="cd-n" id="a-hours">--</span>
+                <span class="cd-u">Horas</span>
+              </div>
+              <div class="cd-box">
+                <span class="cd-n" id="a-mins">--</span>
+                <span class="cd-u">Min</span>
+              </div>
+              <div class="cd-box">
+                <span class="cd-n" id="a-secs">--</span>
+                <span class="cd-u">Seg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mesas -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Mesas</span>
+            <button class="panel-action">Gestionar →</button>
+          </div>
+          <div class="mesa-list">
+            <div class="mesa-row">
+              <div>
+                <div class="mesa-row-name">Mesa 1 · Familia</div>
+                <div class="mesa-row-sub">10 lugares</div>
+              </div>
+              <div class="mesa-capacity">
+                <div class="cap-bar"><div class="cap-fill" style="width:100%"></div></div>
+                <span class="cap-text">10/10</span>
+              </div>
+            </div>
+            <div class="mesa-row">
+              <div>
+                <div class="mesa-row-name">Mesa 2 · Padrinos</div>
+                <div class="mesa-row-sub">8 lugares</div>
+              </div>
+              <div class="mesa-capacity">
+                <div class="cap-bar"><div class="cap-fill" style="width:75%"></div></div>
+                <span class="cap-text">6/8</span>
+              </div>
+            </div>
+            <div class="mesa-row">
+              <div>
+                <div class="mesa-row-name">Mesa 3 · Amigos</div>
+                <div class="mesa-row-sub">8 lugares</div>
+              </div>
+              <div class="mesa-capacity">
+                <div class="cap-bar"><div class="cap-fill" style="width:50%"></div></div>
+                <span class="cap-text">4/8</span>
+              </div>
+            </div>
+            <div class="mesa-row">
+              <div>
+                <div class="mesa-row-name">Mesa 5 · General</div>
+                <div class="mesa-row-sub">10 lugares</div>
+              </div>
+              <div class="mesa-capacity">
+                <div class="cap-bar"><div class="cap-fill" style="width:80%"></div></div>
+                <span class="cap-text">8/10</span>
+              </div>
+            </div>
+            <div class="mesa-row">
+              <div>
+                <div class="mesa-row-name">Mesa 7 · Trabajo</div>
+                <div class="mesa-row-sub">8 lugares</div>
+              </div>
+              <div class="mesa-capacity">
+                <div class="cap-bar"><div class="cap-fill" style="width:25%"></div></div>
+                <span class="cap-text">2/8</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function countdown() {
+  const target = new Date('2027-10-02T17:00:00');
+
+  function update() {
+    const diff = target - new Date();
+    if (diff <= 0) return;
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000)  / 60000);
+    const secs  = Math.floor((diff % 60000)    / 1000);
+    document.getElementById('a-days').textContent  = String(days).padStart(2,'0');
+    document.getElementById('a-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('a-mins').textContent  = String(mins).padStart(2,'0');
+    document.getElementById('a-secs').textContent  = String(secs).padStart(2,'0');
+  }
+
+  update();
+  setInterval(update, 1000);
+})();
+</script>
+</body>
+</html>
