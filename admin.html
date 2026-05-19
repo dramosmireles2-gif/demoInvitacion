@@ -592,16 +592,183 @@ body {
   margin-top: 3px;
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .sidebar { width: 200px; }
-  .main { margin-left: 200px; }
-  .stats-row { grid-template-columns: 1fr 1fr; }
-  .two-col { grid-template-columns: 1fr; }
+/* ── HAMBURGER ── */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: none;
+  border: 1px solid var(--parchment);
+  border-radius: 3px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.25s ease;
+}
+
+body.sidebar-open .menu-toggle span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+body.sidebar-open .menu-toggle span:nth-child(2) {
+  opacity: 0;
+}
+body.sidebar-open .menu-toggle span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ── OVERLAY ── */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9;
+  backdrop-filter: blur(2px);
+}
+
+body.sidebar-open .sidebar-overlay { display: block; }
+
+/* ── BOTTOM NAV (mobile only) ── */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--sidebar);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  z-index: 8;
+  padding: 0 8px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav-inner {
+  display: flex;
+  justify-content: space-around;
+}
+
+.bn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 12px;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  text-decoration: none;
+  flex: 1;
+  border-top: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.bn-item.active {
+  color: var(--gold-light);
+  border-top-color: var(--gold);
+}
+
+.bn-icon { font-size: 18px; line-height: 1; }
+.bn-label { font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; }
+
+/* ── RESPONSIVE: TABLET (≤ 1023px) ── */
+@media (max-width: 1023px) {
+  .menu-toggle { display: flex; }
+
+  .sidebar {
+    transform: translateX(-240px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+  }
+
+  body.sidebar-open .sidebar { transform: translateX(0); }
+
+  .main { margin-left: 0; }
+
+  .topbar { padding: 14px 20px; gap: 12px; }
+
+  .topbar-title { font-size: 18px; }
+
+  .content { padding: 20px; }
+
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+
+  .two-col { grid-template-columns: 1fr; gap: 16px; }
+
+  .progress-legend { flex-wrap: wrap; gap: 12px; }
+}
+
+/* ── RESPONSIVE: MOBILE (≤ 639px) ── */
+@media (max-width: 639px) {
+  .topbar-sub { display: none; }
+  .btn-ghost  { display: none; }
+
+  .topbar { padding: 12px 16px; }
+
+  .btn-primary {
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+
+  .content {
+    padding: 16px 12px;
+    padding-bottom: 80px; /* room for bottom nav */
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card { padding: 14px 16px; }
+
+  .stat-number { font-size: 34px; }
+
+  .stat-detail { display: none; }
+
+  .progress-section { padding: 18px 16px; margin-bottom: 16px; }
+
+  .progress-legend { gap: 10px; }
+
+  .legend-item { font-size: 11px; }
+
+  .two-col { gap: 12px; margin-bottom: 16px; }
+
+  .panel-header { padding: 14px 16px; }
+
+  /* Table: hide Pases and Mesa columns on mobile */
+  .guest-table th:nth-child(2),
+  .guest-table td:nth-child(2),
+  .guest-table th:nth-child(3),
+  .guest-table td:nth-child(3) { display: none; }
+
+  .guest-table th,
+  .guest-table td { padding: 12px 16px; }
+
+  .guest-name-cell { font-size: 14px; }
+  .guest-name-sub  { display: none; }
+
+  .activity-item { padding: 12px 16px; }
+
+  .mesa-row { padding: 10px 16px; }
+
+  .bottom-nav { display: block; }
+
+  .sidebar-footer { display: none; }
 }
 </style>
 </head>
 <body>
+
+<!-- OVERLAY -->
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -651,7 +818,10 @@ body {
 
   <!-- TOPBAR -->
   <div class="topbar">
-    <div>
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <div style="flex:1; min-width:0;">
       <div class="topbar-title">Dashboard</div>
       <div class="topbar-sub">Boda · 02 Octubre 2027 · Hacienda San Antonio Calichar</div>
     </div>
@@ -947,7 +1117,51 @@ body {
   </div>
 </main>
 
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a class="bn-item active" href="#">
+      <span class="bn-icon">◈</span>
+      <span class="bn-label">Inicio</span>
+    </a>
+    <a class="bn-item" href="#">
+      <span class="bn-icon">◻</span>
+      <span class="bn-label">Invitados</span>
+    </a>
+    <a class="bn-item" href="#">
+      <span class="bn-icon">◻</span>
+      <span class="bn-label">Mesas</span>
+    </a>
+    <a class="bn-item" href="#">
+      <span class="bn-icon">◻</span>
+      <span class="bn-label">RSVP</span>
+    </a>
+  </div>
+</nav>
+
 <script>
+// ── SIDEBAR TOGGLE ──
+function toggleSidebar() {
+  document.body.classList.toggle('sidebar-open');
+}
+
+function closeSidebar() {
+  document.body.classList.remove('sidebar-open');
+}
+
+// Close sidebar on nav item click (mobile)
+document.querySelectorAll('.nav-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    if (window.innerWidth < 1024) closeSidebar();
+  });
+});
+
+// Close on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSidebar();
+});
+
+// ── COUNTDOWN ──
 (function countdown() {
   const target = new Date('2027-10-02T17:00:00');
 
@@ -966,7 +1180,7 @@ body {
 
   update();
   setInterval(update, 1000);
-})();
+}());
 </script>
 </body>
 </html>
