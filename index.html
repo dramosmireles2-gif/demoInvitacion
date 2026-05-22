@@ -939,9 +939,9 @@ body::before {
   <!-- Guest Card -->
   <div class="inv-guest-card" style="margin-top:32px;">
     <p class="guest-label">Esta invitación es para</p>
-    <p class="guest-name">Familia Rodríguez</p>
-    <span class="guest-passes">🎟 2 pases</span>
-    <p class="guest-table">Mesa · 5</p>
+    <p class="guest-name" id="guest-name-text">Estimado Invitado</p>
+    <span class="guest-passes" id="guest-passes-text">🎟 2 pases</span>
+    <p class="guest-table" id="guest-table-text">Mesa · —</p>
   </div>
 
   <!-- RSVP -->
@@ -966,8 +966,8 @@ body::before {
 
     <div class="rsvp-success" id="rsvp-success">
       <div class="success-icon">🌸</div>
-      <p class="success-title">¡Gracias, Familia Rodríguez!</p>
-      <p class="success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
+      <p class="success-title" id="rsvp-success-title">¡Gracias!</p>
+      <p class="success-body" id="rsvp-success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
     </div>
   </div>
 
@@ -996,7 +996,20 @@ body::before {
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="guests.js"></script>
+<script src="firebase-config.js"></script>
 <script>
+// ── GUEST PERSONALIZACIÓN ──
+const urlParams = new URLSearchParams(window.location.search);
+const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
+const guest     = WEDDING_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
+
+document.getElementById('guest-name-text').textContent   = guest.name;
+document.getElementById('guest-passes-text').innerHTML   = '🎟 ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
+document.getElementById('guest-table-text').textContent  = 'Mesa · ' + guest.table;
+
 // ── ENVELOPE OPEN ──
 let rsvpChoice = null;
 
@@ -1005,7 +1018,6 @@ function openEnvelope() {
   env.classList.add('opening');
   spawnPetals();
 
-  // Cross-dissolve: sobre e invitación transicionan al mismo tiempo
   setTimeout(() => {
     const screen = document.getElementById('envelope-screen');
     const inv    = document.getElementById('invitation');
@@ -1013,17 +1025,49 @@ function openEnvelope() {
     screen.classList.add('hide');
 
     inv.style.display = 'flex';
-    // Doble rAF: asegura que display:flex esté pintado antes de la transición
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         inv.classList.add('show');
         startCountdown();
+        trackVisit();
+        checkExistingRSVP();
       });
     });
 
-    // Limpia el sobre del DOM cuando termina su transición
     setTimeout(() => { screen.style.display = 'none'; }, 1100);
   }, 950);
+}
+
+// ── TRACK VISIT (guarda en Firebase que el invitado abrió la invitación) ──
+async function trackVisit() {
+  if (!db || !guestKey) return;
+  try {
+    await db.collection('rsvps').doc(guestKey).set({
+      guestName: guest.name,
+      passes:    guest.passes,
+      table:     guest.table,
+      lastVisit: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch(e) { /* silencioso si Firebase no está configurado */ }
+}
+
+// ── VERIFICAR SI YA CONFIRMÓ (muestra éxito sin volver a llenar el form) ──
+async function checkExistingRSVP() {
+  if (!db || !guestKey) return;
+  try {
+    const doc = await db.collection('rsvps').doc(guestKey).get();
+    if (doc.exists && doc.data().attending !== undefined) {
+      const data = doc.data();
+      document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+      document.getElementById('rsvp-success-body').innerHTML = data.attending
+        ? 'Tu confirmación ya fue recibida.<br/>¡Los esperamos con mucho cariño!'
+        : 'Ya recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+      document.getElementById('rsvp-form').style.display    = 'none';
+      const suc = document.getElementById('rsvp-success');
+      suc.classList.add('show');
+      requestAnimationFrame(() => requestAnimationFrame(() => suc.classList.add('visible')));
+    }
+  } catch(e) { /* silencioso */ }
 }
 
 // ── PETALS ──
@@ -1049,21 +1093,19 @@ function startCountdown() {
   const target = new Date('2027-10-02T17:00:00');
 
   function update() {
-    const now = new Date();
+    const now  = new Date();
     const diff = target - now;
 
     if (diff <= 0) {
-      document.getElementById('cd-days').textContent = '0';
-      document.getElementById('cd-hours').textContent = '0';
-      document.getElementById('cd-mins').textContent = '0';
-      document.getElementById('cd-secs').textContent = '0';
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id =>
+        document.getElementById(id).textContent = '0');
       return;
     }
 
     const days  = Math.floor(diff / 86400000);
     const hours = Math.floor((diff % 86400000) / 3600000);
-    const mins  = Math.floor((diff % 3600000) / 60000);
-    const secs  = Math.floor((diff % 60000) / 1000);
+    const mins  = Math.floor((diff % 3600000)  / 60000);
+    const secs  = Math.floor((diff % 60000)    / 1000);
 
     document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
     document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
@@ -1082,24 +1124,48 @@ function selectRSVP(choice) {
   document.getElementById('btn-no').className  = 'rsvp-btn' + (choice === 'no'  ? ' selected-no'  : '');
 }
 
-function submitRSVP() {
+async function submitRSVP() {
   if (!rsvpChoice) {
     alert('Por favor selecciona si asistirás o no.');
     return;
   }
 
+  const submitBtn = document.querySelector('.rsvp-submit');
+  submitBtn.disabled    = true;
+  submitBtn.textContent = 'Enviando...';
+
+  const msg = document.getElementById('rsvp-msg').value.trim();
+
+  if (db && guestKey) {
+    try {
+      await db.collection('rsvps').doc(guestKey).set({
+        guestName:   guest.name,
+        attending:   rsvpChoice === 'yes',
+        message:     msg,
+        passes:      guest.passes,
+        table:       guest.table,
+        confirmedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastVisit:   firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    } catch(e) {
+      console.error('Error al guardar RSVP:', e);
+    }
+  }
+
+  document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+  document.getElementById('rsvp-success-body').innerHTML = rsvpChoice === 'yes'
+    ? 'Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!'
+    : 'Recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+
   const form    = document.getElementById('rsvp-form');
   const success = document.getElementById('rsvp-success');
 
-  // Fase 1: el form se desvanece hacia arriba
   form.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
   form.style.opacity    = '0';
   form.style.transform  = 'translateY(-10px)';
 
   setTimeout(() => {
     form.style.display = 'none';
-
-    // Fase 2: el mensaje aparece desde abajo
     success.classList.add('show');
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
