@@ -795,7 +795,25 @@ body.sidebar-open .sidebar-overlay { display: block; }
 </head>
 <body>
 
-<!-- OVERLAY -->
+<!-- AUTH OVERLAY -->
+<div id="auth-overlay" style="position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:28px;">
+  <div style="text-align:center;">
+    <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;color:var(--gold-dark);display:block;">Andrea &amp; Saúl</span>
+    <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-top:6px;display:block;">Panel de administración</span>
+  </div>
+  <div style="width:280px;display:flex;flex-direction:column;gap:12px;">
+    <input id="auth-input" type="password" placeholder="Contraseña"
+      style="width:100%;padding:14px 16px;border:1px solid var(--parchment);border-radius:3px;background:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;letter-spacing:1px;"
+      onkeydown="if(event.key==='Enter')checkAuth()" autofocus />
+    <button onclick="checkAuth()"
+      style="padding:14px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--white);cursor:pointer;">
+      Ingresar
+    </button>
+    <p id="auth-error" style="font-size:11px;color:var(--red);text-align:center;min-height:16px;"></p>
+  </div>
+</div>
+
+<!-- SIDEBAR OVERLAY -->
 <div class="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <!-- SIDEBAR -->
@@ -865,24 +883,24 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <!-- STATS -->
     <div class="stats-row">
       <div class="stat-card gold">
-        <div class="stat-label">Total invitados</div>
-        <div class="stat-number gold">180</div>
-        <div class="stat-detail">90 invitaciones · 36 mesas</div>
+        <div class="stat-label">Total pases</div>
+        <div class="stat-number gold" id="stat-total">—</div>
+        <div class="stat-detail" id="stat-total-detail">cargando…</div>
       </div>
       <div class="stat-card green">
         <div class="stat-label">Confirmados</div>
-        <div class="stat-number green">122</div>
-        <div class="stat-detail">68% del total</div>
+        <div class="stat-number green" id="stat-confirmed">—</div>
+        <div class="stat-detail" id="stat-confirmed-detail">grupos que confirmaron</div>
       </div>
       <div class="stat-card gray">
         <div class="stat-label">Pendientes</div>
-        <div class="stat-number">41</div>
-        <div class="stat-detail">23% sin responder</div>
+        <div class="stat-number" id="stat-pending">—</div>
+        <div class="stat-detail">sin responder</div>
       </div>
       <div class="stat-card red">
         <div class="stat-label">No asistirán</div>
-        <div class="stat-number red">17</div>
-        <div class="stat-detail">9% declinaron</div>
+        <div class="stat-number red" id="stat-declined">—</div>
+        <div class="stat-detail">declinaron</div>
       </div>
     </div>
 
@@ -890,23 +908,23 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <div class="progress-section">
       <div class="progress-header">
         <span class="progress-title">Confirmaciones recibidas</span>
-        <span class="progress-pct">68% completado</span>
+        <span class="progress-pct" id="progress-pct-text">—</span>
       </div>
       <div class="progress-track">
-        <div class="progress-fill"></div>
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
       </div>
       <div class="progress-legend">
         <div class="legend-item">
           <div class="legend-dot" style="background:var(--green)"></div>
-          Confirmados (122)
+          <span id="legend-confirmed">Confirmados (0)</span>
         </div>
         <div class="legend-item">
           <div class="legend-dot" style="background:var(--yellow)"></div>
-          Pendientes (41)
+          <span id="legend-pending">Pendientes (0)</span>
         </div>
         <div class="legend-item">
           <div class="legend-dot" style="background:var(--red)"></div>
-          No asistirán (17)
+          <span id="legend-declined">No asistirán (0)</span>
         </div>
       </div>
     </div>
@@ -930,79 +948,8 @@ body.sidebar-open .sidebar-overlay { display: block; }
                 <th>Estado</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="guest-name-cell">Familia Rodríguez</div>
-                  <div class="guest-name-sub">fam.rodriguez@correo.com</div>
-                </td>
-                <td><span class="pases-dot">🎟 2</span></td>
-                <td><span class="mesa-badge">5</span></td>
-                <td><span class="badge badge-confirmed">Confirmado</span></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="guest-name-cell">Dr. Martín Herrera</div>
-                  <div class="guest-name-sub">Sin correo</div>
-                </td>
-                <td><span class="pases-dot">🎟 4</span></td>
-                <td><span class="mesa-badge">2</span></td>
-                <td><span class="badge badge-confirmed">Confirmado</span></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="guest-name-cell">Valentina Soto</div>
-                  <div class="guest-name-sub">v.soto@correo.com</div>
-                </td>
-                <td><span class="pases-dot">🎟 1</span></td>
-                <td><span class="mesa-badge">8</span></td>
-                <td><span class="badge badge-pending">Pendiente</span></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="guest-name-cell">Familia Garza Leal</div>
-                  <div class="guest-name-sub">garza.leal@correo.com</div>
-                </td>
-                <td><span class="pases-dot">🎟 6</span></td>
-                <td><span class="mesa-badge">1</span></td>
-                <td><span class="badge badge-confirmed">Confirmado</span></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="guest-name-cell">Roberto Cisneros</div>
-                  <div class="guest-name-sub">Sin correo</div>
-                </td>
-                <td><span class="pases-dot">🎟 2</span></td>
-                <td><span class="mesa-badge">11</span></td>
-                <td><span class="badge badge-declined">No asistirá</span></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="guest-name-cell">Ing. Carlos Peña</div>
-                  <div class="guest-name-sub">c.pena@correo.com</div>
-                </td>
-                <td><span class="pases-dot">🎟 2</span></td>
-                <td><span class="mesa-badge">7</span></td>
-                <td><span class="badge badge-pending">Pendiente</span></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="guest-name-cell">Familia Torres</div>
-                  <div class="guest-name-sub">fam.torres@correo.com</div>
-                </td>
-                <td><span class="pases-dot">🎟 4</span></td>
-                <td><span class="mesa-badge">3</span></td>
-                <td><span class="badge badge-confirmed">Confirmado</span></td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="guest-name-cell">Lic. María Fuentes</div>
-                  <div class="guest-name-sub">m.fuentes@correo.com</div>
-                </td>
-                <td><span class="pases-dot">🎟 2</span></td>
-                <td><span class="mesa-badge">9</span></td>
-                <td><span class="badge badge-confirmed">Confirmado</span></td>
-              </tr>
+            <tbody id="guest-tbody">
+              <tr><td colspan="4" style="text-align:center;padding:28px;color:var(--text-light);font-size:13px;">Cargando invitados…</td></tr>
             </tbody>
           </table>
         </div>
@@ -1012,40 +959,11 @@ body.sidebar-open .sidebar-overlay { display: block; }
           <div class="panel-header">
             <span class="panel-title">Actividad reciente</span>
           </div>
-          <div class="activity-list">
+          <div class="activity-list" id="activity-list">
             <div class="activity-item">
-              <div class="activity-dot" style="background:var(--green)"></div>
+              <div class="activity-dot" style="background:var(--parchment)"></div>
               <div class="activity-body">
-                <div class="activity-text"><strong>Familia Rodríguez</strong> confirmó asistencia · 2 pases</div>
-                <div class="activity-time">Hoy · 10:24 AM</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot" style="background:var(--red)"></div>
-              <div class="activity-body">
-                <div class="activity-text"><strong>Roberto Cisneros</strong> no podrá asistir</div>
-                <div class="activity-time">Hoy · 09:11 AM</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot" style="background:var(--green)"></div>
-              <div class="activity-body">
-                <div class="activity-text"><strong>Lic. María Fuentes</strong> confirmó asistencia · 2 pases</div>
-                <div class="activity-time">Ayer · 06:48 PM</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot" style="background:var(--green)"></div>
-              <div class="activity-body">
-                <div class="activity-text"><strong>Familia Torres</strong> confirmó asistencia · 4 pases</div>
-                <div class="activity-time">Ayer · 03:22 PM</div>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot" style="background:var(--yellow)"></div>
-              <div class="activity-body">
-                <div class="activity-text"><strong>Ing. Carlos Peña</strong> abrió la invitación pero no confirmó</div>
-                <div class="activity-time">Hace 2 días</div>
+                <div class="activity-text" style="color:var(--text-light)">Sin actividad aún</div>
               </div>
             </div>
           </div>
@@ -1142,6 +1060,15 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
       </div>
     </div>
+    <!-- URLS DE INVITADOS -->
+    <div class="panel" style="margin-bottom:32px;">
+      <div class="panel-header">
+        <span class="panel-title">URLs para códigos QR</span>
+        <button class="panel-action" onclick="copyAllUrls()">Copiar todas</button>
+      </div>
+      <div id="urls-list" style="padding:8px 0;"></div>
+    </div>
+
   </div>
 </main>
 
@@ -1167,9 +1094,32 @@ body.sidebar-open .sidebar-overlay { display: block; }
   </div>
 </nav>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="guests.js"></script>
+<script src="firebase-config.js"></script>
 <script>
 // ── ICONS ──
 feather.replace();
+
+// ── AUTH ──
+function checkAuth() {
+  const val = document.getElementById('auth-input').value;
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem('admin_auth', '1');
+    document.getElementById('auth-overlay').style.display = 'none';
+    initAdmin();
+  } else {
+    document.getElementById('auth-error').textContent = 'Contraseña incorrecta';
+    document.getElementById('auth-input').value = '';
+    document.getElementById('auth-input').focus();
+  }
+}
+
+if (sessionStorage.getItem('admin_auth') === '1') {
+  document.getElementById('auth-overlay').style.display = 'none';
+  window.addEventListener('DOMContentLoaded', initAdmin);
+}
 
 // ── SIDEBAR TOGGLE ──
 function toggleSidebar() {
@@ -1180,14 +1130,12 @@ function closeSidebar() {
   document.body.classList.remove('sidebar-open');
 }
 
-// Close sidebar on nav item click (mobile)
 document.querySelectorAll('.nav-item').forEach(function(item) {
   item.addEventListener('click', function() {
     if (window.innerWidth < 1024) closeSidebar();
   });
 });
 
-// Close on Escape key
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeSidebar();
 });
@@ -1195,7 +1143,6 @@ document.addEventListener('keydown', function(e) {
 // ── COUNTDOWN ──
 (function countdown() {
   const target = new Date('2027-10-02T17:00:00');
-
   function update() {
     const diff = target - new Date();
     if (diff <= 0) return;
@@ -1208,10 +1155,199 @@ document.addEventListener('keydown', function(e) {
     document.getElementById('a-mins').textContent  = String(mins).padStart(2,'0');
     document.getElementById('a-secs').textContent  = String(secs).padStart(2,'0');
   }
-
   update();
   setInterval(update, 1000);
 }());
+
+// ── ADMIN DATA ──
+function initAdmin() {
+  renderUrlsList();
+
+  if (!db) {
+    renderFallback();
+    return;
+  }
+
+  db.collection('rsvps').onSnapshot(snapshot => {
+    const rsvpData = {};
+    snapshot.forEach(doc => { rsvpData[doc.id] = doc.data(); });
+    renderDashboard(rsvpData);
+  });
+}
+
+function renderFallback() {
+  const keys      = Object.keys(WEDDING_GUESTS);
+  const totalPases = keys.reduce((s, k) => s + WEDDING_GUESTS[k].passes, 0);
+  document.getElementById('stat-total').textContent         = totalPases;
+  document.getElementById('stat-total-detail').textContent  = keys.length + ' invitaciones';
+  document.getElementById('stat-confirmed').textContent     = '—';
+  document.getElementById('stat-pending').textContent       = keys.length;
+  document.getElementById('stat-declined').textContent      = '—';
+  document.getElementById('progress-pct-text').textContent  = 'Firebase no configurado';
+  renderGuestTable({});
+  document.getElementById('activity-list').innerHTML =
+    '<div class="activity-item"><div class="activity-dot" style="background:var(--yellow)"></div>' +
+    '<div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Configura Firebase en <strong>firebase-config.js</strong> para ver datos reales.</div></div></div>';
+}
+
+function renderDashboard(rsvpData) {
+  const keys       = Object.keys(WEDDING_GUESTS);
+  const totalPases = keys.reduce((s, k) => s + WEDDING_GUESTS[k].passes, 0);
+
+  let confirmed = 0, declined = 0, pending = 0, confirmedPases = 0;
+
+  keys.forEach(key => {
+    const r = rsvpData[key];
+    if (!r || r.attending === undefined) {
+      pending++;
+    } else if (r.attending) {
+      confirmed++;
+      confirmedPases += WEDDING_GUESTS[key].passes;
+    } else {
+      declined++;
+    }
+  });
+
+  const pct = keys.length ? Math.round((confirmed / keys.length) * 100) : 0;
+
+  document.getElementById('stat-total').textContent          = totalPases;
+  document.getElementById('stat-total-detail').textContent   = keys.length + ' invitaciones';
+  document.getElementById('stat-confirmed').textContent      = confirmed;
+  document.getElementById('stat-confirmed-detail').textContent = confirmedPases + ' pases confirmados';
+  document.getElementById('stat-pending').textContent        = pending;
+  document.getElementById('stat-declined').textContent       = declined;
+  document.getElementById('progress-pct-text').textContent   = pct + '% completado';
+  document.getElementById('progress-fill').style.width       = pct + '%';
+  document.getElementById('legend-confirmed').textContent    = 'Confirmados (' + confirmed + ')';
+  document.getElementById('legend-pending').textContent      = 'Pendientes (' + pending + ')';
+  document.getElementById('legend-declined').textContent     = 'No asistirán (' + declined + ')';
+
+  renderGuestTable(rsvpData);
+  renderActivity(rsvpData);
+}
+
+function renderGuestTable(rsvpData) {
+  const tbody = document.getElementById('guest-tbody');
+  const keys  = Object.keys(WEDDING_GUESTS);
+
+  tbody.innerHTML = keys.map(key => {
+    const g   = WEDDING_GUESTS[key];
+    const r   = rsvpData[key];
+    let badge, statusText;
+
+    if (!r || r.attending === undefined) {
+      if (r && r.lastVisit) {
+        badge = 'badge-pending'; statusText = 'Vio la invitación';
+      } else {
+        badge = 'badge-pending'; statusText = 'Pendiente';
+      }
+    } else if (r.attending) {
+      badge = 'badge-confirmed'; statusText = 'Confirmado';
+    } else {
+      badge = 'badge-declined'; statusText = 'No asistirá';
+    }
+
+    return `<tr>
+      <td>
+        <div class="guest-name-cell">${g.name}</div>
+        <div class="guest-name-sub" style="font-size:10px;letter-spacing:1px;color:var(--gold)">?g=${key}</div>
+      </td>
+      <td><span class="pases-dot">🎟 ${g.passes}</span></td>
+      <td><span class="mesa-badge">${g.table}</span></td>
+      <td><span class="badge ${badge}">${statusText}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderActivity(rsvpData) {
+  const list = document.getElementById('activity-list');
+
+  const events = Object.entries(rsvpData)
+    .filter(([, r]) => r.confirmedAt || r.lastVisit)
+    .map(([key, r]) => ({
+      key,
+      name:        r.guestName || WEDDING_GUESTS[key]?.name || key,
+      attending:   r.attending,
+      confirmed:   !!r.confirmedAt,
+      ts:          (r.confirmedAt || r.lastVisit)?.toMillis?.() || 0
+    }))
+    .sort((a, b) => b.ts - a.ts)
+    .slice(0, 8);
+
+  if (!events.length) {
+    list.innerHTML = '<div class="activity-item"><div class="activity-dot" style="background:var(--parchment)"></div>' +
+      '<div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Sin actividad aún</div></div></div>';
+    return;
+  }
+
+  list.innerHTML = events.map(ev => {
+    const color = ev.confirmed ? (ev.attending ? 'var(--green)' : 'var(--red)') : 'var(--yellow)';
+    const text  = ev.confirmed
+      ? (ev.attending ? `<strong>${ev.name}</strong> confirmó asistencia` : `<strong>${ev.name}</strong> no podrá asistir`)
+      : `<strong>${ev.name}</strong> abrió la invitación`;
+    const time  = ev.ts ? formatTime(new Date(ev.ts)) : '';
+    return `<div class="activity-item">
+      <div class="activity-dot" style="background:${color}"></div>
+      <div class="activity-body">
+        <div class="activity-text">${text}</div>
+        <div class="activity-time">${time}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function formatTime(date) {
+  const now   = new Date();
+  const diff  = now - date;
+  const mins  = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days  = Math.floor(diff / 86400000);
+  if (mins < 2)   return 'Hace un momento';
+  if (mins < 60)  return 'Hace ' + mins + ' min';
+  if (hours < 24) return 'Hoy · ' + date.toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit'});
+  if (days === 1) return 'Ayer · '  + date.toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit'});
+  return 'Hace ' + days + ' días';
+}
+
+function renderUrlsList() {
+  const base  = window.location.origin + window.location.pathname.replace('admin.html','') + 'index.html';
+  const list  = document.getElementById('urls-list');
+  const keys  = Object.keys(WEDDING_GUESTS);
+
+  list.innerHTML = keys.map(key => {
+    const g   = WEDDING_GUESTS[key];
+    const url = base + '?g=' + key;
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid rgba(232,223,200,0.5);gap:12px;flex-wrap:wrap;">
+      <div>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text);">${g.name}</span>
+        <span style="font-size:11px;color:var(--text-light);margin-left:8px;">· Mesa ${g.table} · ${g.passes} pases</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:11px;letter-spacing:0.5px;color:var(--gold);font-family:monospace;">?g=${key}</span>
+        <button onclick="copyUrl('${url}',this)"
+          style="padding:5px 12px;border:1px solid var(--parchment);border-radius:3px;background:var(--white);font-size:11px;font-weight:500;letter-spacing:0.5px;color:var(--text-light);cursor:pointer;">
+          Copiar URL
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function copyUrl(url, btn) {
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = 'Copiar URL', 2000);
+  });
+}
+
+function copyAllUrls() {
+  const base = window.location.origin + window.location.pathname.replace('admin.html','') + 'index.html';
+  const text = Object.keys(WEDDING_GUESTS).map(key => {
+    const g = WEDDING_GUESTS[key];
+    return g.name + '\n' + base + '?g=' + key;
+  }).join('\n\n');
+  navigator.clipboard.writeText(text).then(() => alert('¡URLs copiadas al portapapeles!'));
+}
 </script>
 </body>
 </html>
