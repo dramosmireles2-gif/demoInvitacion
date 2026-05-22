@@ -14,9 +14,12 @@
 //  Contraseña del panel admin (cámbiala antes de publicar):
 // ══════════════════════════════════════════════════════════════
 
-const ADMIN_PASSWORD = 'Andrea2027';
+const ADMIN_PASSWORD = 'demo2027';
 
 const WEDDING_GUESTS = {
+  // ── Invitado para el QR de demostración ────────────────────
+  'demo':       { name: 'Familia Demo',           passes: 4, table: 1  },
+  // ── Invitados de ejemplo ────────────────────────────────────
   'rodriguez':  { name: 'Familia Rodríguez',    passes: 2, table: 5  },
   'herrera':    { name: 'Dr. Martín Herrera',    passes: 4, table: 2  },
   'soto':       { name: 'Valentina Soto',         passes: 1, table: 8  },
