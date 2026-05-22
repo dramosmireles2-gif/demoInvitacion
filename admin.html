@@ -795,24 +795,6 @@ body.sidebar-open .sidebar-overlay { display: block; }
 </head>
 <body>
 
-<!-- AUTH OVERLAY -->
-<div id="auth-overlay" style="position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:28px;">
-  <div style="text-align:center;">
-    <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;color:var(--gold-dark);display:block;">Andrea &amp; Saúl</span>
-    <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-top:6px;display:block;">Panel de administración</span>
-  </div>
-  <div style="width:280px;display:flex;flex-direction:column;gap:12px;">
-    <input id="auth-input" type="password" placeholder="Contraseña"
-      style="width:100%;padding:14px 16px;border:1px solid var(--parchment);border-radius:3px;background:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;letter-spacing:1px;"
-      onkeydown="if(event.key==='Enter')checkAuth()" autofocus />
-    <button onclick="checkAuth()"
-      style="padding:14px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--white);cursor:pointer;">
-      Ingresar
-    </button>
-    <p id="auth-error" style="font-size:11px;color:var(--red);text-align:center;min-height:16px;"></p>
-  </div>
-</div>
-
 <!-- SIDEBAR OVERLAY -->
 <div class="sidebar-overlay" onclick="closeSidebar()"></div>
 
@@ -1102,24 +1084,9 @@ body.sidebar-open .sidebar-overlay { display: block; }
 // ── ICONS ──
 feather.replace();
 
-// ── AUTH ──
-function checkAuth() {
-  const val = document.getElementById('auth-input').value;
-  if (val === ADMIN_PASSWORD) {
-    sessionStorage.setItem('admin_auth', '1');
-    document.getElementById('auth-overlay').style.display = 'none';
-    initAdmin();
-  } else {
-    document.getElementById('auth-error').textContent = 'Contraseña incorrecta';
-    document.getElementById('auth-input').value = '';
-    document.getElementById('auth-input').focus();
-  }
-}
-
-if (sessionStorage.getItem('admin_auth') === '1') {
-  document.getElementById('auth-overlay').style.display = 'none';
-  window.addEventListener('DOMContentLoaded', initAdmin);
-}
+// Sin contraseña — modo demo abierto
+document.getElementById('auth-overlay').style.display = 'none';
+window.addEventListener('DOMContentLoaded', initAdmin);
 
 // ── SIDEBAR TOGGLE ──
 function toggleSidebar() {
