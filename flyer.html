@@ -6,30 +6,28 @@
 <title>Flyer · RMKT Invitaciones Digitales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Jost:wght@200;300;400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400&family=Jost:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black:  #000000;
-  --green:  #00e676;
-  --green2: #00c853;
+  --black:  #0d0d0d;
+  --green:  #00c853;
+  --green2: #00e676;
   --white:  #ffffff;
-  --gray:   #1a1a1a;
-  --gray2:  #2a2a2a;
-  --gray3:  #111111;
-  --cream:  #f5f0e8;
-  --gold:   #b8976a;
+  --gray:   #f4f4f4;
+  --gray2:  #e8e8e8;
+  --gray3:  #999999;
+  --text:   #1a1a1a;
+  --text2:  #555555;
 }
 
-/* ── SCREEN WRAPPER ── */
 body {
-  background: #0d0d0d;
+  background: #e0e0e0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   padding: 32px 20px 48px;
   font-family: 'Jost', sans-serif;
 }
@@ -41,7 +39,7 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .toolbar-btn {
@@ -57,108 +55,86 @@ body {
   transition: opacity .2s;
 }
 
-.btn-print { background: var(--green); color: var(--black); }
-.btn-urls  { background: var(--gray2); color: var(--white); border: 1px solid #333; }
+.btn-print { background: var(--black); color: var(--white); }
+.btn-urls  { background: var(--green); color: var(--black); }
 .toolbar-btn:hover { opacity: .82; }
 
-/* ── FLYER — carta vertical (8.5" × 11") ── */
+/* ── FLYER — carta vertical ── */
 .flyer {
   width: 680px;
-  min-height: 880px;
-  background: var(--black);
-  position: relative;
-  overflow: hidden;
+  background: var(--white);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.18);
   display: flex;
   flex-direction: column;
-}
-
-/* ── DECORATIVE BG LINES ── */
-.bg-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+  position: relative;
   overflow: hidden;
 }
 
-.bg-lines::before {
-  content: '';
-  position: absolute;
-  top: -60px; right: -60px;
-  width: 360px; height: 360px;
-  border-radius: 50%;
-  border: 1px solid rgba(0,230,118,0.07);
+/* ── TOP STRIPE ── */
+.top-stripe {
+  height: 6px;
+  background: var(--black);
+  position: relative;
 }
 
-.bg-lines::after {
+.top-stripe::after {
   content: '';
   position: absolute;
-  top: -20px; right: -20px;
-  width: 260px; height: 260px;
-  border-radius: 50%;
-  border: 1px solid rgba(0,230,118,0.12);
+  right: 0; top: 0;
+  width: 180px; height: 6px;
+  background: var(--green);
 }
 
 /* ── HEADER ── */
 .flyer-header {
-  position: relative;
-  z-index: 1;
-  padding: 44px 52px 36px;
-  border-bottom: 1px solid #1c1c1c;
+  padding: 36px 52px 30px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
+  border-bottom: 1px solid var(--gray2);
 }
 
 /* RMKT LOGO */
-.logo-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
 .logo-main {
   font-family: 'Jost', sans-serif;
-  font-size: 64px;
+  font-size: 60px;
   font-weight: 900;
   line-height: 1;
   letter-spacing: -2px;
 }
 
-.logo-r   { color: var(--white); }
+.logo-r   { color: var(--black); }
 .logo-mkt { color: var(--green); }
 
 .logo-line {
   height: 2px;
-  background: linear-gradient(to right, var(--green), transparent);
+  background: var(--black);
   margin-top: 4px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .logo-sub {
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 600;
   letter-spacing: 5px;
-  color: rgba(255,255,255,0.55);
+  color: var(--gray3);
   text-transform: uppercase;
 }
 
 /* Arrow badge */
 .logo-arrow {
-  width: 44px;
-  height: 44px;
-  background: var(--green);
+  width: 40px; height: 40px;
   border-radius: 50%;
+  background: var(--green);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 36px;
-  right: 52px;
+  flex-shrink: 0;
+  margin-bottom: 4px;
 }
 
 .logo-arrow svg {
-  width: 18px; height: 18px;
+  width: 16px; height: 16px;
   fill: none;
   stroke: var(--black);
   stroke-width: 2.5;
@@ -168,126 +144,106 @@ body {
 
 /* ── HERO ── */
 .flyer-hero {
-  position: relative;
-  z-index: 1;
-  padding: 52px 52px 44px;
+  padding: 44px 52px 36px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
 }
 
+.hero-left { flex: 1; }
+
 .hero-eyebrow {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
   text-transform: uppercase;
   color: var(--green);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .hero-eyebrow::before {
   content: '';
-  display: block;
-  width: 28px;
-  height: 1px;
+  width: 22px; height: 2px;
   background: var(--green);
+  display: block;
 }
 
 .hero-title {
   font-family: 'Jost', sans-serif;
   font-weight: 900;
-  font-size: 58px;
+  font-size: 52px;
   line-height: 1.0;
   letter-spacing: -1.5px;
-  color: var(--white);
-  margin-bottom: 8px;
+  color: var(--black);
+  margin-bottom: 6px;
 }
 
-.hero-title-accent {
-  color: var(--green);
-}
+.hero-title-accent { color: var(--green); }
 
 .hero-italic {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-weight: 300;
-  font-size: 36px;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-  margin-bottom: 28px;
+  font-size: 28px;
+  color: var(--gray3);
+  letter-spacing: 0.3px;
+  margin-bottom: 24px;
 }
 
 .hero-body {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 300;
-  line-height: 1.8;
-  color: rgba(255,255,255,0.55);
-  max-width: 460px;
-  letter-spacing: 0.3px;
-}
-
-/* ── GREEN DIVIDER ── */
-.green-bar {
-  height: 3px;
-  background: linear-gradient(to right, var(--green), var(--green2), transparent);
-  position: relative;
-  z-index: 1;
-  margin: 0 52px;
+  line-height: 1.85;
+  color: var(--text2);
+  letter-spacing: 0.2px;
 }
 
 /* ── FEATURES ── */
 .features-row {
-  position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid #1c1c1c;
-  border-bottom: 1px solid #1c1c1c;
-  margin-top: 36px;
+  border-top: 1px solid var(--gray2);
+  border-bottom: 1px solid var(--gray2);
+  background: var(--gray);
 }
 
 .feat {
-  padding: 22px 16px;
-  border-right: 1px solid #1c1c1c;
+  padding: 18px 12px;
+  border-right: 1px solid var(--gray2);
   text-align: center;
 }
 
 .feat:last-child { border-right: none; }
 
-.feat-icon {
-  font-size: 22px;
-  display: block;
-  margin-bottom: 8px;
-}
+.feat-icon { font-size: 20px; display: block; margin-bottom: 6px; }
 
 .feat-text {
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: var(--text2);
   line-height: 1.5;
 }
 
 /* ── QR SECTION ── */
 .qr-section {
-  position: relative;
-  z-index: 1;
-  padding: 44px 52px 40px;
+  padding: 40px 52px 36px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 20px;
 }
 
 .qr-card {
-  background: var(--gray3);
-  border: 1px solid #222;
+  border: 1px solid var(--gray2);
   border-radius: 3px;
-  padding: 28px 22px 22px;
+  padding: 24px 18px 20px;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: var(--white);
 }
 
 .qr-card::before {
@@ -295,12 +251,10 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  background: linear-gradient(to right, var(--green), var(--green2));
 }
 
-.qr-card.admin-card::before {
-  background: linear-gradient(to right, #888, #555);
-}
+.qr-card.inv-card::before   { background: var(--green); }
+.qr-card.admin-card::before { background: var(--black); }
 
 .qr-badge {
   display: inline-block;
@@ -308,59 +262,52 @@ body {
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 4px 10px;
+  padding: 3px 10px;
   border-radius: 20px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
-.qr-badge.badge-inv   { background: rgba(0,230,118,0.12); color: var(--green); }
-.qr-badge.badge-admin { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+.badge-inv   { background: rgba(0,200,83,0.12); color: var(--green); }
+.badge-admin { background: rgba(0,0,0,0.07);    color: var(--black); }
 
 .qr-img-wrap {
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 18px;
-  background: var(--white);
+  width: 148px; height: 148px;
+  margin: 0 auto 16px;
+  border: 1px solid var(--gray2);
   border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: #fff;
   padding: 4px;
 }
 
-.qr-img-wrap img {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+.qr-img-wrap img { width: 100%; height: 100%; display: block; }
 
 .qr-card-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
-  color: var(--white);
+  color: var(--black);
   letter-spacing: -0.3px;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .qr-card-desc {
   font-size: 11px;
   font-weight: 300;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 0.3px;
+  color: var(--text2);
   line-height: 1.6;
 }
 
 /* ── DEMO PILL ── */
 .demo-pill {
-  position: relative;
-  z-index: 1;
-  margin: 0 52px 40px;
-  background: var(--gray3);
-  border: 1px solid #222;
-  border-left: 3px solid var(--green);
+  margin: 0 52px 36px;
+  background: var(--gray);
+  border: 1px solid var(--gray2);
+  border-left: 4px solid var(--green);
   border-radius: 3px;
-  padding: 16px 22px;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -368,27 +315,27 @@ body {
 }
 
 .demo-pill-label {
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 9px;
+  font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--green);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .demo-pill-text {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 300;
-  color: rgba(255,255,255,0.55);
+  color: var(--text2);
 }
 
 .demo-pill-pw {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 2px;
   color: var(--white);
-  background: var(--gray2);
-  padding: 8px 16px;
+  background: var(--black);
+  padding: 7px 14px;
   border-radius: 2px;
   white-space: nowrap;
   font-family: monospace;
@@ -396,9 +343,7 @@ body {
 
 /* ── HOW IT WORKS ── */
 .how-section {
-  position: relative;
-  z-index: 1;
-  padding: 0 52px 44px;
+  padding: 0 52px 40px;
 }
 
 .section-label {
@@ -406,8 +351,8 @@ body {
   font-weight: 700;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
-  margin-bottom: 24px;
+  color: var(--gray3);
+  margin-bottom: 22px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -417,7 +362,7 @@ body {
   content: '';
   flex: 1;
   height: 1px;
-  background: #1c1c1c;
+  background: var(--gray2);
 }
 
 .steps-row {
@@ -429,48 +374,43 @@ body {
   flex: 1;
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 12px;
+  padding-right: 20px;
 }
 
 .step + .step {
   padding-left: 20px;
-  border-left: 1px solid #1c1c1c;
+  padding-right: 0;
+  border-left: 1px solid var(--gray2);
 }
 
 .step-num {
-  font-family: 'Jost', sans-serif;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 900;
   color: var(--green);
   line-height: 1;
   flex-shrink: 0;
-  opacity: 0.7;
 }
-
-.step-body {}
 
 .step-title {
   font-size: 13px;
-  font-weight: 600;
-  color: var(--white);
+  font-weight: 700;
+  color: var(--black);
   margin-bottom: 4px;
-  letter-spacing: -0.2px;
 }
 
 .step-desc {
   font-size: 11px;
   font-weight: 300;
-  color: rgba(255,255,255,0.4);
+  color: var(--text2);
   line-height: 1.6;
 }
 
 /* ── FOOTER ── */
 .flyer-footer {
-  position: relative;
-  z-index: 1;
   margin-top: auto;
-  border-top: 1px solid #1c1c1c;
-  padding: 20px 52px;
+  background: var(--black);
+  padding: 18px 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -479,11 +419,11 @@ body {
 
 .footer-brand {
   font-weight: 900;
-  font-size: 18px;
+  font-size: 20px;
   letter-spacing: -0.5px;
 }
 
-.footer-brand .r  { color: var(--white); }
+.footer-brand .r   { color: var(--white); }
 .footer-brand .mkt { color: var(--green); }
 
 .footer-contact {
@@ -493,56 +433,32 @@ body {
 .footer-line {
   font-size: 11px;
   font-weight: 300;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.45);
   line-height: 1.8;
 }
 
 .footer-line a { color: var(--green); text-decoration: none; }
 
-.footer-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--green);
-  display: inline-block;
-  margin-left: 4px;
-  vertical-align: middle;
-}
-
 /* ── PRINT ── */
 @media print {
-  @page {
-    size: letter portrait;
-    margin: 0;
-  }
-  body {
-    background: black;
-    padding: 0;
-    margin: 0;
-  }
+  @page { size: letter portrait; margin: 0; }
+  body  { background: white; padding: 0; }
   .toolbar { display: none; }
-  .flyer {
-    width: 100%;
-    min-height: 100vh;
-    box-shadow: none;
-  }
+  .flyer { width: 100%; box-shadow: none; }
 }
 
 @media (max-width: 720px) {
-  .flyer { width: 100%; min-height: auto; }
-  .flyer-header { padding: 32px 28px 28px; }
-  .logo-main { font-size: 44px; }
-  .logo-arrow { right: 28px; top: 28px; }
-  .flyer-hero { padding: 36px 28px 32px; }
-  .hero-title { font-size: 38px; }
-  .hero-italic { font-size: 24px; }
+  .flyer        { width: 100%; }
+  .flyer-header { padding: 28px 28px 22px; }
+  .logo-main    { font-size: 44px; }
+  .flyer-hero   { padding: 32px 28px 28px; flex-direction: column; }
+  .hero-title   { font-size: 36px; }
+  .qr-section   { padding: 28px 28px 24px; }
+  .qr-img-wrap  { width: 120px; height: 120px; }
+  .demo-pill    { margin: 0 28px 28px; }
+  .how-section  { padding: 0 28px 32px; }
+  .flyer-footer { padding: 16px 28px; }
   .features-row { grid-template-columns: repeat(2,1fr); }
-  .qr-section { padding: 32px 28px 28px; gap: 16px; }
-  .qr-img-wrap { width: 120px; height: 120px; }
-  .demo-pill { margin: 0 28px 32px; }
-  .how-section { padding: 0 28px 36px; }
-  .green-bar { margin: 0 28px; }
-  .flyer-footer { padding: 18px 28px; }
 }
 </style>
 </head>
@@ -553,14 +469,13 @@ body {
   <button class="toolbar-btn btn-print" onclick="window.print()">Imprimir / PDF</button>
 </div>
 
-<div class="flyer" id="flyer">
+<div class="flyer">
 
-  <!-- BG decoration -->
-  <div class="bg-lines"></div>
+  <div class="top-stripe"></div>
 
-  <!-- HEADER: Logo -->
+  <!-- HEADER -->
   <div class="flyer-header">
-    <div class="logo-wrap">
+    <div>
       <div class="logo-main">
         <span class="logo-r">R</span><span class="logo-mkt">MKT</span>
       </div>
@@ -574,50 +489,32 @@ body {
 
   <!-- HERO -->
   <div class="flyer-hero">
-    <p class="hero-eyebrow">Servicio digital · Eventos &amp; Celebraciones</p>
-    <h1 class="hero-title">
-      Invitaciones<br/>
-      <span class="hero-title-accent">Digitales</span>
-    </h1>
-    <p class="hero-italic">para tu evento especial</p>
-    <p class="hero-body">
-      Cada invitado recibe su invitación personalizada con código QR único.
-      Tú controlas todo desde un panel en tiempo real — confirmaciones,
-      mesas y lista completa de asistencia.
-    </p>
+    <div class="hero-left">
+      <p class="hero-eyebrow">Servicio digital · Eventos &amp; Celebraciones</p>
+      <h1 class="hero-title">Invitaciones<br/><span class="hero-title-accent">Digitales</span></h1>
+      <p class="hero-italic">para tu evento especial</p>
+      <p class="hero-body">
+        Cada invitado recibe su invitación personalizada con código QR único.
+        Tú controlas todo desde un panel en tiempo real — confirmaciones,
+        mesas y lista completa de asistencia, desde cualquier dispositivo.
+      </p>
+    </div>
   </div>
 
   <!-- FEATURES -->
   <div class="features-row">
-    <div class="feat">
-      <span class="feat-icon">🎟</span>
-      <span class="feat-text">QR por invitado</span>
-    </div>
-    <div class="feat">
-      <span class="feat-icon">✅</span>
-      <span class="feat-text">RSVP en línea</span>
-    </div>
-    <div class="feat">
-      <span class="feat-icon">📊</span>
-      <span class="feat-text">Panel admin en vivo</span>
-    </div>
-    <div class="feat">
-      <span class="feat-icon">📱</span>
-      <span class="feat-text">100% móvil</span>
-    </div>
+    <div class="feat"><span class="feat-icon">🎟</span><span class="feat-text">QR por invitado</span></div>
+    <div class="feat"><span class="feat-icon">✅</span><span class="feat-text">RSVP en línea</span></div>
+    <div class="feat"><span class="feat-icon">📊</span><span class="feat-text">Panel admin en vivo</span></div>
+    <div class="feat"><span class="feat-icon">📱</span><span class="feat-text">100% móvil</span></div>
   </div>
 
   <!-- QR CODES -->
   <div class="qr-section">
-
-    <div class="qr-card">
+    <div class="qr-card inv-card">
       <span class="qr-badge badge-inv">Demo · Invitación</span>
       <div class="qr-img-wrap">
-        <img
-          src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&color=000000&bgcolor=ffffff&data=https%3A%2F%2Fdramosmireles2-gif.github.io%2FdemoInvitacion%2F%3Fg%3Dherrera"
-          alt="QR Invitación"
-          loading="lazy"
-        />
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&color=000000&bgcolor=ffffff&data=https%3A%2F%2Fdramosmireles2-gif.github.io%2FdemoInvitacion%2F%3Fg%3Dherrera" alt="QR Invitación" loading="lazy"/>
       </div>
       <p class="qr-card-title">Ver Invitación</p>
       <p class="qr-card-desc">Abre el demo completo<br/>con animación y RSVP</p>
@@ -626,16 +523,11 @@ body {
     <div class="qr-card admin-card">
       <span class="qr-badge badge-admin">Demo · Admin</span>
       <div class="qr-img-wrap">
-        <img
-          src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&color=000000&bgcolor=ffffff&data=https%3A%2F%2Fdramosmireles2-gif.github.io%2FdemoInvitacion%2Fadmin.html"
-          alt="QR Admin"
-          loading="lazy"
-        />
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&color=000000&bgcolor=ffffff&data=https%3A%2F%2Fdramosmireles2-gif.github.io%2FdemoInvitacion%2Fadmin.html" alt="QR Admin" loading="lazy"/>
       </div>
       <p class="qr-card-title">Panel Admin</p>
       <p class="qr-card-desc">Gestión de invitados,<br/>mesas y confirmaciones</p>
     </div>
-
   </div>
 
   <!-- DEMO ACCESS -->
@@ -653,23 +545,23 @@ body {
     <div class="steps-row">
       <div class="step">
         <span class="step-num">1</span>
-        <div class="step-body">
+        <div>
           <p class="step-title">Tu lista</p>
           <p class="step-desc">Nos compartes el nombre y pases de cada invitado</p>
         </div>
       </div>
       <div class="step">
         <span class="step-num">2</span>
-        <div class="step-body">
+        <div>
           <p class="step-title">QR único</p>
           <p class="step-desc">Generamos un código QR personalizado para cada uno</p>
         </div>
       </div>
       <div class="step">
         <span class="step-num">3</span>
-        <div class="step-body">
+        <div>
           <p class="step-title">Tú controlas</p>
-          <p class="step-desc">Ve en tiempo real quién confirmó, quién vio la invitación</p>
+          <p class="step-desc">Ve en tiempo real quién confirmó y quién vio la invitación</p>
         </div>
       </div>
     </div>
@@ -677,10 +569,7 @@ body {
 
   <!-- FOOTER -->
   <div class="flyer-footer">
-    <div class="footer-brand">
-      <span class="r">R</span><span class="mkt">MKT</span>
-      <span class="footer-dot"></span>
-    </div>
+    <div class="footer-brand"><span class="r">R</span><span class="mkt">MKT</span></div>
     <div class="footer-contact">
       <p class="footer-line">Web &amp; Apps · Invitaciones Digitales</p>
       <p class="footer-line"><a href="mailto:dramosmireles2@gmail.com">dramosmireles2@gmail.com</a></p>
