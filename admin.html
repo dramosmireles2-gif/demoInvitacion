@@ -825,34 +825,23 @@ body.sidebar-open .sidebar-overlay { display: block; }
   </div>
 
   <nav class="sidebar-nav">
-    <span class="nav-section">General</span>
+    <span class="nav-section">Panel principal</span>
     <a class="nav-item active" href="#">
-      <span class="nav-icon"><i data-feather="home"></i></span> Dashboard
+      <span class="nav-icon"><i data-feather="home"></i></span> Resumen general
     </a>
-    <a class="nav-item" href="#">
-      <span class="nav-icon"><i data-feather="users"></i></span> Invitados
+    <a class="nav-item" href="#section-guests">
+      <span class="nav-icon"><i data-feather="users"></i></span> Lista de invitados
     </a>
-    <a class="nav-item" href="#">
-      <span class="nav-icon"><i data-feather="check-square"></i></span> Confirmaciones
+    <a class="nav-item" href="#section-activity">
+      <span class="nav-icon"><i data-feather="activity"></i></span> Actividad en tiempo real
     </a>
-
-    <span class="nav-section">Evento</span>
-    <a class="nav-item" href="#">
-      <span class="nav-icon"><i data-feather="layout"></i></span> Mesas
-    </a>
-    <a class="nav-item" href="#">
-      <span class="nav-icon"><i data-feather="calendar"></i></span> Programa
-    </a>
-    <a class="nav-item" href="#">
-      <span class="nav-icon"><i data-feather="package"></i></span> Proveedores
+    <a class="nav-item" href="#section-urls">
+      <span class="nav-icon"><i data-feather="link"></i></span> Enlaces personalizados
     </a>
 
-    <span class="nav-section">Configuración</span>
-    <a class="nav-item" href="#">
-      <span class="nav-icon"><i data-feather="mail"></i></span> Invitación digital
-    </a>
-    <a class="nav-item" href="#">
-      <span class="nav-icon"><i data-feather="settings"></i></span> Ajustes
+    <span class="nav-section">Invitación</span>
+    <a class="nav-item" href="index.html?g=herrera" target="_blank">
+      <span class="nav-icon"><i data-feather="external-link"></i></span> Ver invitación demo
     </a>
   </nav>
 
@@ -872,42 +861,54 @@ body.sidebar-open .sidebar-overlay { display: block; }
       <div class="topbar-sub">Boda · 02 Octubre 2027 · Hacienda San Antonio Calichar</div>
     </div>
     <div class="topbar-actions">
-      <button class="btn-ghost">Exportar lista</button>
-      <button class="btn-primary">+ Agregar invitado</button>
+      <a class="btn-primary" href="index.html?g=herrera" target="_blank" style="text-decoration:none;">Ver invitación</a>
     </div>
   </div>
 
   <!-- CONTENT -->
   <div class="content">
 
+    <!-- DEMO BANNER -->
+    <div style="background:linear-gradient(135deg,#8a6d4a,#b8976a);border-radius:4px;padding:16px 24px;margin-bottom:28px;display:flex;align-items:center;gap:16px;">
+      <span style="font-size:22px;">👋</span>
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:#faf8f4;margin-bottom:3px;">Bienvenido al panel de administración</div>
+        <div style="font-size:12px;color:rgba(250,248,244,0.75);line-height:1.6;">Aquí ves todo lo que pasa con tu evento en tiempo real: quién abrió la invitación, quién confirmó asistencia y cuántos pases están confirmados. No necesitas saber tecnología — todo se actualiza solo.</div>
+      </div>
+    </div>
+
     <!-- STATS -->
+    <div style="font-size:11px;letter-spacing:0.2px;color:var(--text-light);margin-bottom:12px;">Resumen de asistencia · se actualiza automáticamente cuando tus invitados responden</div>
     <div class="stats-row">
       <div class="stat-card gold">
-        <div class="stat-label">Total pases</div>
+        <div class="stat-label">Total de pases</div>
         <div class="stat-number gold" id="stat-total">—</div>
-        <div class="stat-detail" id="stat-total-detail">cargando…</div>
+        <div class="stat-detail" id="stat-total-detail">asistentes esperados</div>
       </div>
       <div class="stat-card green">
-        <div class="stat-label">Confirmados</div>
+        <div class="stat-label">Ya confirmaron</div>
         <div class="stat-number green" id="stat-confirmed">—</div>
-        <div class="stat-detail" id="stat-confirmed-detail">grupos que confirmaron</div>
+        <div class="stat-detail" id="stat-confirmed-detail">respondieron que sí asisten</div>
       </div>
       <div class="stat-card gray">
-        <div class="stat-label">Pendientes</div>
+        <div class="stat-label">Sin responder</div>
         <div class="stat-number" id="stat-pending">—</div>
-        <div class="stat-detail">sin responder</div>
+        <div class="stat-detail">aún no han contestado</div>
       </div>
       <div class="stat-card red">
         <div class="stat-label">No asistirán</div>
         <div class="stat-number red" id="stat-declined">—</div>
-        <div class="stat-detail">declinaron</div>
+        <div class="stat-detail">respondieron que no pueden</div>
       </div>
     </div>
 
     <!-- PROGRESS -->
     <div class="progress-section">
       <div class="progress-header">
-        <span class="progress-title">Confirmaciones recibidas</span>
+        <div>
+          <span class="progress-title">¿Cuántos ya confirmaron?</span>
+          <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Esta barra te muestra el avance de confirmaciones sobre el total de invitados</div>
+        </div>
         <span class="progress-pct" id="progress-pct-text">—</span>
       </div>
       <div class="progress-track">
@@ -933,11 +934,13 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <div class="two-col">
 
       <!-- LEFT: guest table -->
-      <div style="display:flex;flex-direction:column;gap:20px;">
+      <div style="display:flex;flex-direction:column;gap:20px;" id="section-guests">
         <div class="panel">
           <div class="panel-header">
-            <span class="panel-title">Lista de invitados</span>
-            <button class="panel-action">Ver todos →</button>
+            <div>
+              <span class="panel-title">Lista de invitados</span>
+              <div style="font-size:11px;color:var(--text-light);margin-top:3px;">Cada invitado tiene su propia invitación personalizada. Aquí ves en qué estado está cada uno.</div>
+            </div>
           </div>
           <table class="guest-table">
             <thead>
@@ -955,9 +958,12 @@ body.sidebar-open .sidebar-overlay { display: block; }
         </div>
 
         <!-- ACTIVITY -->
-        <div class="panel">
+        <div class="panel" id="section-activity">
           <div class="panel-header">
-            <span class="panel-title">Actividad reciente</span>
+            <div>
+              <span class="panel-title">Actividad en tiempo real</span>
+              <div style="font-size:11px;color:var(--text-light);margin-top:3px;">Cada vez que un invitado abre su invitación o confirma asistencia, aparece aquí al instante.</div>
+            </div>
           </div>
           <div class="activity-list" id="activity-list">
             <div class="activity-item">
@@ -976,7 +982,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
         <!-- Countdown -->
         <div class="panel">
           <div class="countdown-admin">
-            <div class="countdown-admin-label">Faltan para la boda</div>
+            <div class="countdown-admin-label">Tiempo restante para el evento</div>
             <div class="countdown-admin-nums">
               <div class="cd-box">
                 <span class="cd-n" id="a-days">--</span>
@@ -995,65 +1001,32 @@ body.sidebar-open .sidebar-overlay { display: block; }
                 <span class="cd-u">Seg</span>
               </div>
             </div>
+            <div style="font-size:10px;color:var(--text-light);text-align:center;margin-top:14px;line-height:1.6;">
+              Lleva el control de cuánto tiempo tienes para que tus invitados confirmen antes del evento.
+            </div>
           </div>
         </div>
 
-        <!-- Mesas -->
+        <!-- Resumen de estados -->
         <div class="panel">
           <div class="panel-header">
-            <span class="panel-title">Mesas</span>
-            <button class="panel-action">Gestionar →</button>
+            <div>
+              <span class="panel-title">Estados de confirmación</span>
+              <div style="font-size:11px;color:var(--text-light);margin-top:3px;">Lo que significa cada color en la lista</div>
+            </div>
           </div>
-          <div class="mesa-list">
-            <div class="mesa-row">
-              <div>
-                <div class="mesa-row-name">Mesa 1 · Familia</div>
-                <div class="mesa-row-sub">10 lugares</div>
-              </div>
-              <div class="mesa-capacity">
-                <div class="cap-bar"><div class="cap-fill" style="width:100%"></div></div>
-                <span class="cap-text">10/10</span>
-              </div>
+          <div style="padding:16px 24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span class="badge badge-confirmed" style="flex-shrink:0;">Confirmado</span>
+              <span style="font-size:12px;color:var(--text-light);">El invitado respondió que sí asistirá al evento</span>
             </div>
-            <div class="mesa-row">
-              <div>
-                <div class="mesa-row-name">Mesa 2 · Padrinos</div>
-                <div class="mesa-row-sub">8 lugares</div>
-              </div>
-              <div class="mesa-capacity">
-                <div class="cap-bar"><div class="cap-fill" style="width:75%"></div></div>
-                <span class="cap-text">6/8</span>
-              </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span class="badge badge-pending" style="flex-shrink:0;">Pendiente</span>
+              <span style="font-size:12px;color:var(--text-light);">Aún no ha respondido, pero puede que ya haya abierto su invitación</span>
             </div>
-            <div class="mesa-row">
-              <div>
-                <div class="mesa-row-name">Mesa 3 · Amigos</div>
-                <div class="mesa-row-sub">8 lugares</div>
-              </div>
-              <div class="mesa-capacity">
-                <div class="cap-bar"><div class="cap-fill" style="width:50%"></div></div>
-                <span class="cap-text">4/8</span>
-              </div>
-            </div>
-            <div class="mesa-row">
-              <div>
-                <div class="mesa-row-name">Mesa 5 · General</div>
-                <div class="mesa-row-sub">10 lugares</div>
-              </div>
-              <div class="mesa-capacity">
-                <div class="cap-bar"><div class="cap-fill" style="width:80%"></div></div>
-                <span class="cap-text">8/10</span>
-              </div>
-            </div>
-            <div class="mesa-row">
-              <div>
-                <div class="mesa-row-name">Mesa 7 · Trabajo</div>
-                <div class="mesa-row-sub">8 lugares</div>
-              </div>
-              <div class="mesa-capacity">
-                <div class="cap-bar"><div class="cap-fill" style="width:25%"></div></div>
-                <span class="cap-text">2/8</span>
-              </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span class="badge badge-declined" style="flex-shrink:0;">No asistirá</span>
+              <span style="font-size:12px;color:var(--text-light);">Respondió que no puede asistir al evento</span>
             </div>
           </div>
         </div>
@@ -1061,10 +1034,16 @@ body.sidebar-open .sidebar-overlay { display: block; }
       </div>
     </div>
     <!-- URLS DE INVITADOS -->
-    <div class="panel" style="margin-bottom:32px;">
+    <div class="panel" style="margin-bottom:32px;" id="section-urls">
       <div class="panel-header">
-        <span class="panel-title">URLs para códigos QR</span>
-        <button class="panel-action" onclick="copyAllUrls()">Copiar todas</button>
+        <div>
+          <span class="panel-title">Enlace personalizado de cada invitado</span>
+          <div style="font-size:11px;color:var(--text-light);margin-top:3px;">
+            Cada invitado tiene su propio enlace único. Al abrirlo, la invitación aparece con su nombre y número de pases.
+            Compártelo por WhatsApp, mensaje de texto o genera un código QR para imprimirlo.
+          </div>
+        </div>
+        <button class="panel-action" onclick="copyAllUrls()" style="white-space:nowrap;margin-left:16px;">Copiar todos</button>
       </div>
       <div id="urls-list" style="padding:8px 0;"></div>
     </div>
@@ -1077,19 +1056,19 @@ body.sidebar-open .sidebar-overlay { display: block; }
   <div class="bottom-nav-inner">
     <a class="bn-item active" href="#">
       <span class="bn-icon"><i data-feather="home"></i></span>
-      <span class="bn-label">Inicio</span>
+      <span class="bn-label">Resumen</span>
     </a>
-    <a class="bn-item" href="#">
+    <a class="bn-item" href="#section-guests">
       <span class="bn-icon"><i data-feather="users"></i></span>
       <span class="bn-label">Invitados</span>
     </a>
-    <a class="bn-item" href="#">
-      <span class="bn-icon"><i data-feather="layout"></i></span>
-      <span class="bn-label">Mesas</span>
+    <a class="bn-item" href="#section-activity">
+      <span class="bn-icon"><i data-feather="activity"></i></span>
+      <span class="bn-label">Actividad</span>
     </a>
-    <a class="bn-item" href="#">
-      <span class="bn-icon"><i data-feather="check-circle"></i></span>
-      <span class="bn-label">RSVP</span>
+    <a class="bn-item" href="#section-urls">
+      <span class="bn-icon"><i data-feather="link"></i></span>
+      <span class="bn-label">Enlaces</span>
     </a>
   </div>
 </nav>
@@ -1250,7 +1229,7 @@ function renderGuestTable(rsvpData) {
     return `<tr>
       <td>
         <div class="guest-name-cell">${g.name}</div>
-        <div class="guest-name-sub" style="font-size:10px;letter-spacing:1px;color:var(--gold)">?g=${key}</div>
+        <div class="guest-name-sub">${g.passes} pase${g.passes !== 1 ? 's' : ''}</div>
       </td>
       <td><span class="pases-dot">🎟 ${g.passes}</span></td>
       <td><span class="mesa-badge">${g.table}</span></td>
