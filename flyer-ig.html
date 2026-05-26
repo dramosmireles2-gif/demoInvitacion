@@ -6,24 +6,25 @@
 <title>Posts IG · RMKT Invitaciones Digitales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400&family=Jost:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"/>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --black: #0a0a0a;
-  --green: #00e676;
+  --black:  #0a0a0a;
+  --green:  #00e676;
   --green2: #00c853;
-  --white: #ffffff;
-  --gray:  #1a1a1a;
-  --gray2: #252525;
-  --dim:   rgba(255,255,255,0.45);
-  --cream: #f5f0e8;
-  --gold:  #b8976a;
-  --gold-d:#8a6d4a;
+  --white:  #ffffff;
+  --gray:   #1c1c1c;
+  --gray2:  #282828;
+  --dim:    rgba(255,255,255,0.5);
+  --dim2:   rgba(255,255,255,0.25);
+  --gold:   #c9a46a;
+  --gold-d: #8a6d4a;
+  --cream:  #f5f0e8;
 }
 
 body {
-  background: #111;
+  background: #0d0d0d;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,356 +33,272 @@ body {
   font-family: 'Jost', sans-serif;
 }
 
-/* ── TOOLBAR ── */
 .toolbar {
   width: 600px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
-.toolbar-note {
-  font-size: 11px; color: rgba(255,255,255,0.35);
-  letter-spacing: 0.5px;
-}
-.toolbar-tip {
-  font-size: 11px; color: var(--green);
-  background: rgba(0,230,118,0.08);
-  padding: 6px 14px; border-radius: 20px;
-  letter-spacing: 0.3px;
-}
+.toolbar-note { font-size: 11px; color: rgba(255,255,255,.3); }
+.toolbar-tip  { font-size: 11px; color: var(--green); background: rgba(0,230,118,.08); padding: 6px 14px; border-radius: 20px; }
 
-/* ── POST LABEL ── */
 .post-label {
   width: 600px;
-  font-size: 9px; font-weight: 700;
-  letter-spacing: 3px; text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
-  padding: 0 0 8px;
-  border-bottom: 1px solid #222;
+  font-size: 9px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,.2);
+  padding-bottom: 8px; border-bottom: 1px solid #1e1e1e;
 }
 
-/* ── POST BASE — 600×600 cuadrado ── */
+/* ── POST BASE ── */
 .post {
-  width: 600px;
-  height: 600px;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
+  width: 600px; height: 600px;
+  position: relative; overflow: hidden;
   background: var(--black);
+  display: flex; flex-direction: column;
 }
 
-/* ═══════════════════════════════
+/* ══════════════════════════════
    POST 1 — PRODUCTO
-═══════════════════════════════ */
-.post-1 {
-  display: flex;
-  flex-direction: column;
-}
+══════════════════════════════ */
 
-/* Barra superior */
-.p1-topbar {
-  height: 4px;
-  background: var(--black);
-  position: relative;
-  flex-shrink: 0;
-}
-.p1-topbar::after {
-  content: '';
-  position: absolute; right: 0; top: 0;
-  width: 120px; height: 4px;
-  background: var(--green);
-}
+.p1-topbar { height: 4px; background: var(--black); position:relative; flex-shrink:0; }
+.p1-topbar::after { content:''; position:absolute; right:0; top:0; width:110px; height:4px; background:var(--green); }
 
-/* Header */
 .p1-header {
-  padding: 18px 32px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 16px 30px 12px;
+  display: flex; align-items: center; justify-content: space-between;
   flex-shrink: 0;
 }
-.p1-logo { font-size: 36px; font-weight: 900; line-height: 1; letter-spacing: -1.5px; }
-.p1-logo .r   { color: var(--white); }
-.p1-logo .mkt { color: var(--green); }
-.p1-logo-line { height: 2px; background: var(--white); margin: 2px 0 4px; }
-.p1-logo-sub  { font-size: 8px; font-weight: 600; letter-spacing: 4px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+.logo { font-size: 34px; font-weight: 900; line-height: 1; letter-spacing: -2px; }
+.logo .r   { color: var(--white); }
+.logo .mkt { color: var(--green); }
+.logo-line { height: 2px; background: var(--white); opacity: .7; margin: 2px 0 4px; }
+.logo-sub  { font-size: 8px; font-weight: 500; letter-spacing: 5px; color: var(--dim2); text-transform: uppercase; }
 
-.p1-arrow {
-  width: 30px; height: 30px; border-radius: 50%;
+.arrow-btn {
+  width: 28px; height: 28px; border-radius: 50%;
   background: var(--green);
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.p1-arrow svg { width: 12px; height: 12px; fill:none; stroke:var(--black); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+.arrow-btn svg { width: 11px; height: 11px; fill:none; stroke:var(--black); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
 
 /* Headline */
-.p1-headline {
-  padding: 0 32px 10px;
-  flex-shrink: 0;
-}
-.p1-eyebrow {
+.p1-headline { padding: 0 30px 8px; flex-shrink: 0; }
+.eyebrow {
   font-size: 8px; font-weight: 600; letter-spacing: 4px;
-  text-transform: uppercase; color: var(--green);
-  margin-bottom: 8px;
+  text-transform: uppercase; color: var(--green); margin-bottom: 6px;
 }
 .p1-title {
-  font-weight: 900; font-size: 44px; line-height: 1;
-  letter-spacing: -2px; color: var(--white);
+  font-weight: 900; font-size: 42px; line-height: 1;
+  letter-spacing: -2px; color: var(--white); margin-bottom: 4px;
 }
 .p1-title span { color: var(--green); }
 .p1-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 16px;
-  color: rgba(255,255,255,0.35); margin-top: 4px;
+  font-size: 12px; font-weight: 300;
+  color: var(--dim); letter-spacing: 0.5px;
 }
 
-/* Phones row */
+/* Phones */
 .p1-phones {
   flex: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 16px;
-  padding: 0 24px 0;
+  display: flex; align-items: flex-end;
+  justify-content: center; gap: 20px;
+  padding: 8px 30px 0;
   overflow: hidden;
 }
 
 .phone {
-  border-radius: 24px;
-  padding: 8px 5px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3);
-  position: relative;
-  flex-shrink: 0;
+  border-radius: 22px; padding: 8px 5px;
+  flex-shrink: 0; position: relative;
 }
 .phone::before {
   content: '';
   position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
-  width: 30px; height: 3px; background: #333; border-radius: 3px; z-index: 2;
+  width: 28px; height: 3px; border-radius: 3px; z-index: 2;
 }
-.phone-screen { border-radius: 19px; overflow: hidden; }
+.phone-screen { border-radius: 17px; overflow: hidden; }
 
-/* Phone invitación */
-.phone-inv {
-  width: 140px; height: 260px;
+/* Teléfono invitación */
+.ph-inv {
+  width: 138px; height: 252px;
   background: #1a1510;
-  margin-bottom: 16px;
+  border: 1.5px solid rgba(255,255,255,0.12);
+  box-shadow: 0 16px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.05);
 }
-.phone-inv .phone-screen {
-  width: 100%; height: 100%;
-  background: var(--cream);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding-top: 10px;
-  gap: 0;
+.ph-inv::before { background: #2a2520; }
+.ph-inv .phone-screen {
+  width:100%; height:100%; background:var(--cream);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding-top:10px;
 }
 
-/* Sobre mini */
-.env-wrap { margin-bottom: 8px; }
-.env-body-s {
-  width: 72px; height: 48px;
+/* Sobre */
+.env { margin-bottom: 8px; }
+.env-body {
+  width: 68px; height: 44px;
   background: linear-gradient(145deg, #d4c9a8, #c8ba94);
   border-radius: 2px; position: relative;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15); overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,.18); overflow: hidden;
 }
-.env-body-s::before { content:''; position:absolute; bottom:0; left:0; border-style:solid; border-width:0 0 24px 36px; border-color:transparent transparent #b8a880 transparent; }
-.env-body-s::after  { content:''; position:absolute; bottom:0; right:0; border-style:solid; border-width:24px 36px 0 0; border-color:#bfaf88 transparent transparent transparent; }
-.env-seal-s {
+.env-body::before { content:''; position:absolute; bottom:0; left:0; border-style:solid; border-width:0 0 22px 34px; border-color:transparent transparent #b8a880 transparent; }
+.env-body::after  { content:''; position:absolute; bottom:0; right:0; border-style:solid; border-width:22px 34px 0 0; border-color:#bfaf88 transparent transparent transparent; }
+.env-seal {
   position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  width:18px; height:18px; background:var(--gold); border-radius:50%;
+  width:16px; height:16px; background:var(--gold); border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-family:'Cormorant Garamond',serif; font-size:6px; color:#fff; z-index:2;
+  font-size:5px; font-weight:700; color:#fff; z-index:2; letter-spacing:.5px;
 }
-.env-flap-s { position:absolute; top:0; left:0; border-style:solid; border-width:22px 36px 0; border-color:#cfc09a transparent transparent; z-index:1; }
+.env-flap { position:absolute; top:0; left:0; border-style:solid; border-width:20px 34px 0; border-color:#cfc09a transparent transparent; z-index:1; }
 
-.inv-names-s {
-  font-family:'Cormorant Garamond',serif; font-style:italic;
-  font-size:13px; color:var(--gold-d); text-align:center; line-height:1.1;
+.inv-name {
+  font-size: 13px; font-weight: 500;
+  color: var(--gold-d); text-align: center; line-height: 1.15;
+  letter-spacing: -0.3px;
 }
-.inv-amp-s { font-size:8px; color:var(--gold); letter-spacing:2px; }
-.inv-date-s { font-size:7px; letter-spacing:2px; color:#6b5a3e; margin-top:4px; text-transform:uppercase; font-family:'Jost',sans-serif; }
-.inv-btn-s {
-  margin-top:10px; width:60%; background:linear-gradient(135deg,var(--gold-d),var(--gold));
-  border-radius:2px; padding:4px 0; font-size:6px; letter-spacing:1.5px;
-  color:#fff; text-align:center; font-weight:600; text-transform:uppercase;
+.inv-amp { font-size: 10px; font-weight: 300; color: var(--gold); display: block; }
+.inv-date { font-size: 7px; font-weight: 500; letter-spacing: 2px; color: #6b5a3e; margin-top: 4px; text-transform: uppercase; }
+.inv-btn {
+  margin-top: 10px; width: 62%;
+  background: linear-gradient(135deg, var(--gold-d), var(--gold));
+  border-radius: 2px; padding: 4px 0;
+  font-size: 6px; font-weight: 700; letter-spacing: 1.5px;
+  color: #fff; text-align: center; text-transform: uppercase;
 }
 
-/* Phone admin */
-.phone-adm {
-  width: 140px; height: 280px;
-  background: #0d0d0d;
+/* Teléfono admin */
+.ph-adm {
+  width: 138px; height: 272px;
+  background: #0a0a0a;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  box-shadow: 0 16px 50px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.04);
 }
-.phone-adm .phone-screen {
-  width: 100%; height: 100%;
-  display: flex;
-}
-.adm-sidebar {
-  width: 28px; background: #0a0a0a;
+.ph-adm::before { background: #1a1a1a; }
+.ph-adm .phone-screen { width:100%; height:100%; display:flex; }
+
+.adm-sb {
+  width: 26px; background: #050505;
   display: flex; flex-direction: column;
   align-items: center; padding: 12px 0 8px; gap: 8px;
 }
 .adm-dot { width: 8px; height: 8px; border-radius: 2px; }
-.adm-main {
-  flex: 1; padding: 8px 6px;
-  display: flex; flex-direction: column; gap: 5px;
-}
-.adm-top {
-  background: #2c2416; border-radius: 2px; padding: 3px 5px;
-  font-size:5px; color:var(--gold); font-family:'Cormorant Garamond',serif; font-style:italic;
+.adm-main { flex:1; padding: 8px 6px; display:flex; flex-direction:column; gap:4px; }
+.adm-topbar {
+  background: rgba(184,150,80,.15); border-radius: 2px; padding: 3px 5px;
+  font-size: 5px; font-weight: 600; letter-spacing: .5px; color: var(--gold);
 }
 .adm-stats { display:grid; grid-template-columns:1fr 1fr; gap:3px; }
-.adm-stat { border-radius:2px; padding:3px 4px; }
-.adm-stat-n { font-size:11px; font-weight:700; line-height:1; }
-.adm-stat-l { font-size:4px; letter-spacing:.5px; color:rgba(255,255,255,.35); text-transform:uppercase; }
-.adm-bar { height:3px; background:#1a1a0a; border-radius:2px; overflow:hidden; }
-.adm-bar-fill { height:100%; background:linear-gradient(to right,var(--gold-d),var(--gold)); border-radius:2px; }
+.adm-stat  { border-radius:2px; padding:3px 4px; }
+.adm-sn   { font-size: 11px; font-weight: 900; line-height: 1; }
+.adm-sl   { font-size: 4px; font-weight: 500; letter-spacing:.5px; text-transform:uppercase; color:rgba(255,255,255,.3); margin-top:1px; }
+.adm-bar  { height: 3px; background: rgba(255,255,255,.08); border-radius: 2px; overflow:hidden; }
+.adm-fill { height:100%; background:linear-gradient(to right,#8a6d4a,var(--gold)); border-radius:2px; }
 .adm-rows { display:flex; flex-direction:column; gap:2px; }
-.adm-row {
-  background:#2a1e10; border-radius:2px; padding:2px 4px;
+.adm-row  {
+  background: rgba(255,255,255,.04); border-radius:2px; padding:2px 4px;
   display:flex; align-items:center; justify-content:space-between;
 }
-.adm-row-n { font-size:5px; color:rgba(255,255,255,.65); }
-.adm-row-b { font-size:4px; padding:1px 3px; border-radius:6px; }
+.adm-rn { font-size:5px; font-weight:500; color:rgba(255,255,255,.6); }
+.adm-rb { font-size:4px; font-weight:700; padding:1px 3px; border-radius:5px; }
 
 /* Phone labels */
-.phone-label {
-  font-size: 11px; font-weight: 700; color: var(--white);
-  text-align: center; letter-spacing: -0.2px;
-}
-.phone-label-sub {
-  font-size: 9px; color: var(--dim);
-  text-align: center; margin-top: 2px;
-}
-
-.p1-phone-col { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.ph-col { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.ph-lbl { font-size: 11px; font-weight: 700; color: var(--white); letter-spacing: -0.2px; }
+.ph-sub { font-size: 9px; font-weight: 300; color: var(--dim); }
 
 /* Bottom strip */
 .p1-strip {
   display: grid; grid-template-columns: repeat(4,1fr);
-  border-top: 1px solid #1c1c1c;
-  flex-shrink: 0; margin-top: auto;
+  border-top: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.03);
+  flex-shrink: 0; margin-top: 10px;
 }
-.p1-strip-item {
-  padding: 10px 8px; text-align: center;
-  border-right: 1px solid #1c1c1c;
+.strip-item {
+  padding: 10px 6px; text-align: center;
+  border-right: 1px solid rgba(255,255,255,.06);
 }
-.p1-strip-item:last-child { border-right: none; }
-.strip-icon { font-size: 16px; display: block; margin-bottom: 3px; }
-.strip-label { font-size: 7px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); }
+.strip-item:last-child { border-right:none; }
+.strip-ico { font-size: 15px; display:block; margin-bottom:3px; }
+.strip-lbl { font-size: 7px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); }
 
-/* ═══════════════════════════════
-   POST 2 — CTA / CONTACTO
-═══════════════════════════════ */
-.post-2 {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
 
-/* Fondo con patrón sutil */
+/* ══════════════════════════════
+   POST 2 — CTA
+══════════════════════════════ */
+
 .post-2::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle at 80% 20%, rgba(0,230,118,0.06) 0%, transparent 60%),
-                    radial-gradient(circle at 10% 80%, rgba(0,200,83,0.04) 0%, transparent 50%);
-  pointer-events: none;
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 75% 15%, rgba(0,230,118,.07) 0%, transparent 55%),
+              radial-gradient(ellipse at 15% 85%, rgba(0,200,83,.05) 0%, transparent 50%);
+  pointer-events:none;
 }
 
-.p2-top {
-  padding: 22px 32px 18px;
-  flex-shrink: 0;
+.p2-header {
+  padding: 18px 30px 14px;
   display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
 }
-.p2-logo { font-size: 30px; font-weight: 900; letter-spacing: -1.5px; }
-.p2-logo .r   { color: var(--white); }
-.p2-logo .mkt { color: var(--green); }
 .p2-tag {
   font-size: 8px; font-weight: 700; letter-spacing: 2px;
   text-transform: uppercase; color: var(--green);
-  background: rgba(0,230,118,0.1);
-  padding: 5px 12px; border-radius: 20px;
+  background: rgba(0,230,118,.1); padding: 5px 12px; border-radius: 20px;
 }
 
-/* Hero CTA */
-.p2-hero {
-  padding: 8px 32px 20px;
-  flex-shrink: 0;
-}
-.p2-question {
-  font-size: 11px; font-weight: 600; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--dim);
-  margin-bottom: 8px;
-}
+.p2-hero { padding: 20px 30px 16px; flex-shrink: 0; }
+.p2-question { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
 .p2-title {
-  font-weight: 900; font-size: 48px; line-height: 1;
-  letter-spacing: -2px; color: var(--white);
-  margin-bottom: 4px;
+  font-weight: 900; font-size: 50px; line-height: .95;
+  letter-spacing: -2.5px; color: var(--white); margin-bottom: 8px;
 }
 .p2-title span { color: var(--green); display: block; }
-.p2-sub {
-  font-size: 12px; color: var(--dim); font-weight: 300;
-  margin-top: 8px; line-height: 1.6;
-}
+.p2-sub { font-size: 11px; font-weight: 300; color: var(--dim); letter-spacing: .3px; line-height: 1.6; }
 
-/* Main grid: social + QR */
 .p2-grid {
   flex: 1;
-  padding: 0 32px 20px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 24px;
-  align-items: center;
+  padding: 4px 30px 16px;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 20px; align-items: center;
 }
 
-.p2-social { display: flex; flex-direction: column; gap: 14px; }
+.p2-social { display:flex; flex-direction:column; gap:16px; }
+.soc-row   { display:flex; align-items:center; gap:12px; }
+.soc-icon  {
+  width: 36px; height: 36px; border-radius: 10px;
+  display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0;
+}
+.si-wa { background: #25d366; }
+.si-ig { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+.si-fb { background: #1877f2; }
+.soc-handle { font-size: 13px; font-weight: 700; color: var(--white); letter-spacing: -.2px; }
+.soc-net    { font-size: 8px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim2); margin-top: 1px; }
 
-.social-row {
-  display: flex; align-items: center; gap: 12px;
+.p2-wa {
+  display:flex; flex-direction:column; align-items:center; gap:8px;
 }
-.soc-icon {
-  width: 38px; height: 38px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0;
+.p2-qr-box {
+  width: 148px; height: 148px;
+  background: var(--white); border-radius: 8px; padding: 6px; overflow:hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
 }
-.si-ig   { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
-.si-fb   { background: #1877f2; }
-.si-wa   { background: #25d366; }
-.soc-text {}
-.soc-handle { font-size: 13px; font-weight: 700; color: var(--white); letter-spacing: -0.2px; }
-.soc-net    { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); margin-top: 1px; }
-
-/* WhatsApp QR */
-.p2-wa-wrap {
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-}
-.p2-wa-qr {
-  width: 150px; height: 150px;
-  background: var(--white); border-radius: 8px;
-  padding: 6px; overflow: hidden;
-}
-.p2-wa-qr img { width: 100%; height: 100%; display: block; }
-.p2-wa-badge {
+.p2-qr-box img { width:100%; height:100%; display:block; }
+.wa-badge {
   background: #25d366; color: var(--white);
   font-size: 9px; font-weight: 700; letter-spacing: 1px;
-  padding: 5px 14px; border-radius: 20px;
-  text-transform: uppercase; display: block; text-align: center;
+  padding: 5px 14px; border-radius: 20px; text-transform: uppercase;
 }
-.p2-wa-sub {
-  font-size: 9px; color: var(--dim);
-  text-align: center; line-height: 1.4;
-}
+.wa-sub { font-size: 9px; font-weight: 300; color: var(--dim); text-align:center; line-height:1.4; }
 
-/* Bottom bar */
-.p2-bottom {
-  border-top: 1px solid #1c1c1c;
-  padding: 10px 32px;
-  display: flex; align-items: center; justify-content: space-between;
+.p2-footer {
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 10px 30px;
+  display: flex; align-items:center; justify-content:space-between;
   flex-shrink: 0;
 }
-.p2-bottom-brand { font-size: 16px; font-weight: 900; letter-spacing: -0.5px; }
-.p2-bottom-brand .r   { color: var(--white); }
-.p2-bottom-brand .mkt { color: var(--green); }
-.p2-bottom-url { font-size: 10px; color: var(--dim); letter-spacing: 0.5px; }
-.p2-bottom-dot { display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--green); margin-left:4px; vertical-align:middle; }
+.p2-footer-brand { font-size: 16px; font-weight: 900; letter-spacing: -0.5px; }
+.p2-footer-brand .r   { color: var(--white); }
+.p2-footer-brand .mkt { color: var(--green); }
+.p2-footer-url { font-size: 10px; font-weight: 400; color: var(--dim); letter-spacing: .5px; }
+.green-dot { display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--green); margin-left:4px; vertical-align:middle; }
 
 @media print { body { display:none; } }
 </style>
@@ -390,161 +307,153 @@ body {
 
 <div class="toolbar">
   <span class="toolbar-note">Posts Instagram · 600×600px</span>
-  <span class="toolbar-tip">📸 Haz screenshot de cada post por separado</span>
+  <span class="toolbar-tip">📸 Screenshot de cada post por separado</span>
 </div>
 
-<!-- ═══════════════════════════════
-  POST 1 — PRODUCTO
-═══════════════════════════════ -->
+<!-- POST 1 -->
 <div class="post-label">Post 1 de 2 · Producto · "Así se ve"</div>
-
-<div class="post post-1">
+<div class="post">
   <div class="p1-topbar"></div>
 
   <div class="p1-header">
     <div>
-      <div class="p1-logo"><span class="r">R</span><span class="mkt">MKT</span></div>
-      <div class="p1-logo-line"></div>
-      <div class="p1-logo-sub">Ramos · Digital</div>
+      <div class="logo"><span class="r">R</span><span class="mkt">MKT</span></div>
+      <div class="logo-line"></div>
+      <div class="logo-sub">Ramos &nbsp;·&nbsp; Digital</div>
     </div>
-    <div class="p1-arrow">
+    <div class="arrow-btn">
       <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
     </div>
   </div>
 
   <div class="p1-headline">
-    <p class="p1-eyebrow">Invitaciones digitales · Cualquier evento</p>
+    <p class="eyebrow">Invitaciones digitales · Cualquier evento</p>
     <h1 class="p1-title">Tu evento,<br/><span>en su bolsillo</span></h1>
-    <p class="p1-sub">Bodas · XV · Graduaciones · Cumpleaños</p>
+    <p class="p1-sub">Bodas · XV Años · Graduaciones · Cumpleaños</p>
   </div>
 
-  <!-- Phones -->
   <div class="p1-phones">
     <!-- Invitación -->
-    <div class="p1-phone-col">
-      <div class="phone phone-inv">
+    <div class="ph-col">
+      <div class="phone ph-inv">
         <div class="phone-screen">
-          <div class="env-wrap">
-            <div class="env-body-s">
-              <div class="env-seal-s">A&S</div>
-              <div class="env-flap-s"></div>
+          <div class="env">
+            <div class="env-body">
+              <div class="env-seal">A&S</div>
+              <div class="env-flap"></div>
             </div>
           </div>
-          <div class="inv-names-s">Andrea<br/><span class="inv-amp-s">&amp;</span><br/>Saúl</div>
-          <div class="inv-date-s">02 · Oct · 2027</div>
-          <div class="inv-btn-s">Confirmar asistencia</div>
+          <div class="inv-name">Andrea<span class="inv-amp">&amp;</span>Saúl</div>
+          <div class="inv-date">02 · Oct · 2027</div>
+          <div class="inv-btn">Confirmar asistencia</div>
         </div>
       </div>
-      <div class="phone-label">La Invitación</div>
-      <div class="phone-label-sub">Personalizada · Con RSVP</div>
+      <div class="ph-lbl">La Invitación</div>
+      <div class="ph-sub">Personalizada · Con RSVP</div>
     </div>
 
     <!-- Admin -->
-    <div class="p1-phone-col">
-      <div class="phone phone-adm">
+    <div class="ph-col">
+      <div class="phone ph-adm">
         <div class="phone-screen">
-          <div class="adm-sidebar">
-            <div class="adm-dot" style="background:var(--gold);opacity:.8;"></div>
-            <div class="adm-dot" style="background:rgba(255,255,255,.12);"></div>
-            <div class="adm-dot" style="background:rgba(255,255,255,.12);"></div>
+          <div class="adm-sb">
+            <div class="adm-dot" style="background:var(--gold);opacity:.9;"></div>
+            <div class="adm-dot" style="background:rgba(255,255,255,.1);"></div>
+            <div class="adm-dot" style="background:rgba(255,255,255,.1);"></div>
           </div>
           <div class="adm-main">
-            <div class="adm-top">Andrea &amp; Saúl · Admin</div>
+            <div class="adm-topbar">Andrea &amp; Saúl · Admin</div>
             <div class="adm-stats">
-              <div class="adm-stat" style="background:#1a2e1a;">
-                <div class="adm-stat-n" style="color:#4a8a5e;">23</div>
-                <div class="adm-stat-l">Confirmados</div>
+              <div class="adm-stat" style="background:rgba(0,180,90,.15);">
+                <div class="adm-sn" style="color:#00e090;">23</div>
+                <div class="adm-sl">Confirmados</div>
               </div>
-              <div class="adm-stat" style="background:#2a2010;">
-                <div class="adm-stat-n" style="color:var(--gold);">8</div>
-                <div class="adm-stat-l">Pendientes</div>
+              <div class="adm-stat" style="background:rgba(201,164,106,.12);">
+                <div class="adm-sn" style="color:var(--gold);">8</div>
+                <div class="adm-sl">Pendientes</div>
               </div>
             </div>
-            <div class="adm-bar"><div class="adm-bar-fill" style="width:74%;"></div></div>
+            <div class="adm-bar"><div class="adm-fill" style="width:74%;"></div></div>
             <div class="adm-rows">
-              <div class="adm-row"><span class="adm-row-n">Fam. García</span><span class="adm-row-b" style="background:rgba(74,138,94,.25);color:#4a8a5e;">✓</span></div>
-              <div class="adm-row"><span class="adm-row-n">Dr. Herrera</span><span class="adm-row-b" style="background:rgba(74,138,94,.25);color:#4a8a5e;">✓</span></div>
-              <div class="adm-row"><span class="adm-row-n">Fam. Torres</span><span class="adm-row-b" style="background:rgba(184,150,80,.2);color:#b89650;">…</span></div>
-              <div class="adm-row"><span class="adm-row-n">Valentina S.</span><span class="adm-row-b" style="background:rgba(74,138,94,.25);color:#4a8a5e;">✓</span></div>
-              <div class="adm-row"><span class="adm-row-n">Ing. Peña</span><span class="adm-row-b" style="background:rgba(168,80,80,.2);color:#a85050;">✗</span></div>
+              <div class="adm-row"><span class="adm-rn">Fam. García</span><span class="adm-rb" style="background:rgba(0,180,90,.2);color:#00e090;">✓</span></div>
+              <div class="adm-row"><span class="adm-rn">Dr. Herrera</span><span class="adm-rb" style="background:rgba(0,180,90,.2);color:#00e090;">✓</span></div>
+              <div class="adm-row"><span class="adm-rn">Fam. Torres</span><span class="adm-rb" style="background:rgba(201,164,106,.2);color:var(--gold);">…</span></div>
+              <div class="adm-row"><span class="adm-rn">Valentina S.</span><span class="adm-rb" style="background:rgba(0,180,90,.2);color:#00e090;">✓</span></div>
+              <div class="adm-row"><span class="adm-rn">Ing. Peña</span><span class="adm-rb" style="background:rgba(220,80,80,.2);color:#e06060;">✗</span></div>
             </div>
           </div>
         </div>
       </div>
-      <div class="phone-label">Tu Panel</div>
-      <div class="phone-label-sub">Tiempo real · Desde el celular</div>
+      <div class="ph-lbl">Tu Panel</div>
+      <div class="ph-sub">Tiempo real · Desde tu celular</div>
     </div>
   </div>
 
-  <!-- Strip -->
   <div class="p1-strip">
-    <div class="p1-strip-item"><span class="strip-icon">🎟</span><span class="strip-label">QR único por invitado</span></div>
-    <div class="p1-strip-item"><span class="strip-icon">⚡</span><span class="strip-label">Tiempo real</span></div>
-    <div class="p1-strip-item"><span class="strip-icon">📱</span><span class="strip-label">Sin apps</span></div>
-    <div class="p1-strip-item"><span class="strip-icon">✅</span><span class="strip-label">RSVP incluido</span></div>
+    <div class="strip-item"><span class="strip-ico">🎟</span><span class="strip-lbl">QR por invitado</span></div>
+    <div class="strip-item"><span class="strip-ico">⚡</span><span class="strip-lbl">Tiempo real</span></div>
+    <div class="strip-item"><span class="strip-ico">📱</span><span class="strip-lbl">Sin apps</span></div>
+    <div class="strip-item"><span class="strip-ico">✅</span><span class="strip-lbl">RSVP incluido</span></div>
   </div>
 </div>
 
 
-<!-- ═══════════════════════════════
-  POST 2 — CTA
-═══════════════════════════════ -->
+<!-- POST 2 -->
 <div class="post-label" style="margin-top:16px;">Post 2 de 2 · Contacto · "Cotiza aquí"</div>
-
 <div class="post post-2">
 
-  <div class="p2-top">
-    <div class="p2-logo"><span class="r">R</span><span class="mkt">MKT</span></div>
+  <div class="p2-header">
+    <div>
+      <div class="logo"><span class="r">R</span><span class="mkt">MKT</span></div>
+      <div class="logo-line"></div>
+      <div class="logo-sub">Ramos &nbsp;·&nbsp; Digital</div>
+    </div>
     <div class="p2-tag">Cotización gratis</div>
   </div>
 
   <div class="p2-hero">
     <p class="p2-question">¿Tienes un evento?</p>
-    <h2 class="p2-title">Invitaciones<span>digitales</span></h2>
-    <p class="p2-sub">Personalizadas · Con RSVP · Panel de admin en tiempo real</p>
+    <h2 class="p2-title">Invitaciones<span>Digitales</span></h2>
+    <p class="p2-sub">Personalizadas · RSVP incluido · Panel de control en tiempo real</p>
   </div>
 
   <div class="p2-grid">
     <div class="p2-social">
-      <div class="social-row">
+      <div class="soc-row">
         <div class="soc-icon si-wa">💬</div>
-        <div class="soc-text">
+        <div>
           <div class="soc-handle">814 807 8309</div>
           <div class="soc-net">WhatsApp · Respuesta inmediata</div>
         </div>
       </div>
-      <div class="social-row">
+      <div class="soc-row">
         <div class="soc-icon si-ig">📸</div>
-        <div class="soc-text">
+        <div>
           <div class="soc-handle">ramos_mkt.rex</div>
           <div class="soc-net">Instagram</div>
         </div>
       </div>
-      <div class="social-row">
+      <div class="soc-row">
         <div class="soc-icon si-fb">👍</div>
-        <div class="soc-text">
+        <div>
           <div class="soc-handle">RMKT web &amp; apps</div>
           <div class="soc-net">Facebook</div>
         </div>
       </div>
     </div>
 
-    <div class="p2-wa-wrap">
-      <div class="p2-wa-qr">
-        <img
-          src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&color=000000&bgcolor=ffffff&data=https%3A%2F%2Fwa.me%2F528148078309%3Ftext%3DHola%2C%2520me%2520interesa%2520cotizar%2520una%2520invitaci%25C3%25B3n%2520digital"
-          alt="WhatsApp QR"
-          loading="lazy"
-        />
+    <div class="p2-wa">
+      <div class="p2-qr-box">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&color=000000&bgcolor=ffffff&data=https%3A%2F%2Fwa.me%2F528148078309%3Ftext%3DHola%2C%2520me%2520interesa%2520cotizar%2520una%2520invitaci%25C3%25B3n%2520digital" alt="WhatsApp" loading="lazy"/>
       </div>
-      <span class="p2-wa-badge">💬 Escríbeme</span>
-      <span class="p2-wa-sub">Escanea y cotiza<br/>al instante</span>
+      <span class="wa-badge">💬 Escríbeme</span>
+      <span class="wa-sub">Escanea y cotiza<br/>al instante</span>
     </div>
   </div>
 
-  <div class="p2-bottom">
-    <div class="p2-bottom-brand"><span class="r">R</span><span class="mkt">MKT</span><span class="p2-bottom-dot"></span></div>
-    <div class="p2-bottom-url">ramosmkt.lat</div>
+  <div class="p2-footer">
+    <div class="p2-footer-brand"><span class="r">R</span><span class="mkt">MKT</span><span class="green-dot"></span></div>
+    <div class="p2-footer-url">ramosmkt.lat</div>
   </div>
 
 </div>
