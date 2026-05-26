@@ -81,14 +81,7 @@ body {
   padding-bottom: 4px;
   z-index: 99;
 }
-@media print {
-  .page {
-    height: auto;
-    overflow: visible;
-    box-shadow: none;
-  }
-  .page::after { display: none; }
-}
+/* print block consolidado abajo */
 
 .top-stripe { height: 5px; background: var(--black); flex-shrink:0; position: relative; }
 .top-stripe::after { content:''; position:absolute; right:0; top:0; width:180px; height:5px; background:var(--green); }
@@ -495,10 +488,16 @@ body {
 
 /* ── PRINT ── */
 @media print {
-  @page { size: letter portrait; margin: 8mm; }
-  body  { background: white; padding: 0; gap: 0; }
+  @page { size: letter portrait; margin: 0; }
+  body {
+    padding: 0;
+    gap: 0;
+    background: white;
+    zoom: 1.275; /* 640 × 1.275 = 816px = carta exacto */
+  }
   .toolbar { display: none; }
-  .page { width: 100%; box-shadow: none; margin-bottom: 0; }
+  .page { width: 640px; height: 828px; overflow: hidden; box-shadow: none; }
+  .page::after { display: none; }
   .page-break { page-break-after: always; }
 }
 </style>
