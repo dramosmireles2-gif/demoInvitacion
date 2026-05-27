@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -298,6 +299,17 @@ body {
 .p2-footer-url { font-size: 10px; font-weight: 400; color: var(--dim); letter-spacing: .5px; }
 .green-dot { display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--green); margin-left:4px; vertical-align:middle; }
 
+.dl-btn {
+  width: 600px;
+  background: var(--green); color: var(--black);
+  font-family: 'Jost', sans-serif; font-weight: 700;
+  font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase;
+  border: none; padding: 14px 0; border-radius: 8px;
+  cursor: pointer; transition: opacity .15s;
+}
+.dl-btn:hover { opacity: .85; }
+.dl-btn:disabled { opacity: .5; cursor: wait; }
+
 @media print { body { display:none; } }
 </style>
 </head>
@@ -305,12 +317,12 @@ body {
 
 <div class="toolbar">
   <span class="toolbar-note">Posts Instagram · 600×600px</span>
-  <span class="toolbar-tip">📸 Screenshot de cada post por separado</span>
+  <span class="toolbar-tip">⬇️ Usa los botones para descargar cada post</span>
 </div>
 
 <!-- POST 1 -->
 <div class="post-label">Post 1 de 2 · Producto · "Así se ve"</div>
-<div class="post">
+<div class="post" id="post-1">
   <div class="p1-topbar"></div>
 
   <div class="p1-header">
@@ -393,9 +405,12 @@ body {
 </div>
 
 
+<!-- BOTÓN POST 1 -->
+<button class="dl-btn" onclick="descargar('post-1','rmkt-post-showcase.png')">⬇ Descargar Post 1 — PNG</button>
+
 <!-- POST 2 -->
 <div class="post-label" style="margin-top:16px;">Post 2 de 2 · Contacto · "Cotiza aquí"</div>
-<div class="post post-2">
+<div class="post post-2" id="post-2">
 
   <div class="p2-header">
     <div>
@@ -453,5 +468,23 @@ body {
 
 </div>
 
+<!-- BOTÓN POST 2 -->
+<button class="dl-btn" onclick="descargar('post-2','rmkt-post-cta.png')">⬇ Descargar Post 2 — PNG</button>
+
+<script>
+function descargar(id, nombre) {
+  const btn = event.target;
+  btn.textContent = 'Generando…';
+  btn.disabled = true;
+  htmlToImage.toPng(document.getElementById(id), { pixelRatio: 2 })
+    .then(function(url) {
+      const a = document.createElement('a');
+      a.href = url; a.download = nombre; a.click();
+      btn.textContent = '✓ Descargado';
+      setTimeout(function(){ btn.textContent = '⬇ Descargar PNG'; btn.disabled = false; }, 2000);
+    })
+    .catch(function(){ btn.textContent = '⬇ Descargar PNG'; btn.disabled = false; });
+}
+</script>
 </body>
 </html>
