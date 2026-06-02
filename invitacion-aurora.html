@@ -506,7 +506,36 @@ body::before {
 }
 
 /* ── GALLERY ── */
+/* ── NOTA DE AGRADECIMIENTO / PUNTUALIDAD ── */
+.punctuality-note {
+  width: calc(100% - 32px); max-width: 480px;
+  background: rgba(252,250,247,0.85);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 16px rgba(201,164,106,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
+  padding: 32px 28px; text-align: center;
+  animation: fade-up 1s 1s both;
+}
+.punctuality-note-icon { font-size: 26px; display: block; margin-bottom: 12px; opacity: 0.75; }
+.punctuality-note-title {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 20px; color: var(--text); margin-bottom: 12px;
+}
+.punctuality-note-body {
+  font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 300;
+  color: var(--text-2); line-height: 1.7; margin-bottom: 16px;
+}
+.punctuality-note-footer {
+  font-family: 'Cormorant SC', serif; font-size: 11px;
+  letter-spacing: 3px; color: var(--gold);
+}
+
+/* ── GALERÍA DE NOVIOS ── */
 .inv-gallery { width: 100%; max-width: 480px; padding: 0 24px 40px; animation: fade-up 1s 0.8s both; }
+.gallery-empty {
+  text-align: center; padding: 32px 16px;
+  font-family: 'Jost', sans-serif; font-size: 12px; color: var(--text-2);
+}
 .gallery-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
 }
@@ -618,6 +647,24 @@ body::before {
 .no-pets-text { font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--text-2); }
 
 /* ── GUEST CARD ── */
+/* guest+rsvp unified card */
+.inv-guest-rsvp {
+  width:calc(100% - 32px); max-width:480px;
+  background: rgba(252,250,247,0.85);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 16px rgba(201,164,106,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
+  overflow: hidden;
+  animation:fade-up 1s 1.1s both;
+}
+.inv-guest-block {
+  padding: 28px 28px 20px; text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.inv-rsvp-block {
+  padding: 28px 28px 32px; text-align: center;
+}
+/* keep old class for JS compat */
 .inv-guest-card {
   width:calc(100% - 32px); max-width:480px;
   background: rgba(252,250,247,0.85);
@@ -721,7 +768,7 @@ body::before {
 .rsvp-success.visible .success-body { opacity:1; transform:translateY(0); }
 
 /* ── GIFTS ── */
-.inv-gifts { width: 100%; max-width: 480px; padding: 0 24px 40px; animation: fade-up 1s 0.8s both; }
+.inv-gifts { width: 100%; max-width: 480px; padding: 48px 24px 40px; animation: fade-up 1s 0.8s both; }
 .gifts-main-msg {
   font-family: 'Cormorant Garamond', serif; font-style: italic;
   font-size: 20px; color: var(--text); text-align: center;
@@ -1116,10 +1163,15 @@ body::before {
   </div>
 
   <!-- 8. GALERÍA -->
-  <div class="inv-gallery" id="gallery-section" style="display:none;">
+  <!-- GALERÍA DE NOVIOS -->
+  <div class="inv-gallery" id="gallery-section">
     <p class="section-label">Nuestra historia</p>
     <div class="prism-divider" style="margin-bottom:20px;"></div>
     <div class="gallery-grid" id="gallery-grid"></div>
+    <div class="gallery-empty" id="gallery-empty" style="display:none;">
+      <span style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;">📷</span>
+      Las fotos estarán disponibles pronto
+    </div>
   </div>
 
   <!-- 9. DRESSCODE -->
@@ -1145,31 +1197,50 @@ body::before {
 
   <div class="prism-divider" style="animation:fade-up 1s 1s both; margin:8px 0 24px;"></div>
 
-  <!-- 11. TARJETA INVITADO -->
-  <div class="inv-guest-card" style="margin-top:8px;">
-    <p class="guest-label">Esta invitación es para</p>
-    <p class="guest-name" id="guest-name-text">Estimado Invitado</p>
-    <span class="guest-passes" id="guest-passes-text">🎟 2 pases</span>
-    <p class="guest-table" id="guest-table-text">Mesa · —</p>
+  <!-- NOTA DE PUNTUALIDAD / GRACIAS -->
+  <div class="punctuality-note">
+    <span class="punctuality-note-icon">🕐</span>
+    <p class="punctuality-note-title">Una pequeña petición</p>
+    <p class="punctuality-note-body">
+      Les pedimos con mucho cariño que lleguen puntualmente a la ceremonia, ya que comenzará a la hora indicada y no queremos que se pierdan ni un solo momento.<br/><br/>
+      Gracias por ser parte de este día tan especial para nosotros. Su presencia es el regalo más grande.
+    </p>
+    <div class="prism-divider" style="margin-bottom:16px;"></div>
+    <span class="punctuality-note-footer">Andrea &amp; Saúl · 2 de Octubre · 2027</span>
   </div>
 
-  <!-- 12. RSVP -->
-  <div class="inv-rsvp" id="rsvp-section">
-    <p class="rsvp-title">Confirmar Asistencia</p>
-    <p class="rsvp-sub">Antes del 15 de Septiembre · 2027</p>
-    <div id="rsvp-form">
-      <div class="rsvp-options">
-        <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')"><span class="rsvp-icon">🤍</span>Asistiré</button>
-        <button class="rsvp-btn" id="btn-no"  onclick="selectRSVP('no')"><span class="rsvp-icon">💌</span>No Podré</button>
+  <div class="prism-divider" style="margin:24px auto;"></div>
+
+  <!-- 11+12. TARJETA INVITADO + RSVP (card unificada) -->
+  <div class="inv-guest-rsvp" id="rsvp-section">
+
+    <!-- Bloque invitado -->
+    <div class="inv-guest-block">
+      <p class="guest-label">Esta invitación es para</p>
+      <p class="guest-name" id="guest-name-text">Estimado Invitado</p>
+      <span class="guest-passes" id="guest-passes-text">🎟 2 pases</span>
+      <p class="guest-table" id="guest-table-text">Mesa · —</p>
+    </div>
+
+    <!-- Bloque RSVP -->
+    <div class="inv-rsvp-block">
+      <p class="rsvp-title">Confirmar Asistencia</p>
+      <p class="rsvp-sub">Antes del 15 de Septiembre · 2027</p>
+      <div id="rsvp-form">
+        <div class="rsvp-options">
+          <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')"><span class="rsvp-icon">🤍</span>Asistiré</button>
+          <button class="rsvp-btn" id="btn-no"  onclick="selectRSVP('no')"><span class="rsvp-icon">💌</span>No Podré</button>
+        </div>
+        <textarea class="rsvp-message" id="rsvp-msg" rows="3" placeholder="Un mensaje para los novios... (opcional)"></textarea>
+        <button class="rsvp-submit" onclick="submitRSVP()">Confirmar</button>
       </div>
-      <textarea class="rsvp-message" id="rsvp-msg" rows="3" placeholder="Un mensaje para los novios... (opcional)"></textarea>
-      <button class="rsvp-submit" onclick="submitRSVP()">Confirmar</button>
+      <div class="rsvp-success" id="rsvp-success">
+        <div class="success-icon">🌸</div>
+        <p class="success-title" id="rsvp-success-title">¡Gracias!</p>
+        <p class="success-body" id="rsvp-success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
+      </div>
     </div>
-    <div class="rsvp-success" id="rsvp-success">
-      <div class="success-icon">🌸</div>
-      <p class="success-title" id="rsvp-success-title">¡Gracias!</p>
-      <p class="success-body" id="rsvp-success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
-    </div>
+
   </div>
 
   <!-- 13. REGALOS -->
@@ -1464,8 +1535,12 @@ let galleryIndex = 0;
 const galleryImages = WEDDING_CONFIG.gallery;
 
 function buildGallery() {
-  if (!galleryImages.length) return;
-  document.getElementById('gallery-section').style.display = 'block';
+  const emptyEl = document.getElementById('gallery-empty');
+  if (!galleryImages.length) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
   const grid = document.getElementById('gallery-grid');
   grid.innerHTML = galleryImages.map((src, i) => `
     <div class="gallery-item" onclick="openLightbox(${i})">
