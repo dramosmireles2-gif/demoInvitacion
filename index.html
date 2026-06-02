@@ -247,64 +247,102 @@ body::before {
   letter-spacing: 0.5px; color: var(--text-light);
 }
 
-/* ── MAP SECTION ── */
-.inv-map-section {
-  width: 100%; max-width: 480px; padding: 0 24px 40px;
+/* ── LOCATION CARDS ── */
+.inv-locations {
+  width: 100%; max-width: 480px; padding: 0 20px 48px;
   animation: fade-up 1s 0.8s both;
 }
-.map-card {
-  background: var(--white); border: 1px solid var(--parchment);
-  border-radius: 4px; overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+.location-card {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(44,36,22,0.07);
+  margin-bottom: 16px;
 }
-.map-card-header {
-  padding: 16px 20px 12px;
-  border-bottom: 1px solid var(--parchment);
+.location-card-label {
+  font-family: 'Cormorant SC', serif; font-size: 10px;
+  letter-spacing: 4px; color: var(--gold);
+  text-transform: uppercase; text-align: center;
+  padding: 14px 20px 0;
 }
-.map-card-icon { font-size: 20px; margin-bottom: 4px; display: block; }
-.map-card-name {
-  font-family: 'Cormorant Garamond', serif; font-size: 18px;
-  color: var(--text); display: block; margin-bottom: 2px;
+.location-card-photo {
+  width: 100%; display: block;
+  mix-blend-mode: multiply;
+  padding: 12px 20px 0;
+  box-sizing: border-box;
 }
-.map-card-address {
+.location-card-photo img {
+  width: 100%; display: block;
+  filter: drop-shadow(0 6px 18px rgba(44,36,22,0.11));
+}
+.location-card-body {
+  padding: 16px 20px 0;
+  text-align: center;
+}
+.location-card-name {
+  font-family: 'Cormorant Garamond', serif; font-size: 20px;
+  color: var(--text); display: block; margin-bottom: 4px;
+}
+.location-card-address {
   font-family: 'Jost', sans-serif; font-size: 11px;
   letter-spacing: 0.5px; color: var(--text-light);
+  line-height: 1.5; display: block; margin-bottom: 10px;
 }
-.map-frame {
-  width: 100%; height: 200px; border: none; display: block;
-  background: var(--cream2);
+.location-card-time {
+  font-family: 'Cormorant SC', serif; font-size: 13px;
+  letter-spacing: 3px; color: var(--gold); display: block;
+  margin-bottom: 14px;
 }
-.map-placeholder {
-  width: 100%; height: 200px;
-  background: var(--cream2);
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 8px;
-}
-.map-placeholder span { font-size: 32px; }
-.map-placeholder p { font-family:'Jost',sans-serif; font-size:10px; letter-spacing:2px; color:var(--text-light); text-transform:uppercase; }
-.map-card-footer { padding: 12px 20px; }
-.map-directions-btn {
+.location-directions-btn {
   display: inline-flex; align-items: center; gap: 8px;
   font-family: 'Jost', sans-serif; font-size: 10px;
   letter-spacing: 2px; text-transform: uppercase;
-  color: var(--gold-dark); text-decoration: none;
-  border-bottom: 1px solid var(--gold-light); padding-bottom: 2px;
-  transition: color 0.3s, border-color 0.3s;
+  color: var(--white); background: var(--gold-dark);
+  text-decoration: none; border-radius: 3px;
+  padding: 9px 20px; margin-bottom: 16px;
+  transition: background 0.3s;
 }
-.map-directions-btn:hover { color: var(--gold); border-color: var(--gold); }
+.location-directions-btn:hover { background: var(--gold); }
+.location-card-map {
+  width: 100%; height: 200px; border: none; display: block;
+  border-top: 1px solid var(--parchment);
+}
+.location-map-placeholder {
+  width: 100%; height: 180px; background: var(--cream2);
+  border-top: 1px solid var(--parchment);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 8px;
+}
+.location-map-placeholder span { font-size: 28px; }
+.location-map-placeholder p {
+  font-family: 'Jost', sans-serif; font-size: 10px;
+  letter-spacing: 2px; color: var(--text-light); text-transform: uppercase;
+}
 
-/* Venue image */
-.venue-image-wrap {
-  width: 100%; max-width: 480px; padding: 0 16px 40px;
-  animation: fade-up 1s 0.85s both;
-  text-align: center;
+/* Separador traslado */
+.transfer-note {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 20px 24px; text-align: center;
 }
-.venue-image-wrap img {
-  width: 100%; max-width: 380px;
-  display: block; margin: 0 auto;
-  filter: drop-shadow(0 8px 24px rgba(44,36,22,0.13));
-  mix-blend-mode: multiply;
+.transfer-note-icon { font-size: 22px; opacity: 0.6; }
+.transfer-note-title {
+  font-family: 'Cormorant SC', serif; font-size: 11px;
+  letter-spacing: 3px; color: var(--gold); text-transform: uppercase;
 }
+.transfer-note-detail {
+  font-family: 'Jost', sans-serif; font-size: 11px;
+  letter-spacing: 0.5px; color: var(--text-light);
+}
+.transfer-note-msg {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 14px; color: var(--text-light); margin-top: 2px;
+}
+
+/* Legacy: ocultar elementos sueltos anteriores si quedan */
+.inv-map-section, .venue-image-wrap { display: none !important; }
+
+/* Venue image — DEPRECATED, now inside location-card */
 .venue-image-caption {
   font-family: 'Cormorant Garamond', serif; font-style: italic;
   font-size: 13px; color: var(--text-light);
@@ -755,64 +793,66 @@ body::before {
     <div class="timeline-list" id="timeline-list"></div>
   </div>
 
-  <!-- 6. MAPA IGLESIA -->
-  <div class="inv-map-section" id="section-church">
-    <p class="section-label">Ceremonia religiosa</p>
-    <div class="map-card">
-      <div class="map-card-header">
-        <span class="map-card-icon">⛪</span>
-        <span class="map-card-name" id="church-name">Iglesia — Por confirmar</span>
-        <span class="map-card-address" id="church-address">Dirección por confirmar</span>
+  <!-- Separador horario → ubicaciones -->
+  <div class="ornament" style="margin-bottom:8px;">
+    <div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line right"></div>
+  </div>
+
+  <!-- 6 & 7. UBICACIONES (nuevas location cards) -->
+  <div class="inv-locations">
+    <p class="section-label">Dónde nos encontramos</p>
+
+    <!-- Card Iglesia -->
+    <div class="location-card" id="card-church">
+      <p class="location-card-label">Ceremonia religiosa · 15:00 HRS</p>
+      <div class="location-card-photo" id="church-photo" style="display:none;">
+        <img src="" alt="Aposento Alto" loading="lazy"/>
       </div>
-      <div id="church-map-container">
-        <div class="map-placeholder">
-          <span>🗺️</span>
-          <p>Mapa por confirmar</p>
-        </div>
-      </div>
-      <div class="map-card-footer">
-        <a class="map-directions-btn" id="church-directions" href="#" target="_blank">
+      <div class="location-card-body">
+        <span class="location-card-name" id="church-name">Aposento Alto</span>
+        <span class="location-card-address" id="church-address">C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.</span>
+        <a class="location-directions-btn" id="church-directions" href="https://maps.app.goo.gl/enaa51eixmTVXXjJA" target="_blank">
           📍 Cómo llegar
         </a>
       </div>
+      <div id="church-map-container">
+        <div class="location-map-placeholder">
+          <span>🗺️</span>
+          <p>Cargando mapa…</p>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Imagen de la iglesia -->
-  <div class="venue-image-wrap" id="church-image-wrap" style="display:none;">
-    <img src="" alt="Aposento Alto" loading="lazy"/>
-    <p class="venue-image-caption">Aposento Alto</p>
-  </div>
+    <!-- Separador traslado -->
+    <div class="transfer-note">
+      <span class="transfer-note-icon">🚗</span>
+      <span class="transfer-note-title">Traslado a recepción</span>
+      <span class="transfer-note-detail">Aproximadamente 18 min en automóvil</span>
+      <span class="transfer-note-msg">Después de la ceremonia, acompáñanos a la recepción.</span>
+    </div>
 
-  <!-- 7. MAPA SALÓN + IMAGEN LUGAR -->
-  <div class="inv-map-section">
-    <p class="section-label">Recepción</p>
-    <div class="map-card">
-      <div class="map-card-header">
-        <span class="map-card-icon">🏡</span>
-        <span class="map-card-name">Hacienda San Antonio Calichar</span>
-        <span class="map-card-address">Carretera Reynosa–San Fernando km 12, Tamaulipas</span>
+    <!-- Card Salón -->
+    <div class="location-card">
+      <p class="location-card-label">Recepción · 17:00 HRS</p>
+      <div class="location-card-photo" id="venue-photo" style="display:none;">
+        <img src="" alt="Hacienda San Antonio Calichar" loading="lazy"/>
+      </div>
+      <div class="location-card-body">
+        <span class="location-card-name">Hacienda San Antonio Calichar</span>
+        <span class="location-card-address">Carretera Reynosa–San Fernando km 12, Tamaulipas</span>
+        <a class="location-directions-btn" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">
+          📍 Cómo llegar
+        </a>
       </div>
       <iframe
-        class="map-frame"
+        class="location-card-map"
         src="https://maps.google.com/maps?q=Hacienda+San+Antonio+Calichar+Tamaulipas&output=embed"
         loading="lazy"
         allowfullscreen
         referrerpolicy="no-referrer-when-downgrade"
         title="Hacienda San Antonio Calichar">
       </iframe>
-      <div class="map-card-footer">
-        <a class="map-directions-btn" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">
-          📍 Cómo llegar
-        </a>
-      </div>
     </div>
-  </div>
-
-  <!-- Imagen del lugar -->
-  <div class="venue-image-wrap" id="venue-image-wrap" style="display:none;">
-    <img src="./lugar.png" alt="Hacienda San Antonio Calichar" loading="lazy"/>
-    <p class="venue-image-caption">Hacienda San Antonio Calichar</p>
   </div>
 
   <!-- 8. GALERÍA -->
@@ -1141,33 +1181,31 @@ function buildTimeline() {
 }
 
 /* ══════════════════════════════════
-   MAPA IGLESIA
+   LOCATION CARDS
 ══════════════════════════════════ */
 function buildChurchMap() {
   const cfg = WEDDING_CONFIG.church;
-  document.getElementById('church-name').textContent    = cfg.name;
-  document.getElementById('church-address').textContent = cfg.address;
-  document.getElementById('church-directions').href     = cfg.mapsLink;
+  const nameEl = document.getElementById('church-name');
+  const addrEl = document.getElementById('church-address');
+  const dirEl  = document.getElementById('church-directions');
+  if (nameEl) nameEl.textContent = cfg.name;
+  if (addrEl) addrEl.textContent = cfg.address;
+  if (dirEl && cfg.mapsLink) dirEl.href = cfg.mapsLink;
 
   if (cfg.mapEmbed) {
     const container = document.getElementById('church-map-container');
-    container.innerHTML = `<iframe class="map-frame" src="${cfg.mapEmbed}" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="${cfg.name}"></iframe>`;
+    if (container) container.innerHTML = `<iframe class="location-card-map" src="${cfg.mapEmbed}" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="${cfg.name}"></iframe>`;
   }
 }
 
-/* ══════════════════════════════════
-   IMAGEN DEL LUGAR
-══════════════════════════════════ */
 function buildVenueImage() {
   if (WEDDING_CONFIG.churchImage) {
-    const wrap = document.getElementById('church-image-wrap');
-    wrap.style.display = 'block';
-    wrap.querySelector('img').src = WEDDING_CONFIG.churchImage;
+    const wrap = document.getElementById('church-photo');
+    if (wrap) { wrap.style.display = 'block'; wrap.querySelector('img').src = WEDDING_CONFIG.churchImage; }
   }
   if (WEDDING_CONFIG.venueImage) {
-    const wrap = document.getElementById('venue-image-wrap');
-    wrap.style.display = 'block';
-    wrap.querySelector('img').src = WEDDING_CONFIG.venueImage;
+    const wrap = document.getElementById('venue-photo');
+    if (wrap) { wrap.style.display = 'block'; wrap.querySelector('img').src = WEDDING_CONFIG.venueImage; }
   }
 }
 
