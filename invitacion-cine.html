@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="./sections-new-shared.css"/>
+<link rel="stylesheet" href="./gratitude-note-shared.css"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,6 +22,22 @@
   --offwhite:#ddd5be;
   --darkgray:#1e1e1e;
   --midgray: #333333;
+  --accent-new: #b8976a;
+  --border-new: #b8976a;
+  --surface-new: linear-gradient(180deg, rgba(20,20,20,0.94), rgba(10,10,10,0.98));
+  --surface-strong-new: rgba(255,255,255,0.04);
+  --timeline-surface-new: rgba(255,255,255,0.03);
+  --timeline-border-new: rgba(184,151,106,0.45);
+  --text-main-new: var(--cream);
+  --text-muted-new: rgba(240,230,200,0.72);
+  --button-bg-new: rgba(184,151,106,0.16);
+  --button-text-new: var(--cream);
+  --shadow-new: rgba(0,0,0,0.45);
+  --heading-font-new: 'Bebas Neue', sans-serif;
+  --body-font-new: 'Libre Baskerville', serif;
+  --boy-new: #6f95c9;
+  --girl-new: #c96fa2;
+  --sections-max-width-new: 520px;
 }
 
 html, body {
@@ -1090,6 +1108,8 @@ body::after {
 
   <div class="section-rule"></div>
 
+  <div id="pre-guest-sections-new"></div>
+
   <!-- GUEST TICKET CARD -->
   <div class="inv-guest-wrap">
     <div class="guest-ticket">
@@ -1159,6 +1179,17 @@ body::after {
     </button>
   </div>
 
+  <div id="pre-footer-sections-new"></div>
+  <section class="gratitude-note-new" style="--gratitude-max-width-new:520px;--gratitude-text-new:var(--cream);--gratitude-muted-new:var(--smoke);--gratitude-accent-new:var(--red);--gratitude-script-new:'Bebas Neue',sans-serif;--gratitude-body-new:'Libre Baskerville',serif;--gratitude-line-new:rgba(184,151,106,0.28);">
+    <div class="gratitude-inner-new">
+      <p class="gratitude-kicker-new">Nota especial</p>
+      <p class="gratitude-copy-new">Agradecemos tu puntualidad, para que no te pierdas ning&uacute;n momento especial.</p>
+      <p class="gratitude-thanks-new">Muchas gracias</p>
+    </div>
+  </section>
+
+
+
   <!-- FOOTER -->
   <div class="inv-footer">
     <p class="footer-end">FIN</p>
@@ -1174,6 +1205,7 @@ body::after {
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="guests.js"></script>
 <script src="firebase-config.js"></script>
+<script src="sections-new-shared.js"></script>
 
 <script>
 // ── GUEST PERSONALIZACIÓN ──
@@ -1216,6 +1248,7 @@ function openTicket() {
     });
 
     setTimeout(() => { screen.style.display = 'none'; }, 1100);
+    if (window._startMusicNew) window._startMusicNew();
   }, 700);
 }
 
@@ -1363,6 +1396,33 @@ function addToCalendar() {
     + '&details=¡Los+esperamos+en+la+gran+función!';
   window.open(url, '_blank');
 }
+const WEDDING_CONFIG_NEW = {
+  weddingDate: '2027-10-02T17:00:00',
+  schedule: [
+    { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
+    { icon: '🥂', label: 'Recepcion', place: 'Hacienda San Antonio Calichar', time: '17:00 HRS' },
+    { icon: '🎉', label: 'Baile y festejo', place: 'Hacienda San Antonio Calichar', time: '18:00 HRS' },
+    { icon: '🌙', label: 'Cierre de fiesta', place: '', time: '01:00 HRS' },
+  ],
+  church: {
+    name: 'Aposento Alto',
+    address: 'C. Insurgentes 418, Chapultepec, 66450 San Nicol\u00e1s de los Garza, N.L.',
+    mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
+    mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
+  },
+  churchImage: './Iglesia.png',
+  venueImage: './Salon.png',
+  music: './musica.mp3',
+  gallery: [],
+  dresscode: {
+    women: { style: 'Vestido largo o coctel', colors: ['#f0e6c8', '#b8976a', '#c8102e', '#5e4a36'], note: 'Evitar blanco e ivory' },
+    men: { style: 'Traje formal', colors: ['#0a0a0a', '#333333', '#9a0c23', '#b8976a'], note: 'Corbata o mono sugerido' },
+  },
+  gifts: { showBank: true, bankName: 'BBVA', bankClabe: '000000000000000000', bankAlias: 'andrea.saul.boda', giftListUrl: '' },
+  wishlist: [{ name: 'Item de ejemplo', price: '$500', image: '', link: '' }],
+};
+
+initWeddingSectionsNew(WEDDING_CONFIG_NEW);
 </script>
 </body>
 </html>

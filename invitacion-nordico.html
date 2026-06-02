@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Inter:wght@200;300;400&display=swap" rel="stylesheet"/>
 
+<link rel="stylesheet" href="./gratitude-note-shared.css"/>
 <style>
 /* ── RESET & ROOT ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1425,6 +1426,15 @@ html, body {
       </div>
     </div>
   </div>
+  <section class="gratitude-note-new" style="--gratitude-max-width-new:500px;--gratitude-text-new:var(--ink);--gratitude-muted-new:var(--slate);--gratitude-accent-new:var(--forest);--gratitude-script-new:'Fraunces',serif;--gratitude-body-new:'Inter',sans-serif;--gratitude-line-new:rgba(42,63,58,0.14);">
+    <div class="gratitude-inner-new">
+      <p class="gratitude-kicker-new">Nota especial</p>
+      <p class="gratitude-copy-new">Agradecemos tu puntualidad, para que no te pierdas ning&uacute;n momento especial.</p>
+      <p class="gratitude-thanks-new">Muchas gracias</p>
+    </div>
+  </section>
+
+
 
   <!-- FOOTER -->
   <div class="inv-footer fade-in fi-9">
@@ -1639,7 +1649,7 @@ const WEDDING_CONFIG_NEW = {
   churchImage: './Iglesia.png',
   venueImage: './Salon.png',
   music: './musica.mp3',
-  gallery: [],
+  gallery: ['foto1.png','foto2.png','foto3.png','foto4.png','foto5.png','foto6.png'],
   dresscode: {
     women: { style: 'Vestido largo o cóctel', colors: ['#8a9a6a','#c8d4b8','#a0a888','#e0e8d0'], note: 'Evitar blanco e ivory' },
     men:   { style: 'Traje formal', colors: ['#3d4a2a','#111111','#4a4a4a','#8a9a6a'], note: 'Corbata o moño requerido' },
@@ -1906,7 +1916,11 @@ function buildGenderRevealNew() {
       updateGenderBarsNew(data.boy || 0, data.girl || 0);
     });
   }
-  const voted = localStorage.getItem('gender_voted_new');
+  const storageKey = `gender_voted_new_${window.location.pathname}`;
+  const voted = localStorage.getItem(storageKey);
+  if ((typeof db === 'undefined' || !db) && voted) {
+    updateGenderBarsNew(voted === 'boy' ? 1 : 0, voted === 'girl' ? 1 : 0);
+  }
   if (voted) {
     const el = document.getElementById('gender-' + voted + '-new');
     if (el) el.classList.add('voted');
@@ -1938,11 +1952,13 @@ function disableGenderBtnsNew() {
 }
 
 async function voteGenderNew(choice) {
-  if (localStorage.getItem('gender_voted_new')) return;
-  localStorage.setItem('gender_voted_new', choice);
+    const storageKey = `gender_voted_new_${window.location.pathname}`;
+    if (localStorage.getItem(storageKey)) return;
+    localStorage.setItem(storageKey, choice);
   const el = document.getElementById('gender-' + choice + '-new');
   if (el) el.classList.add('voted');
   disableGenderBtnsNew();
+  updateGenderBarsNew(choice === 'boy' ? 1 : 0, choice === 'girl' ? 1 : 0);
   if (typeof db !== 'undefined' && db) {
     try {
       await db.collection('gender_reveal').doc('votes').set({

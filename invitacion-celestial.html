@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="./gratitude-note-shared.css"/>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -724,6 +725,602 @@ html, body {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* -- NUEVAS SECCIONES -- */
+:root {
+  --accent-new: var(--moon);
+  --accent-soft-new: var(--silver);
+  --border-new: #b8976a;
+  --surface-new: linear-gradient(180deg, rgba(17,34,54,0.92), rgba(13,27,42,0.96));
+  --surface-strong-new: rgba(22,45,68,0.9);
+  --text-main-new: var(--silver-light);
+  --text-muted-new: var(--silver-dark);
+  --button-bg-new: rgba(196,168,106,0.12);
+  --button-text-new: var(--silver-light);
+  --shadow-new: rgba(0,0,0,0.35);
+  --heading-font-new: 'Cormorant Garamond', serif;
+  --body-font-new: 'Space Grotesk', sans-serif;
+  --boy-new: #6d8fc7;
+  --girl-new: #c07aa7;
+}
+
+#pre-guest-sections-new,
+#pre-footer-sections-new { width: 100%; }
+
+.inv-block-new {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 24px 28px;
+  margin: 0 auto;
+}
+
+.section-kicker-new {
+  margin-bottom: 16px;
+  font-family: var(--body-font-new);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-muted-new);
+  text-align: center;
+}
+
+.panel-new,
+.location-card-new,
+.transfer-card-new,
+.dresscode-card-new,
+.wishlist-item-new,
+.bank-card-new,
+.cal-cta-card-new,
+.gender-card-new,
+.no-pets-card-new {
+  border: 1px solid var(--border-new);
+  background: var(--surface-new);
+  box-shadow: 0 18px 40px var(--shadow-new), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.music-btn-new {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 40;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--border-new);
+  background: rgba(13,27,42,0.88);
+  color: var(--accent-new);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+}
+
+.music-btn-new.playing {
+  background: rgba(196,168,106,0.18);
+  color: var(--white);
+}
+
+#lightbox-new {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(4,10,18,0.88);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#lightbox-new.open { display: flex; }
+
+#lightbox-img-new {
+  width: min(86vw, 520px);
+  max-height: 78vh;
+  object-fit: cover;
+  border: 1px solid var(--border-new);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+}
+
+.lightbox-btn-new,
+#lightbox-close-new {
+  position: absolute;
+  border: 1px solid var(--border-new);
+  background: rgba(13,27,42,0.82);
+  color: var(--white);
+  cursor: pointer;
+}
+
+#lightbox-close-new {
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+.lightbox-btn-new {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 22px;
+}
+
+#lightbox-prev-new { left: 18px; }
+#lightbox-next-new { right: 18px; }
+
+#lightbox-counter-new {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--body-font-new);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--white);
+}
+
+.mini-cal-new {
+  padding: 22px 22px 18px;
+  border-radius: 18px;
+}
+
+.mini-cal-month-new {
+  margin-bottom: 14px;
+  font-family: var(--heading-font-new);
+  font-size: 24px;
+  color: var(--text-main-new);
+  text-align: center;
+}
+
+.mini-cal-grid-new {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mini-cal-head-new,
+.mini-cal-day-new {
+  min-height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--body-font-new);
+  font-size: 12px;
+}
+
+.mini-cal-head-new {
+  color: var(--accent-new);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.mini-cal-day-new {
+  color: var(--text-main-new);
+  background: rgba(255,255,255,0.02);
+}
+
+.mini-cal-day-new.empty { opacity: 0.24; }
+
+.mini-cal-day-new.today {
+  background: rgba(196,168,106,0.2);
+  border: 1px solid var(--border-new);
+  color: var(--white);
+}
+
+.timeline-list-new {
+  position: relative;
+  display: grid;
+  gap: 14px;
+}
+
+.timeline-item-new {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.timeline-dot-new {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-new);
+  background: rgba(196,168,106,0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.timeline-content-new {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(196,168,106,0.45);
+  background: rgba(255,255,255,0.03);
+}
+
+.timeline-time-new,
+.timeline-label-new,
+.timeline-place-new {
+  display: block;
+}
+
+.timeline-time-new {
+  margin-bottom: 4px;
+  font-family: var(--body-font-new);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent-new);
+}
+
+.timeline-label-new {
+  font-family: var(--heading-font-new);
+  font-size: 24px;
+  color: var(--text-main-new);
+}
+
+.timeline-place-new {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--text-muted-new);
+}
+
+.separator-new {
+  width: 48px;
+  height: 1px;
+  margin: 0 auto 28px;
+  background: linear-gradient(to right, transparent, var(--border-new), transparent);
+}
+
+.location-stack-new {
+  display: grid;
+  gap: 18px;
+}
+
+.location-card-new,
+.transfer-card-new,
+.dresscode-card-new,
+.no-pets-card-new,
+.bank-card-new,
+.gender-card-new,
+.cal-cta-card-new {
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.location-card-label-new,
+.transfer-label-new {
+  margin-bottom: 12px;
+  font-family: var(--body-font-new);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-new);
+}
+
+.location-card-photo-new {
+  border: 1px solid var(--border-new);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.16);
+  margin-bottom: 14px;
+}
+
+.location-card-photo-new img {
+  display: block;
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  mix-blend-mode: normal;
+}
+
+.location-card-name-new {
+  display: block;
+  font-family: var(--heading-font-new);
+  font-size: 28px;
+  color: var(--text-main-new);
+}
+
+.location-card-address-new,
+.transfer-copy-new,
+.dresscode-note-new,
+.no-pets-text-new,
+.gifts-copy-new,
+.gender-copy-new,
+.cal-cta-sub-new {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-muted-new);
+}
+
+.location-directions-btn-new,
+.wishlist-link-new,
+.cal-btn-new,
+.gift-list-btn-new {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-new);
+  background: var(--button-bg-new);
+  color: var(--button-text-new);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.location-card-map-new {
+  width: 100%;
+  height: 210px;
+  border: 0;
+  border-radius: 16px;
+  margin-top: 14px;
+}
+
+.transfer-card-new {
+  text-align: center;
+}
+
+.transfer-icon-new {
+  display: inline-flex;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-new);
+  color: var(--accent-new);
+  font-size: 22px;
+}
+
+.transfer-title-new,
+.gifts-title-new,
+.cal-cta-title-new {
+  font-family: var(--heading-font-new);
+  font-size: 26px;
+  color: var(--text-main-new);
+}
+
+.gallery-grid-new {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.gallery-img-new {
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--border-new);
+  cursor: pointer;
+}
+
+.dresscode-grid-new,
+.wishlist-grid-new {
+  display: grid;
+  gap: 14px;
+}
+
+.dresscode-card-new { text-align: center; }
+
+.dresscode-icon-new {
+  display: inline-flex;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 12px;
+  color: var(--accent-new);
+}
+
+.dresscode-icon-new svg { width: 100%; height: 100%; }
+
+.dresscode-gender-new,
+.wishlist-name-new,
+.bank-name-new,
+.gender-title-new {
+  font-family: var(--heading-font-new);
+  font-size: 26px;
+  color: var(--text-main-new);
+}
+
+.dresscode-style-new,
+.wishlist-price-new,
+.bank-alias-new,
+.gender-total-new {
+  margin-top: 4px;
+  color: var(--accent-new);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.dresscode-colors-new {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 14px 0 10px;
+}
+
+.color-swatch-new {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.22);
+}
+
+.no-pets-card-new {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.no-pets-icon-new {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  color: var(--accent-new);
+}
+
+.no-pets-icon-new::before,
+.no-pets-icon-new::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+}
+
+.no-pets-icon-new::before {
+  inset: -3px;
+  border: 1px solid var(--border-new);
+}
+
+.no-pets-icon-new::after {
+  top: 50%;
+  left: -4px;
+  width: 46px;
+  height: 1px;
+  background: var(--border-new);
+  transform: rotate(-45deg);
+}
+
+.no-pets-icon-new svg { width: 100%; height: 100%; position: relative; z-index: 1; }
+
+.gifts-copy-new {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.bank-card-new { text-align: center; }
+
+.bank-clabe-new {
+  margin-top: 10px;
+  font-family: var(--body-font-new);
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: var(--white);
+  word-break: break-word;
+}
+
+.bank-copy-btn-new {
+  margin-top: 14px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border-new);
+  background: rgba(196,168,106,0.18);
+  color: var(--white);
+  cursor: pointer;
+}
+
+.bank-copy-btn-new.copied { background: rgba(109,143,199,0.22); }
+
+.wishlist-item-new {
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.wishlist-item-new img,
+.wishlist-image-placeholder-new {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  border: 1px solid rgba(196,168,106,0.35);
+  margin-bottom: 12px;
+}
+
+.wishlist-image-placeholder-new {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: var(--accent-new);
+  background: rgba(255,255,255,0.03);
+}
+
+.gender-actions-new {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.gender-btn-new {
+  padding: 14px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border-new);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-main-new);
+  cursor: pointer;
+}
+
+.gender-btn-new[disabled] { opacity: 0.55; cursor: default; }
+
+.gender-bars-new {
+  display: grid;
+  gap: 10px;
+}
+
+.gender-bar-row-new {
+  display: grid;
+  grid-template-columns: 58px 1fr 42px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text-main-new);
+}
+
+.gender-bar-track-new {
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.08);
+}
+
+.gender-bar-fill-new {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+}
+
+.gender-confetti-new {
+  position: fixed;
+  top: 42vh;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 75;
+  animation: gender-fall-new 2.2s linear forwards;
+}
+
+@keyframes gender-fall-new {
+  from { transform: translateY(0) scale(0.8); opacity: 1; }
+  to { transform: translateY(180px) rotate(240deg) scale(0.2); opacity: 0; }
+}
+
+.cal-btns-new {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+@media (min-width: 640px) {
+  .dresscode-grid-new,
+  .wishlist-grid-new,
+  .cal-btns-new {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 </style>
 </head>
 <body>
@@ -860,6 +1457,8 @@ html, body {
     <div class="cel-orn-line r"></div>
   </div>
 
+  <div id="pre-guest-sections-new"></div>
+
   <!-- Guest Card -->
   <div class="cel-guest-card" style="margin-top:8px;">
     <p class="cel-guest-label">Esta invitación es para</p>
@@ -906,6 +1505,17 @@ html, body {
       Añadir al calendario
     </button>
   </div>
+
+  <div id="pre-footer-sections-new"></div>
+  <section class="gratitude-note-new" style="--gratitude-max-width-new:480px;--gratitude-text-new:var(--silver-light);--gratitude-muted-new:var(--silver-dark);--gratitude-accent-new:var(--moon);--gratitude-script-new:'Cormorant Garamond',serif;--gratitude-body-new:'Space Grotesk',sans-serif;--gratitude-line-new:rgba(196,168,106,0.28);">
+    <div class="gratitude-inner-new">
+      <p class="gratitude-kicker-new">Nota especial</p>
+      <p class="gratitude-copy-new">Agradecemos tu puntualidad, para que no te pierdas ning&uacute;n momento especial.</p>
+      <p class="gratitude-thanks-new">Muchas gracias</p>
+    </div>
+  </section>
+
+
 
   <!-- Footer -->
   <div class="cel-footer">
@@ -975,7 +1585,8 @@ html, body {
 // ── GUEST ──
 const urlParams = new URLSearchParams(window.location.search);
 const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
-const guest     = WEDDING_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
+const guestSource = typeof WEDDING_GUESTS !== 'undefined' ? WEDDING_GUESTS : {};
+const guest     = guestSource[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
 
 document.getElementById('guest-name-text').textContent  = guest.name;
 document.getElementById('guest-passes-text').innerHTML  = '🎟 ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
@@ -997,6 +1608,7 @@ function openEnvelope() {
       checkExistingRSVP();
     }));
     setTimeout(() => { screen.style.display = 'none'; }, 1100);
+    if (window._startMusicNew) window._startMusicNew();
   }, 700);
 }
 
@@ -1096,6 +1708,582 @@ async function submitRSVP() {
 function addToCalendar() {
   window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Andrea+%26+Sa%C3%BAl&dates=20271002T170000/20271003T000000&location=Hacienda+San+Antonio+Calichar,+Tamaulipas&details=¡Los+esperamos+con+mucho+cariño!', '_blank');
 }
+
+const urlParamsNew = new URLSearchParams(window.location.search);
+const tipoInvNew = (urlParamsNew.get('tipo') || '').toLowerCase().trim();
+
+const WEDDING_CONFIG_NEW = {
+  weddingDate: '2027-10-02T17:00:00',
+  schedule: [
+    { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
+    { icon: '🥂', label: 'Recepcion', place: 'Hacienda San Antonio Calichar', time: '17:00 HRS' },
+    { icon: '🎉', label: 'Baile y festejo', place: 'Hacienda San Antonio Calichar', time: '18:00 HRS' },
+    { icon: '🌙', label: 'Cierre de fiesta', place: '', time: '01:00 HRS' },
+  ],
+  church: {
+    name: 'Aposento Alto',
+    address: 'C. Insurgentes 418, Chapultepec, 66450 San Nicol\u00e1s de los Garza, N.L.',
+    mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
+    mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
+  },
+  churchImage: './Iglesia.png',
+  venueImage: './Salon.png',
+  music: './musica.mp3',
+  gallery: [],
+  dresscode: {
+    women: { style: 'Vestido largo o coctel', colors: ['#e8d5a3', '#c0c8d8', '#6a7a9a', '#9ca7bd'], note: 'Evitar blanco e ivory' },
+    men: { style: 'Traje formal', colors: ['#162d44', '#223d59', '#6f809e', '#b8976a'], note: 'Corbata o mono sugerido' },
+  },
+  gifts: { showBank: true, bankName: 'BBVA', bankClabe: '000000000000000000', bankAlias: 'andrea.saul.boda', giftListUrl: '' },
+  wishlist: [{ name: 'Item de ejemplo', price: '$500', image: '', link: '' }],
+};
+
+function mountWeddingSectionsNew() {
+  const beforeGuest = document.getElementById('pre-guest-sections-new');
+  const beforeFooter = document.getElementById('pre-footer-sections-new');
+
+  if (beforeGuest) {
+    beforeGuest.innerHTML = `
+      <audio id="bg-music-new" loop preload="none"><source id="bg-music-source-new" src="" type="audio/mpeg"></audio>
+      <button id="music-btn-new" class="music-btn-new" type="button" title="Musica">♪</button>
+      <div id="lightbox-new">
+        <button id="lightbox-close-new" type="button">&times;</button>
+        <button id="lightbox-prev-new" class="lightbox-btn-new" type="button">‹</button>
+        <img id="lightbox-img-new" src="" alt="Galeria">
+        <button id="lightbox-next-new" class="lightbox-btn-new" type="button">›</button>
+        <span id="lightbox-counter-new"></span>
+      </div>
+
+      <section class="inv-block-new">
+        <div class="mini-cal-new panel-new">
+          <p class="section-kicker-new">Octubre 2027</p>
+          <div class="mini-cal-grid-new" id="mini-cal-grid-new"></div>
+        </div>
+      </section>
+
+      <section class="inv-block-new">
+        <p class="section-kicker-new">El gran dia</p>
+        <div class="timeline-list-new" id="timeline-list-new"></div>
+      </section>
+
+      <div class="inv-block-new"><div class="separator-new"></div></div>
+
+      <section class="inv-block-new">
+        <p class="section-kicker-new">Donde nos encontramos</p>
+        <div class="location-stack-new">
+          <article class="location-card-new">
+            <p class="location-card-label-new">Ceremonia religiosa · 15:00 HRS</p>
+            <div class="location-card-photo-new" id="church-photo-new" style="display:none;">
+              <img src="" alt="Aposento Alto" loading="lazy">
+            </div>
+            <span class="location-card-name-new" id="church-name-new">Aposento Alto</span>
+            <span class="location-card-address-new" id="church-address-new"></span>
+            <a class="location-directions-btn-new" id="church-directions-new" href="#" target="_blank" rel="noreferrer">📍 Como llegar</a>
+            <div id="church-map-container-new"></div>
+          </article>
+
+          <article class="transfer-card-new">
+            <span class="transfer-icon-new">🚗</span>
+            <p class="transfer-label-new">Traslado</p>
+            <p class="transfer-title-new">Rumbo a la recepcion</p>
+            <span class="transfer-copy-new">Aproximadamente 18 min en automovil despues de la ceremonia.</span>
+          </article>
+
+          <article class="location-card-new">
+            <p class="location-card-label-new">Recepcion · 17:00 HRS</p>
+            <div class="location-card-photo-new" id="venue-photo-new" style="display:none;">
+              <img src="" alt="Hacienda San Antonio Calichar" loading="lazy">
+            </div>
+            <span class="location-card-name-new">Hacienda San Antonio Calichar</span>
+            <span class="location-card-address-new">Carretera Reynosa-San Fernando km 12, Tamaulipas</span>
+            <a class="location-directions-btn-new" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank" rel="noreferrer">📍 Como llegar</a>
+            <iframe class="location-card-map-new" src="https://maps.google.com/maps?q=Hacienda+San+Antonio+Calichar+Tamaulipas&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Hacienda San Antonio Calichar"></iframe>
+          </article>
+        </div>
+      </section>
+
+      <section class="inv-block-new" id="gallery-section-new" style="display:none;">
+        <p class="section-kicker-new">Nuestra historia</p>
+        <div class="gallery-grid-new" id="gallery-grid-new"></div>
+      </section>
+
+      <section class="inv-block-new">
+        <p class="section-kicker-new">Codigo de vestimenta</p>
+        <div class="dresscode-grid-new" id="dresscode-grid-new"></div>
+      </section>
+
+      <section class="inv-block-new">
+        <div class="no-pets-card-new">
+          <span class="no-pets-icon-new"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="14" cy="10" rx="3" ry="4" stroke="currentColor" stroke-width="1.3" fill="rgba(184,151,106,0.12)"/><ellipse cx="22" cy="10" rx="3" ry="4" stroke="currentColor" stroke-width="1.3" fill="rgba(184,151,106,0.12)"/><path d="M8 20C8 14 10 12 14 12H22C26 12 28 14 28 20C28 24 26 26 22 27L20 30H16L14 27C10 26 8 24 8 20Z" stroke="currentColor" stroke-width="1.3" fill="rgba(184,151,106,0.1)"/><ellipse cx="7" cy="17" rx="2.5" ry="3.5" stroke="currentColor" stroke-width="1.1" fill="rgba(184,151,106,0.08)"/><ellipse cx="29" cy="17" rx="2.5" ry="3.5" stroke="currentColor" stroke-width="1.1" fill="rgba(184,151,106,0.08)"/></svg></span>
+          <span class="no-pets-text-new" id="no-pets-text-new"></span>
+        </div>
+      </section>
+    `;
+  }
+
+  if (beforeFooter) {
+    beforeFooter.innerHTML = `
+      <section class="inv-block-new">
+        <p class="section-kicker-new">Mesa de regalos</p>
+        <span class="gifts-copy-new">El mejor regalo es compartir este dia con nosotros, pero si deseas hacernos un obsequio, aqui tienes nuestra CLABE.</span>
+        <div class="bank-card-new" id="bank-card-new" style="display:none;">
+          <p class="bank-name-new" id="bank-name-new"></p>
+          <p class="bank-clabe-new" id="bank-clabe-new"></p>
+          <p class="bank-alias-new" id="bank-alias-new"></p>
+          <button class="bank-copy-btn-new" id="bank-copy-btn-new" type="button" onclick="copyBankNew()">Copiar CLABE</button>
+          <a class="gift-list-btn-new" id="gift-list-btn-new" href="#" target="_blank" rel="noreferrer" style="display:none;">Ver gift list</a>
+        </div>
+      </section>
+
+      <section class="inv-block-new" id="section-wishlist-new" style="display:none;">
+        <p class="section-kicker-new">Lista de deseos</p>
+        <div class="wishlist-grid-new" id="wishlist-grid-new"></div>
+      </section>
+
+      <section class="inv-block-new" id="section-gender-new" style="display:none;">
+        <div class="gender-card-new">
+          <p class="section-kicker-new">Gran revelacion</p>
+          <p class="gender-title-new">Nino o nina</p>
+          <span class="gender-copy-new">Vota tu prediccion y descubre como va la tendencia.</span>
+          <div class="gender-actions-new">
+            <button class="gender-btn-new" id="gender-boy-new" type="button" onclick="voteGenderNew('boy')">👦 Nino</button>
+            <button class="gender-btn-new" id="gender-girl-new" type="button" onclick="voteGenderNew('girl')">👧 Nina</button>
+          </div>
+          <div class="gender-bars-new" id="gender-bars-new">
+            <div class="gender-bar-row-new"><span>Nino</span><div class="gender-bar-track-new"><div class="gender-bar-fill-new" id="bar-boy-new" style="background:var(--boy-new);"></div></div><span id="pct-boy-new">0%</span></div>
+            <div class="gender-bar-row-new"><span>Nina</span><div class="gender-bar-track-new"><div class="gender-bar-fill-new" id="bar-girl-new" style="background:var(--girl-new);"></div></div><span id="pct-girl-new">0%</span></div>
+          </div>
+          <p class="gender-total-new" id="gender-total-new">0 votos</p>
+        </div>
+      </section>
+
+      <section class="inv-block-new">
+        <div class="cal-cta-card-new">
+          <p class="section-kicker-new">Agenda la fecha</p>
+          <p class="cal-cta-title-new">Aparta el 02 de Octubre 2027</p>
+          <span class="cal-cta-sub-new">Guarda la ceremonia y recepcion en tu calendario favorito.</span>
+          <div class="cal-btns-new">
+            <a class="cal-btn-new" id="gcal-btn-new" href="#" target="_blank" rel="noreferrer">Google Calendar</a>
+            <button class="cal-btn-new" type="button" onclick="downloadICSNew('apple')">Apple Calendar</button>
+            <button class="cal-btn-new" type="button" onclick="downloadICSNew('outlook')">Outlook</button>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  const musicSource = document.getElementById('bg-music-source-new');
+  const music = document.getElementById('bg-music-new');
+  if (musicSource && music) {
+    musicSource.src = WEDDING_CONFIG_NEW.music;
+    music.load();
+  }
+}
+
+function initMusicNew() {
+  const music = document.getElementById('bg-music-new');
+  const btn = document.getElementById('music-btn-new');
+  if (!music || !btn) return;
+  window._musicStartedNew = false;
+  btn.addEventListener('click', () => {
+    if (music.paused) {
+      music.play().catch(() => {});
+      btn.textContent = '⏸';
+      btn.classList.add('playing');
+    } else {
+      music.pause();
+      btn.textContent = '♪';
+      btn.classList.remove('playing');
+    }
+  });
+  window._startMusicNew = function() {
+    btn.style.display = 'inline-flex';
+    if (window._musicStartedNew) return;
+    window._musicStartedNew = true;
+    music.play().catch(() => {});
+    btn.textContent = '⏸';
+    btn.classList.add('playing');
+  };
+}
+
+function buildMiniCalendarNew() {
+  const grid = document.getElementById('mini-cal-grid-new');
+  if (!grid) return;
+  const heads = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+  grid.innerHTML = '';
+  heads.forEach((day) => {
+    const el = document.createElement('div');
+    el.className = 'mini-cal-head-new';
+    el.textContent = day;
+    grid.appendChild(el);
+  });
+  const firstDay = new Date(2027, 9, 1).getDay();
+  const offset = firstDay === 0 ? 6 : firstDay - 1;
+  for (let i = 0; i < offset; i += 1) {
+    const el = document.createElement('div');
+    el.className = 'mini-cal-day-new empty';
+    el.textContent = '·';
+    grid.appendChild(el);
+  }
+  for (let day = 1; day <= 31; day += 1) {
+    const el = document.createElement('div');
+    el.className = 'mini-cal-day-new' + (day === 2 ? ' today' : '');
+    el.textContent = String(day);
+    grid.appendChild(el);
+  }
+}
+
+function buildTimelineNew() {
+  const list = document.getElementById('timeline-list-new');
+  if (!list) return;
+  list.innerHTML = WEDDING_CONFIG_NEW.schedule.map((item) => `
+    <article class="timeline-item-new">
+      <div class="timeline-dot-new">${item.icon}</div>
+      <div class="timeline-content-new">
+        <span class="timeline-time-new">${item.time}</span>
+        <span class="timeline-label-new">${item.label}</span>
+        ${item.place ? `<span class="timeline-place-new">${item.place}</span>` : ''}
+      </div>
+    </article>
+  `).join('');
+}
+
+function buildLocationsNew() {
+  const cfg = WEDDING_CONFIG_NEW.church;
+  const nameEl = document.getElementById('church-name-new');
+  const addrEl = document.getElementById('church-address-new');
+  const dirEl = document.getElementById('church-directions-new');
+  if (nameEl) nameEl.textContent = cfg.name;
+  if (addrEl) addrEl.textContent = cfg.address;
+  if (dirEl) dirEl.href = cfg.mapsLink;
+  const churchMap = document.getElementById('church-map-container-new');
+  if (churchMap) {
+    churchMap.innerHTML = `<iframe class="location-card-map-new" src="${cfg.mapEmbed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="${cfg.name}"></iframe>`;
+  }
+  const churchPhoto = document.getElementById('church-photo-new');
+  if (churchPhoto && WEDDING_CONFIG_NEW.churchImage) {
+    churchPhoto.style.display = 'block';
+    churchPhoto.querySelector('img').src = WEDDING_CONFIG_NEW.churchImage;
+  }
+  const venuePhoto = document.getElementById('venue-photo-new');
+  if (venuePhoto && WEDDING_CONFIG_NEW.venueImage) {
+    venuePhoto.style.display = 'block';
+    venuePhoto.querySelector('img').src = WEDDING_CONFIG_NEW.venueImage;
+  }
+}
+
+let lightboxIndexNew = 0;
+let genderVotesStateNew = { boy: 0, girl: 0 };
+
+function buildGalleryNew() {
+  const section = document.getElementById('gallery-section-new');
+  const grid = document.getElementById('gallery-grid-new');
+  if (!section || !grid || !WEDDING_CONFIG_NEW.gallery.length) return;
+  section.style.display = 'block';
+  grid.innerHTML = WEDDING_CONFIG_NEW.gallery.map((src, index) => `<img class="gallery-img-new" src="${src}" alt="Foto ${index + 1}" loading="lazy" onclick="openLightboxNew(${index})">`).join('');
+}
+
+function openLightboxNew(index) {
+  lightboxIndexNew = index;
+  updateLightboxNew();
+  const lightbox = document.getElementById('lightbox-new');
+  if (lightbox) lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightboxNew() {
+  const lightbox = document.getElementById('lightbox-new');
+  if (lightbox) lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function updateLightboxNew() {
+  const img = document.getElementById('lightbox-img-new');
+  const counter = document.getElementById('lightbox-counter-new');
+  if (img) img.src = WEDDING_CONFIG_NEW.gallery[lightboxIndexNew] || '';
+  if (counter) counter.textContent = `${lightboxIndexNew + 1} / ${WEDDING_CONFIG_NEW.gallery.length}`;
+}
+
+function bindLightboxNew() {
+  const lightbox = document.getElementById('lightbox-new');
+  if (!lightbox) return;
+  document.getElementById('lightbox-close-new')?.addEventListener('click', closeLightboxNew);
+  document.getElementById('lightbox-prev-new')?.addEventListener('click', () => {
+    lightboxIndexNew = (lightboxIndexNew - 1 + WEDDING_CONFIG_NEW.gallery.length) % WEDDING_CONFIG_NEW.gallery.length;
+    updateLightboxNew();
+  });
+  document.getElementById('lightbox-next-new')?.addEventListener('click', () => {
+    lightboxIndexNew = (lightboxIndexNew + 1) % WEDDING_CONFIG_NEW.gallery.length;
+    updateLightboxNew();
+  });
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightboxNew();
+  });
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0].clientX;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (event) => {
+    const delta = event.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(delta) < 40 || !WEDDING_CONFIG_NEW.gallery.length) return;
+    lightboxIndexNew = delta < 0
+      ? (lightboxIndexNew + 1) % WEDDING_CONFIG_NEW.gallery.length
+      : (lightboxIndexNew - 1 + WEDDING_CONFIG_NEW.gallery.length) % WEDDING_CONFIG_NEW.gallery.length;
+    updateLightboxNew();
+  }, { passive: true });
+  document.addEventListener('keydown', (event) => {
+    if (!lightbox.classList.contains('open') || !WEDDING_CONFIG_NEW.gallery.length) return;
+    if (event.key === 'Escape') closeLightboxNew();
+    if (event.key === 'ArrowRight') {
+      lightboxIndexNew = (lightboxIndexNew + 1) % WEDDING_CONFIG_NEW.gallery.length;
+      updateLightboxNew();
+    }
+    if (event.key === 'ArrowLeft') {
+      lightboxIndexNew = (lightboxIndexNew - 1 + WEDDING_CONFIG_NEW.gallery.length) % WEDDING_CONFIG_NEW.gallery.length;
+      updateLightboxNew();
+    }
+  });
+}
+
+function buildDresscodeNew() {
+  const grid = document.getElementById('dresscode-grid-new');
+  if (!grid) return;
+  const SVG_DRESS = '<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6C15 6 12 10 10 14L6 28H38L34 14C32 10 29 6 29 6L25 10L22 8L19 10Z" stroke="currentColor" stroke-width="1.4" fill="rgba(184,151,106,0.12)" stroke-linejoin="round"/><path d="M16 28L14 40H30L28 28" stroke="currentColor" stroke-width="1.4" fill="rgba(184,151,106,0.08)" stroke-linejoin="round"/><ellipse cx="22" cy="7" rx="3" ry="3.5" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>';
+  const SVG_SUIT = '<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 8L8 20L14 22V40H30V22L36 20L30 8L26 14L22 10L18 14Z" stroke="currentColor" stroke-width="1.4" fill="rgba(184,151,106,0.12)" stroke-linejoin="round"/><path d="M18 14L22 10L26 14" stroke="currentColor" stroke-width="1.1"/><line x1="22" y1="18" x2="22" y2="36" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/></svg>';
+  const items = [
+    { label: 'Damas', icon: SVG_DRESS, data: WEDDING_CONFIG_NEW.dresscode.women },
+    { label: 'Caballeros', icon: SVG_SUIT, data: WEDDING_CONFIG_NEW.dresscode.men },
+  ];
+  grid.innerHTML = items.map((item) => `
+    <article class="dresscode-card-new">
+      <span class="dresscode-icon-new">${item.icon}</span>
+      <p class="dresscode-gender-new">${item.label}</p>
+      <p class="dresscode-style-new">${item.data.style}</p>
+      <div class="dresscode-colors-new">${item.data.colors.map((color) => `<span class="color-swatch-new" style="background:${color}"></span>`).join('')}</div>
+      <span class="dresscode-note-new">${item.data.note}</span>
+    </article>
+  `).join('');
+}
+
+function buildNoPetsNew() {
+  const text = document.getElementById('no-pets-text-new');
+  if (text) text.textContent = 'Agradecemos tu comprension: el evento es libre de mascotas.';
+}
+
+function buildGiftsNew() {
+  const card = document.getElementById('bank-card-new');
+  if (!card) return;
+  const gifts = WEDDING_CONFIG_NEW.gifts;
+  card.style.display = gifts.showBank ? 'block' : 'none';
+  document.getElementById('bank-name-new').textContent = gifts.bankName;
+  document.getElementById('bank-clabe-new').textContent = gifts.bankClabe;
+  document.getElementById('bank-alias-new').textContent = `Alias: ${gifts.bankAlias}`;
+  const giftBtn = document.getElementById('gift-list-btn-new');
+  if (giftBtn && gifts.giftListUrl) {
+    giftBtn.href = gifts.giftListUrl;
+    giftBtn.style.display = 'inline-flex';
+  }
+}
+
+function copyBankNew() {
+  const clabe = WEDDING_CONFIG_NEW.gifts.bankClabe;
+  const btn = document.getElementById('bank-copy-btn-new');
+  const onCopied = () => {
+    if (!btn) return;
+    btn.textContent = 'CLABE copiada';
+    btn.classList.add('copied');
+    window.setTimeout(() => {
+      btn.textContent = 'Copiar CLABE';
+      btn.classList.remove('copied');
+    }, 2200);
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(clabe).then(onCopied).catch(() => {});
+    return;
+  }
+  const area = document.createElement('textarea');
+  area.value = clabe;
+  document.body.appendChild(area);
+  area.select();
+  document.execCommand('copy');
+  document.body.removeChild(area);
+  onCopied();
+}
+
+function buildWishlistNew() {
+  if (tipoInvNew !== 'cumple') return;
+  const section = document.getElementById('section-wishlist-new');
+  const grid = document.getElementById('wishlist-grid-new');
+  if (!section || !grid) return;
+  section.style.display = 'block';
+  grid.innerHTML = WEDDING_CONFIG_NEW.wishlist.map((item) => `
+    <article class="wishlist-item-new">
+      ${item.image ? `<img src="${item.image}" alt="${item.name}" loading="lazy">` : '<div class="wishlist-image-placeholder-new">&#127873;</div>'}
+      <p class="wishlist-name-new">${item.name}</p>
+      <p class="wishlist-price-new">${item.price}</p>
+      ${item.link ? `<a class="wishlist-link-new" href="${item.link}" target="_blank" rel="noreferrer">Ver producto</a>` : ''}
+    </article>
+  `).join('');
+}
+
+function getFirestoreModeNew() {
+  if (typeof db !== 'undefined' && db && typeof db.collection === 'function' && typeof firebase !== 'undefined') return 'compat';
+  if (window._db && window._firestoreHelpers && typeof window._firestoreHelpers.doc === 'function') return 'modular';
+  return '';
+}
+
+function watchGenderVotesNew(callback) {
+  const mode = getFirestoreModeNew();
+  if (mode === 'compat') {
+    return db.collection('gender_reveal').doc('votes').onSnapshot((snapshot) => {
+      callback(snapshot.exists ? snapshot.data() : { boy: 0, girl: 0 });
+    });
+  }
+  if (mode === 'modular') {
+    const { doc, onSnapshot } = window._firestoreHelpers;
+    if (typeof onSnapshot === 'function') {
+      return onSnapshot(doc(window._db, 'gender_reveal', 'votes'), (snapshot) => {
+        callback(snapshot.exists() ? snapshot.data() : { boy: 0, girl: 0 });
+      });
+    }
+  }
+  return null;
+}
+
+function updateGenderBarsNew(boy, girl) {
+  genderVotesStateNew = { boy, girl };
+  const total = boy + girl;
+  const safeTotal = total || 1;
+  const boyPct = Math.round((boy / safeTotal) * 100);
+  const girlPct = Math.round((girl / safeTotal) * 100);
+  const boyBar = document.getElementById('bar-boy-new');
+  const girlBar = document.getElementById('bar-girl-new');
+  if (boyBar) boyBar.style.width = `${boyPct}%`;
+  if (girlBar) girlBar.style.width = `${girlPct}%`;
+  const boyPctEl = document.getElementById('pct-boy-new');
+  const girlPctEl = document.getElementById('pct-girl-new');
+  if (boyPctEl) boyPctEl.textContent = `${boyPct}%`;
+  if (girlPctEl) girlPctEl.textContent = `${girlPct}%`;
+  const totalEl = document.getElementById('gender-total-new');
+  if (totalEl) totalEl.textContent = `${total} ${total === 1 ? 'voto' : 'votos'}`;
+}
+
+function disableGenderButtonsNew() {
+  document.getElementById('gender-boy-new')?.setAttribute('disabled', 'disabled');
+  document.getElementById('gender-girl-new')?.setAttribute('disabled', 'disabled');
+}
+
+function spawnGenderConfettiNew(color) {
+  for (let i = 0; i < 24; i += 1) {
+    window.setTimeout(() => {
+      const dot = document.createElement('span');
+      dot.className = 'gender-confetti-new';
+      dot.style.left = `${Math.random() * 100}vw`;
+      dot.style.background = color;
+      document.body.appendChild(dot);
+      window.setTimeout(() => dot.remove(), 2400);
+    }, i * 40);
+  }
+}
+
+function buildGenderRevealNew() {
+  if (tipoInvNew !== 'genero') return;
+  const section = document.getElementById('section-gender-new');
+  if (!section) return;
+  section.style.display = 'block';
+  const storageKey = `gender_voted_new_${window.location.pathname}`;
+  const voted = localStorage.getItem(storageKey);
+  if (voted) disableGenderButtonsNew();
+  const unsubscribe = watchGenderVotesNew((data) => {
+    updateGenderBarsNew(data.boy || 0, data.girl || 0);
+  });
+  if (!unsubscribe) {
+    updateGenderBarsNew(voted === 'boy' ? 1 : 0, voted === 'girl' ? 1 : 0);
+  }
+}
+
+async function voteGenderNew(choice) {
+  const storageKey = `gender_voted_new_${window.location.pathname}`;
+  if (localStorage.getItem(storageKey)) return;
+  localStorage.setItem(storageKey, choice);
+  disableGenderButtonsNew();
+  spawnGenderConfettiNew(choice === 'boy' ? 'var(--boy-new)' : 'var(--girl-new)');
+  updateGenderBarsNew(
+    genderVotesStateNew.boy + (choice === 'boy' ? 1 : 0),
+    genderVotesStateNew.girl + (choice === 'girl' ? 1 : 0)
+  );
+
+  const mode = getFirestoreModeNew();
+  if (mode === 'compat') {
+    try {
+      await db.collection('gender_reveal').doc('votes').set({ [choice]: firebase.firestore.FieldValue.increment(1) }, { merge: true });
+    } catch (error) {
+      console.error(error);
+    }
+    return;
+  }
+  if (mode === 'modular') {
+    const { doc, setDoc, increment } = window._firestoreHelpers;
+    if (typeof setDoc === 'function' && typeof increment === 'function') {
+      try {
+        await setDoc(doc(window._db, 'gender_reveal', 'votes'), { [choice]: increment(1) }, { merge: true });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+}
+
+function buildCalendarCtaNew() {
+  const start = '20271002T170000';
+  const end = '20271003T010000';
+  const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=Boda+Andrea+%26+Sa%C3%BAl'
+    + `&dates=${start}/${end}`
+    + '&location=Hacienda+San+Antonio+Calichar,+Tamaulipas'
+    + '&details=Ceremonia+religiosa+15:00+HRS+en+Aposento+Alto.+Recepcion+17:00+HRS+en+Hacienda+San+Antonio+Calichar.';
+  const button = document.getElementById('gcal-btn-new');
+  if (button) button.href = googleUrl;
+}
+
+function downloadICSNew(provider) {
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Andrea & Sa\u00fal//Boda 2027//ES',
+    'BEGIN:VEVENT',
+    'DTSTART:20271002T170000',
+    'DTEND:20271003T010000',
+    'SUMMARY:Boda Andrea & Sa\u00fal',
+    'DESCRIPTION:Ceremonia religiosa 15:00 HRS en Aposento Alto. Recepcion 17:00 HRS en Hacienda San Antonio Calichar.',
+    'LOCATION:Hacienda San Antonio Calichar\\, Tamaulipas',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n');
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `andrea-saul-${provider}.ics`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+mountWeddingSectionsNew();
+initMusicNew();
+bindLightboxNew();
+buildMiniCalendarNew();
+buildTimelineNew();
+buildLocationsNew();
+buildGalleryNew();
+buildDresscodeNew();
+buildNoPetsNew();
+buildGiftsNew();
+buildWishlistNew();
+buildGenderRevealNew();
+buildCalendarCtaNew();
 </script>
 </body>
 </html>

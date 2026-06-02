@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel:wght@300;400;600&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="./sections-new-shared.css"/>
+<link rel="stylesheet" href="./gratitude-note-shared.css"/>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,6 +23,22 @@
   --white: #f5f0e8;
   --white2: #ede6d6;
   --text-dim: #8a7a5a;
+  --accent-new: var(--gold);
+  --border-new: #b8976a;
+  --surface-new: linear-gradient(180deg, rgba(17,17,17,0.94), rgba(10,10,10,0.98));
+  --surface-strong-new: rgba(255,255,255,0.04);
+  --timeline-surface-new: rgba(255,255,255,0.03);
+  --timeline-border-new: rgba(184,151,106,0.45);
+  --text-main-new: var(--white);
+  --text-muted-new: rgba(245,240,232,0.72);
+  --button-bg-new: rgba(184,151,106,0.16);
+  --button-text-new: var(--white);
+  --shadow-new: rgba(0,0,0,0.4);
+  --heading-font-new: 'Playfair Display', serif;
+  --body-font-new: 'Raleway', sans-serif;
+  --boy-new: #6f95c9;
+  --girl-new: #c96fa2;
+  --sections-max-width-new: 480px;
 }
 
 html, body {
@@ -896,6 +914,8 @@ body::before {
     <div class="dark-orn-line r"></div>
   </div>
 
+  <div id="pre-guest-sections-new"></div>
+
   <!-- Guest Card -->
   <div class="dark-guest-card" style="margin-top:32px;">
     <p class="dark-guest-label">Esta invitación es para</p>
@@ -943,6 +963,17 @@ body::before {
     </button>
   </div>
 
+  <div id="pre-footer-sections-new"></div>
+  <section class="gratitude-note-new" style="--gratitude-max-width-new:480px;--gratitude-text-new:var(--white);--gratitude-muted-new:var(--text-dim);--gratitude-accent-new:var(--gold-light);--gratitude-script-new:'Playfair Display',serif;--gratitude-body-new:'Raleway',sans-serif;--gratitude-line-new:rgba(201,168,76,0.26);">
+    <div class="gratitude-inner-new">
+      <p class="gratitude-kicker-new">Nota especial</p>
+      <p class="gratitude-copy-new">Agradecemos tu puntualidad, para que no te pierdas ning&uacute;n momento especial.</p>
+      <p class="gratitude-thanks-new">Muchas gracias</p>
+    </div>
+  </section>
+
+
+
   <!-- Footer -->
   <div class="dark-footer">
     <div class="dark-orn" style="margin-bottom:20px;">
@@ -960,10 +991,12 @@ body::before {
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="guests.js"></script>
 <script src="firebase-config.js"></script>
+<script src="sections-new-shared.js"></script>
 <script>
 const urlParams = new URLSearchParams(window.location.search);
 const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
-const guest     = WEDDING_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
+const guestSource = typeof WEDDING_GUESTS !== 'undefined' ? WEDDING_GUESTS : {};
+const guest     = guestSource[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
 
 document.getElementById('guest-name-text').textContent  = guest.name;
 document.getElementById('guest-passes-text').innerHTML  = '🎟 ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
@@ -985,6 +1018,7 @@ function openEnvelope() {
       checkExistingRSVP();
     }));
     setTimeout(() => { screen.style.display = 'none'; }, 1100);
+    if (window._startMusicNew) window._startMusicNew();
   }, 600);
 }
 
@@ -1084,6 +1118,34 @@ async function submitRSVP() {
 function addToCalendar() {
   window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Andrea+%26+Sa%C3%BAl&dates=20271002T170000/20271003T000000&location=Hacienda+San+Antonio+Calichar,+Tamaulipas&details=¡Los+esperamos+con+mucho+cariño!', '_blank');
 }
+
+const WEDDING_CONFIG_NEW = {
+  weddingDate: '2027-10-02T17:00:00',
+  schedule: [
+    { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
+    { icon: '🥂', label: 'Recepcion', place: 'Hacienda San Antonio Calichar', time: '17:00 HRS' },
+    { icon: '🎉', label: 'Baile y festejo', place: 'Hacienda San Antonio Calichar', time: '18:00 HRS' },
+    { icon: '🌙', label: 'Cierre de fiesta', place: '', time: '01:00 HRS' },
+  ],
+  church: {
+    name: 'Aposento Alto',
+    address: 'C. Insurgentes 418, Chapultepec, 66450 San Nicol\u00e1s de los Garza, N.L.',
+    mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
+    mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
+  },
+  churchImage: './Iglesia.png',
+  venueImage: './Salon.png',
+  music: './musica.mp3',
+  gallery: [],
+  dresscode: {
+    women: { style: 'Vestido largo o coctel', colors: ['#c9a84c', '#b8976a', '#675740', '#f5f0e8'], note: 'Evitar blanco e ivory' },
+    men: { style: 'Traje formal', colors: ['#1a1a1a', '#3a3328', '#73674f', '#c9a84c'], note: 'Corbata o mono sugerido' },
+  },
+  gifts: { showBank: true, bankName: 'BBVA', bankClabe: '000000000000000000', bankAlias: 'andrea.saul.boda', giftListUrl: '' },
+  wishlist: [{ name: 'Item de ejemplo', price: '$500', image: '', link: '' }],
+};
+
+initWeddingSectionsNew(WEDDING_CONFIG_NEW);
 </script>
 </body>
 </html>

@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Cormorant+SC:wght@400;600;700&family=Didact+Gothic&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="./gratitude-note-shared.css"/>
 <style>
   /* ===== RESET & BASE ===== */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -949,7 +950,7 @@
     <div class="photo-frame-outer">
       <div class="photo-frame-inner">
         <div class="photo-placeholder">
-          <span class="photo-placeholder-text">Andrea &amp; Saúl</span>
+          <img src="./Andrreaysaul.png" alt="Andrea &amp; Saúl" loading="lazy"/>
         </div>
       </div>
     </div>
@@ -1133,11 +1134,11 @@
       <button class="bank-copy-btn-new" onclick="copyBankNew()">Copiar CLABE</button>
     </div>
   </div>
-  <div class="inv-wishlist-new" id="section-wishlist-new">
+  <div class="inv-wishlist-new" id="section-wishlist-new" style="display:none;">
     <p class="timeline-section-label">Lista de deseos</p>
     <div class="wishlist-grid-new" id="wishlist-grid-new"></div>
   </div>
-  <div class="inv-gender-new" id="section-gender-new">
+  <div class="inv-gender-new" id="section-gender-new" style="display:none;">
     <p class="timeline-section-label">¡Gran Revelación!</p>
     <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--smoke);text-align:center;margin-bottom:16px;">¿Niño o niña? ¡Vota y descúbrelo!</p>
     <div class="gender-btns-new" id="gender-btns-new">
@@ -1162,6 +1163,15 @@
     </div>
   </div>
   </section>
+  <section class="gratitude-note-new" style="--gratitude-max-width-new:520px;--gratitude-text-new:var(--gold-dark);--gratitude-muted-new:var(--text-light);--gratitude-accent-new:var(--gold);--gratitude-script-new:'Cormorant',serif;--gratitude-body-new:'Didact Gothic',sans-serif;--gratitude-line-new:rgba(201,168,76,0.28);">
+    <div class="gratitude-inner-new">
+      <p class="gratitude-kicker-new">Nota especial</p>
+      <p class="gratitude-copy-new">Agradecemos tu puntualidad, para que no te pierdas ning&uacute;n momento especial.</p>
+      <p class="gratitude-thanks-new">Muchas gracias</p>
+    </div>
+  </section>
+
+
 
   <!-- FOOTER -->
   <footer id="footer">
@@ -1480,7 +1490,7 @@ const WEDDING_CONFIG_NEW = {
   churchImage: './Iglesia.png',
   venueImage:  './Salon.png',
   music: './musica.mp3',
-  gallery: [],
+  gallery: ['foto1.png','foto2.png','foto3.png','foto4.png','foto5.png','foto6.png'],
   dresscode: {
     women: { style: 'Vestido largo o cóctel', colors: ['#e8e0cc','#d4c8a8','#c9a84c','#9a9080'], note: 'Evitar blanco e ivory' },
     men:   { style: 'Traje formal',           colors: ['#1a1a1a','#2a2a2a','#a07830','#9a9080'], note: 'Corbata o moño requerido' },
@@ -1656,6 +1666,7 @@ function buildGenderRevealNew() {
   if (urlParams.get('tipo') !== 'genero') return;
   const sec = document.getElementById('section-gender-new');
   if (sec) sec.style.display = 'block';
+  const storageKey = `gender_voted_new_${window.location.pathname}`;
   if (typeof db !== 'undefined' && db) {
     db.collection('gender_reveal').doc('votes').onSnapshot(snap => {
       const data = snap.data() || { boy: 0, girl: 0 };
@@ -1669,10 +1680,26 @@ function buildGenderRevealNew() {
       const bars=document.getElementById('gender-bars-new'); if(bars) bars.style.display='block';
     });
   }
+  if (localStorage.getItem(storageKey)) {
+    const btns = document.getElementById('gender-btns-new'); if(btns) btns.style.opacity='0.5';
+    const bars=document.getElementById('gender-bars-new'); if(bars) bars.style.display='block';
+    const boy = localStorage.getItem(storageKey) === 'boy';
+    const bb=document.getElementById('bar-boy-new'); if(bb) bb.style.width=boy?'100%':'0%';
+    const bg=document.getElementById('bar-girl-new'); if(bg) bg.style.width=boy?'0%':'100%';
+    const pb=document.getElementById('pct-boy-new'); if(pb) pb.textContent=boy?'100%':'0%';
+    const pg=document.getElementById('pct-girl-new'); if(pg) pg.textContent=boy?'0%':'100%';
+  }
 }
 function voteGenderNew(choice) {
-  if (localStorage.getItem('gender_voted_new')) return;
-  localStorage.setItem('gender_voted_new', choice);
+  const storageKey = `gender_voted_new_${window.location.pathname}`;
+  if (localStorage.getItem(storageKey)) return;
+  localStorage.setItem(storageKey, choice);
+  const bars=document.getElementById('gender-bars-new'); if(bars) bars.style.display='block';
+  const boy = choice === 'boy';
+  const bb=document.getElementById('bar-boy-new'); if(bb) bb.style.width=boy?'100%':'0%';
+  const bg=document.getElementById('bar-girl-new'); if(bg) bg.style.width=boy?'0%':'100%';
+  const pb=document.getElementById('pct-boy-new'); if(pb) pb.textContent=boy?'100%':'0%';
+  const pg=document.getElementById('pct-girl-new'); if(pg) pg.textContent=boy?'0%':'100%';
   if (typeof db !== 'undefined' && db && typeof firebase !== 'undefined') {
     db.collection('gender_reveal').doc('votes').set({ [choice]: firebase.firestore.FieldValue.increment(1) }, { merge: true });
   }
