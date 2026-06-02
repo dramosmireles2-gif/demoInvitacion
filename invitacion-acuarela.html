@@ -514,9 +514,535 @@ html,body{
    SECTION SPACING
 ═══════════════════════════════ */
 .section-gap{height:40px;}
+
+/* ═══════════════════════════════════════════════
+   NUEVAS SECCIONES — sufijo -new (paleta acuarela)
+═══════════════════════════════════════════════ */
+
+/* Botón música flotante */
+#music-btn-new {
+  position: fixed; bottom: 24px; right: 20px; z-index: 500;
+  width: 52px; height: 52px;
+  background: var(--purple);
+  border-radius: 50%; border: none;
+  cursor: pointer;
+  display: none;
+  align-items: center; justify-content: center;
+  box-shadow: 0 4px 18px rgba(74,48,96,0.45);
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 22px;
+}
+#music-btn-new:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(74,48,96,0.6); }
+#music-btn-new.playing { animation: pulse-music-new 2s ease-in-out infinite; }
+@keyframes pulse-music-new {
+  0%,100% { box-shadow: 0 4px 18px rgba(74,48,96,0.45); }
+  50%     { box-shadow: 0 4px 32px rgba(74,48,96,0.75), 0 0 0 10px rgba(74,48,96,0.12); }
+}
+
+/* Separador ornamental */
+.inv-ornament-new {
+  display: flex; align-items: center; gap: 14px;
+  margin: 20px auto; width: fit-content;
+}
+.inv-orn-line-new {
+  width: 50px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--lavender));
+}
+.inv-orn-line-new.r { background: linear-gradient(to left, transparent, var(--lavender)); }
+.inv-orn-dot-new {
+  width: 7px; height: 7px;
+  background: var(--purple); border-radius: 50%;
+}
+
+/* Label de sección */
+.inv-section-label-new {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--brown);
+  text-align: center; margin-bottom: 8px;
+}
+
+/* Mini Calendario */
+.inv-mini-cal-new {
+  width: 100%; max-width: 360px;
+  margin: 20px auto 0;
+  background: rgba(254,252,248,0.95);
+  border: 1px solid rgba(201,184,216,0.4);
+  border-radius: 12px; padding: 18px;
+  box-shadow: 0 4px 18px rgba(74,48,96,0.1);
+}
+.inv-mini-cal-header-new {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px; font-weight: 500;
+  color: var(--purple); text-align: center;
+  margin-bottom: 14px; letter-spacing: 2px;
+}
+.inv-mini-cal-grid-new { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.inv-mini-cal-dow-new {
+  font-family: 'Montserrat', sans-serif; font-size: 8px;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--brown); text-align: center; padding: 4px 0;
+}
+.inv-mini-cal-day-new {
+  font-family: 'EB Garamond', serif; font-size: 14px;
+  color: var(--brown); text-align: center;
+  padding: 5px 2px; border-radius: 50%; line-height: 1.4;
+}
+.inv-mini-cal-day-new.empty { visibility: hidden; }
+.inv-mini-cal-day-new.wedding-new {
+  background: var(--purple); color: #fefcf8;
+  font-weight: 600; border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(74,48,96,0.45);
+  animation: cal-pulse-new 2s ease-in-out infinite;
+}
+@keyframes cal-pulse-new {
+  0%,100% { box-shadow: 0 2px 10px rgba(74,48,96,0.45); }
+  50%     { box-shadow: 0 2px 20px rgba(74,48,96,0.75); }
+}
+
+/* Timeline horario */
+.inv-timeline-new {
+  width: 100%; max-width: 480px;
+  padding: 0 24px 40px;
+}
+.inv-timeline-title-new {
+  font-family: 'Tangerine', cursive; font-size: 44px;
+  color: var(--purple); text-align: center;
+  margin-bottom: 4px; line-height: 1;
+}
+.inv-timeline-list-new { position: relative; margin-top: 24px; }
+.inv-timeline-list-new::before {
+  content: ''; position: absolute;
+  left: 20px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--lavender), transparent);
+}
+.inv-timeline-item-new {
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 24px; position: relative;
+}
+.inv-timeline-dot-new {
+  width: 42px; height: 42px; flex-shrink: 0;
+  background: var(--bg);
+  border: 1.5px solid rgba(201,184,216,0.6);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 10px rgba(74,48,96,0.1);
+  position: relative; z-index: 1;
+}
+.inv-timeline-content-new { flex: 1; padding-top: 6px; }
+.inv-timeline-time-new {
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 3px; color: var(--purple);
+  display: block; margin-bottom: 2px;
+}
+.inv-timeline-label-new {
+  font-family: 'EB Garamond', serif; font-size: 18px;
+  color: var(--purple); display: block; margin-bottom: 2px;
+}
+.inv-timeline-place-new {
+  font-family: 'Montserrat', sans-serif; font-size: 11px;
+  letter-spacing: 0.5px; color: var(--brown);
+}
+
+/* Location cards */
+.inv-locations-new {
+  width: 100%; max-width: 480px;
+  padding: 0 20px 40px;
+}
+.location-card-new {
+  background: var(--bg);
+  border: 1px solid rgba(201,184,216,0.4);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 6px 24px rgba(74,48,96,0.08);
+  margin-bottom: 16px;
+}
+.location-card-label-new {
+  font-family: 'Montserrat', sans-serif; font-size: 9px;
+  letter-spacing: 4px; color: var(--purple);
+  text-transform: uppercase; text-align: center;
+  padding: 14px 20px 0;
+}
+.location-card-photo-new {
+  width: 100%; display: block;
+  mix-blend-mode: multiply;
+  padding: 12px 20px 0; box-sizing: border-box;
+}
+.location-card-photo-new img {
+  width: 100%; display: block;
+  filter: drop-shadow(0 6px 18px rgba(74,48,96,0.12));
+}
+.location-card-body-new { padding: 16px 20px 0; text-align: center; }
+.location-card-name-new {
+  font-family: 'EB Garamond', serif; font-size: 22px; font-weight: 500;
+  color: var(--purple); display: block; margin-bottom: 4px;
+}
+.location-card-address-new {
+  font-family: 'Montserrat', sans-serif; font-size: 11px;
+  letter-spacing: 0.5px; color: var(--brown);
+  line-height: 1.6; display: block; margin-bottom: 10px;
+}
+.location-card-time-new {
+  font-family: 'Tangerine', cursive; font-size: 36px;
+  color: var(--purple); display: block; margin-bottom: 12px;
+}
+.location-directions-btn-new {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: #fefcf8; background: var(--purple);
+  text-decoration: none; border-radius: 30px;
+  padding: 10px 22px; margin-bottom: 16px;
+  transition: background 0.3s;
+}
+.location-directions-btn-new:hover { background: #6b4a90; }
+.location-card-map-new {
+  width: 100%; height: 200px; border: none; display: block;
+  border-top: 1px solid rgba(201,184,216,0.3);
+}
+.location-map-placeholder-new {
+  width: 100%; height: 180px;
+  background: rgba(201,184,216,0.1);
+  border-top: 1px solid rgba(201,184,216,0.3);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 8px;
+}
+.location-map-placeholder-new span { font-size: 28px; }
+.location-map-placeholder-new p {
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 2px; color: var(--brown); text-transform: uppercase;
+}
+.transfer-note-new {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 18px 24px; text-align: center;
+}
+.transfer-note-icon-new { font-size: 22px; opacity: 0.6; }
+.transfer-note-title-new {
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 3px; color: var(--purple); text-transform: uppercase;
+}
+.transfer-note-detail-new {
+  font-family: 'Montserrat', sans-serif; font-size: 11px;
+  letter-spacing: 0.5px; color: var(--brown);
+}
+.transfer-note-msg-new {
+  font-family: 'EB Garamond', serif; font-style: italic;
+  font-size: 14px; color: var(--brown); margin-top: 2px;
+}
+
+/* Galería grid 2col */
+.inv-gallery-new {
+  width: 100%; max-width: 480px;
+  padding: 0 24px 40px;
+}
+.inv-gallery-grid-new {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 8px;
+}
+.inv-gallery-item-new {
+  aspect-ratio: 1; overflow: hidden; border-radius: 12px;
+  cursor: pointer; position: relative;
+  border: 1px solid rgba(201,184,216,0.35);
+}
+.inv-gallery-item-new img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.4s ease; mix-blend-mode: multiply;
+}
+.inv-gallery-item-new:hover img { transform: scale(1.04); }
+.inv-gallery-item-overlay-new {
+  position: absolute; inset: 0;
+  background: rgba(74,48,96,0); transition: background 0.3s;
+}
+.inv-gallery-item-new:hover .inv-gallery-item-overlay-new {
+  background: rgba(74,48,96,0.12);
+}
+
+/* Lightbox */
+#lightbox-new {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(30,15,50,0.94);
+  display: none; align-items: center; justify-content: center;
+}
+#lightbox-new.open { display: flex; }
+#lightbox-img-new {
+  max-width: 92vw; max-height: 85vh;
+  object-fit: contain; border-radius: 8px;
+  user-select: none;
+}
+#lightbox-close-new {
+  position: absolute; top: 16px; right: 20px;
+  background: none; border: none; color: rgba(201,184,216,0.8);
+  font-size: 32px; cursor: pointer; line-height: 1;
+}
+#lightbox-prev-new, #lightbox-next-new {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(201,184,216,0.15);
+  border: 1px solid rgba(201,184,216,0.3);
+  color: #c9b8d8; font-size: 20px; cursor: pointer;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+#lightbox-prev-new { left: 12px; }
+#lightbox-next-new { right: 12px; }
+#lightbox-prev-new:hover, #lightbox-next-new:hover { background: rgba(201,184,216,0.3); }
+#lightbox-counter-new {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 2px;
+  color: rgba(201,184,216,0.6);
+}
+
+/* Dresscode */
+.inv-dresscode-new {
+  width: 100%; max-width: 480px;
+  padding: 0 24px 40px;
+}
+.inv-dresscode-grid-new { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.inv-dresscode-card-new {
+  background: var(--bg);
+  border: 1px solid rgba(201,184,216,0.4);
+  border-top: 2px solid var(--lavender);
+  border-radius: 12px; padding: 20px 16px; text-align: center;
+  box-shadow: 0 2px 12px rgba(74,48,96,0.07);
+}
+.inv-dresscode-icon-new { display: block; margin: 0 auto 12px; width: 46px; height: 46px; }
+.inv-dresscode-gender-new {
+  font-family: 'Montserrat', sans-serif; font-size: 9px;
+  letter-spacing: 3px; color: var(--purple);
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.inv-dresscode-style-new {
+  font-family: 'EB Garamond', serif; font-size: 15px;
+  color: var(--purple); margin-bottom: 10px; line-height: 1.4;
+}
+.inv-dresscode-colors-new { display: flex; justify-content: center; gap: 6px; margin-bottom: 8px; }
+.inv-color-swatch-new { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; }
+.inv-dresscode-note-new {
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 0.5px; color: var(--brown); font-style: italic;
+}
+
+/* No mascotas */
+.inv-no-pets-new {
+  width: 100%; max-width: 480px;
+  padding: 0 24px 28px;
+}
+.inv-no-pets-card-new {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg);
+  border: 1px solid rgba(201,184,216,0.4);
+  border-radius: 12px; padding: 14px 18px;
+  box-shadow: 0 2px 10px rgba(74,48,96,0.06);
+}
+.inv-no-pets-icon-new { width: 36px; height: 36px; flex-shrink: 0; }
+.inv-no-pets-text-new {
+  font-family: 'EB Garamond', serif; font-size: 14px;
+  letter-spacing: 0.3px; color: var(--brown);
+}
+
+/* Regalos */
+.inv-gifts-new {
+  width: 100%; max-width: 480px;
+  padding: 0 24px 40px;
+}
+.inv-gifts-main-msg-new {
+  font-family: 'Tangerine', cursive; font-size: 40px;
+  color: var(--purple); text-align: center;
+  line-height: 1.2; margin-bottom: 12px;
+}
+.inv-gifts-sub-msg-new {
+  font-family: 'EB Garamond', serif; font-size: 14px;
+  color: var(--brown); text-align: center;
+  margin-bottom: 24px; line-height: 1.7;
+}
+.inv-bank-card-new {
+  background: var(--bg);
+  border: 1px solid rgba(201,184,216,0.4);
+  border-radius: 12px; padding: 20px 22px;
+  box-shadow: 0 2px 14px rgba(74,48,96,0.08);
+}
+.inv-bank-card-label-new {
+  font-family: 'Montserrat', sans-serif; font-size: 8px;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 10px;
+}
+.inv-bank-card-name-new {
+  font-family: 'EB Garamond', serif; font-size: 18px;
+  font-weight: 500; color: var(--purple); margin-bottom: 6px;
+}
+.inv-bank-clabe-row-new { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.inv-bank-clabe-new {
+  font-family: 'Montserrat', sans-serif; font-size: 13px;
+  letter-spacing: 1.5px; color: var(--brown); flex: 1;
+  word-break: break-all;
+}
+.inv-copy-btn-new {
+  background: rgba(201,184,216,0.25);
+  border: 1px solid rgba(201,184,216,0.6);
+  border-radius: 20px; padding: 6px 14px;
+  font-family: 'Montserrat', sans-serif; font-size: 9px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--purple); cursor: pointer;
+  transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
+}
+.inv-copy-btn-new:hover { background: var(--lavender); color: #fefcf8; }
+.inv-copy-btn-new.copied { background: var(--mint); border-color: var(--mint); color: #1a4a30; }
+.inv-bank-alias-new {
+  font-family: 'Montserrat', sans-serif; font-size: 11px;
+  letter-spacing: 0.5px; color: var(--brown); margin-top: 4px;
+}
+.inv-gift-list-btn-new {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; margin-top: 14px; padding: 14px;
+  background: transparent; border: 1.5px solid var(--lavender);
+  border-radius: 30px;
+  font-family: 'EB Garamond', serif; font-size: 16px;
+  color: var(--purple); cursor: pointer; text-decoration: none;
+  transition: all 0.3s;
+}
+.inv-gift-list-btn-new:hover { background: var(--lavender); color: #fefcf8; }
+
+/* Wishlist */
+.inv-wishlist-new { width: 100%; max-width: 480px; padding: 0 24px 40px; }
+.inv-wishlist-grid-new { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 16px; }
+.inv-wishlist-item-new {
+  background: var(--bg);
+  border: 1px solid rgba(201,184,216,0.35);
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(74,48,96,0.06);
+}
+.inv-wishlist-img-new { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.inv-wishlist-img-placeholder-new {
+  width: 100%; aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(201,184,216,0.15); font-size: 32px;
+}
+.inv-wishlist-body-new { padding: 12px; }
+.inv-wishlist-name-new { font-family: 'EB Garamond', serif; font-size: 15px; color: var(--purple); margin-bottom: 4px; }
+.inv-wishlist-price-new { font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; color: var(--brown); margin-bottom: 8px; }
+.inv-wishlist-link-new {
+  font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--purple); text-decoration: none;
+  border-bottom: 1px solid var(--lavender); padding-bottom: 1px;
+}
+
+/* Gender reveal */
+.inv-gender-new { width: 100%; max-width: 480px; padding: 0 24px 40px; }
+.inv-gender-title-new {
+  font-family: 'Tangerine', cursive; font-size: 52px;
+  color: var(--purple); text-align: center; margin-bottom: 4px;
+}
+.inv-gender-sub-new {
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 2px; color: var(--brown);
+  text-align: center; text-transform: uppercase; margin-bottom: 28px;
+}
+.inv-gender-btns-new { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.inv-gender-btn-new {
+  padding: 20px 16px; border-radius: 12px; border: 2px solid transparent;
+  cursor: pointer; font-family: 'EB Garamond', serif; font-size: 16px;
+  letter-spacing: 1px; display: flex; flex-direction: column;
+  align-items: center; gap: 10px; transition: all 0.3s;
+}
+.inv-gender-btn-boy-new  { background: rgba(168,212,180,0.2); border-color: var(--mint); color: var(--purple); }
+.inv-gender-btn-girl-new { background: rgba(240,184,192,0.2); border-color: var(--rose); color: var(--purple); }
+.inv-gender-btn-boy-new:hover  { background: rgba(168,212,180,0.4); }
+.inv-gender-btn-girl-new:hover { background: rgba(240,184,192,0.4); }
+.inv-gender-btn-boy-new.voted  { background: var(--mint); border-color: var(--mint); color: #1a4a30; }
+.inv-gender-btn-girl-new.voted { background: var(--rose); border-color: var(--rose); color: var(--purple); }
+.inv-gender-btn-icon-new { font-size: 36px; }
+.inv-gender-results-new { margin-top: 4px; }
+.inv-gender-result-row-new { margin-bottom: 12px; }
+.inv-gender-result-label-new {
+  display: flex; justify-content: space-between;
+  font-family: 'Montserrat', sans-serif; font-size: 11px;
+  letter-spacing: 1px; color: var(--brown); margin-bottom: 6px;
+}
+.inv-gender-bar-track-new { height: 8px; background: rgba(201,184,216,0.25); border-radius: 4px; overflow: hidden; }
+.inv-gender-bar-fill-new { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.inv-gender-bar-boy-new  { background: linear-gradient(to right, var(--mint), #7acdaa); }
+.inv-gender-bar-girl-new { background: linear-gradient(to right, var(--rose), #f4a8bc); }
+.inv-gender-total-new {
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 2px; color: var(--brown);
+  text-align: center; margin-top: 8px; text-transform: uppercase;
+}
+.inv-gender-confetti-new {
+  position: fixed; pointer-events: none; z-index: 99;
+  width: 8px; height: 8px; border-radius: 2px;
+  opacity: 0; animation: inv-confetti-fall-new linear forwards;
+}
+@keyframes inv-confetti-fall-new {
+  0%  { opacity: 1; transform: translateY(-10px) rotate(0deg); }
+  100%{ opacity: 0; transform: translateY(105vh) rotate(720deg); }
+}
+
+/* CTA Calendario */
+.inv-cal-cta-new { width: 100%; max-width: 480px; padding: 0 24px 40px; }
+.inv-cal-cta-card-new {
+  background: linear-gradient(135deg, #4a3060, #8a5a40);
+  border: 1px solid var(--lavender);
+  border-radius: 16px; padding: 28px 24px; text-align: center;
+  box-shadow: 0 8px 32px rgba(74,48,96,0.3);
+  position: relative; overflow: hidden;
+}
+.inv-cal-cta-card-new::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 100px; height: 100px; border-radius: 50%;
+  background: rgba(201,184,216,0.1);
+}
+.inv-cal-cta-card-new::after {
+  content: ''; position: absolute; bottom: -20px; left: -20px;
+  width: 70px; height: 70px; border-radius: 50%;
+  background: rgba(242,196,160,0.1);
+}
+.inv-cal-cta-icon-new { font-size: 42px; display: block; margin-bottom: 10px; position: relative; z-index: 1; }
+.inv-cal-cta-title-new {
+  font-family: 'Tangerine', cursive; font-size: 52px;
+  color: #fefcf8; margin-bottom: 4px;
+  position: relative; z-index: 1; line-height: 1;
+}
+.inv-cal-cta-sub-new {
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 3px; color: rgba(254,252,248,0.75);
+  text-transform: uppercase; margin-bottom: 20px;
+  position: relative; z-index: 1;
+}
+.inv-cal-cta-btns-new {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  position: relative; z-index: 1;
+}
+.inv-cal-provider-btn-new {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 16px; background: rgba(254,252,248,0.12);
+  border: 1px solid rgba(201,184,216,0.45); border-radius: 30px;
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: #fefcf8; cursor: pointer; text-decoration: none;
+  transition: background 0.2s;
+}
+.inv-cal-provider-btn-new:hover { background: rgba(201,184,216,0.28); }
+
+@media (max-width:360px) {
+  .inv-dresscode-grid-new { grid-template-columns: 1fr; }
+  .inv-gender-btns-new    { grid-template-columns: 1fr; }
+  .inv-wishlist-grid-new  { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
+
+<!-- MÚSICA -->
+<audio id="bg-music-new" src="./musica.mp3" loop preload="none"></audio>
+<button id="music-btn-new" aria-label="Música">🎵</button>
+
+<!-- LIGHTBOX -->
+<div id="lightbox-new" role="dialog" aria-modal="true">
+  <button id="lightbox-close-new" aria-label="Cerrar">×</button>
+  <button id="lightbox-prev-new" aria-label="Anterior">‹</button>
+  <img id="lightbox-img-new" src="" alt="Foto"/>
+  <button id="lightbox-next-new" aria-label="Siguiente">›</button>
+  <span id="lightbox-counter-new"></span>
+</div>
 
 <!-- ══════════════════════════════════════
      SOBRE KRAFT
@@ -676,6 +1202,123 @@ html,body{
   </div>
   <div class="section-gap"></div>
 
+  <!-- MINI CALENDARIO -->
+  <div style="width:100%;max-width:480px;padding:0 24px 8px;text-align:center;">
+    <p class="inv-section-label-new">El gran día</p>
+    <div id="inv-mini-cal-new"></div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- TIMELINE HORARIO -->
+  <div class="inv-timeline-new">
+    <p class="inv-section-label-new">Programa del día</p>
+    <p class="inv-timeline-title-new">Horario</p>
+    <div class="inv-timeline-list-new" id="inv-timeline-list-new"></div>
+  </div>
+
+  <!-- SEPARADOR ORNAMENTAL -->
+  <div class="inv-ornament-new">
+    <div class="inv-orn-line-new"></div>
+    <div class="inv-orn-dot-new"></div>
+    <div class="inv-orn-line-new r"></div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- LOCATION CARDS -->
+  <div class="inv-locations-new" id="inv-locations-new">
+    <p class="inv-section-label-new">Dónde nos encontramos</p>
+
+    <!-- Card Iglesia -->
+    <div class="location-card-new" id="loc-card-church-new">
+      <p class="location-card-label-new">Ceremonia religiosa · 15:00 HRS</p>
+      <div class="location-card-photo-new" id="loc-church-photo-new" style="display:none;">
+        <img src="" alt="Iglesia" loading="lazy"/>
+      </div>
+      <div class="location-card-body-new">
+        <span class="location-card-name-new" id="loc-church-name-new">Aposento Alto</span>
+        <span class="location-card-address-new" id="loc-church-address-new">C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.</span>
+        <span class="location-card-time-new">15:00 HRS</span>
+        <a class="location-directions-btn-new" id="loc-church-directions-new" href="https://maps.app.goo.gl/enaa51eixmTVXXjJA" target="_blank">📍 Cómo llegar</a>
+      </div>
+      <div id="loc-church-map-new">
+        <div class="location-map-placeholder-new"><span>🗺️</span><p>Cargando mapa…</p></div>
+      </div>
+    </div>
+
+    <!-- Traslado -->
+    <div class="transfer-note-new">
+      <span class="transfer-note-icon-new">🚗</span>
+      <span class="transfer-note-title-new">Traslado a recepción</span>
+      <span class="transfer-note-detail-new">Aproximadamente 18 min en automóvil</span>
+      <span class="transfer-note-msg-new">Después de la ceremonia, acompáñanos a la recepción.</span>
+    </div>
+
+    <!-- Card Salón -->
+    <div class="location-card-new">
+      <p class="location-card-label-new">Recepción · 17:00 HRS</p>
+      <div class="location-card-photo-new" id="loc-venue-photo-new" style="display:none;">
+        <img src="" alt="Salón" loading="lazy"/>
+      </div>
+      <div class="location-card-body-new">
+        <span class="location-card-name-new">Hacienda San Antonio Calichar</span>
+        <span class="location-card-address-new">Carretera Reynosa–San Fernando km 12, Tamaulipas</span>
+        <span class="location-card-time-new">17:00 HRS</span>
+        <a class="location-directions-btn-new" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">📍 Cómo llegar</a>
+      </div>
+      <iframe class="location-card-map-new"
+        src="https://maps.google.com/maps?q=Hacienda+San+Antonio+Calichar+Tamaulipas&output=embed"
+        loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+        title="Hacienda San Antonio Calichar"></iframe>
+    </div>
+  </div>
+
+  <!-- GALERÍA -->
+  <div class="inv-gallery-new" id="inv-gallery-section-new" style="display:none;">
+    <p class="inv-section-label-new">Nuestra historia</p>
+    <div class="inv-ornament-new" style="margin-bottom:20px;">
+      <div class="inv-orn-line-new"></div>
+      <div class="inv-orn-dot-new"></div>
+      <div class="inv-orn-line-new r"></div>
+    </div>
+    <div class="inv-gallery-grid-new" id="inv-gallery-grid-new"></div>
+  </div>
+
+  <!-- DRESSCODE -->
+  <div class="inv-dresscode-new">
+    <p class="inv-section-label-new">Código de vestimenta</p>
+    <div class="inv-ornament-new" style="margin-bottom:20px;">
+      <div class="inv-orn-line-new"></div>
+      <div class="inv-orn-dot-new"></div>
+      <div class="inv-orn-line-new r"></div>
+    </div>
+    <div class="inv-dresscode-grid-new" id="inv-dresscode-grid-new"></div>
+  </div>
+
+  <!-- NO MASCOTAS -->
+  <div class="inv-no-pets-new">
+    <div class="inv-no-pets-card-new">
+      <span class="inv-no-pets-icon-new">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="14" cy="10" rx="3" ry="4" stroke="#4a3060" stroke-width="1.3" fill="rgba(74,48,96,0.08)"/>
+          <ellipse cx="22" cy="10" rx="3" ry="4" stroke="#4a3060" stroke-width="1.3" fill="rgba(74,48,96,0.08)"/>
+          <path d="M8 20 C8 14 10 12 14 12 L22 12 C26 12 28 14 28 20 C28 24 26 26 22 27 L20 30 L16 30 L14 27 C10 26 8 24 8 20 Z" stroke="#4a3060" stroke-width="1.3" fill="rgba(74,48,96,0.08)"/>
+          <ellipse cx="7" cy="17" rx="2.5" ry="3.5" stroke="#4a3060" stroke-width="1.2" fill="rgba(74,48,96,0.06)"/>
+          <ellipse cx="29" cy="17" rx="2.5" ry="3.5" stroke="#4a3060" stroke-width="1.2" fill="rgba(74,48,96,0.06)"/>
+          <line x1="4" y1="4" x2="32" y2="32" stroke="#4a3060" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="inv-no-pets-text-new">Agradecemos tu comprensión: el evento es libre de mascotas</span>
+    </div>
+  </div>
+
+  <div class="inv-ornament-new" style="margin:8px 0 24px;">
+    <div class="inv-orn-line-new"></div>
+    <div class="inv-orn-dot-new"></div>
+    <div class="inv-orn-line-new r"></div>
+  </div>
+
   <!-- TARJETA INVITADO -->
   <div class="inv-guest-card">
     <!-- Blob fondo rosa suave -->
@@ -728,6 +1371,83 @@ html,body{
       <span class="action-icon">📅</span>
       Añadir al calendario
     </button>
+  </div>
+
+  <!-- REGALOS -->
+  <div class="inv-gifts-new">
+    <p class="inv-section-label-new">Mesa de regalos</p>
+    <div class="inv-ornament-new" style="margin-bottom:20px;">
+      <div class="inv-orn-line-new"></div>
+      <div class="inv-orn-dot-new"></div>
+      <div class="inv-orn-line-new r"></div>
+    </div>
+    <p class="inv-gifts-main-msg-new" id="inv-gifts-main-msg-new">El mejor regalo es que estés con nosotros</p>
+    <p class="inv-gifts-sub-msg-new">Si deseas hacernos un detalle, con mucho cariño te compartimos nuestros datos:</p>
+    <div class="inv-bank-card-new" id="inv-bank-card-new">
+      <p class="inv-bank-card-label-new">Transferencia bancaria</p>
+      <p class="inv-bank-card-name-new" id="inv-bank-name-new">BBVA</p>
+      <div class="inv-bank-clabe-row-new">
+        <span class="inv-bank-clabe-new" id="inv-bank-clabe-new">000000000000000000</span>
+        <button class="inv-copy-btn-new" onclick="copyBankNew()">Copiar</button>
+      </div>
+      <p class="inv-bank-alias-new" id="inv-bank-alias-new">Alias: andrea.saul.boda</p>
+    </div>
+    <a class="inv-gift-list-btn-new" id="inv-gift-list-btn-new" href="#" target="_blank" style="display:none;">
+      🎁 Ver lista de regalos
+    </a>
+  </div>
+
+  <!-- WISHLIST (solo ?tipo=cumple) -->
+  <div class="inv-wishlist-new" id="inv-section-wishlist-new" style="display:none;">
+    <p class="inv-section-label-new">Lista de deseos</p>
+    <div class="inv-ornament-new" style="margin-bottom:20px;">
+      <div class="inv-orn-line-new"></div>
+      <div class="inv-orn-dot-new"></div>
+      <div class="inv-orn-line-new r"></div>
+    </div>
+    <div class="inv-wishlist-grid-new" id="inv-wishlist-grid-new"></div>
+  </div>
+
+  <!-- GENDER REVEAL (solo ?tipo=genero) -->
+  <div class="inv-gender-new" id="inv-section-gender-new" style="display:none;">
+    <p class="inv-section-label-new">¡Gran Revelación!</p>
+    <p class="inv-gender-title-new">¿Es Niño o Niña?</p>
+    <p class="inv-gender-sub-new">¡Vota y descubre el resultado en tiempo real!</p>
+    <div class="inv-gender-btns-new" id="inv-gender-btns-wrap-new">
+      <button class="inv-gender-btn-new inv-gender-btn-boy-new" id="inv-gender-boy-new" onclick="voteGenderNew('boy')">
+        <span class="inv-gender-btn-icon-new">👦</span>
+        <span>Niño</span>
+      </button>
+      <button class="inv-gender-btn-new inv-gender-btn-girl-new" id="inv-gender-girl-new" onclick="voteGenderNew('girl')">
+        <span class="inv-gender-btn-icon-new">👧</span>
+        <span>Niña</span>
+      </button>
+    </div>
+    <div class="inv-gender-results-new" id="inv-gender-results-new">
+      <div class="inv-gender-result-row-new">
+        <div class="inv-gender-result-label-new"><span>👦 Niño</span><span id="inv-boy-pct-new">0%</span></div>
+        <div class="inv-gender-bar-track-new"><div class="inv-gender-bar-fill-new inv-gender-bar-boy-new" id="inv-boy-bar-new" style="width:0%"></div></div>
+      </div>
+      <div class="inv-gender-result-row-new">
+        <div class="inv-gender-result-label-new"><span>👧 Niña</span><span id="inv-girl-pct-new">0%</span></div>
+        <div class="inv-gender-bar-track-new"><div class="inv-gender-bar-fill-new inv-gender-bar-girl-new" id="inv-girl-bar-new" style="width:0%"></div></div>
+      </div>
+      <p class="inv-gender-total-new" id="inv-gender-total-new">0 votos</p>
+    </div>
+  </div>
+
+  <!-- CTA CALENDARIO -->
+  <div class="inv-cal-cta-new">
+    <div class="inv-cal-cta-card-new">
+      <span class="inv-cal-cta-icon-new">📅</span>
+      <p class="inv-cal-cta-title-new">¡Aparta la fecha!</p>
+      <p class="inv-cal-cta-sub-new">Sábado 2 de Octubre · 2027</p>
+      <div class="inv-cal-cta-btns-new">
+        <a class="inv-cal-provider-btn-new" id="inv-cal-google-new" href="#" target="_blank">🗓 Google</a>
+        <button class="inv-cal-provider-btn-new" onclick="downloadICSNew('apple')">🍎 Apple</button>
+        <button class="inv-cal-provider-btn-new" onclick="downloadICSNew('outlook')">📧 Outlook</button>
+      </div>
+    </div>
   </div>
 
   <!-- FOOTER -->
@@ -785,6 +1505,7 @@ function openEnvelope() {
         startCountdown();
         trackVisit();
         checkExistingRSVP();
+        if (window._startMusicNew) window._startMusicNew();
       });
     });
 
@@ -923,6 +1644,392 @@ function addToCalendar() {
     + '&details=%C2%A1Los+esperamos+con+mucho+cari%C3%B1o!';
   window.open(url, '_blank');
 }
+
+/* ══════════════════════════════════════════════════
+   NUEVAS SECCIONES — sufijo -new (paleta acuarela)
+══════════════════════════════════════════════════ */
+
+const WEDDING_CONFIG_NEW = {
+  weddingDate: '2027-10-02T17:00:00',
+  schedule: [
+    { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
+    { icon: '🥂', label: 'Recepción', place: 'Hacienda San Antonio Calichar', time: '17:00 HRS' },
+    { icon: '🎉', label: 'Baile y festejo', place: 'Hacienda San Antonio Calichar', time: '18:00 HRS' },
+    { icon: '🌙', label: 'Cierre de fiesta', place: '', time: '01:00 HRS' },
+  ],
+  church: {
+    name: 'Aposento Alto',
+    address: 'C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.',
+    mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
+    mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
+  },
+  churchImage: './Iglesia.png',
+  venueImage: './Salon.png',
+  music: './musica.mp3',
+  gallery: [],
+  dresscode: {
+    women: { style: 'Vestido largo o cóctel', colors: ['#c9b8d8','#f2c4a0','#a8d4b4','#f0b8c0'], note: 'Evitar blanco e ivory' },
+    men:   { style: 'Traje formal', colors: ['#4a3060','#8a5a40','#3a2010','#c9b8d8'], note: 'Corbata o moño requerido' },
+  },
+  gifts: { showBank: true, bankName: 'BBVA', bankClabe: '000000000000000000', bankAlias: 'andrea.saul.boda', giftListUrl: '' },
+  wishlist: [{ name: 'Item de ejemplo', price: '$500', image: '', link: '' }],
+};
+
+/* ── MÚSICA NEW ── */
+(function() {
+  const audio = document.getElementById('bg-music-new');
+  const btn   = document.getElementById('music-btn-new');
+  if (!audio || !btn) return;
+
+  function updateBtnNew() {
+    if (audio.paused) { btn.textContent = '🎵'; btn.classList.remove('playing'); }
+    else              { btn.textContent = '⏸'; btn.classList.add('playing'); }
+  }
+  audio.addEventListener('play',  updateBtnNew);
+  audio.addEventListener('pause', updateBtnNew);
+  audio.addEventListener('error', () => { btn.style.display = 'none'; });
+  btn.addEventListener('click', () => {
+    if (audio.paused) audio.play().catch(() => {});
+    else              audio.pause();
+  });
+
+  window._startMusicNew = function() {
+    btn.style.display = 'flex';
+    audio.play().catch(() => {});
+  };
+})();
+
+/* ── MINI CALENDARIO NEW ── */
+function buildMiniCalendarNew() {
+  const container = document.getElementById('inv-mini-cal-new');
+  if (!container) return;
+  const year = 2027, month = 9; // octubre
+  const dows = ['L','M','M','J','V','S','D'];
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const offset = (firstDay === 0) ? 6 : firstDay - 1;
+
+  let html = '<div class="inv-mini-cal-new"><div class="inv-mini-cal-header-new">Octubre · 2027</div><div class="inv-mini-cal-grid-new">';
+  dows.forEach(d => { html += `<div class="inv-mini-cal-dow-new">${d}</div>`; });
+  for (let i = 0; i < offset; i++) html += '<div class="inv-mini-cal-day-new empty"></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const cls = d === 2 ? 'inv-mini-cal-day-new wedding-new' : 'inv-mini-cal-day-new';
+    html += `<div class="${cls}">${d}</div>`;
+  }
+  html += '</div></div>';
+  container.innerHTML = html;
+}
+
+/* ── TIMELINE NEW ── */
+function buildTimelineNew() {
+  const list = document.getElementById('inv-timeline-list-new');
+  if (!list) return;
+  list.innerHTML = WEDDING_CONFIG_NEW.schedule.map(item => `
+    <div class="inv-timeline-item-new">
+      <div class="inv-timeline-dot-new">${item.icon}</div>
+      <div class="inv-timeline-content-new">
+        <span class="inv-timeline-time-new">${item.time}</span>
+        <span class="inv-timeline-label-new">${item.label}</span>
+        ${item.place ? `<span class="inv-timeline-place-new">${item.place}</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ── LOCATIONS NEW ── */
+function buildLocationsNew() {
+  const cfg = WEDDING_CONFIG_NEW.church;
+  const nameEl = document.getElementById('loc-church-name-new');
+  const addrEl = document.getElementById('loc-church-address-new');
+  const dirEl  = document.getElementById('loc-church-directions-new');
+  if (nameEl) nameEl.textContent = cfg.name;
+  if (addrEl) addrEl.textContent = cfg.address;
+  if (dirEl && cfg.mapsLink) dirEl.href = cfg.mapsLink;
+
+  if (cfg.mapEmbed) {
+    const mc = document.getElementById('loc-church-map-new');
+    if (mc) mc.innerHTML = `<iframe class="location-card-map-new" src="${cfg.mapEmbed}" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="${cfg.name}"></iframe>`;
+  }
+  if (WEDDING_CONFIG_NEW.churchImage) {
+    const w = document.getElementById('loc-church-photo-new');
+    if (w) { w.style.display = 'block'; w.querySelector('img').src = WEDDING_CONFIG_NEW.churchImage; }
+  }
+  if (WEDDING_CONFIG_NEW.venueImage) {
+    const w = document.getElementById('loc-venue-photo-new');
+    if (w) { w.style.display = 'block'; w.querySelector('img').src = WEDDING_CONFIG_NEW.venueImage; }
+  }
+}
+
+/* ── GALERÍA NEW ── */
+let galleryIndexNew = 0;
+const galleryImagesNew = WEDDING_CONFIG_NEW.gallery;
+
+function buildGalleryNew() {
+  if (!galleryImagesNew.length) return;
+  const section = document.getElementById('inv-gallery-section-new');
+  if (section) section.style.display = 'block';
+  const grid = document.getElementById('inv-gallery-grid-new');
+  if (!grid) return;
+  grid.innerHTML = galleryImagesNew.map((src, i) => `
+    <div class="inv-gallery-item-new" onclick="openLightboxNew(${i})">
+      <img src="${src}" alt="Foto ${i+1}" loading="lazy"/>
+      <div class="inv-gallery-item-overlay-new"></div>
+    </div>
+  `).join('');
+}
+
+function openLightboxNew(index) {
+  galleryIndexNew = index;
+  updateLightboxNew();
+  document.getElementById('lightbox-new').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightboxNew() {
+  document.getElementById('lightbox-new').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function updateLightboxNew() {
+  document.getElementById('lightbox-img-new').src = galleryImagesNew[galleryIndexNew];
+  document.getElementById('lightbox-counter-new').textContent = (galleryIndexNew + 1) + ' / ' + galleryImagesNew.length;
+}
+
+(function() {
+  const lb = document.getElementById('lightbox-new');
+  if (!lb) return;
+  document.getElementById('lightbox-close-new').onclick = closeLightboxNew;
+  document.getElementById('lightbox-prev-new').onclick  = () => { galleryIndexNew = (galleryIndexNew - 1 + galleryImagesNew.length) % galleryImagesNew.length; updateLightboxNew(); };
+  document.getElementById('lightbox-next-new').onclick  = () => { galleryIndexNew = (galleryIndexNew + 1) % galleryImagesNew.length; updateLightboxNew(); };
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightboxNew(); });
+
+  let touchStartXNew = 0;
+  lb.addEventListener('touchstart', e => { touchStartXNew = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartXNew;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) galleryIndexNew = (galleryIndexNew + 1) % galleryImagesNew.length;
+      else        galleryIndexNew = (galleryIndexNew - 1 + galleryImagesNew.length) % galleryImagesNew.length;
+      updateLightboxNew();
+    }
+  }, { passive: true });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') { galleryIndexNew = (galleryIndexNew + 1) % galleryImagesNew.length; updateLightboxNew(); }
+    if (e.key === 'ArrowLeft')  { galleryIndexNew = (galleryIndexNew - 1 + galleryImagesNew.length) % galleryImagesNew.length; updateLightboxNew(); }
+    if (e.key === 'Escape')     { closeLightboxNew(); }
+  });
+})();
+
+/* ── DRESSCODE NEW ── */
+function buildDresscodeNew() {
+  const dc = WEDDING_CONFIG_NEW.dresscode;
+  const grid = document.getElementById('inv-dresscode-grid-new');
+  if (!grid) return;
+  const SVG_DRESS = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15 6 C15 6 12 10 10 14 L6 28 L38 28 L34 14 C32 10 29 6 29 6 L25 10 L22 8 L19 10 Z" stroke="#4a3060" stroke-width="1.4" fill="rgba(74,48,96,0.07)" stroke-linejoin="round"/>
+    <path d="M16 28 L14 40 L30 40 L28 28" stroke="#4a3060" stroke-width="1.4" fill="rgba(74,48,96,0.05)" stroke-linejoin="round"/>
+    <ellipse cx="22" cy="7" rx="3" ry="3.5" stroke="#4a3060" stroke-width="1.2" fill="none"/>
+    <path d="M19 10 C19 10 20.5 12 22 12 C23.5 12 25 10 25 10" stroke="#c9b8d8" stroke-width="1" fill="none"/>
+  </svg>`;
+  const SVG_SUIT = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 8 L8 20 L14 22 L14 40 L30 40 L30 22 L36 20 L30 8 L26 14 L22 10 L18 14 Z" stroke="#4a3060" stroke-width="1.4" fill="rgba(74,48,96,0.07)" stroke-linejoin="round"/>
+    <path d="M18 14 L22 10 L26 14" stroke="#c9b8d8" stroke-width="1.2" fill="rgba(201,184,216,0.1)"/>
+    <line x1="22" y1="18" x2="22" y2="36" stroke="#c9b8d8" stroke-width="1" stroke-dasharray="2 2"/>
+    <ellipse cx="22" cy="7.5" rx="2.5" ry="3" stroke="#4a3060" stroke-width="1.2" fill="none"/>
+  </svg>`;
+  const items = [
+    { gender: 'Damas',       icon: SVG_DRESS, data: dc.women },
+    { gender: 'Caballeros',  icon: SVG_SUIT,  data: dc.men   },
+  ];
+  grid.innerHTML = items.map(item => `
+    <div class="inv-dresscode-card-new">
+      <span class="inv-dresscode-icon-new">${item.icon}</span>
+      <p class="inv-dresscode-gender-new">${item.gender}</p>
+      <p class="inv-dresscode-style-new">${item.data.style}</p>
+      <div class="inv-dresscode-colors-new">
+        ${item.data.colors.map(c => `<div class="inv-color-swatch-new" style="background:${c}" title="${c}"></div>`).join('')}
+      </div>
+      <p class="inv-dresscode-note-new">${item.data.note}</p>
+    </div>
+  `).join('');
+}
+
+/* ── NO MASCOTAS NEW ── */
+function buildNoPetsNew() {
+  // El HTML ya está en el markup, nada que construir dinámicamente
+}
+
+/* ── REGALOS NEW ── */
+function buildGiftsNew() {
+  const g = WEDDING_CONFIG_NEW.gifts;
+  const nameEl  = document.getElementById('inv-bank-name-new');
+  const clabeEl = document.getElementById('inv-bank-clabe-new');
+  const aliasEl = document.getElementById('inv-bank-alias-new');
+  const cardEl  = document.getElementById('inv-bank-card-new');
+  const btnEl   = document.getElementById('inv-gift-list-btn-new');
+  if (nameEl)  nameEl.textContent  = g.bankName;
+  if (clabeEl) clabeEl.textContent = g.bankClabe;
+  if (aliasEl) aliasEl.textContent = 'Alias: ' + g.bankAlias;
+  if (!g.showBank && cardEl) cardEl.style.display = 'none';
+  if (g.giftListUrl && btnEl) { btnEl.href = g.giftListUrl; btnEl.style.display = 'flex'; }
+}
+
+function copyBankNew() {
+  const clabe = WEDDING_CONFIG_NEW.gifts.bankClabe;
+  const btn = document.querySelector('.inv-copy-btn-new');
+  navigator.clipboard.writeText(clabe).then(() => {
+    if (btn) { btn.textContent = '✓ Copiado'; btn.classList.add('copied'); }
+    setTimeout(() => { if (btn) { btn.textContent = 'Copiar'; btn.classList.remove('copied'); } }, 2500);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = clabe; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+}
+
+/* ── WISHLIST NEW ── */
+function buildWishlistNew() {
+  const urlParamsNew = new URLSearchParams(window.location.search);
+  const tipoInvNew   = (urlParamsNew.get('tipo') || '').toLowerCase().trim();
+  if (tipoInvNew !== 'cumple') return;
+  const section = document.getElementById('inv-section-wishlist-new');
+  if (section) section.style.display = 'block';
+  const grid = document.getElementById('inv-wishlist-grid-new');
+  if (!grid) return;
+  grid.innerHTML = WEDDING_CONFIG_NEW.wishlist.map(item => `
+    <div class="inv-wishlist-item-new">
+      ${item.image
+        ? `<img class="inv-wishlist-img-new" src="${item.image}" alt="${item.name}" loading="lazy"/>`
+        : `<div class="inv-wishlist-img-placeholder-new">🎁</div>`}
+      <div class="inv-wishlist-body-new">
+        <p class="inv-wishlist-name-new">${item.name}</p>
+        <p class="inv-wishlist-price-new">${item.price}</p>
+        ${item.link ? `<a class="inv-wishlist-link-new" href="${item.link}" target="_blank">Ver producto →</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ── GENDER REVEAL NEW ── */
+function buildGenderRevealNew() {
+  const urlParamsNew = new URLSearchParams(window.location.search);
+  const tipoInvNew   = (urlParamsNew.get('tipo') || '').toLowerCase().trim();
+  if (tipoInvNew !== 'genero') return;
+  const section = document.getElementById('inv-section-gender-new');
+  if (section) section.style.display = 'block';
+
+  if (typeof db !== 'undefined' && db) {
+    db.collection('gender_reveal').doc('votes').onSnapshot(doc => {
+      const data = doc.exists ? doc.data() : { boy: 0, girl: 0 };
+      updateGenderBarsNew(data.boy || 0, data.girl || 0);
+    });
+  }
+  const voted = localStorage.getItem('gender_voted_new');
+  if (voted) {
+    const el = document.getElementById('inv-gender-' + voted + '-new');
+    if (el) el.classList.add('voted');
+    disableGenderBtnsNew();
+  }
+}
+
+function updateGenderBarsNew(boy, girl) {
+  const total = boy + girl;
+  const boyPct  = total ? Math.round(boy  / total * 100) : 0;
+  const girlPct = total ? Math.round(girl / total * 100) : 0;
+  const bb = document.getElementById('inv-boy-bar-new');
+  const gb = document.getElementById('inv-girl-bar-new');
+  const bp = document.getElementById('inv-boy-pct-new');
+  const gp = document.getElementById('inv-girl-pct-new');
+  const gt = document.getElementById('inv-gender-total-new');
+  if (bb) bb.style.width = boyPct + '%';
+  if (gb) gb.style.width = girlPct + '%';
+  if (bp) bp.textContent = boyPct + '%';
+  if (gp) gp.textContent = girlPct + '%';
+  if (gt) gt.textContent = total + (total === 1 ? ' voto' : ' votos');
+}
+
+function disableGenderBtnsNew() {
+  const b = document.getElementById('inv-gender-boy-new');
+  const g = document.getElementById('inv-gender-girl-new');
+  if (b) b.disabled = true;
+  if (g) g.disabled = true;
+}
+
+async function voteGenderNew(choice) {
+  if (localStorage.getItem('gender_voted_new')) return;
+  localStorage.setItem('gender_voted_new', choice);
+  const el = document.getElementById('inv-gender-' + choice + '-new');
+  if (el) el.classList.add('voted');
+  disableGenderBtnsNew();
+  spawnGenderConfettiNew(choice === 'boy' ? '#a8d4b4' : '#f0b8c0');
+  if (typeof db !== 'undefined' && db) {
+    try {
+      await db.collection('gender_reveal').doc('votes').set({
+        [choice]: firebase.firestore.FieldValue.increment(1)
+      }, { merge: true });
+    } catch(e) { console.error(e); }
+  }
+}
+
+function spawnGenderConfettiNew(color) {
+  for (let i = 0; i < 30; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'inv-gender-confetti-new';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top  = '40vh';
+      c.style.background = color;
+      c.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }, i * 60);
+  }
+}
+
+/* ── CTA CALENDARIO NEW ── */
+function buildCalendarCtaNew() {
+  const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=Boda+Andrea+%26+Sa%C3%BAl'
+    + '&dates=20271002T170000/20271003T000000'
+    + '&location=Hacienda+San+Antonio+Calichar,+Tamaulipas'
+    + '&details=¡Los+esperamos+con+mucho+cariño!';
+  const el = document.getElementById('inv-cal-google-new');
+  if (el) el.href = googleUrl;
+}
+
+function downloadICSNew(provider) {
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Andrea & Saúl//Boda 2027//ES',
+    'BEGIN:VEVENT',
+    'DTSTART:20271002T170000',
+    'DTEND:20271003T010000',
+    'SUMMARY:Boda Andrea & Saúl',
+    'DESCRIPTION:¡Los esperamos con mucho cariño!',
+    'LOCATION:Hacienda San Antonio Calichar\\, Carretera Reynosa–San Fernando km 12\\, Tamaulipas',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n');
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'boda-andrea-saul.ics';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+/* ── INIT NEW ── */
+buildMiniCalendarNew();
+buildTimelineNew();
+buildLocationsNew();
+buildGalleryNew();
+buildDresscodeNew();
+buildNoPetsNew();
+buildGiftsNew();
+buildWishlistNew();
+buildGenderRevealNew();
+buildCalendarCtaNew();
 </script>
 </body>
 </html>
