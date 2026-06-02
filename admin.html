@@ -181,6 +181,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .btn-primary {
@@ -208,10 +209,141 @@ body {
   cursor: pointer;
 }
 
+.btn-ghost.active {
+  border-color: var(--gold);
+  color: var(--gold-dark);
+  background: rgba(184,151,106,0.08);
+}
+
 /* ── CONTENT ── */
 .content {
   padding: 32px;
   flex: 1;
+}
+
+.demo-strip {
+  background: linear-gradient(135deg, rgba(138,109,74,0.98), rgba(184,151,106,0.96));
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.demo-strip-copy {
+  min-width: 0;
+}
+
+.demo-strip-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(250,248,244,0.74);
+  margin-bottom: 6px;
+}
+
+.demo-strip-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.demo-strip-text {
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(250,248,244,0.82);
+}
+
+.demo-strip-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-quick {
+  padding: 8px 14px;
+  border: 1px solid rgba(250,248,244,0.24);
+  border-radius: 999px;
+  background: rgba(250,248,244,0.1);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.toolbar-card {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  border-radius: 4px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.toolbar-search {
+  min-width: min(100%, 320px);
+  flex: 1 1 280px;
+}
+
+.toolbar-search input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--parchment);
+  border-radius: 3px;
+  background: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+}
+
+.toolbar-search input:focus {
+  border-color: var(--gold);
+  background: var(--white);
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toolbar-meta,
+.panel-submeta {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.toolbar-meta {
+  margin-top: 10px;
+}
+
+.panel-submeta {
+  margin-top: 4px;
 }
 
 /* ── STATS ROW ── */
@@ -725,6 +857,11 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
   .content { padding: 20px; }
 
+  .demo-strip {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .stats-row { grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
 
   .two-col { grid-template-columns: 1fr; gap: 16px; }
@@ -735,7 +872,6 @@ body.sidebar-open .sidebar-overlay { display: block; }
 /* ── RESPONSIVE: MOBILE (≤ 639px) ── */
 @media (max-width: 639px) {
   .topbar-sub { display: none; }
-  .btn-ghost  { display: none; }
 
   .topbar { padding: 12px 16px; }
 
@@ -762,6 +898,27 @@ body.sidebar-open .sidebar-overlay { display: block; }
   .stat-detail { display: none; }
 
   .progress-section { padding: 18px 16px; margin-bottom: 16px; }
+
+  .toolbar-card {
+    padding: 14px 12px;
+    margin-bottom: 16px;
+  }
+
+  .toolbar-row {
+    align-items: stretch;
+  }
+
+  .toolbar-actions,
+  .filter-group,
+  .demo-strip-actions {
+    width: 100%;
+  }
+
+  .btn-quick,
+  .btn-ghost {
+    text-align: center;
+    justify-content: center;
+  }
 
   .progress-legend { gap: 10px; }
 
@@ -861,6 +1018,8 @@ body.sidebar-open .sidebar-overlay { display: block; }
       <div class="topbar-sub">Boda · 02 Octubre 2027 · Hacienda San Antonio Calichar</div>
     </div>
     <div class="topbar-actions">
+      <button class="btn-ghost" type="button" onclick="setStatusFilter('pending')">Ver pendientes</button>
+      <button class="btn-ghost" type="button" onclick="copyPendingUrls()">Copiar pendientes</button>
       <a class="btn-primary" href="index.html?g=herrera" target="_blank" style="text-decoration:none;">Ver invitación</a>
     </div>
   </div>
@@ -869,12 +1028,34 @@ body.sidebar-open .sidebar-overlay { display: block; }
   <div class="content">
 
     <!-- DEMO BANNER -->
-    <div style="background:linear-gradient(135deg,#8a6d4a,#b8976a);border-radius:4px;padding:16px 24px;margin-bottom:28px;display:flex;align-items:center;gap:16px;">
-      <span style="font-size:22px;">👋</span>
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:#faf8f4;margin-bottom:3px;">Bienvenido al panel de administración</div>
-        <div style="font-size:12px;color:rgba(250,248,244,0.75);line-height:1.6;">Aquí ves todo lo que pasa con tu evento en tiempo real: quién abrió la invitación, quién confirmó asistencia y cuántos pases están confirmados. No necesitas saber tecnología — todo se actualiza solo.</div>
+    <div class="demo-strip">
+      <div class="demo-strip-copy">
+        <div class="demo-strip-label">Modo demo activo</div>
+        <div class="demo-strip-title">Resumen claro, acciones rápidas y enlaces listos para compartir.</div>
+        <div class="demo-strip-text">Usa este panel para localizar invitados, revisar pendientes y copiar enlaces sin perderte entre tablas largas.</div>
       </div>
+      <div class="demo-strip-actions">
+        <a class="btn-quick" href="#section-guests">Ir a invitados</a>
+        <a class="btn-quick" href="#section-urls">Ir a enlaces</a>
+      </div>
+    </div>
+
+    <div class="toolbar-card">
+      <div class="toolbar-row">
+        <label class="toolbar-search" for="guest-search">
+          <input id="guest-search" type="search" placeholder="Buscar por nombre, mesa o clave..." oninput="setSearchQuery(this.value)"/>
+        </label>
+        <div class="toolbar-actions">
+          <div class="filter-group">
+            <button class="btn-ghost active" id="filter-all" type="button" onclick="setStatusFilter('all')">Todos</button>
+            <button class="btn-ghost" id="filter-pending" type="button" onclick="setStatusFilter('pending')">Pendientes</button>
+            <button class="btn-ghost" id="filter-confirmed" type="button" onclick="setStatusFilter('confirmed')">Confirmados</button>
+            <button class="btn-ghost" id="filter-declined" type="button" onclick="setStatusFilter('declined')">No asistirán</button>
+          </div>
+          <button class="btn-ghost" type="button" onclick="clearGuestFilters()">Limpiar</button>
+        </div>
+      </div>
+      <div class="toolbar-meta" id="toolbar-meta">Mostrando todos los invitados.</div>
     </div>
 
     <!-- STATS -->
@@ -882,22 +1063,22 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <div class="stats-row">
       <div class="stat-card gold">
         <div class="stat-label">Total de pases</div>
-        <div class="stat-number gold" id="stat-total">—</div>
+        <div class="stat-number gold" id="stat-total">--</div>
         <div class="stat-detail" id="stat-total-detail">asistentes esperados</div>
       </div>
       <div class="stat-card green">
         <div class="stat-label">Ya confirmaron</div>
-        <div class="stat-number green" id="stat-confirmed">—</div>
+        <div class="stat-number green" id="stat-confirmed">--</div>
         <div class="stat-detail" id="stat-confirmed-detail">respondieron que sí asisten</div>
       </div>
       <div class="stat-card gray">
         <div class="stat-label">Sin responder</div>
-        <div class="stat-number" id="stat-pending">—</div>
+        <div class="stat-number" id="stat-pending">--</div>
         <div class="stat-detail">aún no han contestado</div>
       </div>
       <div class="stat-card red">
         <div class="stat-label">No asistirán</div>
-        <div class="stat-number red" id="stat-declined">—</div>
+        <div class="stat-number red" id="stat-declined">--</div>
         <div class="stat-detail">respondieron que no pueden</div>
       </div>
     </div>
@@ -909,7 +1090,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
           <span class="progress-title">¿Cuántos ya confirmaron?</span>
           <div style="font-size:11px;color:var(--text-light);margin-top:2px;">Esta barra te muestra el avance de confirmaciones sobre el total de invitados</div>
         </div>
-        <span class="progress-pct" id="progress-pct-text">—</span>
+        <span class="progress-pct" id="progress-pct-text">--</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="progress-fill" style="width:0%"></div>
@@ -940,6 +1121,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
             <div>
               <span class="panel-title">Lista de invitados</span>
               <div style="font-size:11px;color:var(--text-light);margin-top:3px;">Cada invitado tiene su propia invitación personalizada. Aquí ves en qué estado está cada uno.</div>
+              <div class="panel-submeta" id="guest-summary">Mostrando todos.</div>
             </div>
           </div>
           <table class="guest-table">
@@ -952,7 +1134,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
               </tr>
             </thead>
             <tbody id="guest-tbody">
-              <tr><td colspan="4" style="text-align:center;padding:28px;color:var(--text-light);font-size:13px;">Cargando invitados…</td></tr>
+              <tr><td colspan="4" style="text-align:center;padding:28px;color:var(--text-light);font-size:13px;">Cargando invitados...</td></tr>
             </tbody>
           </table>
         </div>
@@ -1081,6 +1263,96 @@ body.sidebar-open .sidebar-overlay { display: block; }
 // ── ICONS ──
 feather.replace();
 
+const ADMIN_UI_STATE = {
+  rsvpData: {},
+  query: '',
+  status: 'all',
+};
+
+function normalizeText(value) {
+  return (value || '')
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function getGuestStatusMeta(key, rsvpData) {
+  const r = rsvpData[key];
+  if (!r || r.attending === undefined) {
+    if (r && r.lastVisit) {
+      return { status: 'pending', badge: 'badge-pending', label: 'Vio la invitación' };
+    }
+    return { status: 'pending', badge: 'badge-pending', label: 'Pendiente' };
+  }
+  if (r.attending) {
+    return { status: 'confirmed', badge: 'badge-confirmed', label: 'Confirmado' };
+  }
+  return { status: 'declined', badge: 'badge-declined', label: 'No asistirá' };
+}
+
+function getFilteredGuestKeys(rsvpData) {
+  const query = normalizeText(ADMIN_UI_STATE.query);
+  const status = ADMIN_UI_STATE.status;
+  return Object.keys(WEDDING_GUESTS).filter(key => {
+    const guest = WEDDING_GUESTS[key];
+    const meta = getGuestStatusMeta(key, rsvpData);
+    const matchesStatus = status === 'all' || meta.status === status;
+    if (!matchesStatus) return false;
+    if (!query) return true;
+    const haystack = normalizeText([key, guest.name, guest.table, guest.passes].join(' '));
+    return haystack.includes(query);
+  });
+}
+
+function updateFilterButtons() {
+  ['all', 'pending', 'confirmed', 'declined'].forEach(status => {
+    document.getElementById(`filter-${status}`)?.classList.toggle('active', ADMIN_UI_STATE.status === status);
+  });
+}
+
+function updateToolbarMeta(filteredCount, totalCount) {
+  const labels = {
+    all: 'todos',
+    pending: 'pendientes',
+    confirmed: 'confirmados',
+    declined: 'no asistirán',
+  };
+  const suffix = ADMIN_UI_STATE.query ? ` con "${ADMIN_UI_STATE.query}"` : '';
+  const meta = document.getElementById('toolbar-meta');
+  if (meta) {
+    meta.textContent = `Mostrando ${filteredCount} de ${totalCount} invitados ${labels[ADMIN_UI_STATE.status]}${suffix}.`;
+  }
+  const summary = document.getElementById('guest-summary');
+  if (summary) {
+    summary.textContent = `${filteredCount} de ${totalCount} invitados visibles.`;
+  }
+}
+
+function setSearchQuery(value) {
+  ADMIN_UI_STATE.query = value;
+  renderGuestTable(ADMIN_UI_STATE.rsvpData);
+  renderUrlsList(ADMIN_UI_STATE.rsvpData);
+}
+
+function setStatusFilter(status) {
+  ADMIN_UI_STATE.status = status;
+  updateFilterButtons();
+  renderGuestTable(ADMIN_UI_STATE.rsvpData);
+  renderUrlsList(ADMIN_UI_STATE.rsvpData);
+}
+
+function clearGuestFilters() {
+  ADMIN_UI_STATE.query = '';
+  ADMIN_UI_STATE.status = 'all';
+  const input = document.getElementById('guest-search');
+  if (input) input.value = '';
+  updateFilterButtons();
+  renderGuestTable(ADMIN_UI_STATE.rsvpData);
+  renderUrlsList(ADMIN_UI_STATE.rsvpData);
+}
+
 // ── AUTH ──
 function checkAuth() {
   const val = document.getElementById('auth-input').value;
@@ -1140,7 +1412,8 @@ document.addEventListener('keydown', function(e) {
 
 // ── ADMIN DATA ──
 function initAdmin() {
-  renderUrlsList();
+  updateFilterButtons();
+  renderUrlsList({});
 
   if (!db) {
     renderFallback();
@@ -1155,21 +1428,24 @@ function initAdmin() {
 }
 
 function renderFallback() {
+  ADMIN_UI_STATE.rsvpData = {};
   const keys      = Object.keys(WEDDING_GUESTS);
   const totalPases = keys.reduce((s, k) => s + WEDDING_GUESTS[k].passes, 0);
   document.getElementById('stat-total').textContent         = totalPases;
   document.getElementById('stat-total-detail').textContent  = keys.length + ' invitaciones';
-  document.getElementById('stat-confirmed').textContent     = '—';
+  document.getElementById('stat-confirmed').textContent     = '--';
   document.getElementById('stat-pending').textContent       = keys.length;
-  document.getElementById('stat-declined').textContent      = '—';
+  document.getElementById('stat-declined').textContent      = '--';
   document.getElementById('progress-pct-text').textContent  = 'Firebase no configurado';
   renderGuestTable({});
+  renderUrlsList({});
   document.getElementById('activity-list').innerHTML =
     '<div class="activity-item"><div class="activity-dot" style="background:var(--yellow)"></div>' +
     '<div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Configura Firebase en <strong>firebase-config.js</strong> para ver datos reales.</div></div></div>';
 }
 
 function renderDashboard(rsvpData) {
+  ADMIN_UI_STATE.rsvpData = rsvpData;
   const keys       = Object.keys(WEDDING_GUESTS);
   const totalPases = keys.reduce((s, k) => s + WEDDING_GUESTS[k].passes, 0);
 
@@ -1203,28 +1479,22 @@ function renderDashboard(rsvpData) {
 
   renderGuestTable(rsvpData);
   renderActivity(rsvpData);
+  renderUrlsList(rsvpData);
 }
 
 function renderGuestTable(rsvpData) {
   const tbody = document.getElementById('guest-tbody');
-  const keys  = Object.keys(WEDDING_GUESTS);
+  const keys  = getFilteredGuestKeys(rsvpData);
+  updateToolbarMeta(keys.length, Object.keys(WEDDING_GUESTS).length);
+
+  if (!keys.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:28px;color:var(--text-light);font-size:13px;">No hay invitados que coincidan con tu búsqueda o filtro.</td></tr>';
+    return;
+  }
 
   tbody.innerHTML = keys.map(key => {
-    const g   = WEDDING_GUESTS[key];
-    const r   = rsvpData[key];
-    let badge, statusText;
-
-    if (!r || r.attending === undefined) {
-      if (r && r.lastVisit) {
-        badge = 'badge-pending'; statusText = 'Vio la invitación';
-      } else {
-        badge = 'badge-pending'; statusText = 'Pendiente';
-      }
-    } else if (r.attending) {
-      badge = 'badge-confirmed'; statusText = 'Confirmado';
-    } else {
-      badge = 'badge-declined'; statusText = 'No asistirá';
-    }
+    const g = WEDDING_GUESTS[key];
+    const meta = getGuestStatusMeta(key, rsvpData);
 
     return `<tr>
       <td>
@@ -1233,7 +1503,7 @@ function renderGuestTable(rsvpData) {
       </td>
       <td><span class="pases-dot">🎟 ${g.passes}</span></td>
       <td><span class="mesa-badge">${g.table}</span></td>
-      <td><span class="badge ${badge}">${statusText}</span></td>
+      <td><span class="badge ${meta.badge}">${meta.label}</span></td>
     </tr>`;
   }).join('');
 }
@@ -1288,10 +1558,15 @@ function formatTime(date) {
   return 'Hace ' + days + ' días';
 }
 
-function renderUrlsList() {
+function renderUrlsList(rsvpData = ADMIN_UI_STATE.rsvpData) {
   const base  = window.location.origin + window.location.pathname.replace('admin.html','') + 'index.html';
   const list  = document.getElementById('urls-list');
-  const keys  = Object.keys(WEDDING_GUESTS);
+  const keys  = getFilteredGuestKeys(rsvpData);
+
+  if (!keys.length) {
+    list.innerHTML = '<div style="padding:20px 24px;font-size:13px;color:var(--text-light);">No hay enlaces que coincidan con el filtro actual.</div>';
+    return;
+  }
 
   list.innerHTML = keys.map(key => {
     const g   = WEDDING_GUESTS[key];
@@ -1314,9 +1589,26 @@ function renderUrlsList() {
 
 function copyUrl(url, btn) {
   navigator.clipboard.writeText(url).then(() => {
-    btn.textContent = '✓ Copiado';
+    btn.textContent = 'Copiado';
     setTimeout(() => btn.textContent = 'Copiar URL', 2000);
   });
+}
+
+function copyPendingUrls() {
+  const base = window.location.origin + window.location.pathname.replace('admin.html','') + 'index.html';
+  const text = getFilteredGuestKeys(ADMIN_UI_STATE.rsvpData)
+    .filter(key => getGuestStatusMeta(key, ADMIN_UI_STATE.rsvpData).status === 'pending')
+    .map(key => {
+      const g = WEDDING_GUESTS[key];
+      return g.name + '\n' + base + '?g=' + key;
+    }).join('\n\n');
+
+  if (!text) {
+    alert('No hay invitados pendientes con el filtro actual.');
+    return;
+  }
+
+  navigator.clipboard.writeText(text).then(() => alert('Se copiaron solo los enlaces pendientes.'));
 }
 
 function copyAllUrls() {
