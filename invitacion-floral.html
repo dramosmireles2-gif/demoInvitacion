@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Andrea & Saúl — 2 · Octubre · 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:ital,wght@0,200;0,300;0,400;1,300&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blush: #f9eff0;
+  --blush2: #f3e3e5;
+  --rose: #e8b4bb;
+  --rose-deep: #c97d88;
+  --rose-dark: #9d4f5f;
+  --sage: #7a9b7c;
+  --sage-light: #a8c5a0;
+  --sage-dark: #4d7250;
+  --mauve: #b5849a;
+  --text: #3d2535;
+  --text-light: #8a6070;
+  --white: #fffafc;
+}
+
+html, body {
+  background: var(--blush);
+  min-height: 100vh;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Fondo floral SVG */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='40' cy='40' r='3' fill='%23e8b4bb' opacity='0.25'/%3E%3Ccircle cx='160' cy='80' r='2' fill='%23a8c5a0' opacity='0.3'/%3E%3Ccircle cx='80' cy='150' r='2.5' fill='%23e8b4bb' opacity='0.2'/%3E%3Ccircle cx='130' cy='20' r='2' fill='%23a8c5a0' opacity='0.25'/%3E%3Ccircle cx='20' cy='120' r='1.5' fill='%23b5849a' opacity='0.2'/%3E%3Ccircle cx='180' cy='160' r='2' fill='%23e8b4bb' opacity='0.3'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* ── SOBRE FLORAL ── */
+#envelope-screen {
+  position: fixed; inset: 0;
+  background: var(--blush);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 1s ease, transform 1s ease;
+  gap: 0;
+}
+
+#envelope-screen.hide {
+  opacity: 0;
+  transform: scale(0.98);
+  pointer-events: none;
+}
+
+.floral-env-wrap {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: float-floral 4s ease-in-out infinite;
+}
+
+@keyframes float-floral {
+  0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+  50% { transform: translateY(-10px) rotate(0.5deg); }
+}
+
+/* Sobre con flores en esquinas */
+.floral-env-card {
+  width: 300px;
+  background: var(--white);
+  border: 1.5px solid var(--rose);
+  padding: 36px 28px 32px;
+  text-align: center;
+  position: relative;
+  box-shadow:
+    0 8px 32px rgba(200, 100, 120, 0.12),
+    0 2px 8px rgba(200, 100, 120, 0.08);
+}
+
+/* Flores SVG en esquinas */
+.floral-corner {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  pointer-events: none;
+}
+.floral-corner.tl { top: -4px; left: -4px; }
+.floral-corner.tr { top: -4px; right: -4px; transform: scaleX(-1); }
+.floral-corner.bl { bottom: -4px; left: -4px; transform: scaleY(-1); }
+.floral-corner.br { bottom: -4px; right: -4px; transform: scale(-1); }
+
+.floral-env-seal {
+  width: 64px; height: 64px;
+  background: var(--rose-deep);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 16px rgba(201, 125, 136, 0.3);
+}
+
+.floral-env-seal-text {
+  font-family: 'Great Vibes', cursive;
+  font-size: 26px;
+  color: var(--white);
+  letter-spacing: 1px;
+}
+
+.floral-env-hr {
+  border: none;
+  border-top: 1px solid var(--rose);
+  margin: 16px 0;
+}
+
+.floral-env-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: var(--rose-dark);
+  line-height: 1.2;
+}
+
+.floral-env-date {
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.floral-hint {
+  margin-top: 24px;
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--rose-deep);
+  animation: pulse-floral 2s ease-in-out infinite;
+}
+
+@keyframes pulse-floral {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Pétalos */
+.petal-floral {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99;
+  font-size: 16px;
+  opacity: 0;
+  animation: petal-drift linear forwards;
+}
+
+@keyframes petal-drift {
+  0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0.8; }
+  25% { transform: translateY(25vh) rotate(90deg) translateX(20px); }
+  50% { transform: translateY(50vh) rotate(180deg) translateX(-15px); }
+  75% { transform: translateY(75vh) rotate(270deg) translateX(25px); }
+  100% { transform: translateY(110vh) rotate(360deg) translateX(-10px); opacity: 0; }
+}
+
+/* ── INVITACIÓN FLORAL ── */
+#invitation {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 0 80px;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+#invitation.show { display: flex; opacity: 1; }
+
+/* Hero floral */
+.floral-hero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:
+    linear-gradient(rgba(249,239,240,0.88), rgba(243,227,229,0.94)),
+    url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80') center / cover no-repeat;
+  padding: 0 0 56px;
+}
+
+/* Borde floral top */
+.floral-top-border {
+  width: 100%;
+  padding: 16px 0 0;
+  text-align: center;
+  font-size: 22px;
+  letter-spacing: 8px;
+  color: var(--rose-deep);
+  opacity: 0.6;
+  margin-bottom: 8px;
+}
+
+.floral-header {
+  width: 100%;
+  max-width: 480px;
+  padding: 32px 32px 0;
+  text-align: center;
+  animation: fade-floral 1s 0.2s both;
+}
+
+.floral-prelude {
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-bottom: 20px;
+}
+
+.floral-announce {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.9;
+  margin-bottom: 28px;
+}
+
+/* Ornamento floral */
+.floral-orn {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 auto 28px;
+  width: fit-content;
+}
+.floral-orn-leaf { font-size: 16px; color: var(--sage); }
+.floral-orn-rose { font-size: 18px; color: var(--rose-deep); }
+.floral-orn-line {
+  width: 40px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--rose));
+}
+.floral-orn-line.r { background: linear-gradient(to left, transparent, var(--rose)); }
+
+/* Nombres grandes */
+.floral-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(64px, 17vw, 90px);
+  line-height: 1;
+  color: var(--rose-dark);
+  text-shadow: 0 2px 16px rgba(157, 79, 95, 0.15);
+  animation: fade-floral 1s 0.4s both;
+}
+
+.floral-amp {
+  display: block;
+  font-family: 'Great Vibes', cursive;
+  font-size: 36px;
+  color: var(--sage-dark);
+  margin: 4px 0;
+}
+
+/* Fecha */
+.floral-date-block {
+  margin: 44px auto;
+  text-align: center;
+  animation: fade-floral 1s 0.6s both;
+}
+
+.floral-date-wreath {
+  font-size: 24px;
+  color: var(--sage);
+  display: block;
+  margin-bottom: 12px;
+  letter-spacing: 4px;
+}
+
+.floral-date-main {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.floral-date-nums {
+  font-family: 'Great Vibes', cursive;
+  font-size: 64px;
+  color: var(--rose-dark);
+  line-height: 1;
+  display: block;
+}
+
+.floral-date-year {
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: var(--text-light);
+  display: block;
+  margin-top: 6px;
+}
+
+/* Divider */
+.floral-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto 40px;
+  font-size: 18px;
+}
+
+/* Foto */
+.floral-photo {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 32px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fade-floral 1s 0.75s both;
+}
+
+.floral-frame {
+  width: 210px;
+  height: 270px;
+  border-radius: 105px 105px 8px 8px;
+  overflow: hidden;
+  border: 3px solid var(--rose);
+  box-shadow:
+    0 0 0 6px rgba(249,239,240,0.9),
+    0 0 0 9px var(--rose),
+    0 0 0 16px rgba(249,239,240,0.6),
+    0 20px 48px rgba(200,100,120,0.15);
+  position: relative;
+}
+
+.floral-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.floral-photo-caption {
+  margin-top: 20px;
+  font-family: 'Great Vibes', cursive;
+  font-size: 28px;
+  color: var(--rose-dark);
+}
+
+/* Venue */
+.floral-venue {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 32px;
+  text-align: center;
+  animation: fade-floral 1s 0.85s both;
+}
+
+.floral-venue-box {
+  background: var(--white);
+  border: 1.5px solid var(--rose);
+  padding: 32px;
+  border-radius: 4px 4px 80px 80px;
+  box-shadow: 0 8px 24px rgba(200,100,120,0.08);
+  position: relative;
+}
+
+.floral-venue-flowers {
+  font-size: 20px;
+  letter-spacing: 6px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.floral-venue-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-bottom: 10px;
+}
+
+.floral-venue-name {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 22px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.floral-venue-address {
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+.floral-venue-time {
+  font-family: 'Great Vibes', cursive;
+  font-size: 28px;
+  color: var(--rose-dark);
+  margin-top: 14px;
+}
+
+/* Countdown */
+.floral-countdown-wrap {
+  width: 100%;
+  max-width: 480px;
+  padding: 48px 32px;
+  animation: fade-floral 1s 1s both;
+}
+
+.floral-countdown-label {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--rose-deep);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.floral-countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.floral-countdown-item {
+  background: var(--white);
+  border: 1px solid var(--blush2);
+  border-radius: 50% 50% 4px 4px;
+  padding: 20px 8px 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(200,100,120,0.06);
+}
+
+.floral-countdown-num {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 30px;
+  color: var(--rose-dark);
+  line-height: 1;
+  display: block;
+}
+
+.floral-countdown-unit {
+  font-family: 'Lato', sans-serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-top: 6px;
+  display: block;
+}
+
+/* Guest card */
+.floral-guest-card {
+  width: calc(100% - 48px);
+  max-width: 432px;
+  background: var(--white);
+  border: 1.5px solid var(--rose);
+  border-radius: 4px;
+  padding: 28px 28px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(200,100,120,0.08);
+  animation: fade-floral 1s 1.1s both;
+}
+
+.floral-guest-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin-bottom: 10px;
+}
+
+.floral-guest-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 36px;
+  color: var(--rose-dark);
+  margin-bottom: 16px;
+}
+
+.floral-guest-passes {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blush);
+  border: 1px solid var(--rose);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-light);
+  text-transform: uppercase;
+}
+
+.floral-guest-table {
+  margin-top: 10px;
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--mauve);
+}
+
+/* RSVP */
+.floral-rsvp {
+  width: 100%;
+  max-width: 480px;
+  padding: 40px 24px;
+  animation: fade-floral 1s 1.2s both;
+}
+
+.floral-rsvp-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 40px;
+  color: var(--rose-dark);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.floral-rsvp-sub {
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--text-light);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.floral-rsvp-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.floral-rsvp-btn {
+  padding: 18px;
+  border: 1.5px solid var(--blush2);
+  border-radius: 4px;
+  background: var(--white);
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.floral-rsvp-btn:hover { border-color: var(--rose-deep); color: var(--rose-dark); }
+.floral-rsvp-btn.selected-yes { background: var(--rose-deep); border-color: var(--rose-deep); color: white; }
+.floral-rsvp-btn.selected-no  { background: var(--text); border-color: var(--text); color: white; }
+.floral-rsvp-icon { font-size: 22px; }
+
+.floral-rsvp-msg {
+  width: 100%;
+  padding: 16px;
+  border: 1.5px solid var(--blush2);
+  border-radius: 4px;
+  background: var(--white);
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text);
+  resize: none; outline: none;
+  transition: border-color 0.3s;
+  margin-bottom: 16px;
+}
+.floral-rsvp-msg:focus { border-color: var(--rose-deep); }
+.floral-rsvp-msg::placeholder { color: var(--rose); }
+
+.floral-rsvp-submit {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, var(--rose-dark), var(--rose-deep));
+  border: none;
+  border-radius: 40px;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.2s;
+  box-shadow: 0 6px 20px rgba(157,79,95,0.3);
+}
+.floral-rsvp-submit:hover { opacity: 0.9; transform: translateY(-2px); }
+
+/* Success */
+.floral-rsvp-success {
+  display: none; opacity: 0;
+  transform: translateY(14px);
+  text-align: center;
+  padding: 36px;
+  background: var(--white);
+  border: 1.5px solid var(--rose);
+  border-radius: 4px;
+  transition: opacity 0.5s, transform 0.5s;
+}
+.floral-rsvp-success.show { display: block; }
+.floral-rsvp-success.visible { opacity: 1; transform: translateY(0); }
+
+.floral-success-icon { font-size: 40px; margin-bottom: 12px; display: block; }
+.floral-success-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 40px;
+  color: var(--rose-dark);
+  margin-bottom: 8px;
+}
+.floral-success-body {
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+
+/* Actions */
+.floral-actions {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 24px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  animation: fade-floral 1s 1.3s both;
+}
+
+.floral-action-btn {
+  padding: 16px;
+  border: 1.5px solid var(--rose);
+  border-radius: 4px;
+  background: var(--white);
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  transition: all 0.3s;
+}
+.floral-action-btn:hover { border-color: var(--rose-deep); color: var(--rose-dark); background: var(--blush); }
+.floral-action-icon { font-size: 20px; }
+
+/* Footer */
+.floral-footer {
+  margin-top: 48px;
+  text-align: center;
+  padding: 0 24px;
+  animation: fade-floral 1s 1.4s both;
+}
+
+.floral-footer-flowers {
+  font-size: 22px;
+  letter-spacing: 8px;
+  color: var(--rose-deep);
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.floral-footer-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: var(--rose-dark);
+  margin-bottom: 8px;
+}
+
+.floral-footer-note {
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--text-light);
+  text-transform: uppercase;
+}
+
+.floral-credit {
+  margin-top: 40px;
+  font-family: 'Lato', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--rose);
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+@keyframes fade-floral {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- SOBRE FLORAL -->
+<div id="envelope-screen">
+  <div class="floral-env-wrap" id="envelope" onclick="openEnvelope()">
+    <div class="floral-env-card">
+      <!-- Flores esquinas SVG -->
+      <svg class="floral-corner tl" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" fill="#e8b4bb" opacity="0.7"/>
+        <circle cx="24" cy="8" r="3" fill="#c97d88" opacity="0.5"/>
+        <circle cx="8" cy="24" r="3" fill="#a8c5a0" opacity="0.6"/>
+        <line x1="12" y1="12" x2="28" y2="28" stroke="#a8c5a0" stroke-width="1" opacity="0.4"/>
+      </svg>
+      <svg class="floral-corner tr" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" fill="#e8b4bb" opacity="0.7"/>
+        <circle cx="24" cy="8" r="3" fill="#c97d88" opacity="0.5"/>
+        <circle cx="8" cy="24" r="3" fill="#a8c5a0" opacity="0.6"/>
+        <line x1="12" y1="12" x2="28" y2="28" stroke="#a8c5a0" stroke-width="1" opacity="0.4"/>
+      </svg>
+      <svg class="floral-corner bl" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" fill="#e8b4bb" opacity="0.7"/>
+        <circle cx="24" cy="8" r="3" fill="#c97d88" opacity="0.5"/>
+        <circle cx="8" cy="24" r="3" fill="#a8c5a0" opacity="0.6"/>
+        <line x1="12" y1="12" x2="28" y2="28" stroke="#a8c5a0" stroke-width="1" opacity="0.4"/>
+      </svg>
+      <svg class="floral-corner br" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" fill="#e8b4bb" opacity="0.7"/>
+        <circle cx="24" cy="8" r="3" fill="#c97d88" opacity="0.5"/>
+        <circle cx="8" cy="24" r="3" fill="#a8c5a0" opacity="0.6"/>
+        <line x1="12" y1="12" x2="28" y2="28" stroke="#a8c5a0" stroke-width="1" opacity="0.4"/>
+      </svg>
+
+      <div class="floral-env-seal">
+        <span class="floral-env-seal-text">A&S</span>
+      </div>
+      <hr class="floral-env-hr"/>
+      <p class="floral-env-names">Andrea &amp; Saúl</p>
+      <hr class="floral-env-hr"/>
+      <p class="floral-env-date">2 · Octubre · 2027</p>
+    </div>
+  </div>
+  <p class="floral-hint">🌸 Toca para abrir tu invitación 🌸</p>
+</div>
+
+<!-- INVITACIÓN FLORAL -->
+<div id="invitation">
+  <div class="floral-hero">
+    <div class="floral-top-border">🌿 🌸 🌿</div>
+
+    <div class="floral-header">
+      <p class="floral-prelude">Con la bendición de nuestras familias</p>
+      <p class="floral-announce">
+        Tenemos el honor de invitarles a celebrar<br/>
+        el inicio de nuestra vida juntos
+      </p>
+      <div class="floral-orn">
+        <span class="floral-orn-line"></span>
+        <span class="floral-orn-leaf">🌿</span>
+        <span class="floral-orn-rose">🌸</span>
+        <span class="floral-orn-leaf">🌿</span>
+        <span class="floral-orn-line r"></span>
+      </div>
+    </div>
+
+    <div style="text-align:center; animation: fade-floral 1s 0.4s both;">
+      <div class="floral-names">
+        Andrea
+        <span class="floral-amp">&amp;</span>
+        Saúl
+      </div>
+    </div>
+  </div>
+
+  <!-- Fecha -->
+  <div class="floral-date-block">
+    <span class="floral-date-wreath">🌿 · 🌸 · 🌿</span>
+    <span class="floral-date-main">Sábado · Dos de Octubre</span>
+    <span class="floral-date-nums">2</span>
+    <span class="floral-date-year">2 · 0 · 2 · 7</span>
+  </div>
+
+  <div class="floral-divider">
+    <span>🌸</span>
+    <span style="font-family:'Lato';font-size:9px;letter-spacing:4px;color:var(--text-light)">·····</span>
+    <span>🌷</span>
+    <span style="font-family:'Lato';font-size:9px;letter-spacing:4px;color:var(--text-light)">·····</span>
+    <span>🌸</span>
+  </div>
+
+  <!-- Foto -->
+  <div class="floral-photo">
+    <div class="floral-frame">
+      <img src="./Andrreaysaul.png" alt="Andrea & Saúl" loading="lazy"/>
+    </div>
+    <p class="floral-photo-caption">Andrea &amp; Saúl</p>
+  </div>
+
+  <!-- Venue -->
+  <div class="floral-venue">
+    <div class="floral-venue-box">
+      <span class="floral-venue-flowers">🌿 🌸 🌿</span>
+      <p class="floral-venue-label">Lugar de celebración</p>
+      <p class="floral-venue-name">Hacienda San Antonio Calichar</p>
+      <p class="floral-venue-address">Carretera Reynosa–San Fernando km 12, Tamaulipas</p>
+      <p class="floral-venue-time">17:00 hrs</p>
+    </div>
+  </div>
+
+  <!-- Countdown -->
+  <div class="floral-countdown-wrap">
+    <p class="floral-countdown-label">🌸 Faltan 🌸</p>
+    <div class="floral-countdown-grid">
+      <div class="floral-countdown-item">
+        <span class="floral-countdown-num" id="cd-days">--</span>
+        <span class="floral-countdown-unit">Días</span>
+      </div>
+      <div class="floral-countdown-item">
+        <span class="floral-countdown-num" id="cd-hours">--</span>
+        <span class="floral-countdown-unit">Horas</span>
+      </div>
+      <div class="floral-countdown-item">
+        <span class="floral-countdown-num" id="cd-mins">--</span>
+        <span class="floral-countdown-unit">Minutos</span>
+      </div>
+      <div class="floral-countdown-item">
+        <span class="floral-countdown-num" id="cd-secs">--</span>
+        <span class="floral-countdown-unit">Segundos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="floral-orn" style="animation: fade-floral 1s 1s both; margin-bottom: 24px;">
+    <span class="floral-orn-line"></span>
+    <span class="floral-orn-leaf">🌿</span>
+    <span class="floral-orn-rose">🌸</span>
+    <span class="floral-orn-leaf">🌿</span>
+    <span class="floral-orn-line r"></span>
+  </div>
+
+  <!-- Guest Card -->
+  <div class="floral-guest-card" style="margin-top:8px;">
+    <p class="floral-guest-label">Esta invitación es para</p>
+    <p class="floral-guest-name" id="guest-name-text">Estimado Invitado</p>
+    <span class="floral-guest-passes" id="guest-passes-text">🎟 2 pases</span>
+    <p class="floral-guest-table" id="guest-table-text">Mesa · —</p>
+  </div>
+
+  <!-- RSVP -->
+  <div class="floral-rsvp">
+    <p class="floral-rsvp-title">Confirmar Asistencia</p>
+    <p class="floral-rsvp-sub">Antes del 15 de Septiembre · 2027</p>
+
+    <div id="rsvp-form">
+      <div class="floral-rsvp-options">
+        <button class="floral-rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')">
+          <span class="floral-rsvp-icon">🌸</span>
+          Asistiré
+        </button>
+        <button class="floral-rsvp-btn" id="btn-no" onclick="selectRSVP('no')">
+          <span class="floral-rsvp-icon">💌</span>
+          No Podré
+        </button>
+      </div>
+      <textarea class="floral-rsvp-msg" id="rsvp-msg" rows="3" placeholder="Un mensaje para los novios... (opcional)"></textarea>
+      <button class="floral-rsvp-submit" onclick="submitRSVP()">Confirmar</button>
+    </div>
+
+    <div class="floral-rsvp-success" id="rsvp-success">
+      <span class="floral-success-icon">🌸</span>
+      <p class="floral-success-title" id="rsvp-success-title">¡Gracias!</p>
+      <p class="floral-success-body" id="rsvp-success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
+    </div>
+  </div>
+
+  <!-- Acciones -->
+  <div class="floral-actions">
+    <a class="floral-action-btn" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">
+      <span class="floral-action-icon">📍</span>
+      Cómo llegar
+    </a>
+    <button class="floral-action-btn" onclick="addToCalendar()">
+      <span class="floral-action-icon">📅</span>
+      Añadir al calendario
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div class="floral-footer">
+    <span class="floral-footer-flowers">🌿 🌸 🌷 🌸 🌿</span>
+    <p class="floral-footer-names">Andrea &amp; Saúl · 2027</p>
+    <p class="floral-footer-note">Con amor, los esperamos</p>
+    <p class="floral-credit">Invitación digital por RMKT Web &amp; Apps</p>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="guests.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
+const guest     = WEDDING_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
+
+document.getElementById('guest-name-text').textContent  = guest.name;
+document.getElementById('guest-passes-text').innerHTML  = '🎟 ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
+document.getElementById('guest-table-text').textContent = 'Mesa · ' + guest.table;
+
+let rsvpChoice = null;
+
+function openEnvelope() {
+  spawnPetals();
+  setTimeout(() => {
+    const screen = document.getElementById('envelope-screen');
+    const inv    = document.getElementById('invitation');
+    screen.classList.add('hide');
+    inv.style.display = 'flex';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      inv.classList.add('show');
+      startCountdown();
+      trackVisit();
+      checkExistingRSVP();
+    }));
+    setTimeout(() => { screen.style.display = 'none'; }, 1100);
+  }, 800);
+}
+
+function spawnPetals() {
+  const petals = ['🌸','🌷','🌹','✨','🌿','💮'];
+  for (let i = 0; i < 20; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'petal-floral';
+      p.textContent = petals[Math.floor(Math.random() * petals.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.fontSize = (12 + Math.random() * 12) + 'px';
+      p.style.animationDuration = (3 + Math.random() * 4) + 's';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 8000);
+    }, i * 100);
+  }
+}
+
+async function trackVisit() {
+  if (!db || !guestKey) return;
+  try {
+    await db.collection('rsvps').doc(guestKey).set({
+      guestName: guest.name, passes: guest.passes, table: guest.table,
+      lastVisit: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch(e) {}
+}
+
+async function checkExistingRSVP() {
+  if (!db || !guestKey) return;
+  try {
+    const doc = await db.collection('rsvps').doc(guestKey).get();
+    if (doc.exists && doc.data().attending !== undefined) {
+      const data = doc.data();
+      document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+      document.getElementById('rsvp-success-body').innerHTML = data.attending
+        ? 'Tu confirmación ya fue recibida.<br/>¡Los esperamos con mucho cariño!'
+        : 'Ya recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+      document.getElementById('rsvp-form').style.display = 'none';
+      const suc = document.getElementById('rsvp-success');
+      suc.classList.add('show');
+      requestAnimationFrame(() => requestAnimationFrame(() => suc.classList.add('visible')));
+    }
+  } catch(e) {}
+}
+
+function startCountdown() {
+  const target = new Date('2027-10-02T17:00:00');
+  function update() {
+    const diff = target - new Date();
+    if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '0'); return; }
+    document.getElementById('cd-days').textContent  = String(Math.floor(diff / 86400000)).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+  }
+  update(); setInterval(update, 1000);
+}
+
+function selectRSVP(choice) {
+  rsvpChoice = choice;
+  document.getElementById('btn-yes').className = 'floral-rsvp-btn' + (choice === 'yes' ? ' selected-yes' : '');
+  document.getElementById('btn-no').className  = 'floral-rsvp-btn' + (choice === 'no'  ? ' selected-no'  : '');
+}
+
+async function submitRSVP() {
+  if (!rsvpChoice) { alert('Por favor selecciona si asistirás o no.'); return; }
+  const submitBtn = document.querySelector('.floral-rsvp-submit');
+  submitBtn.disabled = true; submitBtn.textContent = 'Enviando...';
+  const msg = document.getElementById('rsvp-msg').value.trim();
+  if (db && guestKey) {
+    try {
+      await db.collection('rsvps').doc(guestKey).set({
+        guestName: guest.name, attending: rsvpChoice === 'yes', message: msg,
+        passes: guest.passes, table: guest.table,
+        confirmedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastVisit: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    } catch(e) { console.error(e); }
+  }
+  document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+  document.getElementById('rsvp-success-body').innerHTML = rsvpChoice === 'yes'
+    ? 'Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!'
+    : 'Recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+  const form = document.getElementById('rsvp-form');
+  const success = document.getElementById('rsvp-success');
+  form.style.transition = 'opacity 0.35s'; form.style.opacity = '0';
+  setTimeout(() => {
+    form.style.display = 'none';
+    success.classList.add('show');
+    requestAnimationFrame(() => requestAnimationFrame(() => { success.classList.add('visible'); spawnPetals(); }));
+  }, 360);
+}
+
+function addToCalendar() {
+  window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Andrea+%26+Sa%C3%BAl&dates=20271002T170000/20271003T000000&location=Hacienda+San+Antonio+Calichar,+Tamaulipas&details=¡Los+esperamos+con+mucho+cariño!', '_blank');
+}
+</script>
+</body>
+</html>
