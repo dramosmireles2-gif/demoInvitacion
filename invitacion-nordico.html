@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Andrea & Saúl — 02 · 10 · 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Inter:wght@200;300;400&display=swap" rel="stylesheet"/>
+
+<style>
+/* ── RESET & ROOT ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:  #ffffff;
+  --bg2:    #f5f5f5;
+  --text:   #111111;
+  --olive:  #3d4a2a;
+  --mid:    #888888;
+  --border: #e0e0e0;
+}
+
+html, body {
+  background: var(--white);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ════════════════════════════════
+   ENVELOPE / SOBRE SCREEN
+════════════════════════════════ */
+#envelope-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  cursor: pointer;
+}
+
+#envelope-screen.hide {
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+}
+
+.sobre-card {
+  width: min(320px, 88vw);
+  border: 1px solid var(--border);
+  background: var(--white);
+  padding: 56px 40px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  user-select: none;
+}
+
+.sobre-initials {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(64px, 20vw, 80px);
+  line-height: 1;
+  color: var(--text);
+  letter-spacing: -3px;
+  margin-bottom: 20px;
+}
+
+.sobre-olive-line {
+  width: 100%;
+  height: 2px;
+  background: var(--olive);
+  margin-bottom: 20px;
+}
+
+.sobre-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--mid);
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+.sobre-hint {
+  margin-top: 36px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  animation: blink-hint 2.2s ease-in-out infinite;
+}
+
+@keyframes blink-hint {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ── Partículas olivo al abrir ── */
+.olive-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 199;
+  background: var(--olive);
+  animation: rise-particle linear forwards;
+}
+
+@keyframes rise-particle {
+  0%   { transform: translateY(0) scale(1); opacity: 0.7; }
+  100% { transform: translateY(-80vh) scale(0.3); opacity: 0; }
+}
+
+/* ════════════════════════════════
+   INVITATION
+════════════════════════════════ */
+#invitation {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-bottom: 80px;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+#invitation.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* ── Fade-up animation ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in { animation: fade-up 0.7s ease both; }
+.fi-1  { animation-delay: 0.1s; }
+.fi-2  { animation-delay: 0.25s; }
+.fi-3  { animation-delay: 0.4s; }
+.fi-4  { animation-delay: 0.55s; }
+.fi-5  { animation-delay: 0.7s; }
+.fi-6  { animation-delay: 0.85s; }
+.fi-7  { animation-delay: 1.0s; }
+.fi-8  { animation-delay: 1.15s; }
+.fi-9  { animation-delay: 1.3s; }
+
+/* ── HERO ── */
+.inv-hero {
+  width: 100%;
+  height: 60vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.inv-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.inv-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inv-hero-names {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(36px, 12vw, 72px);
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-align: center;
+  line-height: 1;
+}
+
+/* ── OLIVE DIVIDER ── */
+.olive-divider {
+  width: 100%;
+  height: 2px;
+  background: var(--olive);
+  flex-shrink: 0;
+}
+
+/* ── DATE SECTION ── */
+.inv-date-section {
+  width: 100%;
+  max-width: 480px;
+  padding: 56px 40px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 32px;
+}
+
+.date-big-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(80px, 28vw, 120px);
+  line-height: 1;
+  color: var(--olive);
+  letter-spacing: -4px;
+}
+
+.date-right {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-month-year {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.date-day-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+/* ── COUPLE PHOTO ── */
+.inv-photo-section {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 40px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.couple-frame {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
+  background: var(--bg2);
+}
+
+.couple-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.couple-caption {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--mid);
+  letter-spacing: 1px;
+}
+
+/* ── VENUE ── */
+.inv-venue {
+  width: 100%;
+  max-width: 480px;
+  padding: 56px 40px;
+  text-align: left;
+}
+
+.venue-name {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(24px, 7vw, 32px);
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.venue-address {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--mid);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.venue-time {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+/* ── COUNTDOWN ── */
+.inv-countdown {
+  width: 100%;
+  max-width: 480px;
+  padding: 40px 40px 56px;
+  background: var(--bg2);
+}
+
+.countdown-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 28px;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 8px;
+  border-right: 1px solid var(--border);
+}
+
+.countdown-item:last-child {
+  border-right: none;
+}
+
+.countdown-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(32px, 11vw, 48px);
+  line-height: 1;
+  color: var(--text);
+  display: block;
+}
+
+.countdown-unit {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-top: 6px;
+  display: block;
+}
+
+/* ── GUEST CARD ── */
+.inv-guest-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 56px 40px;
+  border-top: 2px solid var(--olive);
+}
+
+.guest-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 12px;
+}
+
+.guest-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: clamp(22px, 6vw, 28px);
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.guest-passes {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.guest-table {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--olive);
+}
+
+/* ── RSVP ── */
+.inv-rsvp {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 40px 56px;
+}
+
+.rsvp-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 26px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.rsvp-sub {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 32px;
+}
+
+.rsvp-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.rsvp-btn {
+  padding: 16px 12px;
+  border: 1px solid var(--text);
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.rsvp-btn:hover {
+  background: var(--bg2);
+}
+
+.rsvp-btn.selected-yes {
+  background: var(--text);
+  color: #ffffff;
+}
+
+.rsvp-btn.selected-no {
+  background: var(--bg2);
+  color: var(--mid);
+  border-color: var(--border);
+}
+
+.rsvp-message {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--text);
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 16px;
+  border-radius: 0;
+}
+
+.rsvp-message:focus {
+  border-color: var(--olive);
+}
+
+.rsvp-message::placeholder {
+  color: var(--border);
+}
+
+.rsvp-submit {
+  width: 100%;
+  padding: 18px;
+  background: var(--text);
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.rsvp-submit:hover {
+  opacity: 0.85;
+}
+
+/* Success */
+.rsvp-success {
+  display: none;
+  opacity: 0;
+  transform: translateY(12px);
+  padding: 40px 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.rsvp-success.show  { display: block; }
+.rsvp-success.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.success-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.success-body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--mid);
+  line-height: 1.7;
+}
+
+/* ── ACTIONS ── */
+.inv-actions {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 40px 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.action-btn {
+  padding: 16px 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.action-btn:hover {
+  border-color: var(--olive);
+  color: var(--olive);
+}
+
+/* ── FOOTER ── */
+.inv-footer {
+  width: 100%;
+  max-width: 480px;
+  padding: 56px 40px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-year-bg {
+  position: absolute;
+  bottom: -10px;
+  right: 20px;
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(80px, 25vw, 120px);
+  color: var(--border);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.footer-names {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(22px, 7vw, 30px);
+  color: var(--text);
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-note {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-credit {
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════════════ SOBRE ════════════ -->
+<div id="envelope-screen" onclick="openEnvelope()">
+  <div class="sobre-card">
+    <div class="sobre-initials">A &amp; S</div>
+    <div class="sobre-olive-line"></div>
+    <div class="sobre-subtitle">Andrea &amp; Saúl &nbsp;·&nbsp; 02.10.2027</div>
+  </div>
+  <p class="sobre-hint">→ abrir</p>
+</div>
+
+<!-- ════════════ INVITATION ════════════ -->
+<div id="invitation">
+
+  <!-- HERO -->
+  <div class="inv-hero fade-in fi-1">
+    <img src="./Andrreaysaul.png" alt="Andrea & Saúl"/>
+    <div class="inv-hero-overlay">
+      <h1 class="inv-hero-names">ANDREA &amp; SAÚL</h1>
+    </div>
+  </div>
+
+  <div class="olive-divider"></div>
+
+  <!-- DATE -->
+  <div class="inv-date-section fade-in fi-2">
+    <div class="date-big-num">02</div>
+    <div class="date-right">
+      <span class="date-month-year">Octubre / 2027</span>
+      <span class="date-day-label">Sábado &nbsp;·&nbsp; Dos de Octubre</span>
+    </div>
+  </div>
+
+  <div class="olive-divider fade-in fi-2"></div>
+
+  <!-- COUPLE PHOTO -->
+  <div class="inv-photo-section fade-in fi-3">
+    <div class="couple-frame">
+      <img src="./Andrreaysaul.png" alt="Andrea & Saúl"/>
+    </div>
+    <span class="couple-caption">Andrea &amp; Saúl</span>
+  </div>
+
+  <div class="olive-divider fade-in fi-3"></div>
+
+  <!-- VENUE -->
+  <div class="inv-venue fade-in fi-4">
+    <p class="venue-name">Hacienda San Antonio Calichar</p>
+    <p class="venue-address">Carretera Reynosa–San Fernando km 12<br/>Tamaulipas, México</p>
+    <p class="venue-time">17 : 00 HRS</p>
+  </div>
+
+  <div class="olive-divider fade-in fi-4"></div>
+
+  <!-- COUNTDOWN -->
+  <div class="inv-countdown fade-in fi-5">
+    <p class="countdown-label">Faltan</p>
+    <div class="countdown-grid">
+      <div class="countdown-item">
+        <span class="countdown-num" id="cd-days">--</span>
+        <span class="countdown-unit">Días</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-num" id="cd-hours">--</span>
+        <span class="countdown-unit">Horas</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-num" id="cd-mins">--</span>
+        <span class="countdown-unit">Minutos</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-num" id="cd-secs">--</span>
+        <span class="countdown-unit">Segundos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUEST CARD -->
+  <div class="inv-guest-card fade-in fi-6">
+    <p class="guest-label">Esta invitación es para</p>
+    <p class="guest-name" id="guest-name-text">Estimado Invitado</p>
+    <span class="guest-passes" id="guest-passes-text">2 pases</span>
+    <span class="guest-table" id="guest-table-text">Mesa —</span>
+  </div>
+
+  <!-- RSVP -->
+  <div class="inv-rsvp fade-in fi-7">
+    <p class="rsvp-title">Confirmar Asistencia</p>
+    <p class="rsvp-sub">Antes del 15 de Septiembre · 2027</p>
+
+    <div id="rsvp-form">
+      <div class="rsvp-options">
+        <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')">Asistiré</button>
+        <button class="rsvp-btn" id="btn-no"  onclick="selectRSVP('no')">No podré</button>
+      </div>
+      <textarea class="rsvp-message" id="rsvp-msg" rows="3" placeholder="Un mensaje para los novios... (opcional)"></textarea>
+      <button class="rsvp-submit" onclick="submitRSVP()">Confirmar asistencia</button>
+    </div>
+
+    <div class="rsvp-success" id="rsvp-success">
+      <p class="success-title" id="rsvp-success-title">¡Gracias!</p>
+      <p class="success-body"  id="rsvp-success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
+    </div>
+  </div>
+
+  <div class="olive-divider fade-in fi-7"></div>
+
+  <!-- ACTIONS -->
+  <div class="inv-actions fade-in fi-8">
+    <a class="action-btn" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">
+      ↗ Cómo llegar
+    </a>
+    <button class="action-btn" onclick="addToCalendar()">
+      + Añadir al calendario
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="inv-footer fade-in fi-9">
+    <div class="olive-divider" style="margin-bottom:40px;"></div>
+    <p class="footer-names">Andrea &amp; Saúl</p>
+    <p class="footer-note">Con amor, los esperamos</p>
+    <p class="footer-credit">Invitación digital por RMKT Web &amp; Apps</p>
+    <div class="footer-year-bg">2027</div>
+  </div>
+
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="guests.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+/* ── GUEST PERSONALIZACIÓN ── */
+const urlParams = new URLSearchParams(window.location.search);
+const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
+const guest     = (typeof WEDDING_GUESTS !== 'undefined' && WEDDING_GUESTS[guestKey])
+                  || { name: 'Estimado Invitado', passes: 2, table: '—' };
+
+document.getElementById('guest-name-text').textContent  = guest.name;
+document.getElementById('guest-passes-text').textContent = guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
+document.getElementById('guest-table-text').textContent  = 'Mesa ' + guest.table;
+
+/* ── STATE ── */
+let rsvpChoice = null;
+
+/* ── OPEN ENVELOPE ── */
+function openEnvelope() {
+  spawnParticles();
+
+  const screen = document.getElementById('envelope-screen');
+  const inv    = document.getElementById('invitation');
+
+  screen.classList.add('hide');
+
+  inv.style.display = 'flex';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      inv.classList.add('show');
+      startCountdown();
+      trackVisit();
+      checkExistingRSVP();
+    });
+  });
+
+  setTimeout(() => { screen.style.display = 'none'; }, 950);
+}
+
+/* ── PARTICLES ── */
+function spawnParticles() {
+  const sizes = [6, 8, 10, 5, 7, 12, 6, 9, 8, 5, 11, 7, 6, 10, 8];
+  sizes.forEach((size, i) => {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'olive-particle';
+      const left = 10 + Math.random() * 80;
+      const bottom = Math.random() * 40;
+      p.style.cssText = [
+        'left:' + left + 'vw',
+        'bottom:' + bottom + 'vh',
+        'width:' + size + 'px',
+        'height:' + size + 'px',
+        'animation-duration:' + (0.9 + Math.random() * 0.8) + 's',
+        'animation-delay:0s',
+        'opacity:0'
+      ].join(';');
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 2000);
+    }, i * 60);
+  });
+}
+
+/* ── TRACK VISIT ── */
+async function trackVisit() {
+  if (typeof db === 'undefined' || !db || !guestKey) return;
+  try {
+    await db.collection('rsvps').doc(guestKey).set({
+      guestName: guest.name,
+      passes:    guest.passes,
+      table:     guest.table,
+      lastVisit: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch(e) { /* silencioso */ }
+}
+
+/* ── CHECK EXISTING RSVP ── */
+async function checkExistingRSVP() {
+  if (typeof db === 'undefined' || !db || !guestKey) return;
+  try {
+    const doc = await db.collection('rsvps').doc(guestKey).get();
+    if (doc.exists && doc.data().attending !== undefined) {
+      const data = doc.data();
+      document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+      document.getElementById('rsvp-success-body').innerHTML = data.attending
+        ? 'Tu confirmación ya fue recibida.<br/>¡Los esperamos con mucho cariño!'
+        : 'Ya recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+      document.getElementById('rsvp-form').style.display = 'none';
+      const suc = document.getElementById('rsvp-success');
+      suc.classList.add('show');
+      requestAnimationFrame(() => requestAnimationFrame(() => suc.classList.add('visible')));
+    }
+  } catch(e) { /* silencioso */ }
+}
+
+/* ── COUNTDOWN ── */
+function startCountdown() {
+  const target = new Date('2027-10-02T17:00:00');
+
+  function update() {
+    const diff = target - new Date();
+
+    if (diff <= 0) {
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id =>
+        document.getElementById(id).textContent = '00');
+      return;
+    }
+
+    document.getElementById('cd-days').textContent  = String(Math.floor(diff / 86400000)).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+    document.getElementById('cd-mins').textContent  = String(Math.floor((diff % 3600000)  / 60000)).padStart(2, '0');
+    document.getElementById('cd-secs').textContent  = String(Math.floor((diff % 60000)    / 1000)).padStart(2, '0');
+  }
+
+  update();
+  setInterval(update, 1000);
+}
+
+/* ── RSVP ── */
+function selectRSVP(choice) {
+  rsvpChoice = choice;
+  document.getElementById('btn-yes').className = 'rsvp-btn' + (choice === 'yes' ? ' selected-yes' : '');
+  document.getElementById('btn-no').className  = 'rsvp-btn' + (choice === 'no'  ? ' selected-no'  : '');
+}
+
+async function submitRSVP() {
+  if (!rsvpChoice) {
+    alert('Por favor selecciona si asistirás o no.');
+    return;
+  }
+
+  const submitBtn = document.querySelector('.rsvp-submit');
+  submitBtn.disabled    = true;
+  submitBtn.textContent = 'Enviando...';
+
+  const msg = document.getElementById('rsvp-msg').value.trim();
+
+  if (typeof db !== 'undefined' && db && guestKey) {
+    try {
+      await db.collection('rsvps').doc(guestKey).set({
+        guestName:   guest.name,
+        attending:   rsvpChoice === 'yes',
+        message:     msg,
+        passes:      guest.passes,
+        table:       guest.table,
+        confirmedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastVisit:   firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    } catch(e) {
+      console.error('Error al guardar RSVP:', e);
+    }
+  }
+
+  document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+  document.getElementById('rsvp-success-body').innerHTML = rsvpChoice === 'yes'
+    ? 'Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!'
+    : 'Recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+
+  const form    = document.getElementById('rsvp-form');
+  const success = document.getElementById('rsvp-success');
+
+  form.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  form.style.opacity    = '0';
+  form.style.transform  = 'translateY(-8px)';
+
+  setTimeout(() => {
+    form.style.display = 'none';
+    success.classList.add('show');
+    requestAnimationFrame(() => requestAnimationFrame(() => success.classList.add('visible')));
+  }, 320);
+}
+
+/* ── ADD TO CALENDAR ── */
+function addToCalendar() {
+  const url = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=Boda+Andrea+%26+Sa%C3%BAl'
+    + '&dates=20271002T170000/20271003T000000'
+    + '&location=Hacienda+San+Antonio+Calichar,+Tamaulipas'
+    + '&details=¡Los+esperamos+con+mucho+cariño!';
+  window.open(url, '_blank');
+}
+</script>
+</body>
+</html>
