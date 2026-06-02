@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrea & Saúl — 2 Octubre 2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ===================== FONDO ANIMADO ===================== */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(-45deg, #e8d5f5, #d5e8f5, #f5d5e8, #d5f5e8);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #2a1a3a;
+    }
+
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===================== MIXINS GLASS ===================== */
+    .glass {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow:
+        0 8px 32px rgba(122, 90, 170, 0.1),
+        0 0 0 1px rgba(180, 120, 220, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .glass-strong {
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow:
+        0 12px 40px rgba(122, 90, 170, 0.12),
+        0 0 0 1px rgba(180, 120, 220, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    /* ===================== SOBRE (PANTALLA INICIAL) ===================== */
+    #envelope-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    #envelope-screen.closing {
+      opacity: 0;
+      transform: scale(1.04);
+      pointer-events: none;
+    }
+
+    .envelope-card {
+      max-width: 360px;
+      width: 100%;
+      border-radius: 16px;
+      padding: 52px 36px 44px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      animation: floatCard 5s ease-in-out infinite;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow:
+        0 0 0 1px rgba(180, 120, 220, 0.3),
+        0 0 20px rgba(180, 120, 220, 0.1),
+        0 20px 60px rgba(122, 90, 170, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .envelope-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.4) 0%,
+        rgba(212,160,200,0.05) 40%,
+        rgba(180,120,220,0.05) 60%,
+        rgba(255,255,255,0.2) 100%
+      );
+      pointer-events: none;
+    }
+
+    .prism-line {
+      width: 60px;
+      height: 1px;
+      margin: 0 auto 28px;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(180,120,220,0.4),
+        rgba(140,180,220,0.4),
+        rgba(212,160,200,0.4),
+        transparent
+      );
+    }
+
+    .envelope-monogram {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 56px;
+      font-weight: 400;
+      color: #2a1a3a;
+      line-height: 1;
+      margin-bottom: 6px;
+      letter-spacing: -1px;
+    }
+
+    .envelope-subtitle {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #7a5aaa;
+      margin-bottom: 28px;
+    }
+
+    .envelope-names {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #2a1a3a;
+      margin-bottom: 6px;
+      opacity: 0.85;
+    }
+
+    .envelope-date {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: #7a5aaa;
+      letter-spacing: 1px;
+      margin-bottom: 36px;
+    }
+
+    .envelope-hint {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      color: rgba(42, 26, 58, 0.5);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .hint-dots {
+      display: inline-flex;
+      gap: 3px;
+    }
+
+    .hint-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(122, 90, 170, 0.4);
+      animation: dotPulse 1.5s ease-in-out infinite;
+    }
+
+    .hint-dot:nth-child(2) { animation-delay: 0.3s; }
+    .hint-dot:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ===================== BURBUJAS ===================== */
+    #bubbles-container {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -80px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: bubbleRise linear forwards;
+    }
+
+    @keyframes bubbleRise {
+      0%   { transform: translateY(0) scale(0.5); opacity: 0.7; }
+      80%  { opacity: 0.5; }
+      100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+    }
+
+    /* ===================== INVITACION (OCULTA INICIALMENTE) ===================== */
+    #invitation {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #invitation.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ===================== SECCIONES ===================== */
+    .section {
+      padding: 64px 24px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section-sm {
+      padding: 40px 24px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===================== HERO ===================== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+
+    .hero-inner {
+      max-width: 560px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #7a5aaa;
+      opacity: 0.85;
+      margin-bottom: 32px;
+    }
+
+    .hero-names {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 12px;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(62px, 16vw, 85px);
+      color: #2a1a3a;
+      line-height: 0.9;
+      text-shadow:
+        0 2px 20px rgba(255, 255, 255, 0.6),
+        0 0 40px rgba(122, 90, 170, 0.15);
+      letter-spacing: -2px;
+    }
+
+    .hero-amp {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 30px;
+      color: #7a5aaa;
+      margin: 4px 0;
+      opacity: 0.9;
+    }
+
+    .hero-tagline-card {
+      border-radius: 12px;
+      padding: 20px 32px;
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .hero-tagline {
+      font-family: 'Tenor Sans', sans-serif;
+      font-style: italic;
+      font-size: 14px;
+      color: #2a1a3a;
+      opacity: 0.75;
+      letter-spacing: 0.5px;
+      line-height: 1.7;
+    }
+
+    /* ===================== FECHA ===================== */
+    .date-card {
+      border-radius: 20px;
+      padding: 48px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .date-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(180,120,220,0.5) 20%,
+        rgba(140,180,220,0.5) 50%,
+        rgba(212,160,200,0.5) 80%,
+        transparent 100%
+      );
+    }
+
+    .date-day {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px;
+      font-weight: 300;
+      color: #7a5aaa;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .date-month {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: #2a1a3a;
+      margin-bottom: 2px;
+    }
+
+    .date-year {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: #7a5aaa;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+    }
+
+    .date-divider {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(122,90,170,0.4), transparent);
+      margin: 20px auto;
+    }
+
+    .date-time {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #2a1a3a;
+      opacity: 0.7;
+    }
+
+    /* ===================== FOTO ===================== */
+    .photo-frame {
+      border-radius: 120px 120px 12px 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow:
+        0 0 0 1px rgba(180,120,220,0.2),
+        0 20px 60px rgba(122,90,170,0.2),
+        0 0 40px rgba(212,160,200,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+      max-width: 360px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 120px 120px 12px 12px;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.1) 0%,
+        transparent 30%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ===================== VENUE ===================== */
+    .venue-card {
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .venue-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.15) 0%,
+        rgba(212,160,200,0.05) 50%,
+        rgba(180,120,220,0.05) 100%
+      );
+      pointer-events: none;
+    }
+
+    .venue-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #7a5aaa;
+      margin-bottom: 16px;
+    }
+
+    .venue-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(28px, 7vw, 38px);
+      font-weight: 400;
+      color: #2a1a3a;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .venue-subtitle {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(42,26,58,0.5);
+      margin-bottom: 16px;
+    }
+
+    .venue-address {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: rgba(42,26,58,0.55);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .venue-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(122, 90, 170, 0.1);
+      border: 1px solid rgba(122, 90, 170, 0.25);
+      border-radius: 24px;
+      padding: 8px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #7a5aaa;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .venue-btn:hover {
+      background: rgba(122, 90, 170, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ===================== COUNTDOWN ===================== */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .countdown-item {
+      border-radius: 50% 50% 8px 8px;
+      padding: 24px 8px 18px;
+      text-align: center;
+      position: relative;
+    }
+
+    .countdown-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      color: #7a5aaa;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .countdown-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(42,26,58,0.5);
+    }
+
+    .countdown-title {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #7a5aaa;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* ===================== GUEST CARD ===================== */
+    .guest-card {
+      border-radius: 16px;
+      padding: 36px 28px;
+      text-align: center;
+    }
+
+    .guest-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #7a5aaa;
+      margin-bottom: 12px;
+    }
+
+    .guest-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 32px;
+      font-weight: 400;
+      color: #2a1a3a;
+      line-height: 1.2;
+    }
+
+    .guest-seats {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      color: rgba(42,26,58,0.5);
+      letter-spacing: 1.5px;
+      margin-top: 8px;
+    }
+
+    /* ===================== RSVP ===================== */
+    .rsvp-card {
+      border-radius: 20px;
+      padding: 44px 32px;
+    }
+
+    .rsvp-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 36px;
+      color: #2a1a3a;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .rsvp-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: rgba(42,26,58,0.5);
+      text-align: center;
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+    }
+
+    .rsvp-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .rsvp-btn {
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .rsvp-btn:hover {
+      background: rgba(255,255,255,0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(122,90,170,0.15);
+    }
+
+    .rsvp-btn.selected-yes {
+      background: rgba(122, 90, 170, 0.25);
+      border-color: rgba(122, 90, 170, 0.5);
+      box-shadow: 0 0 0 1px rgba(122,90,170,0.3), 0 8px 24px rgba(122,90,170,0.2);
+    }
+
+    .rsvp-btn.selected-no {
+      background: rgba(212, 160, 200, 0.2);
+      border-color: rgba(212, 160, 200, 0.5);
+      box-shadow: 0 0 0 1px rgba(212,160,200,0.3);
+    }
+
+    .rsvp-btn-icon {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .rsvp-btn-label {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #2a1a3a;
+    }
+
+    .rsvp-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: #2a1a3a;
+      outline: none;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .rsvp-input::placeholder { color: rgba(42,26,58,0.4); }
+
+    .rsvp-input:focus {
+      border-color: rgba(122,90,170,0.4);
+      background: rgba(255,255,255,0.45);
+      box-shadow: 0 0 0 3px rgba(122,90,170,0.1);
+    }
+
+    .rsvp-submit {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(122, 90, 170, 0.8);
+      backdrop-filter: blur(10px);
+      color: white;
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+    }
+
+    .rsvp-submit:hover {
+      background: rgba(122, 90, 170, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(122,90,170,0.35);
+    }
+
+    .rsvp-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .rsvp-message {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 14px;
+      color: #7a5aaa;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .rsvp-message.show { opacity: 1; }
+
+    /* ===================== CALENDAR BTN ===================== */
+    .calendar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #2a1a3a;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .calendar-btn:hover {
+      background: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+    }
+
+    /* ===================== FOOTER ===================== */
+    .footer-card {
+      border-radius: 20px;
+      padding: 48px 32px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .footer-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 38px;
+      font-weight: 400;
+      color: #c4956a;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .footer-note {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: rgba(42,26,58,0.5);
+      line-height: 1.8;
+      max-width: 320px;
+      margin: 0 auto 24px;
+    }
+
+    .footer-prism {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(180,120,220,0.4),
+        rgba(140,180,220,0.4),
+        rgba(212,160,200,0.4),
+        transparent
+      );
+      margin: 24px auto;
+    }
+
+    .footer-credit {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(42,26,58,0.35);
+    }
+
+    /* ===================== FADE-UP ===================== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===================== SECTION LABEL ===================== */
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #7a5aaa;
+      text-align: center;
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+
+    /* ===================== SPARKLE ===================== */
+    .sparkle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      pointer-events: none;
+      animation: sparkleAnim 3s ease-in-out infinite;
+    }
+
+    @keyframes sparkleAnim {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 400px) {
+      .countdown-number { font-size: 32px; }
+      .rsvp-card { padding: 32px 20px; }
+      .date-card { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======================== BURBUJAS ======================== -->
+<div id="bubbles-container"></div>
+
+<!-- ======================== SOBRE ======================== -->
+<div id="envelope-screen">
+  <div class="envelope-card" onclick="openInvitation()">
+    <div class="prism-line"></div>
+
+    <div class="envelope-monogram">A & S</div>
+    <div class="envelope-subtitle">Se casan</div>
+
+    <div class="envelope-names">Andrea Medina · Saúl Ramírez</div>
+    <div class="envelope-date">02 · Octubre · 2027 · 17:00 HRS</div>
+
+    <div class="prism-line"></div>
+
+    <div style="margin-bottom: 36px;"></div>
+
+    <div class="envelope-hint">
+      <div class="hint-dots">
+        <div class="hint-dot"></div>
+        <div class="hint-dot"></div>
+        <div class="hint-dot"></div>
+      </div>
+      Toca para abrir
+      <div class="hint-dots">
+        <div class="hint-dot"></div>
+        <div class="hint-dot"></div>
+        <div class="hint-dot"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== INVITACIÓN ======================== -->
+<div id="invitation">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner fade-up">
+      <p class="hero-eyebrow">Con la bendición de nuestras familias</p>
+
+      <div class="hero-names">
+        <span class="hero-name">Andrea</span>
+        <span class="hero-amp">&amp;</span>
+        <span class="hero-name">Saúl</span>
+      </div>
+
+      <div class="hero-tagline-card glass">
+        <p class="hero-tagline">
+          Tienen el honor de invitarte a compartir<br />
+          el día más especial de sus vidas
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FECHA -->
+  <div class="section fade-up">
+    <p class="section-label">La fecha</p>
+    <div class="date-card glass-strong">
+      <div class="date-month">Octubre</div>
+      <div class="date-day">02</div>
+      <div class="date-year">2027</div>
+      <div class="date-divider"></div>
+      <div class="date-time">Sábado · 17:00 HRS</div>
+    </div>
+  </div>
+
+  <!-- FOTO -->
+  <div class="section-sm fade-up">
+    <p class="section-label">Los novios</p>
+    <div class="photo-frame">
+      <img src="Andrreaysaul.png" alt="Andrea y Saúl" />
+    </div>
+  </div>
+
+  <!-- VENUE -->
+  <div class="section fade-up">
+    <p class="section-label">El lugar</p>
+    <div class="venue-card glass-strong">
+      <div class="venue-eyebrow">Nos vemos en</div>
+      <div class="venue-name">Hacienda San Antonio<br />Calichar</div>
+      <div class="venue-subtitle">Tamaulipas, México</div>
+      <div class="venue-address">
+        Carretera Reynosa–San Fernando km 12<br />
+        Tamaulipas · México
+      </div>
+      <a
+        href="https://maps.google.com/?q=Carretera+Reynosa+San+Fernando+km+12+Tamaulipas"
+        target="_blank"
+        class="venue-btn"
+      >
+        <span>&#9679;</span> Ver en mapa
+      </a>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="section fade-up">
+    <p class="countdown-title">Faltan</p>
+    <div class="countdown-grid">
+      <div class="countdown-item glass">
+        <div class="countdown-number" id="cd-days">—</div>
+        <div class="countdown-label">Días</div>
+      </div>
+      <div class="countdown-item glass">
+        <div class="countdown-number" id="cd-hours">—</div>
+        <div class="countdown-label">Horas</div>
+      </div>
+      <div class="countdown-item glass">
+        <div class="countdown-number" id="cd-mins">—</div>
+        <div class="countdown-label">Min</div>
+      </div>
+      <div class="countdown-item glass">
+        <div class="countdown-number" id="cd-secs">—</div>
+        <div class="countdown-label">Seg</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARJETA INVITADO -->
+  <div class="section fade-up" id="guest-section" style="display:none;">
+    <p class="section-label">Esta invitación es para</p>
+    <div class="guest-card glass-strong">
+      <div class="guest-eyebrow">Estimado/a</div>
+      <div class="guest-name" id="guest-name-display">Invitado Especial</div>
+      <div class="guest-seats" id="guest-seats-display"></div>
+    </div>
+  </div>
+
+  <!-- RSVP -->
+  <div class="section fade-up">
+    <p class="section-label">Confirmación</p>
+    <div class="rsvp-card glass-strong">
+      <div class="rsvp-title">¿Nos acompañas?</div>
+      <div class="rsvp-subtitle">Por favor confirma antes del 1 de septiembre 2027</div>
+
+      <div class="rsvp-buttons">
+        <div class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')">
+          <div class="rsvp-btn-icon">&#10003;</div>
+          <div class="rsvp-btn-label">Sí, asistiré</div>
+        </div>
+        <div class="rsvp-btn" id="btn-no" onclick="selectRSVP('no')">
+          <div class="rsvp-btn-icon">&#10007;</div>
+          <div class="rsvp-btn-label">No podré ir</div>
+        </div>
+      </div>
+
+      <input
+        type="text"
+        id="rsvp-name"
+        class="rsvp-input"
+        placeholder="Tu nombre completo"
+      />
+      <input
+        type="text"
+        id="rsvp-phone"
+        class="rsvp-input"
+        placeholder="WhatsApp (opcional)"
+      />
+
+      <button class="rsvp-submit" id="rsvp-submit-btn" onclick="submitRSVP()">
+        Confirmar asistencia
+      </button>
+
+      <button class="calendar-btn" onclick="addToCalendar()">
+        &#128197; Agregar al calendario
+      </button>
+
+      <div class="rsvp-message" id="rsvp-message"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="section fade-up">
+    <div class="footer-card glass">
+      <div class="footer-names">Andrea &amp; Saúl</div>
+      <div class="footer-prism"></div>
+      <div class="footer-note">
+        Con toda la ilusión del mundo, esperamos tenerte cerca en este día tan especial.<br />
+        Tu presencia es el mejor regalo que podríamos recibir.
+      </div>
+      <div class="footer-prism"></div>
+      <div class="footer-credit">Invitación digital por RMKT Web &amp; Apps</div>
+    </div>
+  </div>
+
+</div><!-- /invitation -->
+
+<!-- ======================== FIREBASE ======================== -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // Cargar config desde firebase-config.js del servidor
+  // Se expone via window.__firebaseConfig inyectado en firebase-config.js
+  // o se define aquí directamente si no está disponible.
+
+  let db = null;
+
+  async function initFirebase() {
+    try {
+      // Intenta cargar la configuración del archivo local
+      const module = await import('./firebase-config.js');
+      const cfg = module.default || module.firebaseConfig || module;
+      if (cfg && cfg.apiKey) {
+        const app = initializeApp(cfg);
+        db = getFirestore(app);
+        console.log('Firebase inicializado');
+      }
+    } catch (e) {
+      console.warn('firebase-config.js no disponible — RSVP en modo offline', e);
+    }
+  }
+
+  // Exponer funciones de Firestore al scope global
+  window._fbTrackVisit = async function(guestKey) {
+    if (!db) return;
+    try {
+      await addDoc(collection(db, 'visits'), {
+        guestKey: guestKey || 'unknown',
+        timestamp: serverTimestamp(),
+        userAgent: navigator.userAgent
+      });
+    } catch (e) { console.warn('trackVisit error', e); }
+  };
+
+  window._fbCheckExistingRSVP = async function(guestKey) {
+    if (!db) return null;
+    try {
+      const q = query(collection(db, 'rsvps'), where('guestKey', '==', guestKey));
+      const snap = await getDocs(q);
+      if (!snap.empty) return snap.docs[0].data();
+    } catch (e) { console.warn('checkRSVP error', e); }
+    return null;
+  };
+
+  window._fbSubmitRSVP = async function(data) {
+    if (!db) return false;
+    try {
+      await addDoc(collection(db, 'rsvps'), { ...data, timestamp: serverTimestamp() });
+      return true;
+    } catch (e) { console.warn('submitRSVP error', e); return false; }
+  };
+
+  initFirebase();
+</script>
+
+<!-- ======================== GUESTS ======================== -->
+<script src="guests.js"></script>
+
+<!-- ======================== MAIN SCRIPT ======================== -->
+<script>
+  // -------- Estado --------
+  let rsvpChoice = null;
+  let currentGuest = null;
+  const weddingDate = new Date('2027-10-02T17:00:00');
+
+  // -------- Parámetro ?g= --------
+  const params = new URLSearchParams(window.location.search);
+  const guestKey = params.get('g') || '';
+
+  // -------- Leer invitado --------
+  function loadGuest() {
+    if (!guestKey || typeof guests === 'undefined') return;
+    currentGuest = guests[guestKey] || null;
+    if (currentGuest) {
+      document.getElementById('guest-section').style.display = 'block';
+      document.getElementById('guest-name-display').textContent =
+        currentGuest.name || 'Invitado Especial';
+      const seats = currentGuest.seats;
+      if (seats) {
+        document.getElementById('guest-seats-display').textContent =
+          seats === 1 ? '1 pase' : `${seats} pases`;
+      }
+      // Pre-llenar nombre en RSVP
+      const nameInput = document.getElementById('rsvp-name');
+      if (nameInput && currentGuest.name) nameInput.value = currentGuest.name;
+    }
+  }
+
+  // -------- Abrir invitación --------
+  function openInvitation() {
+    const envelope = document.getElementById('envelope-screen');
+    const invitation = document.getElementById('invitation');
+
+    // Lanzar burbujas
+    launchBubbles();
+
+    // Cerrar sobre
+    envelope.classList.add('closing');
+
+    setTimeout(() => {
+      envelope.style.display = 'none';
+      invitation.style.display = 'block';
+      setTimeout(() => {
+        invitation.classList.add('visible');
+        loadGuest();
+        if (guestKey && window._fbTrackVisit) {
+          window._fbTrackVisit(guestKey);
+          checkExistingRSVP();
+        }
+        initObserver();
+        startCountdown();
+      }, 50);
+    }, 800);
+  }
+  window.openInvitation = openInvitation;
+
+  // -------- Burbujas --------
+  function launchBubbles() {
+    const container = document.getElementById('bubbles-container');
+    const colors = [
+      'rgba(212,160,200,0.35)',
+      'rgba(180,120,220,0.3)',
+      'rgba(140,180,220,0.3)',
+      'rgba(160,220,200,0.3)',
+      'rgba(220,200,140,0.25)',
+      'rgba(255,255,255,0.4)'
+    ];
+
+    for (let i = 0; i < 22; i++) {
+      const b = document.createElement('div');
+      b.classList.add('bubble');
+      const size = 20 + Math.random() * 60;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      b.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${Math.random() * 100}%;
+        background: ${color};
+        backdrop-filter: blur(4px);
+        animation-duration: ${2 + Math.random() * 3}s;
+        animation-delay: ${Math.random() * 0.8}s;
+        border: 1px solid rgba(255,255,255,0.4);
+      `;
+      container.appendChild(b);
+      b.addEventListener('animationend', () => b.remove());
+    }
+  }
+
+  // -------- RSVP selección --------
+  function selectRSVP(choice) {
+    rsvpChoice = choice;
+    document.getElementById('btn-yes').classList.remove('selected-yes');
+    document.getElementById('btn-no').classList.remove('selected-no');
+    if (choice === 'yes') {
+      document.getElementById('btn-yes').classList.add('selected-yes');
+    } else {
+      document.getElementById('btn-no').classList.add('selected-no');
+    }
+  }
+  window.selectRSVP = selectRSVP;
+
+  // -------- RSVP submit --------
+  async function submitRSVP() {
+    const nameInput = document.getElementById('rsvp-name');
+    const phoneInput = document.getElementById('rsvp-phone');
+    const msgEl = document.getElementById('rsvp-message');
+    const btn = document.getElementById('rsvp-submit-btn');
+
+    if (!rsvpChoice) {
+      showRsvpMsg('Por favor selecciona si asistirás o no ✨');
+      return;
+    }
+    if (!nameInput.value.trim()) {
+      showRsvpMsg('¿Cómo te llamas? Necesitamos tu nombre 🌸');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const data = {
+      guestKey: guestKey || 'direct',
+      name: nameInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      attending: rsvpChoice === 'yes',
+      seats: currentGuest ? (currentGuest.seats || 1) : 1,
+      submittedAt: new Date().toISOString()
+    };
+
+    const success = window._fbSubmitRSVP ? await window._fbSubmitRSVP(data) : false;
+
+    if (rsvpChoice === 'yes') {
+      showRsvpMsg(success
+        ? '¡Perfecto! Tu confirmación fue registrada. ¡Nos vemos pronto! 🌸'
+        : '¡Gracias! Tu confirmación fue recibida. ¡Nos vemos pronto! 🌸'
+      );
+    } else {
+      showRsvpMsg(success
+        ? 'Lamentamos que no puedas asistir. ¡Gracias por avisarnos! 💜'
+        : 'Recibimos tu respuesta. ¡Gracias por avisarnos! 💜'
+      );
+    }
+
+    btn.textContent = '¡Enviado!';
+  }
+  window.submitRSVP = submitRSVP;
+
+  function showRsvpMsg(msg) {
+    const el = document.getElementById('rsvp-message');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  // -------- Verificar RSVP existente --------
+  async function checkExistingRSVP() {
+    if (!window._fbCheckExistingRSVP) return;
+    const existing = await window._fbCheckExistingRSVP(guestKey);
+    if (existing) {
+      const choice = existing.attending ? 'yes' : 'no';
+      selectRSVP(choice);
+      const btn = document.getElementById('rsvp-submit-btn');
+      btn.textContent = 'Actualizar confirmación';
+    }
+  }
+
+  // -------- Countdown --------
+  function startCountdown() {
+    function tick() {
+      const now = new Date();
+      const diff = weddingDate - now;
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '0';
+        document.getElementById('cd-hours').textContent = '0';
+        document.getElementById('cd-mins').textContent = '0';
+        document.getElementById('cd-secs').textContent = '0';
+        return;
+      }
+      const days  = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins  = Math.floor((diff % 3600000) / 60000);
+      const secs  = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+      document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
+      document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  // -------- Add to Calendar --------
+  function addToCalendar() {
+    const title  = encodeURIComponent('Boda Andrea & Saúl');
+    const detail = encodeURIComponent('Hacienda San Antonio Calichar, Carretera Reynosa–San Fernando km 12, Tamaulipas');
+    const loc    = encodeURIComponent('Hacienda San Antonio Calichar, Tamaulipas, México');
+    const start  = '20271002T170000';
+    const end    = '20271003T010000';
+    const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${detail}&location=${loc}`;
+    window.open(url, '_blank');
+  }
+  window.addToCalendar = addToCalendar;
+
+  // -------- Intersection Observer fade-up --------
+  function initObserver() {
+    const els = document.querySelectorAll('.fade-up');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => obs.observe(el));
+  }
+</script>
+
+</body>
+</html>
