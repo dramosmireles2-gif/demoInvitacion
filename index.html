@@ -776,6 +776,12 @@ body::before {
     </div>
   </div>
 
+  <!-- Imagen de la iglesia -->
+  <div class="venue-image-wrap" id="church-image-wrap" style="display:none;">
+    <img src="" alt="Aposento Alto" loading="lazy"/>
+    <p class="venue-image-caption">Aposento Alto</p>
+  </div>
+
   <!-- 7. MAPA SALÓN + IMAGEN LUGAR -->
   <div class="inv-map-section">
     <p class="section-label">Recepción</p>
@@ -985,7 +991,8 @@ const WEDDING_CONFIG = {
     mapsLink: 'https://maps.google.com',
   },
 
-  venueImage: '', // './lugar.png' cuando tengas la imagen
+  churchImage: './Iglesia.png',
+  venueImage:  './Salon.png',
 
   music: './musica.mp3', // remplazar con archivo real
 
@@ -1150,6 +1157,11 @@ function buildChurchMap() {
    IMAGEN DEL LUGAR
 ══════════════════════════════════ */
 function buildVenueImage() {
+  if (WEDDING_CONFIG.churchImage) {
+    const wrap = document.getElementById('church-image-wrap');
+    wrap.style.display = 'block';
+    wrap.querySelector('img').src = WEDDING_CONFIG.churchImage;
+  }
   if (WEDDING_CONFIG.venueImage) {
     const wrap = document.getElementById('venue-image-wrap');
     wrap.style.display = 'block';
