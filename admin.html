@@ -627,96 +627,44 @@ body {
 .activity-text strong { font-weight: 500; }
 .activity-time { font-size: 11px; color: var(--text-light); margin-top: 2px; }
 
-/* ── SECTION DESIGNS ── */
-#section-designs { margin-bottom: 24px; }
-
-.designs-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+/* ── MODAL ── */
+#guest-modal-overlay {
+  position: fixed; inset: 0; background: rgba(44,36,22,0.35);
+  backdrop-filter: blur(4px); z-index: 500;
+  display: flex; align-items: center; justify-content: center;
   padding: 20px;
 }
-
-.design-card {
-  border: 1px solid var(--parchment);
-  border-radius: 5px;
-  padding: 16px;
-  background: var(--cream);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: box-shadow 0.2s, transform 0.2s;
+#guest-modal {
+  background: var(--white); border: 1px solid var(--parchment);
+  border-radius: 6px; padding: 28px 28px 24px;
+  width: min(440px, 100%); box-shadow: 0 16px 48px rgba(44,36,22,0.18);
 }
-.design-card:hover { box-shadow: 0 4px 16px rgba(44,36,22,0.08); transform: translateY(-1px); }
+.modal-title { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--text); margin-bottom:20px; }
+.modal-field { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
+.modal-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; font-weight:500; color:var(--text-light); }
+.modal-input { padding:9px 12px; border:1px solid var(--parchment); border-radius:3px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text); background:var(--cream); outline:none; transition:border-color 0.2s; }
+.modal-input:focus { border-color:var(--gold-light); }
+.modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
 
-.design-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* ── FILTER BUTTONS ── */
+.filter-btn {
+  padding: 4px 12px; border: 1px solid var(--parchment);
+  border-radius: 20px; background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  color: var(--text-light); cursor: pointer; transition: all 0.15s;
 }
+.filter-btn:hover { border-color: var(--gold-light); color: var(--text); }
+.filter-btn.active { background: var(--gold); border-color: var(--gold); color: white; }
 
-.design-card-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
-  color: var(--text);
+/* ── CAPACITY BAR ── */
+.capacity-bar-section {
+  background: var(--white); border: 1px solid var(--parchment);
+  border-radius: 5px; padding: 16px 22px; margin-bottom: 24px;
+  display: flex; flex-direction: column;
 }
-
-.design-palettes { display: flex; gap: 4px; }
-.design-palette-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(44,36,22,0.1); }
-
-.design-card-actions {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.design-select {
-  flex: 1;
-  min-width: 0;
-  padding: 6px 8px;
-  border: 1px solid var(--parchment);
-  border-radius: 3px;
-  background: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  color: var(--text);
-  cursor: pointer;
-  outline: none;
-}
-.design-select:focus { border-color: var(--gold-light); }
-
-.btn-design-demo {
-  padding: 6px 10px;
-  border: 1px solid var(--parchment);
-  border-radius: 3px;
-  background: var(--white);
-  font-size: 11px;
-  color: var(--text-light);
-  cursor: pointer;
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: all 0.15s;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-.btn-design-demo:hover { border-color: var(--gold-light); color: var(--text); }
-.btn-design-demo svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 2; fill: none; }
-
-.btn-design-copy {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 3px;
-  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  color: #faf8f4;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: opacity 0.15s;
-}
-.btn-design-copy:hover { opacity: 0.85; }
+.capacity-bar-row { display: flex; justify-content: space-between; align-items: baseline; }
+.capacity-bar-label { font-size: 11px; color: var(--text-light); letter-spacing: 0.2px; }
+.capacity-bar-value { font-size: 13px; font-weight: 500; color: var(--text); }
 
 /* ── URLS SECTION ── */
 .url-row {
@@ -872,12 +820,14 @@ body.sidebar-open .sidebar-overlay { display: block; }
   .two-col { gap: 12px; margin-bottom: 16px; }
   .panel-header { padding: 13px 16px; }
   .guest-table th:nth-child(2), .guest-table td:nth-child(2),
-  .guest-table th:nth-child(3), .guest-table td:nth-child(3) { display: none; }
+  .guest-table th:nth-child(3), .guest-table td:nth-child(3),
+  .guest-table th:nth-child(5), .guest-table td:nth-child(5),
+  .guest-table th:nth-child(6), .guest-table td:nth-child(6) { display: none; }
   .guest-table th, .guest-table td { padding: 11px 16px; }
   .guest-name-cell { font-size: 14px; }
   .guest-name-sub { display: none; }
   .activity-item { padding: 11px 16px; }
-  .designs-grid { grid-template-columns: 1fr; padding: 14px; }
+  /* designs grid removed */
   .url-row { padding: 10px 16px; flex-wrap: wrap; }
   .url-row-key { display: none; }
   .bottom-nav { display: block; }
@@ -951,11 +901,8 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <a class="nav-item" href="#section-urls" onclick="setActive(this)">
       <span class="nav-icon"><i data-feather="link"></i></span> Enlaces personalizados
     </a>
-    <a class="nav-item" href="#section-designs" onclick="setActive(this)">
-      <span class="nav-icon"><i data-feather="grid"></i></span> Diseños de invitación
-    </a>
 
-    <span class="nav-section">Invitaciones</span>
+    <span class="nav-section">Otros estilos</span>
     <!-- Toggle sub-menu -->
     <div class="nav-item" onclick="toggleDesignNav(this)" style="justify-content:space-between;">
       <div style="display:flex;align-items:center;gap:11px;">
@@ -989,7 +936,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span id="topbar-countdown">cargando…</span>
       </div>
-      <a class="btn-primary" href="index.html?g=herrera" target="_blank" style="text-decoration:none;">
+      <a class="btn-primary" href="invitacion-aurora.html?g=herrera" target="_blank" style="text-decoration:none;">
         <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#faf8f4;stroke-width:2;fill:none;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Ver invitación
       </a>
@@ -1058,16 +1005,38 @@ body.sidebar-open .sidebar-overlay { display: block; }
       </div>
     </div>
 
+    <!-- CAPACITY BAR -->
+    <div class="capacity-bar-section" id="capacity-bar-section">
+      <div class="capacity-bar-row">
+        <span class="capacity-bar-label">Pases confirmados</span>
+        <strong id="capacity-text" class="capacity-bar-value">0 / 200 pases</strong>
+      </div>
+      <div class="progress-track" style="margin:10px 0 6px;">
+        <div class="progress-fill" id="capacity-fill" style="width:0%; background: linear-gradient(to right, var(--gold-dark), var(--gold));"></div>
+      </div>
+      <span id="capacity-sub" style="font-size:11px;color:var(--text-light);">200 pases disponibles aún</span>
+    </div>
+
     <!-- TWO COLUMN -->
     <div class="two-col">
 
       <!-- LEFT -->
       <div style="display:flex;flex-direction:column;gap:20px;" id="section-guests">
         <div class="panel">
-          <div class="panel-header">
+          <div class="panel-header" style="flex-wrap:wrap;gap:10px;">
             <div>
               <span class="panel-title">Lista de invitados</span>
-              <div class="panel-sub">Cada invitado tiene su propia invitación personalizada</div>
+              <div class="panel-sub" id="guest-filter-sub">Cada invitado tiene su propia invitación personalizada</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="filter-btn active" onclick="setFilter('all',this)">Todos</button>
+                <button class="filter-btn" onclick="setFilter('pending',this)">Sin confirmar</button>
+                <button class="filter-btn" onclick="setFilter('unopened',this)">No abrieron</button>
+                <button class="filter-btn" onclick="setFilter('confirmed',this)">Confirmados</button>
+                <button class="filter-btn" onclick="setFilter('declined',this)">No asistirán</button>
+              </div>
+              <button class="btn-primary" onclick="openGuestModal()" style="padding:7px 14px;font-size:11px;">+ Agregar</button>
             </div>
           </div>
           <table class="guest-table">
@@ -1077,15 +1046,19 @@ body.sidebar-open .sidebar-overlay { display: block; }
                 <th>Pases</th>
                 <th>Mesa</th>
                 <th>Estado</th>
+                <th>Mensaje</th>
+                <th>Confirmó el</th>
+                <th></th>
               </tr>
             </thead>
             <tbody id="guest-tbody">
-              <tr><td colspan="4">
+              <tr><td colspan="7">
                 <div class="empty-state">
                   <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                   <div class="empty-state-title">Cargando invitados…</div>
                 </div>
               </td></tr>
+
             </tbody>
           </table>
         </div>
@@ -1165,19 +1138,36 @@ body.sidebar-open .sidebar-overlay { display: block; }
       <div id="urls-list"></div>
     </div>
 
-    <!-- DESIGNS -->
-    <div class="panel" id="section-designs">
-      <div class="panel-header">
-        <div>
-          <span class="panel-title">Diseños de invitación</span>
-          <div class="panel-sub">12 estilos disponibles · elige el diseño y el invitado para copiar el enlace directo</div>
-        </div>
-      </div>
-      <div class="designs-grid" id="designs-grid"></div>
-    </div>
 
   </div>
 </main>
+
+<!-- GUEST MODAL -->
+<div id="guest-modal-overlay" style="display:none;" onclick="if(event.target===this)closeGuestModal()">
+  <div id="guest-modal">
+    <div class="modal-title" id="guest-modal-title">Agregar invitado</div>
+    <div class="modal-field">
+      <label class="modal-label" for="modal-name">Nombre completo</label>
+      <input class="modal-input" id="modal-name" type="text" placeholder="Ej. Familia Herrera" oninput="autoKey()" />
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="modal-key">Clave / key</label>
+      <input class="modal-input" id="modal-key" type="text" placeholder="Ej. herrera" />
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="modal-passes">Pases (1–10)</label>
+      <input class="modal-input" id="modal-passes" type="number" min="1" max="10" value="2" />
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="modal-table">Mesa</label>
+      <input class="modal-input" id="modal-table" type="text" placeholder="Ej. 5" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeGuestModal()">Cancelar</button>
+      <button class="btn-primary" onclick="saveGuest()">Guardar</button>
+    </div>
+  </div>
+</div>
 
 <!-- BOTTOM NAV (mobile) -->
 <nav class="bottom-nav">
@@ -1197,10 +1187,6 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <a class="bn-item" href="#section-urls">
       <span class="bn-icon"><i data-feather="link"></i></span>
       <span class="bn-label">Enlaces</span>
-    </a>
-    <a class="bn-item" href="#section-designs">
-      <span class="bn-icon"><i data-feather="grid"></i></span>
-      <span class="bn-label">Diseños</span>
     </a>
   </div>
 </nav>
@@ -1336,11 +1322,105 @@ function copyText(text, successMsg) {
   }
 }
 
+const VENUE_CAPACITY = 200; // pases máximos del venue
+
+// ── GUEST CRUD ──
+let currentFilter = 'all';
+let lastRsvpData  = {};
+let _editingKey   = null; // null = nuevo, string = editar
+
+function loadExtraGuests() {
+  try {
+    const raw = localStorage.getItem('wedding_guests_extra');
+    if (raw) {
+      const extras = JSON.parse(raw);
+      Object.assign(WEDDING_GUESTS, extras);
+    }
+  } catch(e) {}
+}
+
+function saveExtraGuests() {
+  const extra = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
+  localStorage.setItem('wedding_guests_extra', JSON.stringify(extra));
+}
+
+function openGuestModal(key) {
+  _editingKey = key || null;
+  document.getElementById('guest-modal-title').textContent = key ? 'Editar invitado' : 'Agregar invitado';
+  if (key) {
+    const g = WEDDING_GUESTS[key];
+    document.getElementById('modal-name').value   = g.name;
+    document.getElementById('modal-key').value    = key;
+    document.getElementById('modal-passes').value = g.passes;
+    document.getElementById('modal-table').value  = g.table;
+    document.getElementById('modal-key').readOnly = true;
+  } else {
+    document.getElementById('modal-name').value   = '';
+    document.getElementById('modal-key').value    = '';
+    document.getElementById('modal-passes').value = '2';
+    document.getElementById('modal-table').value  = '';
+    document.getElementById('modal-key').readOnly = false;
+  }
+  document.getElementById('guest-modal-overlay').style.display = 'flex';
+}
+
+function closeGuestModal() {
+  document.getElementById('guest-modal-overlay').style.display = 'none';
+}
+
+function autoKey() {
+  if (_editingKey) return;
+  const name = document.getElementById('modal-name').value;
+  const key  = name.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  document.getElementById('modal-key').value = key;
+}
+
+function saveGuest() {
+  const name   = document.getElementById('modal-name').value.trim();
+  const key    = document.getElementById('modal-key').value.trim().toLowerCase().replace(/\s+/g,'');
+  const passes = parseInt(document.getElementById('modal-passes').value, 10) || 1;
+  const table  = document.getElementById('modal-table').value.trim();
+
+  if (!name || !key) { showToast('Completa nombre y clave'); return; }
+
+  WEDDING_GUESTS[key] = { name, passes, table };
+
+  // persist extra guests
+  const stored = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
+  stored[key]  = { name, passes, table };
+  localStorage.setItem('wedding_guests_extra', JSON.stringify(stored));
+
+  closeGuestModal();
+  renderUrlsList();
+  renderGuestTable(lastRsvpData);
+  showToast(_editingKey ? 'Invitado actualizado' : 'Invitado agregado');
+}
+
+function deleteGuest(key) {
+  if (!confirm('¿Eliminar a ' + WEDDING_GUESTS[key]?.name + '?')) return;
+  delete WEDDING_GUESTS[key];
+  const stored = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
+  delete stored[key];
+  localStorage.setItem('wedding_guests_extra', JSON.stringify(stored));
+  renderUrlsList();
+  renderGuestTable(lastRsvpData);
+  showToast('Invitado eliminado');
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderGuestTable(lastRsvpData);
+}
+
 // ── INIT ADMIN ──
 function initAdmin() {
+  loadExtraGuests();
   buildNavSubDesigns();
   renderUrlsList();
-  buildDesignsSection();
 
   if (!db) {
     renderFallback();
@@ -1363,6 +1443,7 @@ function renderFallback() {
   document.getElementById('stat-pending').textContent      = keys.length;
   document.getElementById('stat-declined').textContent     = '—';
   document.getElementById('progress-pct-text').textContent = 'Pendiente de configurar';
+  updateCapacityBar(0);
   renderGuestTable({});
   document.getElementById('activity-list').innerHTML = `
     <div class="activity-item">
@@ -1373,6 +1454,14 @@ function renderFallback() {
         </div>
       </div>
     </div>`;
+}
+
+function updateCapacityBar(confirmedPases) {
+  const pct = Math.round((confirmedPases / VENUE_CAPACITY) * 100);
+  const avail = VENUE_CAPACITY - confirmedPases;
+  document.getElementById('capacity-text').textContent = confirmedPases + ' / ' + VENUE_CAPACITY + ' pases';
+  document.getElementById('capacity-fill').style.width = Math.min(pct, 100) + '%';
+  document.getElementById('capacity-sub').textContent  = avail + ' pases disponibles aún';
 }
 
 function renderDashboard(rsvpData) {
@@ -1388,6 +1477,7 @@ function renderDashboard(rsvpData) {
   });
 
   const pct = keys.length ? Math.round((confirmed / keys.length) * 100) : 0;
+  updateCapacityBar(confirmedPases);
 
   document.getElementById('stat-total').textContent           = totalPases;
   document.getElementById('stat-total-detail').textContent    = keys.length + ' invitaciones';
@@ -1406,11 +1496,27 @@ function renderDashboard(rsvpData) {
 }
 
 function renderGuestTable(rsvpData) {
-  const tbody = document.getElementById('guest-tbody');
-  const keys  = Object.keys(WEDDING_GUESTS);
+  lastRsvpData = rsvpData;
+  const tbody   = document.getElementById('guest-tbody');
+  const allKeys = Object.keys(WEDDING_GUESTS);
+
+  // Apply filter
+  const keys = allKeys.filter(key => {
+    const r = rsvpData[key];
+    if (currentFilter === 'all')       return true;
+    if (currentFilter === 'unopened')  return !r;
+    if (currentFilter === 'pending')   return r && r.attending === undefined;
+    if (currentFilter === 'confirmed') return r && r.attending === true;
+    if (currentFilter === 'declined')  return r && r.attending === false;
+    return true;
+  });
+
+  // Update sub label
+  const sub = document.getElementById('guest-filter-sub');
+  if (sub) sub.textContent = 'Mostrando ' + keys.length + ' de ' + allKeys.length + ' invitados';
 
   if (!keys.length) {
-    tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div class="empty-state-title">Sin invitados</div></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div class="empty-state-title">Sin invitados</div></div></td></tr>';
     return;
   }
 
@@ -1430,6 +1536,21 @@ function renderGuestTable(rsvpData) {
 
     const initial = g.name.charAt(0).toUpperCase();
 
+    // Message column
+    const msgRaw = r?.message || '';
+    const msgDisplay = msgRaw ? (msgRaw.length > 30 ? msgRaw.slice(0,30) + '…' : msgRaw) : '—';
+
+    // confirmedAt column
+    let confirmedAtDisplay = '—';
+    if (r?.confirmedAt) {
+      try {
+        const d = r.confirmedAt.toDate ? r.confirmedAt.toDate() : new Date(r.confirmedAt);
+        const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+        confirmedAtDisplay = d.getDate() + ' ' + months[d.getMonth()] + ' · ' +
+          String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+      } catch(e) {}
+    }
+
     return `<tr>
       <td>
         <div style="display:flex;align-items:center;">
@@ -1443,6 +1564,16 @@ function renderGuestTable(rsvpData) {
       <td><span class="pases-dot">🎟 ${g.passes}</span></td>
       <td><span class="mesa-badge">${g.table}</span></td>
       <td><span class="badge ${badge}">${statusText}</span></td>
+      <td style="font-size:12px;color:var(--text-light);">${msgDisplay}</td>
+      <td style="font-size:12px;color:var(--text-light);white-space:nowrap;">${confirmedAtDisplay}</td>
+      <td style="white-space:nowrap;">
+        <button onclick="openGuestModal('${key}')" style="background:none;border:none;cursor:pointer;color:var(--text-light);padding:4px 6px;" title="Editar">
+          <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button onclick="deleteGuest('${key}')" style="background:none;border:none;cursor:pointer;color:var(--red);padding:4px 6px;" title="Eliminar">
+          <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </td>
     </tr>`;
   }).join('');
 }
@@ -1501,7 +1632,7 @@ function renderUrlsList() {
 
   list.innerHTML = keys.map(key => {
     const g   = WEDDING_GUESTS[key];
-    const url = base + 'index.html?g=' + key;
+    const url = base + 'invitacion-aurora.html?g=' + key;
     return `<div class="url-row">
       <div>
         <div class="url-row-name">${g.name}</div>
@@ -1521,48 +1652,11 @@ function copyAllUrls() {
   const base = getBase();
   const text = Object.keys(WEDDING_GUESTS).map(key => {
     const g = WEDDING_GUESTS[key];
-    return g.name + '\n' + base + 'index.html?g=' + key;
+    return g.name + '\n' + base + 'invitacion-aurora.html?g=' + key;
   }).join('\n\n');
   copyText(text, 'Todos los enlaces copiados');
 }
 
-// ── DESIGNS SECTION ──
-function buildDesignsSection() {
-  const base = getBase();
-  const keys = Object.keys(WEDDING_GUESTS);
-  const grid = document.getElementById('designs-grid');
-
-  const guestOptions = keys.map(k =>
-    `<option value="${k}">${WEDDING_GUESTS[k].name}</option>`
-  ).join('');
-
-  grid.innerHTML = DESIGNS.map((d, i) => `
-    <div class="design-card" style="animation:fadeInUp 0.35s ease both;animation-delay:${i * 0.04}s;">
-      <div class="design-card-header">
-        <span class="design-card-name">${d.label}</span>
-        <div class="design-palettes">
-          ${d.palette.map(c => `<div class="design-palette-dot" style="background:${c}"></div>`).join('')}
-        </div>
-      </div>
-      <div class="design-card-actions">
-        <select class="design-select" id="sel-${i}">${guestOptions}</select>
-        <a class="btn-design-demo" href="${base}${d.file}?g=herrera" target="_blank" id="demo-${i}">
-          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Demo
-        </a>
-        <button class="btn-design-copy" onclick="copyDesignLink(${i},'${base}','${d.file}')">Copiar</button>
-      </div>
-    </div>`).join('');
-
-  feather.replace();
-}
-
-function copyDesignLink(i, base, file) {
-  const key  = document.getElementById('sel-' + i).value;
-  const name = WEDDING_GUESTS[key]?.name || key;
-  const url  = base + file + '?g=' + key;
-  copyText(url, 'Enlace copiado — ' + name);
-}
 </script>
 </body>
 </html>
