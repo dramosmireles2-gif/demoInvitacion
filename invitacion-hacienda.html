@@ -859,6 +859,115 @@ body::before {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+/* ── MÚSICA ── */
+#music-btn{position:fixed;bottom:24px;right:24px;z-index:500;width:44px;height:44px;border-radius:50%;background:var(--adobe);border:none;color:#fff;font-size:18px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.18);display:none;align-items:center;justify-content:center;}
+#music-btn.playing{animation:music-pulse 1.5s ease-in-out infinite;}
+@keyframes music-pulse{0%,100%{box-shadow:0 4px 16px rgba(0,0,0,0.18)}50%{box-shadow:0 4px 24px rgba(200,133,74,0.5)}}
+/* ── MINI CAL ── */
+.inv-mini-cal{width:100%;max-width:360px;margin:0 auto 48px;padding:0 24px;}
+.mini-cal-month{font-family:'Alegreya',serif;font-style:italic;font-size:18px;color:var(--text);text-align:center;margin-bottom:12px;}
+.mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.mini-cal-head{font-family:'Alegreya',serif;font-size:9px;letter-spacing:1px;color:var(--text3);text-align:center;padding:4px 0;text-transform:uppercase;}
+.mini-cal-day{font-family:'Alegreya',serif;font-size:12px;text-align:center;padding:6px 2px;color:var(--text);border-radius:50%;}
+.mini-cal-day.empty{color:transparent;}
+.mini-cal-day.today{background:var(--adobe);color:#fff;font-weight:700;}
+/* ── TIMELINE ── */
+.inv-timeline-new{width:100%;max-width:480px;padding:0 24px 48px;}
+.timeline-section-label{font-family:'Alegreya',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--adobe);text-align:center;margin-bottom:16px;}
+.timeline-list-new{position:relative;margin-top:20px;}
+.timeline-list-new::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--adobe-light),transparent);}
+.timeline-item-new{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;}
+.timeline-dot-new{width:40px;height:40px;flex-shrink:0;background:var(--white);border:1px solid var(--arena2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.07);z-index:1;}
+.timeline-content-new{flex:1;padding-top:6px;}
+.timeline-time-new{font-family:'Alegreya',serif;font-size:10px;letter-spacing:3px;color:var(--adobe);display:block;margin-bottom:2px;text-transform:uppercase;}
+.timeline-label-new{font-family:'Alegreya',serif;font-size:17px;color:var(--text);display:block;margin-bottom:2px;}
+.timeline-place-new{font-family:'Alegreya',serif;font-size:11px;color:var(--text3);}
+/* ── LOCATION CARDS ── */
+.inv-locations-new{width:100%;max-width:480px;padding:0 20px 48px;}
+.location-card-new{background:var(--white);border:1px solid var(--arena2);border-radius:6px;overflow:hidden;box-shadow:0 6px 24px rgba(42,18,8,0.08);margin-bottom:16px;}
+.location-card-label-new{font-family:'Alegreya',serif;font-size:9px;letter-spacing:4px;color:var(--adobe);text-transform:uppercase;text-align:center;padding:14px 20px 0;}
+.location-card-photo-new{width:100%;padding:12px 20px 0;box-sizing:border-box;}
+.location-card-photo-new img{width:100%;display:block;mix-blend-mode:multiply;filter:drop-shadow(0 6px 18px rgba(42,18,8,0.12));}
+.location-card-body-new{padding:16px 20px 0;text-align:center;}
+.location-card-name-new{font-family:'Alegreya',serif;font-size:20px;color:var(--text);display:block;margin-bottom:4px;}
+.location-card-address-new{font-family:'Alegreya',serif;font-size:11px;color:var(--text3);line-height:1.5;display:block;margin-bottom:10px;}
+.location-directions-btn-new{display:inline-flex;align-items:center;gap:8px;font-family:'Alegreya',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#fff;background:var(--adobe-dark);text-decoration:none;border-radius:3px;padding:9px 20px;margin-bottom:16px;transition:background 0.3s;}
+.location-directions-btn-new:hover{background:var(--adobe);}
+.location-card-map-new{width:100%;height:200px;border:none;display:block;border-top:1px solid var(--arena2);}
+.location-map-placeholder-new{width:100%;height:160px;background:var(--arena);border-top:1px solid var(--arena2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;}
+.location-map-placeholder-new span{font-size:28px;}
+.location-map-placeholder-new p{font-family:'Alegreya',serif;font-size:10px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;}
+.transfer-note-new{display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 24px;text-align:center;}
+.transfer-note-icon-new{font-size:22px;opacity:0.6;}
+.transfer-note-title-new{font-family:'Alegreya',serif;font-size:9px;letter-spacing:3px;color:var(--adobe);text-transform:uppercase;}
+.transfer-note-detail-new{font-family:'Alegreya',serif;font-size:11px;color:var(--text3);}
+.transfer-note-msg-new{font-family:'Alegreya',serif;font-style:italic;font-size:14px;color:var(--text3);margin-top:2px;}
+/* ── GALERÍA ── */
+.inv-gallery-new{width:100%;max-width:480px;padding:0 24px 40px;}
+.gallery-grid-new{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.gallery-img-new{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;cursor:pointer;transition:opacity 0.2s;}
+.gallery-img-new:hover{opacity:0.9;}
+#lightbox-new{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);z-index:900;align-items:center;justify-content:center;flex-direction:column;}
+#lightbox-new.open{display:flex;}
+#lightbox-new img{max-width:90vw;max-height:80vh;object-fit:contain;border-radius:4px;}
+#lightbox-close-new,#lightbox-prev-new,#lightbox-next-new{position:absolute;background:rgba(200,133,74,0.2);border:1px solid rgba(200,133,74,0.4);color:#fff;font-size:22px;cursor:pointer;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;}
+#lightbox-close-new{top:20px;right:20px;}
+#lightbox-prev-new{left:16px;top:50%;transform:translateY(-50%);}
+#lightbox-next-new{right:16px;top:50%;transform:translateY(-50%);}
+#lightbox-counter-new{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.5);font-size:12px;}
+/* ── DRESSCODE ── */
+.inv-dresscode-new{width:100%;max-width:480px;padding:0 24px 40px;}
+.dresscode-grid-new{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.dresscode-card-new{background:var(--white);border:1px solid var(--arena2);border-top:2px solid var(--adobe-light);border-radius:4px;padding:20px 16px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
+.dresscode-icon-new{display:block;margin:0 auto 12px;width:44px;height:44px;}
+.dresscode-gender-new{font-family:'Alegreya',serif;font-size:9px;letter-spacing:3px;color:var(--adobe);margin-bottom:8px;text-transform:uppercase;}
+.dresscode-style-new{font-family:'Alegreya',serif;font-size:15px;color:var(--text);margin-bottom:10px;line-height:1.4;}
+.dresscode-colors-new{display:flex;justify-content:center;gap:6px;margin-bottom:8px;}
+.color-swatch-new{width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,0.08);flex-shrink:0;}
+.dresscode-note-new{font-family:'Alegreya',serif;font-size:10px;color:var(--text3);font-style:italic;}
+/* ── NO MASCOTAS ── */
+.inv-no-pets-new{width:100%;max-width:480px;padding:0 24px 32px;}
+.no-pets-card-new{display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--arena2);border-radius:4px;padding:14px 18px;}
+.no-pets-icon-new{width:36px;height:36px;position:relative;flex-shrink:0;}
+.no-pets-icon-new::after{content:'';position:absolute;inset:-3px;border:1.5px solid var(--adobe);border-radius:50%;opacity:0.7;}
+.no-pets-icon-new::before{content:'';position:absolute;width:38px;height:1.5px;background:var(--adobe);top:50%;left:-4px;transform:translateY(-50%) rotate(-45deg);opacity:0.7;border-radius:2px;}
+.no-pets-text-new{font-family:'Alegreya',serif;font-size:12px;letter-spacing:0.5px;color:var(--text3);}
+/* ── REGALOS ── */
+.inv-gifts-new{width:100%;max-width:480px;padding:0 24px 40px;}
+.gifts-msg-new{font-family:'Alegreya',serif;font-style:italic;font-size:18px;color:var(--text);text-align:center;margin-bottom:20px;line-height:1.5;}
+.bank-card-new{background:var(--white);border:1px solid var(--arena2);border-radius:4px;padding:20px;}
+.bank-name-new{font-family:'Alegreya',serif;font-size:9px;letter-spacing:3px;color:var(--adobe);text-transform:uppercase;margin-bottom:8px;}
+.bank-clabe-new{font-family:'Alegreya',serif;font-size:18px;color:var(--text);letter-spacing:2px;margin-bottom:12px;}
+.bank-copy-btn-new{font-family:'Alegreya',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;background:var(--adobe-dark);color:#fff;border:none;padding:10px 24px;border-radius:3px;cursor:pointer;transition:background 0.3s;}
+.bank-copy-btn-new:hover{background:var(--adobe);}
+/* ── WISHLIST ── */
+.inv-wishlist-new{width:100%;max-width:480px;padding:0 24px 40px;display:none;}
+.wishlist-grid-new{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.wishlist-item-new{background:var(--white);border:1px solid var(--arena2);border-radius:4px;padding:16px;text-align:center;}
+.wishlist-name-new{font-family:'Alegreya',serif;font-size:15px;color:var(--text);display:block;margin-bottom:4px;}
+.wishlist-price-new{font-family:'Alegreya',serif;font-size:11px;color:var(--adobe);display:block;margin-bottom:8px;}
+.wishlist-link-new{font-family:'Alegreya',serif;font-size:10px;color:var(--adobe-dark);text-decoration:none;letter-spacing:1px;}
+/* ── GENDER REVEAL ── */
+.inv-gender-new{width:100%;max-width:480px;padding:0 24px 40px;display:none;}
+.gender-btns-new{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+.gender-btn-new{border:none;border-radius:4px;padding:20px 12px;font-family:'Alegreya',serif;font-size:18px;cursor:pointer;}
+.gender-btn-new.boy{background:#4a7aaa;color:#fff;}
+.gender-btn-new.girl{background:#aa4a7a;color:#fff;}
+.gender-bars-new{margin-top:16px;}
+.gender-bar-row-new{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.gender-bar-label-new{font-family:'Alegreya',serif;font-size:11px;width:50px;color:var(--text3);}
+.gender-bar-track-new{flex:1;height:8px;background:var(--arena);border-radius:4px;overflow:hidden;}
+.gender-bar-fill-new{height:100%;border-radius:4px;transition:width 0.6s;}
+.gender-bar-pct-new{font-family:'Alegreya',serif;font-size:11px;width:36px;text-align:right;color:var(--text3);}
+/* ── CTA CALENDARIO ── */
+.inv-cal-cta-new{width:100%;max-width:480px;padding:0 24px 48px;}
+.cal-cta-card-new{background:linear-gradient(135deg,var(--adobe-dark),var(--nopal));border-radius:6px;padding:28px 24px;text-align:center;}
+.cal-cta-icon-new{font-size:40px;display:block;margin-bottom:12px;}
+.cal-cta-title-new{font-family:'Alegreya',serif;font-style:italic;font-size:24px;color:#fff;margin-bottom:6px;}
+.cal-cta-sub-new{font-family:'Alegreya',serif;font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.8);margin-bottom:20px;text-transform:uppercase;}
+.cal-btns-new{display:flex;flex-direction:column;gap:8px;}
+.cal-btn-new{font-family:'Alegreya',serif;font-size:11px;letter-spacing:1px;color:#fff;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.35);border-radius:3px;padding:10px 16px;cursor:pointer;text-decoration:none;display:block;transition:background 0.3s;}
+.cal-btn-new:hover{background:rgba(255,255,255,0.25);}
 </style>
 </head>
 <body>
@@ -1028,6 +1137,21 @@ body::before {
     <div class="hac-orn-line r"></div>
   </div>
 
+  <audio id="bg-music" loop preload="none"><source src="./musica.mp3" type="audio/mpeg"/></audio>
+  <button id="music-btn" title="Música">♪</button>
+  <div id="lightbox-new"><button id="lightbox-close-new">×</button><button id="lightbox-prev-new">‹</button><img id="lightbox-img-new" src="" alt=""/><button id="lightbox-next-new">›</button><span id="lightbox-counter-new"></span></div>
+  <div class="inv-mini-cal"><p class="mini-cal-month">Octubre 2027</p><div class="mini-cal-grid" id="mini-cal-grid-new"></div></div>
+  <div class="inv-timeline-new"><p class="timeline-section-label">El gran día</p><div class="timeline-list-new" id="timeline-list-new"></div></div>
+  <div style="width:48px;height:1px;background:linear-gradient(to right,transparent,var(--adobe-light),transparent);margin:0 auto 32px;"></div>
+  <div class="inv-locations-new">
+    <p class="timeline-section-label">Dónde nos encontramos</p>
+    <div class="location-card-new"><p class="location-card-label-new">Ceremonia religiosa · 15:00 HRS</p><div class="location-card-photo-new" id="church-photo-new" style="display:none;"><img src="" alt="Aposento Alto" loading="lazy"/></div><div class="location-card-body-new"><span class="location-card-name-new" id="church-name-new">Aposento Alto</span><span class="location-card-address-new" id="church-address-new">C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.</span><a class="location-directions-btn-new" id="church-directions-new" href="https://maps.app.goo.gl/enaa51eixmTVXXjJA" target="_blank">📍 Cómo llegar</a></div><div id="church-map-container-new"><div class="location-map-placeholder-new"><span>🗺️</span><p>Cargando mapa…</p></div></div></div>
+    <div class="transfer-note-new"><span class="transfer-note-icon-new">🚗</span><span class="transfer-note-title-new">Traslado a recepción</span><span class="transfer-note-detail-new">Aproximadamente 18 min en automóvil</span><span class="transfer-note-msg-new">Después de la ceremonia, acompáñanos a la recepción.</span></div>
+    <div class="location-card-new"><p class="location-card-label-new">Recepción · 17:00 HRS</p><div class="location-card-photo-new" id="venue-photo-new" style="display:none;"><img src="" alt="Hacienda San Antonio Calichar" loading="lazy"/></div><div class="location-card-body-new"><span class="location-card-name-new">Hacienda San Antonio Calichar</span><span class="location-card-address-new">Carretera Reynosa–San Fernando km 12, Tamaulipas</span><a class="location-directions-btn-new" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">📍 Cómo llegar</a></div><iframe class="location-card-map-new" src="https://maps.google.com/maps?q=Hacienda+San+Antonio+Calichar+Tamaulipas&output=embed" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="Hacienda San Antonio Calichar"></iframe></div>
+  </div>
+  <div class="inv-gallery-new" id="gallery-section-new" style="display:none;"><p class="timeline-section-label">Nuestra historia</p><div class="gallery-grid-new" id="gallery-grid-new"></div></div>
+  <div class="inv-dresscode-new"><p class="timeline-section-label">Código de vestimenta</p><div class="dresscode-grid-new" id="dresscode-grid-new"></div></div>
+  <div class="inv-no-pets-new"><div class="no-pets-card-new"><span class="no-pets-icon-new"><svg viewBox="0 0 36 36" fill="none"><ellipse cx="14" cy="10" rx="3" ry="4" stroke="#c8854a" stroke-width="1.3" fill="rgba(200,133,74,0.1)"/><ellipse cx="22" cy="10" rx="3" ry="4" stroke="#c8854a" stroke-width="1.3" fill="rgba(200,133,74,0.1)"/><path d="M8 20 C8 14 10 12 14 12 L22 12 C26 12 28 14 28 20 C28 24 26 26 22 27 L20 30 L16 30 L14 27 C10 26 8 24 8 20 Z" stroke="#c8854a" stroke-width="1.3" fill="rgba(200,133,74,0.1)"/><ellipse cx="7" cy="17" rx="2.5" ry="3.5" stroke="#c8854a" stroke-width="1.2" fill="rgba(200,133,74,0.08)"/><ellipse cx="29" cy="17" rx="2.5" ry="3.5" stroke="#c8854a" stroke-width="1.2" fill="rgba(200,133,74,0.08)"/></svg></span><span class="no-pets-text-new">Agradecemos tu comprensión: el evento es libre de mascotas</span></div></div>
   <!-- Guest Card -->
   <div class="hac-guest-card" style="margin-top:8px;">
     <div class="hac-guest-card-top">
@@ -1082,6 +1206,11 @@ body::before {
     </button>
   </div>
 
+  <div class="inv-gifts-new"><p class="timeline-section-label">Mesa de regalos</p><p class="gifts-msg-new">El mejor regalo es que estés con nosotros</p><div class="bank-card-new" id="bank-card-new" style="display:none;"><p class="bank-name-new" id="bank-name-new">BBVA</p><p class="bank-clabe-new" id="bank-clabe-new">000000000000000000</p><button class="bank-copy-btn-new" onclick="copyBankNew()">Copiar CLABE</button></div></div>
+  <div class="inv-wishlist-new" id="section-wishlist-new"><p class="timeline-section-label">Lista de deseos</p><div class="wishlist-grid-new" id="wishlist-grid-new"></div></div>
+  <div class="inv-gender-new" id="section-gender-new"><p class="timeline-section-label">¡Gran Revelación!</p><p style="font-family:'Alegreya',serif;font-style:italic;font-size:16px;color:var(--text3);text-align:center;margin-bottom:16px;">¿Niño o niña? ¡Vota!</p><div class="gender-btns-new" id="gender-btns-new"><button class="gender-btn-new boy" onclick="voteGenderNew('boy')">👦 Niño</button><button class="gender-btn-new girl" onclick="voteGenderNew('girl')">👧 Niña</button></div><div class="gender-bars-new" id="gender-bars-new" style="display:none;"><div class="gender-bar-row-new"><span class="gender-bar-label-new">Niño</span><div class="gender-bar-track-new"><div class="gender-bar-fill-new" id="bar-boy-new" style="width:50%;background:#4a7aaa;"></div></div><span class="gender-bar-pct-new" id="pct-boy-new">50%</span></div><div class="gender-bar-row-new"><span class="gender-bar-label-new">Niña</span><div class="gender-bar-track-new"><div class="gender-bar-fill-new" id="bar-girl-new" style="width:50%;background:#aa4a7a;"></div></div><span class="gender-bar-pct-new" id="pct-girl-new">50%</span></div></div></div>
+  <div class="inv-cal-cta-new"><div class="cal-cta-card-new"><span class="cal-cta-icon-new">📅</span><p class="cal-cta-title-new">¡Aparta la fecha!</p><p class="cal-cta-sub-new">02 · Octubre · 2027</p><div class="cal-btns-new"><a class="cal-btn-new" id="gcal-btn-new" href="#" target="_blank">Google Calendar</a><button class="cal-btn-new" onclick="downloadICSNew('apple')">Apple Calendar (.ics)</button><button class="cal-btn-new" onclick="downloadICSNew('outlook')">Outlook (.ics)</button></div></div></div>
+
   <!-- Footer -->
   <div class="hac-footer">
     <div class="hac-footer-arch">
@@ -1129,6 +1258,7 @@ function openEnvelope() {
     }));
     setTimeout(() => { screen.style.display = 'none'; }, 1100);
   }, 800);
+  if(window._startMusicNew) window._startMusicNew();
 }
 
 function spawnPicado() {
@@ -1228,6 +1358,26 @@ async function submitRSVP() {
 function addToCalendar() {
   window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Andrea+%26+Sa%C3%BAl&dates=20271002T170000/20271003T000000&location=Hacienda+San+Antonio+Calichar,+Tamaulipas&details=¡Los+esperamos+con+mucho+cariño!', '_blank');
 }
+const WEDDING_CONFIG_NEW={weddingDate:'2027-10-02T17:00:00',schedule:[{icon:'⛪',label:'Ceremonia religiosa',place:'Aposento Alto',time:'15:00 HRS'},{icon:'🥂',label:'Recepción',place:'Hacienda San Antonio Calichar',time:'17:00 HRS'},{icon:'🎉',label:'Baile y festejo',place:'Hacienda San Antonio Calichar',time:'18:00 HRS'},{icon:'🌙',label:'Cierre de fiesta',place:'',time:'01:00 HRS'}],church:{name:'Aposento Alto',address:'C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.',mapEmbed:'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',mapsLink:'https://maps.app.goo.gl/enaa51eixmTVXXjJA'},churchImage:'./Iglesia.png',venueImage:'./Salon.png',music:'./musica.mp3',gallery:[],dresscode:{women:{style:'Vestido largo o cóctel',colors:['#e8a87a','#d4891a','#f0c060','#a8c5a0'],note:'Evitar blanco e ivory'},men:{style:'Traje formal',colors:['#2a1208','#8b3a2a','#2d5016','#d4891a'],note:'Corbata o moño requerido'}},gifts:{showBank:true,bankName:'BBVA',bankClabe:'000000000000000000',bankAlias:'andrea.saul.boda',giftListUrl:''},wishlist:[{name:'Item de ejemplo',price:'$500',image:'',link:''}]};
+(function(){const music=document.getElementById('bg-music');const btn=document.getElementById('music-btn');if(!music||!btn)return;btn.style.display='none';btn.addEventListener('click',()=>{if(music.paused){music.play().catch(()=>{});btn.textContent='⏸';btn.classList.add('playing');}else{music.pause();btn.textContent='♪';btn.classList.remove('playing');}});window._startMusicNew=function(){if(!window._musicStartedNew){window._musicStartedNew=true;btn.style.display='flex';music.play().catch(()=>{});btn.textContent='⏸';btn.classList.add('playing');}};})();
+function buildMiniCalendarNew(){const grid=document.getElementById('mini-cal-grid-new');if(!grid)return;['L','M','M','J','V','S','D'].forEach(d=>{const el=document.createElement('div');el.className='mini-cal-head';el.textContent=d;grid.appendChild(el);});const firstDay=new Date(2027,9,1).getDay();const offset=firstDay===0?6:firstDay-1;for(let i=0;i<offset;i++){const el=document.createElement('div');el.className='mini-cal-day empty';el.textContent='·';grid.appendChild(el);}for(let d=1;d<=31;d++){const el=document.createElement('div');el.className='mini-cal-day'+(d===2?' today':'');el.textContent=d;grid.appendChild(el);}}
+function buildTimelineNew(){const list=document.getElementById('timeline-list-new');if(!list)return;list.innerHTML=WEDDING_CONFIG_NEW.schedule.map(item=>`<div class="timeline-item-new"><div class="timeline-dot-new">${item.icon}</div><div class="timeline-content-new"><span class="timeline-time-new">${item.time}</span><span class="timeline-label-new">${item.label}</span>${item.place?`<span class="timeline-place-new">${item.place}</span>`:''}</div></div>`).join('');}
+function buildLocationCardsNew(){const cfg=WEDDING_CONFIG_NEW.church;const nameEl=document.getElementById('church-name-new');const addrEl=document.getElementById('church-address-new');const dirEl=document.getElementById('church-directions-new');if(nameEl)nameEl.textContent=cfg.name;if(addrEl)addrEl.textContent=cfg.address;if(dirEl&&cfg.mapsLink)dirEl.href=cfg.mapsLink;if(cfg.mapEmbed){const c=document.getElementById('church-map-container-new');if(c)c.innerHTML=`<iframe class="location-card-map-new" src="${cfg.mapEmbed}" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="${cfg.name}"></iframe>`;}if(WEDDING_CONFIG_NEW.churchImage){const w=document.getElementById('church-photo-new');if(w){w.style.display='block';w.querySelector('img').src=WEDDING_CONFIG_NEW.churchImage;}}if(WEDDING_CONFIG_NEW.venueImage){const w=document.getElementById('venue-photo-new');if(w){w.style.display='block';w.querySelector('img').src=WEDDING_CONFIG_NEW.venueImage;}}}
+let lightboxIndexNew=0;const galleryImgsNew=WEDDING_CONFIG_NEW.gallery;
+function buildGalleryNew(){if(!galleryImgsNew.length)return;const sec=document.getElementById('gallery-section-new');const grid=document.getElementById('gallery-grid-new');if(!sec||!grid)return;sec.style.display='block';grid.innerHTML=galleryImgsNew.map((src,i)=>`<img class="gallery-img-new" src="${src}" loading="lazy" onclick="openLightboxNew(${i})" alt="Foto ${i+1}"/>`).join('');}
+function openLightboxNew(i){lightboxIndexNew=i;updateLightboxNew();document.getElementById('lightbox-new')?.classList.add('open');}
+function closeLightboxNew(){document.getElementById('lightbox-new')?.classList.remove('open');}
+function updateLightboxNew(){const img=document.getElementById('lightbox-img-new');const ctr=document.getElementById('lightbox-counter-new');if(img)img.src=galleryImgsNew[lightboxIndexNew];if(ctr)ctr.textContent=(lightboxIndexNew+1)+' / '+galleryImgsNew.length;}
+(function(){const lb=document.getElementById('lightbox-new');if(!lb)return;document.getElementById('lightbox-close-new')?.addEventListener('click',closeLightboxNew);document.getElementById('lightbox-prev-new')?.addEventListener('click',()=>{lightboxIndexNew=(lightboxIndexNew-1+galleryImgsNew.length)%galleryImgsNew.length;updateLightboxNew();});document.getElementById('lightbox-next-new')?.addEventListener('click',()=>{lightboxIndexNew=(lightboxIndexNew+1)%galleryImgsNew.length;updateLightboxNew();});lb.addEventListener('click',e=>{if(e.target===lb)closeLightboxNew();});let tsNew=0;lb.addEventListener('touchstart',e=>{tsNew=e.touches[0].clientX;},{passive:true});lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tsNew;if(Math.abs(dx)>50){lightboxIndexNew=dx<0?(lightboxIndexNew+1)%galleryImgsNew.length:(lightboxIndexNew-1+galleryImgsNew.length)%galleryImgsNew.length;updateLightboxNew();}});})();
+function buildDresscodeNew(){const dc=WEDDING_CONFIG_NEW.dresscode;const grid=document.getElementById('dresscode-grid-new');if(!grid)return;const SVG_DRESS=`<svg viewBox="0 0 44 44" fill="none"><path d="M15 6 C15 6 12 10 10 14 L6 28 L38 28 L34 14 C32 10 29 6 29 6 L25 10 L22 8 L19 10 Z" stroke="#c8854a" stroke-width="1.4" fill="rgba(200,133,74,0.08)" stroke-linejoin="round"/><path d="M16 28 L14 40 L30 40 L28 28" stroke="#c8854a" stroke-width="1.4" fill="rgba(200,133,74,0.06)" stroke-linejoin="round"/><ellipse cx="22" cy="7" rx="3" ry="3.5" stroke="#c8854a" stroke-width="1.2" fill="none"/></svg>`;const SVG_SUIT=`<svg viewBox="0 0 44 44" fill="none"><path d="M14 8 L8 20 L14 22 L14 40 L30 40 L30 22 L36 20 L30 8 L26 14 L22 10 L18 14 Z" stroke="#c8854a" stroke-width="1.4" fill="rgba(200,133,74,0.08)" stroke-linejoin="round"/><path d="M18 14 L22 10 L26 14" stroke="#e8a87a" stroke-width="1.2" fill="rgba(232,168,122,0.12)"/><line x1="22" y1="18" x2="22" y2="36" stroke="#e8a87a" stroke-width="1" stroke-dasharray="2 2"/></svg>`;const items=[{gender:'Damas',icon:SVG_DRESS,data:dc.women},{gender:'Caballeros',icon:SVG_SUIT,data:dc.men}];grid.innerHTML=items.map(item=>`<div class="dresscode-card-new"><span class="dresscode-icon-new">${item.icon}</span><p class="dresscode-gender-new">${item.gender}</p><p class="dresscode-style-new">${item.data.style}</p><div class="dresscode-colors-new">${item.data.colors.map(c=>`<div class="color-swatch-new" style="background:${c}"></div>`).join('')}</div><p class="dresscode-note-new">${item.data.note}</p></div>`).join('');}
+function buildGiftsNew(){const g=WEDDING_CONFIG_NEW.gifts;if(!g.showBank)return;const card=document.getElementById('bank-card-new');if(card)card.style.display='block';const nameEl=document.getElementById('bank-name-new');const clabeEl=document.getElementById('bank-clabe-new');if(nameEl)nameEl.textContent=g.bankName;if(clabeEl)clabeEl.textContent=g.bankClabe;}
+function copyBankNew(){const clabe=WEDDING_CONFIG_NEW.gifts.bankClabe;if(navigator.clipboard){navigator.clipboard.writeText(clabe).then(()=>alert('CLABE copiada')).catch(()=>{});}else{const ta=document.createElement('textarea');ta.value=clabe;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('CLABE copiada');}}
+function buildWishlistNew(){const urlParams=new URLSearchParams(window.location.search);if(urlParams.get('tipo')!=='cumple')return;const sec=document.getElementById('section-wishlist-new');const grid=document.getElementById('wishlist-grid-new');if(!sec||!grid)return;sec.style.display='block';grid.innerHTML=WEDDING_CONFIG_NEW.wishlist.map(item=>`<div class="wishlist-item-new">${item.image?`<img src="${item.image}" style="width:100%;border-radius:4px;margin-bottom:8px;" loading="lazy"/>`:''}<span class="wishlist-name-new">${item.name}</span><span class="wishlist-price-new">${item.price}</span>${item.link?`<a class="wishlist-link-new" href="${item.link}" target="_blank">Ver →</a>`:''}</div>`).join('');}
+function buildGenderRevealNew(){const urlParams=new URLSearchParams(window.location.search);if(urlParams.get('tipo')!=='genero')return;const sec=document.getElementById('section-gender-new');if(sec)sec.style.display='block';if(typeof db!=='undefined'&&db){db.collection('gender_reveal').doc('votes').onSnapshot(snap=>{const data=snap.data()||{boy:0,girl:0};const total=(data.boy||0)+(data.girl||0)||1;const boyPct=Math.round((data.boy||0)/total*100);const girlPct=100-boyPct;const bb=document.getElementById('bar-boy-new');if(bb)bb.style.width=boyPct+'%';const bg=document.getElementById('bar-girl-new');if(bg)bg.style.width=girlPct+'%';const pb=document.getElementById('pct-boy-new');if(pb)pb.textContent=boyPct+'%';const pg=document.getElementById('pct-girl-new');if(pg)pg.textContent=girlPct+'%';const bars=document.getElementById('gender-bars-new');if(bars)bars.style.display='block';});}}
+function voteGenderNew(choice){if(localStorage.getItem('gender_voted_new'))return;localStorage.setItem('gender_voted_new',choice);if(typeof db!=='undefined'&&db&&typeof firebase!=='undefined'){db.collection('gender_reveal').doc('votes').set({[choice]:firebase.firestore.FieldValue.increment(1)},{merge:true});}const btns=document.getElementById('gender-btns-new');if(btns)btns.style.opacity='0.5';}
+function buildCalendarCTANew(){const d=new Date('2027-10-02T17:00:00');const fmt=t=>t.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');const end=new Date(d.getTime()+6*3600000);const gcUrl=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Andrea+%26+Sa%C3%BAl&dates=${fmt(d)}/${fmt(end)}&location=Hacienda+San+Antonio+Calichar,+Tamaulipas`;const btn=document.getElementById('gcal-btn-new');if(btn)btn.href=gcUrl;}
+function downloadICSNew(provider){const ics=`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\nDTSTART:20271002T170000\r\nDTEND:20271002T230000\r\nSUMMARY:Boda Andrea & Saúl\r\nLOCATION:Hacienda San Antonio Calichar, Tamaulipas\r\nDESCRIPTION:Ceremonia: Aposento Alto 15:00 · Recepción: Hacienda San Antonio Calichar 17:00\r\nEND:VEVENT\r\nEND:VCALENDAR`;const blob=new Blob([ics],{type:'text/calendar'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`boda-andrea-saul-${provider}.ics`;a.click();}
+buildMiniCalendarNew();buildTimelineNew();buildLocationCardsNew();buildGalleryNew();buildDresscodeNew();buildGiftsNew();buildWishlistNew();buildGenderRevealNew();buildCalendarCTANew();
 </script>
 </body>
 </html>
