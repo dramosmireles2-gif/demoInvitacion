@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Andrea & Saúl — 2 · Octubre · 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0d1b2a;
+  --navy2: #112236;
+  --navy3: #162d44;
+  --silver: #c0c8d8;
+  --silver-light: #dce3ef;
+  --silver-dark: #8a95aa;
+  --moon: #e8d5a3;
+  --moon-dark: #c4a86a;
+  --white: #f0f4ff;
+  --text-dim: #6a7a9a;
+}
+
+html, body {
+  background: var(--navy);
+  min-height: 100vh;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 300;
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── CIELO ESTRELLADO ── */
+#star-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── SOBRE CELESTIAL ── */
+#envelope-screen {
+  position: fixed; inset: 0;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 1s ease;
+}
+
+#envelope-screen.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cel-env-wrap {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: float-cel 5s ease-in-out infinite;
+}
+
+@keyframes float-cel {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.cel-env-card {
+  width: 300px;
+  background: var(--navy2);
+  border: 1px solid rgba(192, 200, 216, 0.3);
+  padding: 44px 32px 36px;
+  text-align: center;
+  position: relative;
+  box-shadow:
+    0 0 60px rgba(13,27,42,0.8),
+    0 0 30px rgba(192,200,216,0.08),
+    inset 0 1px 0 rgba(192,200,216,0.1);
+}
+
+/* Luna creciente SVG */
+.cel-moon {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
+}
+
+/* Estrellas decorativas en esquinas */
+.cel-star-tl { position: absolute; top: 12px; left: 14px; font-size: 10px; color: var(--moon); opacity: 0.7; }
+.cel-star-tr { position: absolute; top: 12px; right: 14px; font-size: 10px; color: var(--silver); opacity: 0.7; }
+.cel-star-bl { position: absolute; bottom: 12px; left: 14px; font-size: 8px; color: var(--silver); opacity: 0.5; }
+.cel-star-br { position: absolute; bottom: 12px; right: 14px; font-size: 8px; color: var(--moon); opacity: 0.5; }
+
+.cel-env-eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.cel-env-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 36px;
+  color: var(--silver-light);
+  line-height: 1.2;
+  text-shadow: 0 0 20px rgba(192,200,216,0.3);
+}
+
+.cel-env-amp {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--moon);
+  display: block;
+  margin: 4px 0;
+}
+
+.cel-env-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(192,200,216,0.3), transparent);
+  margin: 20px 0;
+}
+
+.cel-env-date {
+  font-family: 'Cormorant SC', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--moon-dark);
+}
+
+.cel-env-hint {
+  margin-top: 32px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  animation: pulse-cel 2s ease-in-out infinite;
+}
+
+@keyframes pulse-cel {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* Destellos al abrir */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99;
+  color: var(--silver-light);
+  opacity: 0;
+  animation: sparkle-fall linear forwards;
+  font-size: 12px;
+}
+
+@keyframes sparkle-fall {
+  0%   { opacity: 1; transform: translateY(-10px) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(110vh) scale(0.2) rotate(720deg); }
+}
+
+/* ── INVITACIÓN ── */
+#invitation {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 0 80px;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+#invitation.show { display: flex; opacity: 1; }
+
+/* Borde superior con gradiente plateado */
+.cel-top-border {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--silver), var(--moon), var(--silver), transparent);
+}
+
+/* Hero */
+.cel-hero {
+  width: 100%;
+  max-width: 480px;
+  padding: 60px 24px 48px;
+  text-align: center;
+  animation: fade-cel 1s 0.2s both;
+}
+
+.cel-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.cel-badge-line {
+  width: 40px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--text-dim));
+}
+.cel-badge-line.r { background: linear-gradient(to left, transparent, var(--text-dim)); }
+
+.cel-badge-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.cel-announce {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--silver-dark);
+  line-height: 2;
+  margin-bottom: 48px;
+}
+
+/* Ornamento lunar */
+.cel-orn {
+  display: flex; align-items: center; gap: 16px;
+  margin: 0 auto 32px;
+  width: fit-content;
+}
+.cel-orn-line {
+  width: 56px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--silver-dark));
+}
+.cel-orn-line.r { background: linear-gradient(to left, transparent, var(--silver-dark)); }
+.cel-orn-moon { font-size: 16px; color: var(--moon); }
+
+/* Nombres */
+.cel-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(60px, 15vw, 80px);
+  line-height: 1;
+  color: var(--silver-light);
+  text-shadow:
+    0 0 40px rgba(192,200,216,0.3),
+    0 0 80px rgba(192,200,216,0.1);
+  animation: fade-cel 1s 0.4s both;
+}
+
+.cel-amp {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 32px;
+  color: var(--moon);
+  margin: 8px 0;
+  text-shadow: 0 0 20px rgba(232,213,163,0.4);
+}
+
+/* Fecha */
+.cel-date-block {
+  margin: 48px auto;
+  text-align: center;
+  animation: fade-cel 1s 0.6s both;
+}
+
+.cel-date-glass {
+  display: inline-block;
+  padding: 24px 40px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(192,200,216,0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+}
+
+.cel-date-glass::before,
+.cel-date-glass::after {
+  content: '✦';
+  position: absolute;
+  top: -8px;
+  font-size: 12px;
+  color: var(--moon);
+}
+.cel-date-glass::before { left: 12px; }
+.cel-date-glass::after  { right: 12px; }
+
+.cel-date-main {
+  font-family: 'Cormorant SC', serif;
+  font-size: 12px;
+  letter-spacing: 5px;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.cel-date-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px;
+  font-weight: 300;
+  color: var(--moon);
+  line-height: 1;
+  display: block;
+  text-shadow: 0 0 24px rgba(232,213,163,0.3);
+}
+
+.cel-date-year {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  letter-spacing: 6px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: 8px;
+}
+
+/* Divider */
+.cel-divider {
+  width: 1px;
+  height: 70px;
+  background: linear-gradient(to bottom, transparent, var(--silver-dark), transparent);
+  margin: 0 auto 40px;
+}
+
+/* Foto */
+.cel-photo {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 32px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fade-cel 1s 0.75s both;
+}
+
+.cel-frame {
+  width: 210px;
+  height: 270px;
+  border-radius: 105px 105px 6px 6px;
+  overflow: hidden;
+  border: 1px solid rgba(192,200,216,0.3);
+  box-shadow:
+    0 0 0 6px rgba(13,27,42,0.9),
+    0 0 0 8px rgba(192,200,216,0.15),
+    0 20px 60px rgba(0,0,0,0.5),
+    0 0 40px rgba(192,200,216,0.06);
+  position: relative;
+}
+
+.cel-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.9) saturate(0.7) contrast(1.05);
+}
+
+.cel-photo-caption {
+  margin-top: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 20px;
+  color: var(--silver);
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(192,200,216,0.3);
+}
+
+/* Venue glassmorphism */
+.cel-venue {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 24px;
+  animation: fade-cel 1s 0.85s both;
+}
+
+.cel-venue-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(192,200,216,0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 32px;
+  text-align: center;
+  position: relative;
+}
+
+.cel-venue-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--silver-dark), transparent);
+}
+
+.cel-venue-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.cel-venue-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  color: var(--silver-light);
+  margin-bottom: 8px;
+}
+
+.cel-venue-address {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.cel-venue-time {
+  font-family: 'Cormorant SC', serif;
+  font-size: 16px;
+  letter-spacing: 6px;
+  color: var(--moon);
+  margin-top: 16px;
+  text-shadow: 0 0 12px rgba(232,213,163,0.3);
+}
+
+/* Countdown glassmorphism */
+.cel-countdown-wrap {
+  width: 100%;
+  max-width: 480px;
+  padding: 48px 24px;
+  animation: fade-cel 1s 1s both;
+}
+
+.cel-countdown-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 5px;
+  color: var(--text-dim);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.cel-countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.cel-countdown-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(192,200,216,0.1);
+  backdrop-filter: blur(8px);
+  padding: 20px 8px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cel-countdown-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--moon-dark), transparent);
+}
+
+.cel-countdown-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--moon);
+  line-height: 1;
+  display: block;
+  text-shadow: 0 0 20px rgba(232,213,163,0.3);
+}
+
+.cel-countdown-unit {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 7px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 6px;
+  display: block;
+}
+
+/* Guest card */
+.cel-guest-card {
+  width: calc(100% - 48px);
+  max-width: 432px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(192,200,216,0.15);
+  backdrop-filter: blur(16px);
+  padding: 28px 32px;
+  text-align: center;
+  animation: fade-cel 1s 1.1s both;
+}
+
+.cel-guest-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.cel-guest-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 30px;
+  color: var(--silver-light);
+  margin-bottom: 16px;
+}
+
+.cel-guest-passes {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(192,200,216,0.15);
+  padding: 8px 20px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--silver-dark);
+  text-transform: uppercase;
+}
+
+.cel-guest-table {
+  margin-top: 10px;
+  font-family: 'Cormorant SC', serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--moon-dark);
+}
+
+/* RSVP */
+.cel-rsvp {
+  width: 100%;
+  max-width: 480px;
+  padding: 40px 24px;
+  animation: fade-cel 1s 1.2s both;
+}
+
+.cel-rsvp-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 28px;
+  color: var(--silver-light);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.cel-rsvp-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.cel-rsvp-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cel-rsvp-btn {
+  padding: 18px;
+  border: 1px solid rgba(192,200,216,0.15);
+  background: rgba(255,255,255,0.04);
+  font-family: 'Cormorant SC', serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--silver-dark);
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  backdrop-filter: blur(8px);
+}
+.cel-rsvp-btn:hover { border-color: var(--silver); color: var(--silver-light); }
+.cel-rsvp-btn.selected-yes { background: rgba(232,213,163,0.15); border-color: var(--moon); color: var(--moon); }
+.cel-rsvp-btn.selected-no  { background: rgba(255,255,255,0.08); border-color: var(--silver); color: var(--silver-light); }
+.cel-rsvp-icon { font-size: 20px; }
+
+.cel-rsvp-msg {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid rgba(192,200,216,0.15);
+  background: rgba(255,255,255,0.04);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--silver-light);
+  resize: none; outline: none;
+  transition: border-color 0.3s;
+  margin-bottom: 12px;
+  backdrop-filter: blur(8px);
+}
+.cel-rsvp-msg:focus { border-color: var(--silver); }
+.cel-rsvp-msg::placeholder { color: var(--text-dim); }
+
+.cel-rsvp-submit {
+  width: 100%;
+  padding: 18px;
+  background: transparent;
+  border: 1px solid var(--silver-dark);
+  font-family: 'Cormorant SC', serif;
+  font-size: 14px;
+  letter-spacing: 6px;
+  color: var(--silver-light);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.cel-rsvp-submit:hover { background: rgba(192,200,216,0.1); border-color: var(--silver-light); }
+
+/* Success */
+.cel-rsvp-success {
+  display: none; opacity: 0;
+  transform: translateY(14px);
+  text-align: center;
+  padding: 36px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(192,200,216,0.15);
+  backdrop-filter: blur(16px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.cel-rsvp-success.show { display: block; }
+.cel-rsvp-success.visible { opacity: 1; transform: translateY(0); }
+
+.cel-success-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+.cel-success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 28px;
+  color: var(--moon);
+  margin-bottom: 8px;
+}
+.cel-success-body {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--silver-dark);
+  line-height: 1.8;
+}
+
+/* Actions */
+.cel-actions {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 24px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  animation: fade-cel 1s 1.3s both;
+}
+
+.cel-action-btn {
+  padding: 16px;
+  border: 1px solid rgba(192,200,216,0.12);
+  background: rgba(255,255,255,0.03);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--silver-dark);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  transition: all 0.3s;
+  backdrop-filter: blur(8px);
+}
+.cel-action-btn:hover { border-color: var(--silver); color: var(--silver-light); }
+.cel-action-icon { font-size: 18px; }
+
+/* Footer */
+.cel-footer {
+  margin-top: 48px;
+  text-align: center;
+  padding: 0 24px;
+  animation: fade-cel 1s 1.4s both;
+}
+
+.cel-footer-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--silver);
+  margin-bottom: 8px;
+  text-shadow: 0 0 16px rgba(192,200,216,0.2);
+}
+
+.cel-footer-note {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.cel-credit {
+  margin-top: 40px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(106,122,154,0.4);
+  text-transform: uppercase;
+}
+
+@keyframes fade-cel {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- Canvas estrellas -->
+<canvas id="star-canvas"></canvas>
+
+<!-- SOBRE CELESTIAL -->
+<div id="envelope-screen">
+  <div class="cel-env-wrap" id="envelope" onclick="openEnvelope()">
+    <div class="cel-env-card">
+      <!-- Luna creciente -->
+      <svg class="cel-moon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 8 C18 8, 8 18, 8 32 C8 46, 18 56, 32 56 C24 50, 20 41, 20 32 C20 23, 24 14, 32 8Z" fill="#e8d5a3" opacity="0.9"/>
+        <circle cx="44" cy="20" r="2" fill="#e8d5a3" opacity="0.5"/>
+        <circle cx="50" cy="32" r="1.5" fill="#c0c8d8" opacity="0.4"/>
+        <circle cx="42" cy="44" r="1" fill="#e8d5a3" opacity="0.4"/>
+      </svg>
+
+      <span class="cel-star-tl">✦</span>
+      <span class="cel-star-tr">✧</span>
+      <span class="cel-star-bl">·</span>
+      <span class="cel-star-br">✦</span>
+
+      <p class="cel-env-eyebrow">Invitación · Boda</p>
+      <div class="cel-env-names">
+        Andrea
+        <span class="cel-env-amp">&amp;</span>
+        Saúl
+      </div>
+      <div class="cel-env-line"></div>
+      <p class="cel-env-date">II · Octubre · MMXXVII</p>
+    </div>
+  </div>
+  <p class="cel-env-hint">✦ Toca para abrir ✦</p>
+</div>
+
+<!-- INVITACIÓN CELESTIAL -->
+<div id="invitation">
+  <div class="cel-top-border"></div>
+
+  <div class="cel-hero">
+    <div class="cel-hero-badge">
+      <div class="cel-badge-line"></div>
+      <span class="cel-badge-text">Boda · 2027</span>
+      <div class="cel-badge-line r"></div>
+    </div>
+
+    <p class="cel-announce">
+      Con la bendición de nuestras familias<br/>
+      tenemos el honor de invitarles a celebrar<br/>
+      el inicio de nuestra vida juntos
+    </p>
+
+    <div class="cel-orn">
+      <div class="cel-orn-line"></div>
+      <span class="cel-orn-moon">☽</span>
+      <span style="font-size:10px;color:var(--moon);margin:0 4px;">✦</span>
+      <span class="cel-orn-moon">☾</span>
+      <div class="cel-orn-line r"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center; animation: fade-cel 1s 0.4s both;">
+    <div class="cel-names">
+      Andrea
+      <span class="cel-amp">&amp;</span>
+      Saúl
+    </div>
+  </div>
+
+  <!-- Fecha -->
+  <div class="cel-date-block">
+    <div class="cel-orn" style="margin-bottom:24px;">
+      <div class="cel-orn-line"></div>
+      <span class="cel-orn-moon">✦</span>
+      <div class="cel-orn-line r"></div>
+    </div>
+    <div class="cel-date-glass">
+      <span class="cel-date-main">Sábado · Dos de Octubre</span>
+      <span class="cel-date-num">02</span>
+      <span class="cel-date-year">2 · 0 · 2 · 7</span>
+    </div>
+  </div>
+
+  <div class="cel-divider"></div>
+
+  <!-- Foto -->
+  <div class="cel-photo">
+    <div class="cel-frame">
+      <img src="./Andrreaysaul.png" alt="Andrea & Saúl" loading="lazy"/>
+    </div>
+    <p class="cel-photo-caption">Andrea &amp; Saúl</p>
+  </div>
+
+  <!-- Venue -->
+  <div class="cel-venue">
+    <div class="cel-venue-box">
+      <p class="cel-venue-label">Lugar de celebración</p>
+      <p class="cel-venue-name">Hacienda San Antonio Calichar</p>
+      <p class="cel-venue-address">Carretera Reynosa–San Fernando km 12, Tamaulipas</p>
+      <p class="cel-venue-time">17 : 00 HRS</p>
+    </div>
+  </div>
+
+  <!-- Countdown -->
+  <div class="cel-countdown-wrap">
+    <p class="cel-countdown-label">✦ Faltan ✦</p>
+    <div class="cel-countdown-grid">
+      <div class="cel-countdown-item">
+        <span class="cel-countdown-num" id="cd-days">--</span>
+        <span class="cel-countdown-unit">Días</span>
+      </div>
+      <div class="cel-countdown-item">
+        <span class="cel-countdown-num" id="cd-hours">--</span>
+        <span class="cel-countdown-unit">Horas</span>
+      </div>
+      <div class="cel-countdown-item">
+        <span class="cel-countdown-num" id="cd-mins">--</span>
+        <span class="cel-countdown-unit">Minutos</span>
+      </div>
+      <div class="cel-countdown-item">
+        <span class="cel-countdown-num" id="cd-secs">--</span>
+        <span class="cel-countdown-unit">Segundos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cel-orn" style="animation: fade-cel 1s 1s both; margin-bottom:24px;">
+    <div class="cel-orn-line"></div>
+    <span class="cel-orn-moon">☽</span>
+    <span style="font-size:10px;color:var(--moon);margin:0 4px;">✦</span>
+    <span class="cel-orn-moon">☾</span>
+    <div class="cel-orn-line r"></div>
+  </div>
+
+  <!-- Guest Card -->
+  <div class="cel-guest-card" style="margin-top:8px;">
+    <p class="cel-guest-label">Esta invitación es para</p>
+    <p class="cel-guest-name" id="guest-name-text">Estimado Invitado</p>
+    <span class="cel-guest-passes" id="guest-passes-text">🎟 2 pases</span>
+    <p class="cel-guest-table" id="guest-table-text">Mesa · —</p>
+  </div>
+
+  <!-- RSVP -->
+  <div class="cel-rsvp">
+    <p class="cel-rsvp-title">Confirmar Asistencia</p>
+    <p class="cel-rsvp-sub">Antes del 15 de Septiembre · 2027</p>
+
+    <div id="rsvp-form">
+      <div class="cel-rsvp-options">
+        <button class="cel-rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')">
+          <span class="cel-rsvp-icon">🌙</span>
+          Asistiré
+        </button>
+        <button class="cel-rsvp-btn" id="btn-no" onclick="selectRSVP('no')">
+          <span class="cel-rsvp-icon">✉️</span>
+          No Podré
+        </button>
+      </div>
+      <textarea class="cel-rsvp-msg" id="rsvp-msg" rows="3" placeholder="Un mensaje para los novios... (opcional)"></textarea>
+      <button class="cel-rsvp-submit" onclick="submitRSVP()">Confirmar</button>
+    </div>
+
+    <div class="cel-rsvp-success" id="rsvp-success">
+      <span class="cel-success-icon">✨</span>
+      <p class="cel-success-title" id="rsvp-success-title">¡Gracias!</p>
+      <p class="cel-success-body" id="rsvp-success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
+    </div>
+  </div>
+
+  <!-- Acciones -->
+  <div class="cel-actions">
+    <a class="cel-action-btn" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">
+      <span class="cel-action-icon">📍</span>
+      Cómo llegar
+    </a>
+    <button class="cel-action-btn" onclick="addToCalendar()">
+      <span class="cel-action-icon">📅</span>
+      Añadir al calendario
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div class="cel-footer">
+    <div class="cel-orn" style="margin-bottom:20px;">
+      <div class="cel-orn-line"></div>
+      <span class="cel-orn-moon">✦</span>
+      <div class="cel-orn-line r"></div>
+    </div>
+    <p class="cel-footer-names">Andrea &amp; Saúl · 2027</p>
+    <p class="cel-footer-note">Con amor, los esperamos</p>
+    <p class="cel-credit">Invitación digital por RMKT Web &amp; Apps</p>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="guests.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+// ── ESTRELLAS ──
+(function initStars() {
+  const canvas = document.getElementById('star-canvas');
+  const ctx    = canvas.getContext('2d');
+  let stars    = [];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function createStars() {
+    stars = [];
+    const count = Math.floor((canvas.width * canvas.height) / 4000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.4 + 0.2,
+        alpha: Math.random(),
+        speed: 0.003 + Math.random() * 0.008,
+        phase: Math.random() * Math.PI * 2,
+        color: Math.random() > 0.7 ? '#e8d5a3' : '#c0c8d8'
+      });
+    }
+  }
+
+  function draw(ts) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      const a = 0.3 + 0.7 * Math.abs(Math.sin(s.phase + ts * s.speed));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = a;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  createStars();
+  window.addEventListener('resize', () => { resize(); createStars(); });
+  requestAnimationFrame(draw);
+})();
+
+// ── GUEST ──
+const urlParams = new URLSearchParams(window.location.search);
+const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
+const guest     = WEDDING_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
+
+document.getElementById('guest-name-text').textContent  = guest.name;
+document.getElementById('guest-passes-text').innerHTML  = '🎟 ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
+document.getElementById('guest-table-text').textContent = 'Mesa · ' + guest.table;
+
+let rsvpChoice = null;
+
+function openEnvelope() {
+  spawnSparkles();
+  setTimeout(() => {
+    const screen = document.getElementById('envelope-screen');
+    const inv    = document.getElementById('invitation');
+    screen.classList.add('hide');
+    inv.style.display = 'flex';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      inv.classList.add('show');
+      startCountdown();
+      trackVisit();
+      checkExistingRSVP();
+    }));
+    setTimeout(() => { screen.style.display = 'none'; }, 1100);
+  }, 700);
+}
+
+function spawnSparkles() {
+  const symbols = ['✦','✧','·','★','☽','✨'];
+  for (let i = 0; i < 24; i++) {
+    setTimeout(() => {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      s.style.left  = Math.random() * 100 + 'vw';
+      s.style.color = Math.random() > 0.5 ? '#e8d5a3' : '#c0c8d8';
+      s.style.fontSize = (8 + Math.random() * 14) + 'px';
+      s.style.animationDuration = (2 + Math.random() * 3) + 's';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 6000);
+    }, i * 80);
+  }
+}
+
+async function trackVisit() {
+  if (!db || !guestKey) return;
+  try {
+    await db.collection('rsvps').doc(guestKey).set({
+      guestName: guest.name, passes: guest.passes, table: guest.table,
+      lastVisit: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch(e) {}
+}
+
+async function checkExistingRSVP() {
+  if (!db || !guestKey) return;
+  try {
+    const doc = await db.collection('rsvps').doc(guestKey).get();
+    if (doc.exists && doc.data().attending !== undefined) {
+      const data = doc.data();
+      document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+      document.getElementById('rsvp-success-body').innerHTML = data.attending
+        ? 'Tu confirmación ya fue recibida.<br/>¡Los esperamos con mucho cariño!'
+        : 'Ya recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+      document.getElementById('rsvp-form').style.display = 'none';
+      const suc = document.getElementById('rsvp-success');
+      suc.classList.add('show');
+      requestAnimationFrame(() => requestAnimationFrame(() => suc.classList.add('visible')));
+    }
+  } catch(e) {}
+}
+
+function startCountdown() {
+  const target = new Date('2027-10-02T17:00:00');
+  function update() {
+    const diff = target - new Date();
+    if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '0'); return; }
+    document.getElementById('cd-days').textContent  = String(Math.floor(diff / 86400000)).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+  }
+  update(); setInterval(update, 1000);
+}
+
+function selectRSVP(choice) {
+  rsvpChoice = choice;
+  document.getElementById('btn-yes').className = 'cel-rsvp-btn' + (choice === 'yes' ? ' selected-yes' : '');
+  document.getElementById('btn-no').className  = 'cel-rsvp-btn' + (choice === 'no'  ? ' selected-no'  : '');
+}
+
+async function submitRSVP() {
+  if (!rsvpChoice) { alert('Por favor selecciona si asistirás o no.'); return; }
+  const submitBtn = document.querySelector('.cel-rsvp-submit');
+  submitBtn.disabled = true; submitBtn.textContent = 'Enviando...';
+  const msg = document.getElementById('rsvp-msg').value.trim();
+  if (db && guestKey) {
+    try {
+      await db.collection('rsvps').doc(guestKey).set({
+        guestName: guest.name, attending: rsvpChoice === 'yes', message: msg,
+        passes: guest.passes, table: guest.table,
+        confirmedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastVisit: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    } catch(e) { console.error(e); }
+  }
+  document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+  document.getElementById('rsvp-success-body').innerHTML = rsvpChoice === 'yes'
+    ? 'Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!'
+    : 'Recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+  const form = document.getElementById('rsvp-form');
+  const success = document.getElementById('rsvp-success');
+  form.style.transition = 'opacity 0.35s'; form.style.opacity = '0';
+  setTimeout(() => {
+    form.style.display = 'none';
+    success.classList.add('show');
+    requestAnimationFrame(() => requestAnimationFrame(() => { success.classList.add('visible'); spawnSparkles(); }));
+  }, 360);
+}
+
+function addToCalendar() {
+  window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Andrea+%26+Sa%C3%BAl&dates=20271002T170000/20271003T000000&location=Hacienda+San+Antonio+Calichar,+Tamaulipas&details=¡Los+esperamos+con+mucho+cariño!', '_blank');
+}
+</script>
+</body>
+</html>
