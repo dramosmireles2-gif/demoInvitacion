@@ -7,8 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./sections-new-shared.css" />
 
-  <style>
+  <link rel="stylesheet" href="./gratitude-note-shared.css"/>
+<style>
     /* ─── Reset & Base ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,6 +22,25 @@
       --gold-dark:   #9a7830;
       --gold-light:  #e8c87a;
       --text-dark:   #2a2a2a;
+      --accent-new: var(--gold);
+      --border-new: #b8976a;
+      --surface-new: rgba(248, 246, 242, 0.92);
+      --surface-strong-new: rgba(255, 255, 255, 0.48);
+      --timeline-surface-new: rgba(255, 255, 255, 0.58);
+      --timeline-border-new: rgba(184,151,106,0.35);
+      --text-main-new: var(--text-dark);
+      --text-muted-new: rgba(42,42,42,0.72);
+      --button-bg-new: rgba(184,151,106,0.14);
+      --button-text-new: var(--text-dark);
+      --shadow-new: rgba(42,42,42,0.12);
+      --heading-font-new: 'Bodoni Moda', serif;
+      --body-font-new: 'Raleway', sans-serif;
+      --boy-new: #6f95c9;
+      --girl-new: #c96fa2;
+      --sections-max-width-new: 540px;
+      --music-bg-new: rgba(248,246,242,0.92);
+      --music-playing-bg-new: rgba(184,151,106,0.22);
+      --copied-bg-new: rgba(111,149,201,0.18);
     }
 
     /* ─── Marble Texture ─── */
@@ -995,6 +1016,8 @@
       </div>
     </section>
 
+    <div id="pre-guest-sections-new"></div>
+
     <!-- Guest Card -->
     <section class="guest-section fade-up">
       <div class="guest-card marble-bg">
@@ -1019,6 +1042,17 @@
       </div>
     </section>
 
+    <div id="pre-footer-sections-new"></div>
+  <section class="gratitude-note-new" style="--gratitude-max-width-new:520px;--gratitude-text-new:var(--text-dark);--gratitude-muted-new:var(--gold-dark);--gratitude-accent-new:var(--gold);--gratitude-script-new:'Bodoni Moda',serif;--gratitude-body-new:'Raleway',sans-serif;--gratitude-line-new:rgba(201,168,76,0.24);">
+    <div class="gratitude-inner-new">
+      <p class="gratitude-kicker-new">Nota especial</p>
+      <p class="gratitude-copy-new">Agradecemos tu puntualidad, para que no te pierdas ning&uacute;n momento especial.</p>
+      <p class="gratitude-thanks-new">Muchas gracias</p>
+    </div>
+  </section>
+
+
+
     <!-- Footer -->
     <footer class="footer fade-up">
       <div class="footer-top"></div>
@@ -1032,25 +1066,30 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp }        from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp }
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp, onSnapshot, increment }
       from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
     // ── Firebase config (replace with your project values) ──
     let db = null;
-    try {
-      const firebaseConfig = (typeof _firebaseConfig !== 'undefined')
-        ? _firebaseConfig
-        : { apiKey: '', authDomain: '', projectId: '', storageBucket: '', messagingSenderId: '', appId: '' };
+    function initFirebaseNew() {
+      try {
+        const firebaseConfig = (typeof window._firebaseConfig !== 'undefined')
+          ? window._firebaseConfig
+          : { apiKey: '', authDomain: '', projectId: '', storageBucket: '', messagingSenderId: '', appId: '' };
 
-      if (firebaseConfig.projectId) {
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-      }
-    } catch(e) { console.warn('Firebase no configurado:', e.message); }
+        if (firebaseConfig.projectId) {
+          const app = initializeApp(firebaseConfig);
+          db = getFirestore(app);
+          window._db = db;
+          if (window._refreshGenderRevealNew) window._refreshGenderRevealNew();
+        }
+      } catch(e) { console.warn('Firebase no configurado:', e.message); }
+    }
+    document.addEventListener('DOMContentLoaded', initFirebaseNew);
 
     // ── Expose helpers to global scope ──
     window._db = db;
-    window._firestoreHelpers = { doc, getDoc, setDoc, updateDoc, serverTimestamp };
+    window._firestoreHelpers = { doc, getDoc, setDoc, updateDoc, serverTimestamp, onSnapshot, increment };
   </script>
 
   <!-- Guests data (external file, graceful fallback) -->
@@ -1059,6 +1098,7 @@
     window.guests = window.guests || {};
   </script>
   <script src="guests.js" onerror="console.warn('guests.js no encontrado, usando modo sin datos de invitados')"></script>
+  <script src="sections-new-shared.js"></script>
   <script src="firebase-config.js" onerror="console.warn('firebase-config.js no encontrado')"></script>
 
   <script>
@@ -1076,10 +1116,8 @@
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       guestKey = params.get('g') || null;
-
-      if (guestKey && window.guests && window.guests[guestKey]) {
-        currentGuest = window.guests[guestKey];
-      }
+      const source = typeof WEDDING_GUESTS !== 'undefined' ? WEDDING_GUESTS : (window.guests || {});
+      if (guestKey && source[guestKey]) currentGuest = source[guestKey];
 
       startCountdown();
       initFadeObserver();
@@ -1104,6 +1142,7 @@
         inv.classList.add('visible');
         applyGuestData();
         triggerInitialFadeUps();
+        if (window._startMusicNew) window._startMusicNew();
       }, 800);
     }
 
@@ -1137,8 +1176,9 @@
       const nameEl  = document.getElementById('guest-name-display');
       const seatsEl = document.getElementById('guest-seats-display');
       if (nameEl)  nameEl.textContent  = currentGuest.name  || 'Estimado Invitado';
-      if (seatsEl && currentGuest.seats) {
-        seatsEl.textContent = currentGuest.seats + (currentGuest.seats === 1 ? ' lugar' : ' lugares');
+      const seats = currentGuest.passes || currentGuest.seats;
+      if (seatsEl && seats) {
+        seatsEl.textContent = seats + (seats === 1 ? ' lugar' : ' lugares');
       }
     }
 
@@ -1328,6 +1368,33 @@
     }
 
     // Expose functions needed by inline onclick attributes
+    const WEDDING_CONFIG_NEW = {
+      weddingDate: '2027-10-02T17:00:00',
+      schedule: [
+        { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
+        { icon: '🥂', label: 'Recepcion', place: 'Hacienda San Antonio Calichar', time: '17:00 HRS' },
+        { icon: '🎉', label: 'Baile y festejo', place: 'Hacienda San Antonio Calichar', time: '18:00 HRS' },
+        { icon: '🌙', label: 'Cierre de fiesta', place: '', time: '01:00 HRS' },
+      ],
+      church: {
+        name: 'Aposento Alto',
+        address: 'C. Insurgentes 418, Chapultepec, 66450 San Nicol\u00e1s de los Garza, N.L.',
+        mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
+        mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
+      },
+      churchImage: './Iglesia.png',
+      venueImage: './Salon.png',
+      music: './musica.mp3',
+      gallery: [],
+      dresscode: {
+        women: { style: 'Vestido largo o coctel', colors: ['#f8f6f2', '#d0ccc4', '#e8c87a', '#b8976a'], note: 'Evitar blanco e ivory' },
+        men: { style: 'Traje formal', colors: ['#0f0f0f', '#6d665a', '#9a7830', '#c9a84c'], note: 'Corbata o mono sugerido' },
+      },
+      gifts: { showBank: true, bankName: 'BBVA', bankClabe: '000000000000000000', bankAlias: 'andrea.saul.boda', giftListUrl: '' },
+      wishlist: [{ name: 'Item de ejemplo', price: '$500', image: '', link: '' }],
+    };
+
+    initWeddingSectionsNew(WEDDING_CONFIG_NEW);
     Object.assign(window, { openInvitation, selectRSVP, submitRSVP, addToCalendar });
   </script>
 </body>

@@ -7,9 +7,33 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./sections-new-shared.css" />
 
-  <style>
+  <link rel="stylesheet" href="./gratitude-note-shared.css"/>
+<style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent-new: #b8976a;
+      --border-new: #b8976a;
+      --surface-new: rgba(255, 255, 255, 0.32);
+      --surface-strong-new: rgba(255, 255, 255, 0.22);
+      --timeline-surface-new: rgba(255, 255, 255, 0.28);
+      --timeline-border-new: rgba(184,151,106,0.38);
+      --text-main-new: #2a1a3a;
+      --text-muted-new: rgba(42, 26, 58, 0.72);
+      --button-bg-new: rgba(184,151,106,0.14);
+      --button-text-new: #2a1a3a;
+      --shadow-new: rgba(122, 90, 170, 0.14);
+      --heading-font-new: 'Cormorant Garamond', serif;
+      --body-font-new: 'DM Sans', sans-serif;
+      --boy-new: #6f95c9;
+      --girl-new: #c96fa2;
+      --sections-max-width-new: 540px;
+      --music-bg-new: rgba(255,255,255,0.78);
+      --music-playing-bg-new: rgba(184,151,106,0.22);
+      --copied-bg-new: rgba(111,149,201,0.18);
+    }
 
     /* ===================== FONDO ANIMADO ===================== */
     body {
@@ -954,6 +978,8 @@
     </div>
   </div>
 
+  <div id="pre-guest-sections-new"></div>
+
   <!-- TARJETA INVITADO -->
   <div class="section fade-up" id="guest-section" style="display:none;">
     <p class="section-label">Esta invitación es para</p>
@@ -1007,6 +1033,17 @@
     </div>
   </div>
 
+  <div id="pre-footer-sections-new"></div>
+  <section class="gratitude-note-new" style="--gratitude-max-width-new:520px;--gratitude-text-new:#2a1a3a;--gratitude-muted-new:#7a5aaa;--gratitude-accent-new:#7a5aaa;--gratitude-script-new:'Cormorant Garamond',serif;--gratitude-body-new:'DM Sans',sans-serif;--gratitude-line-new:rgba(122,90,170,0.22);">
+    <div class="gratitude-inner-new">
+      <p class="gratitude-kicker-new">Nota especial</p>
+      <p class="gratitude-copy-new">Agradecemos tu puntualidad, para que no te pierdas ning&uacute;n momento especial.</p>
+      <p class="gratitude-thanks-new">Muchas gracias</p>
+    </div>
+  </section>
+
+
+
   <!-- FOOTER -->
   <div class="section fade-up">
     <div class="footer-card glass">
@@ -1027,7 +1064,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
-    getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp
+    getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp, doc, setDoc, onSnapshot, increment
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // Cargar config desde firebase-config.js del servidor
@@ -1039,11 +1076,14 @@
   async function initFirebase() {
     try {
       // Intenta cargar la configuración del archivo local
-      const module = await import('./firebase-config.js');
-      const cfg = module.default || module.firebaseConfig || module;
+      await import('./firebase-config.js');
+      const cfg = window._firebaseConfig || window.firebaseConfig || null;
       if (cfg && cfg.apiKey) {
         const app = initializeApp(cfg);
         db = getFirestore(app);
+        window._db = db;
+        window._firestoreHelpers = { doc, setDoc, onSnapshot, increment };
+        if (window._refreshGenderRevealNew) window._refreshGenderRevealNew();
         console.log('Firebase inicializado');
       }
     } catch (e) {
@@ -1086,6 +1126,7 @@
 
 <!-- ======================== GUESTS ======================== -->
 <script src="guests.js"></script>
+<script src="sections-new-shared.js"></script>
 
 <!-- ======================== MAIN SCRIPT ======================== -->
 <script>
@@ -1100,13 +1141,16 @@
 
   // -------- Leer invitado --------
   function loadGuest() {
-    if (!guestKey || typeof guests === 'undefined') return;
-    currentGuest = guests[guestKey] || null;
+    const source = typeof WEDDING_GUESTS !== 'undefined'
+      ? WEDDING_GUESTS
+      : (typeof guests !== 'undefined' ? guests : (window.guests || {}));
+    if (!guestKey) return;
+    currentGuest = source[guestKey] || null;
     if (currentGuest) {
       document.getElementById('guest-section').style.display = 'block';
       document.getElementById('guest-name-display').textContent =
         currentGuest.name || 'Invitado Especial';
-      const seats = currentGuest.seats;
+      const seats = currentGuest.passes || currentGuest.seats;
       if (seats) {
         document.getElementById('guest-seats-display').textContent =
           seats === 1 ? '1 pase' : `${seats} pases`;
@@ -1140,6 +1184,7 @@
         }
         initObserver();
         startCountdown();
+        if (window._startMusicNew) window._startMusicNew();
       }, 50);
     }, 800);
   }
@@ -1304,6 +1349,34 @@
     }, { threshold: 0.12 });
     els.forEach(el => obs.observe(el));
   }
+
+  const WEDDING_CONFIG_NEW = {
+    weddingDate: '2027-10-02T17:00:00',
+    schedule: [
+      { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
+      { icon: '🥂', label: 'Recepcion', place: 'Hacienda San Antonio Calichar', time: '17:00 HRS' },
+      { icon: '🎉', label: 'Baile y festejo', place: 'Hacienda San Antonio Calichar', time: '18:00 HRS' },
+      { icon: '🌙', label: 'Cierre de fiesta', place: '', time: '01:00 HRS' },
+    ],
+    church: {
+      name: 'Aposento Alto',
+      address: 'C. Insurgentes 418, Chapultepec, 66450 San Nicol\u00e1s de los Garza, N.L.',
+      mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
+      mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
+    },
+    churchImage: './Iglesia.png',
+    venueImage: './Salon.png',
+    music: './musica.mp3',
+    gallery: [],
+    dresscode: {
+      women: { style: 'Vestido largo o coctel', colors: ['#f5d5e8', '#e8d5f5', '#d5e8f5', '#b8976a'], note: 'Evitar blanco e ivory' },
+      men: { style: 'Traje formal', colors: ['#2a1a3a', '#7a5aaa', '#86a8cc', '#b8976a'], note: 'Corbata o mono sugerido' },
+    },
+    gifts: { showBank: true, bankName: 'BBVA', bankClabe: '000000000000000000', bankAlias: 'andrea.saul.boda', giftListUrl: '' },
+    wishlist: [{ name: 'Item de ejemplo', price: '$500', image: '', link: '' }],
+  };
+
+  initWeddingSectionsNew(WEDDING_CONFIG_NEW);
 </script>
 
 </body>
