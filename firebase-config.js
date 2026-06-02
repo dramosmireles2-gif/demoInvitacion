@@ -37,7 +37,10 @@ window._firebaseConfig = firebaseConfig;
 window.firebaseConfig = firebaseConfig;
 
 // ── Inicialización ──────────────────────────────────────────
-const FIREBASE_OK = firebaseConfig.apiKey !== "TU-API-KEY-AQUI";
+const FIREBASE_OK =
+  firebaseConfig.apiKey !== "TU-API-KEY-AQUI" &&
+  firebaseConfig.projectId !== "TU-PROYECTO";
+window.FIREBASE_OK = FIREBASE_OK;
 let db = null;
 
 if (FIREBASE_OK && typeof firebase !== 'undefined') {

@@ -1916,7 +1916,11 @@ function buildGenderRevealNew() {
       updateGenderBarsNew(data.boy || 0, data.girl || 0);
     });
   }
-  const voted = localStorage.getItem('gender_voted_new');
+  const storageKey = `gender_voted_new_${window.location.pathname}`;
+  const voted = localStorage.getItem(storageKey);
+  if ((typeof db === 'undefined' || !db) && voted) {
+    updateGenderBarsNew(voted === 'boy' ? 1 : 0, voted === 'girl' ? 1 : 0);
+  }
   if (voted) {
     const el = document.getElementById('gender-' + voted + '-new');
     if (el) el.classList.add('voted');
@@ -1948,11 +1952,13 @@ function disableGenderBtnsNew() {
 }
 
 async function voteGenderNew(choice) {
-  if (localStorage.getItem('gender_voted_new')) return;
-  localStorage.setItem('gender_voted_new', choice);
+    const storageKey = `gender_voted_new_${window.location.pathname}`;
+    if (localStorage.getItem(storageKey)) return;
+    localStorage.setItem(storageKey, choice);
   const el = document.getElementById('gender-' + choice + '-new');
   if (el) el.classList.add('voted');
   disableGenderBtnsNew();
+  updateGenderBarsNew(choice === 'boy' ? 1 : 0, choice === 'girl' ? 1 : 0);
   if (typeof db !== 'undefined' && db) {
     try {
       await db.collection('gender_reveal').doc('votes').set({

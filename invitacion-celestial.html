@@ -1585,7 +1585,8 @@ html, body {
 // ── GUEST ──
 const urlParams = new URLSearchParams(window.location.search);
 const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
-const guest     = WEDDING_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
+const guestSource = typeof WEDDING_GUESTS !== 'undefined' ? WEDDING_GUESTS : {};
+const guest     = guestSource[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
 
 document.getElementById('guest-name-text').textContent  = guest.name;
 document.getElementById('guest-passes-text').innerHTML  = '🎟 ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
@@ -2193,9 +2194,12 @@ function buildGenderRevealNew() {
   const storageKey = `gender_voted_new_${window.location.pathname}`;
   const voted = localStorage.getItem(storageKey);
   if (voted) disableGenderButtonsNew();
-  watchGenderVotesNew((data) => {
+  const unsubscribe = watchGenderVotesNew((data) => {
     updateGenderBarsNew(data.boy || 0, data.girl || 0);
   });
+  if (!unsubscribe) {
+    updateGenderBarsNew(voted === 'boy' ? 1 : 0, voted === 'girl' ? 1 : 0);
+  }
 }
 
 async function voteGenderNew(choice) {

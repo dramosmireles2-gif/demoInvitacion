@@ -1077,7 +1077,7 @@
           ? window._firebaseConfig
           : { apiKey: '', authDomain: '', projectId: '', storageBucket: '', messagingSenderId: '', appId: '' };
 
-        if (firebaseConfig.projectId) {
+        if (firebaseConfig.projectId && firebaseConfig.projectId !== 'TU-PROYECTO' && firebaseConfig.apiKey !== 'TU-API-KEY-AQUI') {
           const app = initializeApp(firebaseConfig);
           db = getFirestore(app);
           window._db = db;

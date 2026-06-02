@@ -1134,11 +1134,11 @@
       <button class="bank-copy-btn-new" onclick="copyBankNew()">Copiar CLABE</button>
     </div>
   </div>
-  <div class="inv-wishlist-new" id="section-wishlist-new">
+  <div class="inv-wishlist-new" id="section-wishlist-new" style="display:none;">
     <p class="timeline-section-label">Lista de deseos</p>
     <div class="wishlist-grid-new" id="wishlist-grid-new"></div>
   </div>
-  <div class="inv-gender-new" id="section-gender-new">
+  <div class="inv-gender-new" id="section-gender-new" style="display:none;">
     <p class="timeline-section-label">¡Gran Revelación!</p>
     <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--smoke);text-align:center;margin-bottom:16px;">¿Niño o niña? ¡Vota y descúbrelo!</p>
     <div class="gender-btns-new" id="gender-btns-new">
@@ -1666,6 +1666,7 @@ function buildGenderRevealNew() {
   if (urlParams.get('tipo') !== 'genero') return;
   const sec = document.getElementById('section-gender-new');
   if (sec) sec.style.display = 'block';
+  const storageKey = `gender_voted_new_${window.location.pathname}`;
   if (typeof db !== 'undefined' && db) {
     db.collection('gender_reveal').doc('votes').onSnapshot(snap => {
       const data = snap.data() || { boy: 0, girl: 0 };
@@ -1679,10 +1680,26 @@ function buildGenderRevealNew() {
       const bars=document.getElementById('gender-bars-new'); if(bars) bars.style.display='block';
     });
   }
+  if (localStorage.getItem(storageKey)) {
+    const btns = document.getElementById('gender-btns-new'); if(btns) btns.style.opacity='0.5';
+    const bars=document.getElementById('gender-bars-new'); if(bars) bars.style.display='block';
+    const boy = localStorage.getItem(storageKey) === 'boy';
+    const bb=document.getElementById('bar-boy-new'); if(bb) bb.style.width=boy?'100%':'0%';
+    const bg=document.getElementById('bar-girl-new'); if(bg) bg.style.width=boy?'0%':'100%';
+    const pb=document.getElementById('pct-boy-new'); if(pb) pb.textContent=boy?'100%':'0%';
+    const pg=document.getElementById('pct-girl-new'); if(pg) pg.textContent=boy?'0%':'100%';
+  }
 }
 function voteGenderNew(choice) {
-  if (localStorage.getItem('gender_voted_new')) return;
-  localStorage.setItem('gender_voted_new', choice);
+  const storageKey = `gender_voted_new_${window.location.pathname}`;
+  if (localStorage.getItem(storageKey)) return;
+  localStorage.setItem(storageKey, choice);
+  const bars=document.getElementById('gender-bars-new'); if(bars) bars.style.display='block';
+  const boy = choice === 'boy';
+  const bb=document.getElementById('bar-boy-new'); if(bb) bb.style.width=boy?'100%':'0%';
+  const bg=document.getElementById('bar-girl-new'); if(bg) bg.style.width=boy?'0%':'100%';
+  const pb=document.getElementById('pct-boy-new'); if(pb) pb.textContent=boy?'100%':'0%';
+  const pg=document.getElementById('pct-girl-new'); if(pg) pg.textContent=boy?'0%':'100%';
   if (typeof db !== 'undefined' && db && typeof firebase !== 'undefined') {
     db.collection('gender_reveal').doc('votes').set({ [choice]: firebase.firestore.FieldValue.increment(1) }, { merge: true });
   }

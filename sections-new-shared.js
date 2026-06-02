@@ -468,10 +468,14 @@
     if (!section) return;
     section.style.display = 'block';
     const storageKey = `gender_voted_new_${window.location.pathname}`;
-    if (localStorage.getItem(storageKey)) disableGenderButtonsNew();
-    watchGenderVotesNew(function(data) {
+    const voted = localStorage.getItem(storageKey);
+    if (voted) disableGenderButtonsNew();
+    const unsubscribe = watchGenderVotesNew(function(data) {
       updateGenderBarsNew(data.boy || 0, data.girl || 0);
     });
+    if (!unsubscribe) {
+      updateGenderBarsNew(voted === 'boy' ? 1 : 0, voted === 'girl' ? 1 : 0);
+    }
   };
 
   window.voteGenderNew = async function(choice) {

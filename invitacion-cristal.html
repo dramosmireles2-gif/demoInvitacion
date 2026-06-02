@@ -1078,7 +1078,7 @@
       // Intenta cargar la configuración del archivo local
       await import('./firebase-config.js');
       const cfg = window._firebaseConfig || window.firebaseConfig || null;
-      if (cfg && cfg.apiKey) {
+      if (cfg && cfg.apiKey && cfg.apiKey !== 'TU-API-KEY-AQUI' && cfg.projectId !== 'TU-PROYECTO') {
         const app = initializeApp(cfg);
         db = getFirestore(app);
         window._db = db;
