@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrea & Saúl — 2 Octubre 2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --marble:      #f8f6f2;
+      --vein:        #d0ccc4;
+      --black:       #0f0f0f;
+      --gold:        #c9a84c;
+      --gold-dark:   #9a7830;
+      --gold-light:  #e8c87a;
+      --text-dark:   #2a2a2a;
+    }
+
+    /* ─── Marble Texture ─── */
+    .marble-bg {
+      background-color: var(--marble);
+      background-image:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 80px,
+          rgba(180,175,165,0.08) 80px,
+          rgba(180,175,165,0.08) 82px
+        ),
+        repeating-linear-gradient(
+          30deg,
+          transparent,
+          transparent 120px,
+          rgba(190,185,175,0.06) 120px,
+          rgba(190,185,175,0.06) 121px
+        ),
+        repeating-linear-gradient(
+          75deg,
+          transparent,
+          transparent 60px,
+          rgba(170,165,155,0.07) 60px,
+          rgba(170,165,155,0.07) 61px
+        );
+    }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background-color: var(--marble);
+      background-image:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 80px,
+          rgba(180,175,165,0.08) 80px,
+          rgba(180,175,165,0.08) 82px
+        ),
+        repeating-linear-gradient(
+          30deg,
+          transparent,
+          transparent 120px,
+          rgba(190,185,175,0.06) 120px,
+          rgba(190,185,175,0.06) 121px
+        ),
+        repeating-linear-gradient(
+          75deg,
+          transparent,
+          transparent 60px,
+          rgba(170,165,155,0.07) 60px,
+          rgba(170,165,155,0.07) 61px
+        );
+      min-height: 100vh;
+      color: var(--text-dark);
+    }
+
+    /* ─── Envelope Screen ─── */
+    #envelope-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--marble);
+      background-image:
+        repeating-linear-gradient(
+          -45deg, transparent, transparent 80px,
+          rgba(180,175,165,0.08) 80px, rgba(180,175,165,0.08) 82px
+        ),
+        repeating-linear-gradient(
+          30deg, transparent, transparent 120px,
+          rgba(190,185,175,0.06) 120px, rgba(190,185,175,0.06) 121px
+        ),
+        repeating-linear-gradient(
+          75deg, transparent, transparent 60px,
+          rgba(170,165,155,0.07) 60px, rgba(170,165,155,0.07) 61px
+        );
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    #envelope-screen.closing {
+      opacity: 0;
+      transform: scale(0.92);
+      pointer-events: none;
+    }
+
+    .envelope-card {
+      width: min(340px, 90vw);
+      aspect-ratio: 3/4;
+      border: 2px solid var(--gold);
+      box-shadow:
+        0 0 40px rgba(201,168,76,0.2),
+        inset 0 0 0 8px var(--marble),
+        inset 0 0 0 10px rgba(201,168,76,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 32px;
+      cursor: pointer;
+      animation: floatEnv 4s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    .envelope-card::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(201,168,76,0.4);
+      pointer-events: none;
+    }
+
+    @keyframes floatEnv {
+      0%, 100% { transform: translateY(0px) rotate(-0.5deg); }
+      50%       { transform: translateY(-12px) rotate(0.5deg); }
+    }
+
+    /* Gold vein animation on envelope */
+    .envelope-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        125deg,
+        transparent 20%,
+        rgba(201,168,76,0.12) 40%,
+        transparent 60%,
+        rgba(201,168,76,0.06) 80%,
+        transparent 95%
+      );
+      background-size: 200% 200%;
+      animation: goldVein 8s ease-in-out infinite;
+    }
+    @keyframes goldVein {
+      0%   { background-position: 0% 0%; }
+      50%  { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    .medallion {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 0 4px rgba(201,168,76,0.15), 0 0 20px rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      background: radial-gradient(circle at 40% 40%, rgba(248,246,242,0.9), rgba(232,200,122,0.08));
+    }
+    .medallion span {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .env-monogram {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 58px;
+      color: var(--gold);
+      text-shadow: 0 2px 12px rgba(201,168,76,0.35), 0 0 30px rgba(201,168,76,0.15);
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .env-date {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      position: relative;
+      z-index: 1;
+    }
+
+    .env-open-hint {
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(154,120,48,0.6);
+      position: relative;
+      z-index: 1;
+      margin-top: 8px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 1; }
+    }
+
+    /* ─── Confetti ─── */
+    #confetti-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+      overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute;
+      top: -20px;
+      font-size: 14px;
+      color: var(--gold);
+      animation: confettiFall linear forwards;
+      opacity: 0.9;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 1;   }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ─── Invitation Wrapper ─── */
+    #invitation {
+      display: none;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 0 60px;
+    }
+    #invitation.visible { display: block; }
+
+    /* ─── Top Border ─── */
+    .top-border {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+      box-shadow: 0 2px 8px rgba(201,168,76,0.4);
+    }
+    .top-border-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+      margin-top: 2px;
+    }
+
+    /* ─── Fade-up animation ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Hero Section ─── */
+    .hero {
+      position: relative;
+      padding: 70px 32px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(201,168,76,0.08) 30%,
+        transparent 55%,
+        rgba(201,168,76,0.05) 80%,
+        transparent 100%
+      );
+      background-size: 300% 300%;
+      animation: heroVein 12s ease-in-out infinite;
+    }
+    @keyframes heroVein {
+      0%   { background-position: 0% 50%;   }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%;   }
+    }
+
+    .hero-eyebrow {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ornament {
+      color: var(--gold);
+      font-size: 14px;
+      letter-spacing: 6px;
+      margin: 14px 0;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-names {
+      position: relative;
+      z-index: 1;
+      line-height: 1.05;
+    }
+    .hero-name {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(60px, 15vw, 82px);
+      color: var(--black);
+      display: block;
+      letter-spacing: -1px;
+    }
+    .hero-ampersand {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 34px;
+      color: var(--gold);
+      display: block;
+      margin: 4px 0;
+    }
+
+    .hero-announcement {
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: #6a6560;
+      letter-spacing: 1.5px;
+      margin-top: 22px;
+      line-height: 1.8;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Date Block ─── */
+    .date-block {
+      background: var(--black);
+      padding: 52px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .date-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        65deg,
+        transparent,
+        transparent 60px,
+        rgba(201,168,76,0.04) 60px,
+        rgba(201,168,76,0.04) 61px
+      );
+    }
+    .date-block-top {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+    }
+
+    .date-day {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 120px;
+      color: var(--gold);
+      line-height: 1;
+      letter-spacing: -4px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 0 60px rgba(201,168,76,0.2);
+    }
+    .date-month {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      position: relative;
+      z-index: 1;
+      margin-top: -10px;
+    }
+    .date-year {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-size: 48px;
+      color: rgba(255,255,255,0.92);
+      position: relative;
+      z-index: 1;
+      margin-top: 6px;
+    }
+    .date-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 18px auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Photo ─── */
+    .photo-section {
+      padding: 48px 32px;
+      display: flex;
+      justify-content: center;
+    }
+    .photo-frame {
+      position: relative;
+      display: inline-block;
+    }
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      background-color: var(--marble);
+      background-image:
+        repeating-linear-gradient(
+          -45deg, transparent, transparent 20px,
+          rgba(180,175,165,0.1) 20px, rgba(180,175,165,0.1) 21px
+        ),
+        repeating-linear-gradient(
+          30deg, transparent, transparent 30px,
+          rgba(190,185,175,0.08) 30px, rgba(190,185,175,0.08) 31px
+        );
+      border: 1px solid var(--gold);
+      box-shadow:
+        inset 0 0 0 3px var(--marble),
+        inset 0 0 0 4px rgba(201,168,76,0.4),
+        0 8px 32px rgba(201,168,76,0.15),
+        0 2px 8px rgba(0,0,0,0.1);
+    }
+    .photo-frame img {
+      display: block;
+      width: min(420px, 80vw);
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+    }
+    .photo-placeholder {
+      width: min(420px, 80vw);
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, #e8e4de 0%, #d8d3cc 50%, #e2ddd6 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .photo-placeholder span:first-child {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-size: 42px;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+    .photo-placeholder span:last-child {
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--vein);
+    }
+
+    /* ─── Venue ─── */
+    .venue-section {
+      padding: 0 24px 48px;
+    }
+    .venue-card {
+      border: 1px solid var(--gold);
+      box-shadow:
+        inset 0 0 0 4px var(--marble),
+        inset 0 0 0 5px rgba(201,168,76,0.25),
+        0 4px 20px rgba(201,168,76,0.1);
+      padding: 44px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .venue-card::before {
+      content: '◆';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--marble);
+      color: var(--gold);
+      font-size: 14px;
+      padding: 0 8px;
+    }
+    .venue-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .venue-name {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(26px, 6vw, 34px);
+      color: var(--black);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .venue-address {
+      font-family: 'Raleway', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: #7a7570;
+      letter-spacing: 0.5px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .venue-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 24px;
+    }
+    .venue-time {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 42px;
+      color: var(--gold);
+      letter-spacing: -1px;
+    }
+    .venue-time-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #9a9590;
+      margin-top: 4px;
+    }
+
+    .calendar-btn {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 10px 28px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .calendar-btn:hover {
+      background: var(--black);
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* ─── Countdown ─── */
+    .countdown-section {
+      background: var(--black);
+      padding: 48px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .countdown-top {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .countdown-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -30deg, transparent, transparent 50px,
+        rgba(201,168,76,0.03) 50px, rgba(201,168,76,0.03) 51px
+      );
+    }
+    .countdown-label-top {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.6);
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .countdown-cell {
+      flex: 1;
+      max-width: 120px;
+      padding: 20px 12px;
+      position: relative;
+    }
+    .countdown-cell + .countdown-cell::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, var(--gold), transparent);
+    }
+    .countdown-number {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 40px;
+      color: var(--gold);
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(201,168,76,0.3);
+    }
+    .countdown-unit {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-top: 6px;
+    }
+
+    /* ─── Guest Card ─── */
+    .guest-section {
+      padding: 48px 24px;
+    }
+    .guest-card {
+      border: 1px solid var(--gold);
+      box-shadow:
+        inset 0 0 0 3px var(--marble),
+        inset 0 0 0 6px rgba(201,168,76,0.2);
+      padding: 36px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .guest-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .guest-name {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 30px;
+      color: var(--black);
+      line-height: 1.3;
+    }
+    .guest-seats {
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      color: #9a9590;
+      letter-spacing: 1px;
+      margin-top: 8px;
+    }
+
+    /* ─── RSVP ─── */
+    .rsvp-section {
+      padding: 0 24px 48px;
+    }
+    .rsvp-card {
+      border: 1px solid var(--gold);
+      padding: 44px 32px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.08);
+    }
+    .rsvp-title {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+    .rsvp-subtitle {
+      font-family: 'Raleway', sans-serif;
+      font-size: 12px;
+      color: #9a9590;
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+    }
+    .rsvp-options {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .rsvp-btn {
+      padding: 14px 28px;
+      border: 1px solid var(--gold);
+      background: var(--marble);
+      background-image:
+        repeating-linear-gradient(
+          -45deg, transparent, transparent 20px,
+          rgba(180,175,165,0.06) 20px, rgba(180,175,165,0.06) 21px
+        );
+      font-family: 'Bodoni Moda', serif;
+      font-size: 15px;
+      font-style: italic;
+      color: var(--black);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 140px;
+    }
+    .rsvp-btn:hover,
+    .rsvp-btn.selected {
+      background: var(--black);
+      color: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(201,168,76,0.2);
+    }
+    .rsvp-message {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid rgba(201,168,76,0.4);
+      background: rgba(248,246,242,0.8);
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      color: var(--black);
+      resize: vertical;
+      margin-bottom: 24px;
+      outline: none;
+      transition: border-color 0.3s;
+      min-height: 80px;
+    }
+    .rsvp-message::placeholder { color: #b0ab a4; }
+    .rsvp-message:focus { border-color: var(--gold); }
+    .rsvp-submit {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+      border: none;
+      font-family: 'Raleway', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--black);
+      cursor: pointer;
+      transition: opacity 0.3s, transform 0.2s;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+    }
+    .rsvp-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+    .rsvp-submit:active { transform: translateY(0); }
+    .rsvp-status {
+      margin-top: 16px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 12px;
+      color: var(--gold-dark);
+      letter-spacing: 1px;
+      min-height: 20px;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      background: var(--black);
+      padding: 52px 32px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        55deg, transparent, transparent 80px,
+        rgba(201,168,76,0.03) 80px, rgba(201,168,76,0.03) 81px
+      );
+    }
+    .footer-top {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+      margin-bottom: 40px;
+    }
+    .footer-names {
+      font-family: 'Bodoni Moda', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--gold);
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 0 30px rgba(201,168,76,0.2);
+    }
+    .footer-date {
+      font-family: 'Raleway', sans-serif;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-ornament {
+      color: rgba(201,168,76,0.4);
+      font-size: 12px;
+      letter-spacing: 8px;
+      margin: 20px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-credit {
+      font-family: 'Raleway', sans-serif;
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      margin-top: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Toast ─── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--black);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 14px 28px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 200;
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 480px) {
+      .hero { padding: 50px 20px 44px; }
+      .date-day { font-size: 88px; }
+      .venue-card { padding: 36px 20px; }
+      .rsvp-card { padding: 36px 20px; }
+      .countdown-number { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Envelope Screen -->
+  <div id="envelope-screen">
+    <div class="envelope-card marble-bg" onclick="openInvitation()">
+      <div class="medallion"><span>A &amp; S</span></div>
+      <div class="env-monogram">A &amp; S</div>
+      <div class="env-date">2 · Octubre · 2027</div>
+      <div class="env-open-hint">Abrir invitación</div>
+    </div>
+  </div>
+
+  <!-- Confetti -->
+  <div id="confetti-container"></div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Invitation -->
+  <div id="invitation">
+    <div class="top-border"></div>
+    <div class="top-border-line"></div>
+
+    <!-- Hero -->
+    <section class="hero marble-bg fade-up">
+      <p class="hero-eyebrow">Con amor y alegría, los invitamos a celebrar</p>
+      <span class="ornament">◆ ——— ◆ ——— ◆</span>
+      <div class="hero-names">
+        <span class="hero-name">Andrea</span>
+        <span class="hero-ampersand">&amp;</span>
+        <span class="hero-name">Saúl</span>
+      </div>
+      <span class="ornament" style="margin-top:16px;">◆ ——— ◆ ——— ◆</span>
+      <p class="hero-announcement">
+        Tienen el honor de invitarle a unirse a la celebración<br />
+        de su matrimonio
+      </p>
+    </section>
+
+    <!-- Date Block -->
+    <div class="date-block-top"></div>
+    <section class="date-block fade-up">
+      <div class="date-day">02</div>
+      <div class="date-month">Octubre</div>
+      <div class="date-divider"></div>
+      <div class="date-year">2027</div>
+    </section>
+
+    <!-- Photo -->
+    <section class="photo-section fade-up marble-bg">
+      <div class="photo-frame">
+        <div class="photo-placeholder" id="photo-container">
+          <span>A &amp; S</span>
+          <span>Fotografía</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Venue -->
+    <section class="venue-section fade-up">
+      <div class="venue-card marble-bg">
+        <div class="venue-label">Lugar de celebración</div>
+        <div class="venue-name">Hacienda San Antonio<br />Calichar</div>
+        <div class="venue-address">
+          Carretera Reynosa–San Fernando km 12<br />
+          Tamaulipas, México
+        </div>
+        <div class="venue-divider"></div>
+        <div class="venue-time">17:00</div>
+        <div class="venue-time-label">HRS</div>
+        <button class="calendar-btn" onclick="addToCalendar()">+ Agregar al calendario</button>
+      </div>
+    </section>
+
+    <!-- Countdown -->
+    <div class="countdown-top"></div>
+    <section class="countdown-section fade-up">
+      <div class="countdown-label-top">Cuenta regresiva</div>
+      <div class="countdown-grid">
+        <div class="countdown-cell">
+          <div class="countdown-number" id="cd-days">—</div>
+          <div class="countdown-unit">Días</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-number" id="cd-hours">—</div>
+          <div class="countdown-unit">Horas</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-number" id="cd-minutes">—</div>
+          <div class="countdown-unit">Minutos</div>
+        </div>
+        <div class="countdown-cell">
+          <div class="countdown-number" id="cd-seconds">—</div>
+          <div class="countdown-unit">Segundos</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guest Card -->
+    <section class="guest-section fade-up">
+      <div class="guest-card marble-bg">
+        <div class="guest-label">Invitado de honor</div>
+        <div class="guest-name" id="guest-name-display">Estimado Invitado</div>
+        <div class="guest-seats" id="guest-seats-display"></div>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="rsvp-section fade-up">
+      <div class="rsvp-card marble-bg">
+        <div class="rsvp-title">Confirmación</div>
+        <div class="rsvp-subtitle">Por favor confirme su asistencia antes del 15 de Septiembre 2027</div>
+        <div class="rsvp-options">
+          <button class="rsvp-btn" onclick="selectRSVP('yes')" id="btn-yes">Asistiré con gusto</button>
+          <button class="rsvp-btn" onclick="selectRSVP('no')" id="btn-no">No podré asistir</button>
+        </div>
+        <textarea class="rsvp-message" id="rsvp-message" placeholder="Un mensaje para los novios (opcional)…"></textarea>
+        <button class="rsvp-submit" onclick="submitRSVP()">Enviar confirmación</button>
+        <div class="rsvp-status" id="rsvp-status"></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer fade-up">
+      <div class="footer-top"></div>
+      <div class="footer-names">Andrea &amp; Saúl</div>
+      <div class="footer-ornament">◆ · ◆ · ◆</div>
+      <div class="footer-date">2 · Octubre · 2027 · Tamaulipas</div>
+      <div class="footer-credit">Invitación digital por RMKT Web &amp; Apps</div>
+    </footer>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp }        from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    // ── Firebase config (replace with your project values) ──
+    let db = null;
+    try {
+      const firebaseConfig = (typeof _firebaseConfig !== 'undefined')
+        ? _firebaseConfig
+        : { apiKey: '', authDomain: '', projectId: '', storageBucket: '', messagingSenderId: '', appId: '' };
+
+      if (firebaseConfig.projectId) {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+      }
+    } catch(e) { console.warn('Firebase no configurado:', e.message); }
+
+    // ── Expose helpers to global scope ──
+    window._db = db;
+    window._firestoreHelpers = { doc, getDoc, setDoc, updateDoc, serverTimestamp };
+  </script>
+
+  <!-- Guests data (external file, graceful fallback) -->
+  <script>
+    // Fallback — will be overridden by guests.js if it exists
+    window.guests = window.guests || {};
+  </script>
+  <script src="guests.js" onerror="console.warn('guests.js no encontrado, usando modo sin datos de invitados')"></script>
+  <script src="firebase-config.js" onerror="console.warn('firebase-config.js no encontrado')"></script>
+
+  <script>
+    /* ══════════════════════════════════════════
+       GLOBAL STATE
+    ══════════════════════════════════════════ */
+    const WEDDING_DATE = new Date('2027-10-02T17:00:00');
+    let selectedRSVP  = null;
+    let currentGuest  = null;
+    let guestKey      = null;
+
+    /* ══════════════════════════════════════════
+       INIT
+    ══════════════════════════════════════════ */
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      guestKey = params.get('g') || null;
+
+      if (guestKey && window.guests && window.guests[guestKey]) {
+        currentGuest = window.guests[guestKey];
+      }
+
+      startCountdown();
+      initFadeObserver();
+      if (db) {
+        trackVisit();
+        checkExistingRSVP();
+      }
+    });
+
+    /* ══════════════════════════════════════════
+       ENVELOPE OPEN
+    ══════════════════════════════════════════ */
+    function openInvitation() {
+      const screen = document.getElementById('envelope-screen');
+      const inv    = document.getElementById('invitation');
+
+      screen.classList.add('closing');
+      launchConfetti();
+
+      setTimeout(() => {
+        screen.style.display = 'none';
+        inv.classList.add('visible');
+        applyGuestData();
+        triggerInitialFadeUps();
+      }, 800);
+    }
+
+    /* ══════════════════════════════════════════
+       CONFETTI
+    ══════════════════════════════════════════ */
+    function launchConfetti() {
+      const container = document.getElementById('confetti-container');
+      const symbols   = ['▪', '◆', '▸', '◇', '◈', '◉'];
+      const count     = 55;
+
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left     = Math.random() * 100 + 'vw';
+        el.style.fontSize = (10 + Math.random() * 14) + 'px';
+        el.style.animationDuration  = (1.8 + Math.random() * 2.2) + 's';
+        el.style.animationDelay     = (Math.random() * 0.8) + 's';
+        el.style.opacity = 0.6 + Math.random() * 0.4;
+        container.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       GUEST DATA
+    ══════════════════════════════════════════ */
+    function applyGuestData() {
+      if (!currentGuest) return;
+      const nameEl  = document.getElementById('guest-name-display');
+      const seatsEl = document.getElementById('guest-seats-display');
+      if (nameEl)  nameEl.textContent  = currentGuest.name  || 'Estimado Invitado';
+      if (seatsEl && currentGuest.seats) {
+        seatsEl.textContent = currentGuest.seats + (currentGuest.seats === 1 ? ' lugar' : ' lugares');
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       COUNTDOWN
+    ══════════════════════════════════════════ */
+    function startCountdown() {
+      function update() {
+        const now  = new Date();
+        const diff = WEDDING_DATE - now;
+
+        if (diff <= 0) {
+          ['days','hours','minutes','seconds'].forEach(u => {
+            document.getElementById('cd-' + u).textContent = '00';
+          });
+          return;
+        }
+
+        const days    = Math.floor(diff / 86400000);
+        const hours   = Math.floor((diff % 86400000) / 3600000);
+        const minutes = Math.floor((diff % 3600000)  / 60000);
+        const seconds = Math.floor((diff % 60000)    / 1000);
+
+        document.getElementById('cd-days').textContent    = String(days).padStart(2,'0');
+        document.getElementById('cd-hours').textContent   = String(hours).padStart(2,'0');
+        document.getElementById('cd-minutes').textContent = String(minutes).padStart(2,'0');
+        document.getElementById('cd-seconds').textContent = String(seconds).padStart(2,'0');
+      }
+
+      update();
+      setInterval(update, 1000);
+    }
+
+    /* ══════════════════════════════════════════
+       RSVP
+    ══════════════════════════════════════════ */
+    function selectRSVP(value) {
+      selectedRSVP = value;
+      document.getElementById('btn-yes').classList.toggle('selected', value === 'yes');
+      document.getElementById('btn-no').classList.toggle('selected', value === 'no');
+    }
+
+    async function submitRSVP() {
+      if (!selectedRSVP) {
+        showToast('Por favor seleccione una opción');
+        return;
+      }
+
+      const statusEl  = document.getElementById('rsvp-status');
+      const messageEl = document.getElementById('rsvp-message');
+      const submitBtn = document.querySelector('.rsvp-submit');
+
+      submitBtn.disabled   = true;
+      submitBtn.textContent = 'Enviando…';
+
+      const data = {
+        attending: selectedRSVP === 'yes',
+        message:   messageEl.value.trim(),
+        guestKey:  guestKey || 'unknown',
+        guestName: currentGuest ? (currentGuest.name || '') : '',
+        timestamp: new Date().toISOString(),
+      };
+
+      if (window._db && window._firestoreHelpers) {
+        try {
+          const { doc, setDoc, serverTimestamp } = window._firestoreHelpers;
+          const ref = doc(window._db, 'rsvps', guestKey || ('anon_' + Date.now()));
+          await setDoc(ref, { ...data, createdAt: serverTimestamp() }, { merge: true });
+          statusEl.textContent = selectedRSVP === 'yes'
+            ? '¡Gracias! Los esperamos con alegría 🥂'
+            : 'Respuesta registrada. ¡Gracias por avisarnos!';
+        } catch(e) {
+          console.error('Error RSVP:', e);
+          statusEl.textContent = 'Ocurrió un error. Por favor intente de nuevo.';
+          submitBtn.disabled   = false;
+          submitBtn.textContent = 'Enviar confirmación';
+          return;
+        }
+      } else {
+        // Offline fallback — log to console
+        console.log('RSVP (offline):', data);
+        statusEl.textContent = selectedRSVP === 'yes'
+          ? '¡Gracias! Los esperamos con alegría ✨'
+          : 'Respuesta registrada. ¡Gracias por avisarnos!';
+      }
+
+      submitBtn.textContent = 'Confirmación enviada';
+      showToast('Confirmación enviada con éxito');
+    }
+
+    /* ══════════════════════════════════════════
+       FIREBASE HELPERS
+    ══════════════════════════════════════════ */
+    async function trackVisit() {
+      if (!window._db || !guestKey) return;
+      try {
+        const { doc, updateDoc, setDoc, getDoc, serverTimestamp } = window._firestoreHelpers;
+        const ref  = doc(window._db, 'visits', guestKey);
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          await updateDoc(ref, {
+            lastVisit: serverTimestamp(),
+            visitCount: (snap.data().visitCount || 0) + 1,
+          });
+        } else {
+          await setDoc(ref, {
+            guestKey,
+            guestName: currentGuest ? (currentGuest.name || '') : '',
+            firstVisit: serverTimestamp(),
+            lastVisit:  serverTimestamp(),
+            visitCount: 1,
+          });
+        }
+      } catch(e) { console.warn('trackVisit error:', e.message); }
+    }
+
+    async function checkExistingRSVP() {
+      if (!window._db || !guestKey) return;
+      try {
+        const { doc, getDoc } = window._firestoreHelpers;
+        const ref  = doc(window._db, 'rsvps', guestKey);
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          const data = snap.data();
+          const prev = data.attending ? 'yes' : 'no';
+          selectRSVP(prev);
+          document.getElementById('rsvp-status').textContent = 'Ya tenemos tu confirmación. ¡Gracias!';
+          document.querySelector('.rsvp-submit').textContent = 'Actualizar confirmación';
+          if (data.message) {
+            document.getElementById('rsvp-message').value = data.message;
+          }
+        }
+      } catch(e) { console.warn('checkExistingRSVP error:', e.message); }
+    }
+
+    /* ══════════════════════════════════════════
+       CALENDAR
+    ══════════════════════════════════════════ */
+    function addToCalendar() {
+      const title    = 'Boda Andrea & Saúl';
+      const details  = 'Celebración de matrimonio — Hacienda San Antonio Calichar';
+      const location = 'Carretera Reynosa–San Fernando km 12, Tamaulipas';
+      const start    = '20271002T170000';
+      const end      = '20271002T230000';
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE`
+        + `&text=${encodeURIComponent(title)}`
+        + `&details=${encodeURIComponent(details)}`
+        + `&location=${encodeURIComponent(location)}`
+        + `&dates=${start}/${end}`;
+      window.open(url, '_blank');
+    }
+
+    /* ══════════════════════════════════════════
+       FADE-UP OBSERVER
+    ══════════════════════════════════════════ */
+    function initFadeObserver() {
+      const els = document.querySelectorAll('.fade-up');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(el => obs.observe(el));
+    }
+
+    function triggerInitialFadeUps() {
+      // Trigger items already in viewport immediately
+      const els = document.querySelectorAll('.fade-up');
+      const winH = window.innerHeight;
+      els.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < winH) el.classList.add('in-view');
+      });
+    }
+
+    /* ══════════════════════════════════════════
+       TOAST
+    ══════════════════════════════════════════ */
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    // Expose functions needed by inline onclick attributes
+    Object.assign(window, { openInvitation, selectRSVP, submitRSVP, addToCalendar });
+  </script>
+</body>
+</html>
