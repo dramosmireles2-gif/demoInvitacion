@@ -371,10 +371,11 @@ body::before {
 .dresscode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .dresscode-card {
   background: var(--white); border: 1px solid var(--parchment);
+  border-top: 2px solid var(--gold-light);
   border-radius: 4px; padding: 20px 16px; text-align: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-.dresscode-icon { font-size: 32px; display: block; margin-bottom: 10px; }
+.dresscode-icon { display: block; margin: 0 auto 12px; width: 44px; height: 44px; }
 .dresscode-gender {
   font-family: 'Cormorant SC', serif; font-size: 11px;
   letter-spacing: 3px; color: var(--gold); margin-bottom: 8px;
@@ -401,16 +402,16 @@ body::before {
   background: var(--white); border: 1px solid var(--parchment);
   border-radius: 4px; padding: 14px 18px;
 }
-.no-pets-icon { font-size: 26px; position: relative; flex-shrink: 0; }
+.no-pets-icon { width: 36px; height: 36px; position: relative; flex-shrink: 0; }
 .no-pets-icon::after {
-  content: ''; position: absolute; inset: -2px;
-  border: 2px solid #c04040; border-radius: 50%; opacity: 0.8;
+  content: ''; position: absolute; inset: -3px;
+  border: 1.5px solid var(--gold); border-radius: 50%; opacity: 0.7;
 }
 .no-pets-icon::before {
   content: ''; position: absolute;
-  width: 32px; height: 2px; background: #c04040;
-  top: 50%; left: -2px; transform: translateY(-50%) rotate(-45deg);
-  opacity: 0.8; border-radius: 2px;
+  width: 38px; height: 1.5px; background: var(--gold);
+  top: 50%; left: -4px; transform: translateY(-50%) rotate(-45deg);
+  opacity: 0.7; border-radius: 2px;
 }
 .no-pets-text { font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--text-light); }
 
@@ -827,7 +828,13 @@ body::before {
   <!-- 10. NO MASCOTAS -->
   <div class="inv-no-pets">
     <div class="no-pets-card">
-      <span class="no-pets-icon">🐾</span>
+      <span class="no-pets-icon"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="14" cy="10" rx="3" ry="4" stroke="#b8976a" stroke-width="1.3" fill="rgba(184,151,106,0.1)"/>
+        <ellipse cx="22" cy="10" rx="3" ry="4" stroke="#b8976a" stroke-width="1.3" fill="rgba(184,151,106,0.1)"/>
+        <path d="M8 20 C8 14 10 12 14 12 L22 12 C26 12 28 14 28 20 C28 24 26 26 22 27 L20 30 L16 30 L14 27 C10 26 8 24 8 20 Z" stroke="#b8976a" stroke-width="1.3" fill="rgba(184,151,106,0.1)"/>
+        <ellipse cx="7" cy="17" rx="2.5" ry="3.5" stroke="#b8976a" stroke-width="1.2" fill="rgba(184,151,106,0.08)"/>
+        <ellipse cx="29" cy="17" rx="2.5" ry="3.5" stroke="#b8976a" stroke-width="1.2" fill="rgba(184,151,106,0.08)"/>
+      </svg></span>
       <span class="no-pets-text">Agradecemos tu comprensión: el evento es libre de mascotas</span>
     </div>
   </div>
@@ -989,12 +996,12 @@ const WEDDING_CONFIG = {
   dresscode: {
     women: {
       style:  'Vestido largo o cóctel',
-      colors: ['#d4a0a0','#c8b4a0','#a0a8b4','#c8c0a8'],
+      colors: ['#c8aa88','#d4c4a8','#b0a090','#e8dcc8'],
       note:   'Evitar blanco e ivory',
     },
     men: {
       style:  'Traje formal',
-      colors: ['#2a3a4a','#4a3a2a','#3a4a3a','#4a4a4a'],
+      colors: ['#2c2416','#4a3a2a','#6b5a3e','#b8976a'],
       note:   'Corbata o moño requerido',
     },
   },
@@ -1215,9 +1222,21 @@ document.addEventListener('keydown', e => {
 function buildDresscode() {
   const dc = WEDDING_CONFIG.dresscode;
   const grid = document.getElementById('dresscode-grid');
+  const SVG_DRESS = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15 6 C15 6 12 10 10 14 L6 28 L38 28 L34 14 C32 10 29 6 29 6 L25 10 L22 8 L19 10 Z" stroke="#b8976a" stroke-width="1.4" fill="rgba(184,151,106,0.08)" stroke-linejoin="round"/>
+    <path d="M16 28 L14 40 L30 40 L28 28" stroke="#b8976a" stroke-width="1.4" fill="rgba(184,151,106,0.06)" stroke-linejoin="round"/>
+    <ellipse cx="22" cy="7" rx="3" ry="3.5" stroke="#b8976a" stroke-width="1.2" fill="none"/>
+    <path d="M19 10 C19 10 20.5 12 22 12 C23.5 12 25 10 25 10" stroke="#d4b896" stroke-width="1" fill="none"/>
+  </svg>`;
+  const SVG_SUIT = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 8 L8 20 L14 22 L14 40 L30 40 L30 22 L36 20 L30 8 L26 14 L22 10 L18 14 Z" stroke="#b8976a" stroke-width="1.4" fill="rgba(184,151,106,0.08)" stroke-linejoin="round"/>
+    <path d="M18 14 L22 10 L26 14" stroke="#d4b896" stroke-width="1.2" fill="rgba(212,184,150,0.12)"/>
+    <line x1="22" y1="18" x2="22" y2="36" stroke="#d4b896" stroke-width="1" stroke-dasharray="2 2"/>
+    <ellipse cx="22" cy="7.5" rx="2.5" ry="3" stroke="#b8976a" stroke-width="1.2" fill="none"/>
+  </svg>`;
   const items = [
-    { gender: 'Damas', icon: '👗', data: dc.women },
-    { gender: 'Caballeros', icon: '🤵', data: dc.men },
+    { gender: 'Damas', icon: SVG_DRESS, data: dc.women },
+    { gender: 'Caballeros', icon: SVG_SUIT, data: dc.men },
   ];
   grid.innerHTML = items.map(item => `
     <div class="dresscode-card">
