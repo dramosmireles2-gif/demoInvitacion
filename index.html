@@ -776,6 +776,12 @@ body::before {
     </div>
   </div>
 
+  <!-- Imagen de la iglesia -->
+  <div class="venue-image-wrap" id="church-image-wrap" style="display:none;">
+    <img src="" alt="Aposento Alto" loading="lazy"/>
+    <p class="venue-image-caption">Aposento Alto</p>
+  </div>
+
   <!-- 7. MAPA SALÓN + IMAGEN LUGAR -->
   <div class="inv-map-section">
     <p class="section-label">Recepción</p>
@@ -972,20 +978,21 @@ const WEDDING_CONFIG = {
   weddingDate: '2027-10-02T17:00:00',
 
   schedule: [
-    { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
+    { icon: '⛪', label: 'Ceremonia religiosa', place: 'Iglesia — Por confirmar', time: '15:00 HRS' },
     { icon: '🥂', label: 'Recepción',           place: 'Hacienda San Antonio Calichar', time: '17:00 HRS' },
     { icon: '🎉', label: 'Baile y festejo',      place: 'Hacienda San Antonio Calichar', time: '18:00 HRS' },
     { icon: '🌙', label: 'Cierre de fiesta',     place: '',                              time: '01:00 HRS' },
   ],
 
   church: {
-    name:    'Aposento Alto',
-    address: 'C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.',
-    mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
-    mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
+    name:    'Iglesia — Por confirmar',
+    address: 'Dirección por confirmar',
+    mapEmbed: '', // pegar URL de Google Maps embed (https://maps.google.com/maps?q=...&output=embed)
+    mapsLink: 'https://maps.google.com',
   },
 
-  venueImage: '', // './lugar.png' cuando tengas la imagen
+  churchImage: './Iglesia.png',
+  venueImage:  './Salon.png',
 
   music: './musica.mp3', // remplazar con archivo real
 
@@ -1150,6 +1157,11 @@ function buildChurchMap() {
    IMAGEN DEL LUGAR
 ══════════════════════════════════ */
 function buildVenueImage() {
+  if (WEDDING_CONFIG.churchImage) {
+    const wrap = document.getElementById('church-image-wrap');
+    wrap.style.display = 'block';
+    wrap.querySelector('img').src = WEDDING_CONFIG.churchImage;
+  }
   if (WEDDING_CONFIG.venueImage) {
     const wrap = document.getElementById('venue-image-wrap');
     wrap.style.display = 'block';
