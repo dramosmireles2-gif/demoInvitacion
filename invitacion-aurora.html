@@ -1156,7 +1156,7 @@ body::before {
       <div class="location-card-body">
         <span class="location-card-name">Hacienda San Antonio Calichar</span>
         <span class="location-card-address">Carretera Reynosa–San Fernando km 12, Tamaulipas</span>
-        <a class="location-directions-btn" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">
+        <a class="location-directions-btn" id="venue-directions" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">
           📍 Cómo llegar
         </a>
       </div>
@@ -1404,13 +1404,22 @@ const WEDDING_CONFIG = {
 (function applyAdminOverrides() {
   try {
     const ov = JSON.parse(localStorage.getItem('aurora_event_override') || '{}');
-    if (ov.weddingDate)   WEDDING_CONFIG.weddingDate = ov.weddingDate;
-    if (ov.bankName)      WEDDING_CONFIG.gifts.bankName  = ov.bankName;
-    if (ov.bankClabe)     WEDDING_CONFIG.gifts.bankClabe = ov.bankClabe;
-    if (ov.bankAlias)     WEDDING_CONFIG.gifts.bankAlias = ov.bankAlias;
-    if (ov.churchName)    WEDDING_CONFIG.church.name    = ov.churchName;
-    if (ov.churchAddress) WEDDING_CONFIG.church.address = ov.churchAddress;
-    if (ov.churchMaps)    WEDDING_CONFIG.church.mapsLink = ov.churchMaps;
+    if (ov.weddingDate)  WEDDING_CONFIG.weddingDate = ov.weddingDate;
+    if (ov.bankName)     WEDDING_CONFIG.gifts.bankName  = ov.bankName;
+    if (ov.bankClabe)    WEDDING_CONFIG.gifts.bankClabe = ov.bankClabe;
+    if (ov.bankAlias)    WEDDING_CONFIG.gifts.bankAlias = ov.bankAlias;
+    if (ov.churchName)   WEDDING_CONFIG.church.name    = ov.churchName;
+    if (ov.churchMaps) {
+      WEDDING_CONFIG.church.mapsLink = ov.churchMaps;
+      // Intentar extraer dirección del link de Maps (funciona con URLs completas)
+      try {
+        const u = new URL(ov.churchMaps);
+        const q = u.searchParams.get('q');
+        if (q) WEDDING_CONFIG.church.address = decodeURIComponent(q.replace(/\+/g, ' '));
+      } catch(e) {}
+    }
+    if (ov.venueName)   WEDDING_CONFIG._venueName = ov.venueName;
+    if (ov.venueMaps)   WEDDING_CONFIG._venueMaps = ov.venueMaps;
   } catch(e) {}
 })();
 
@@ -1548,6 +1557,11 @@ function buildVenueImage() {
   if (WEDDING_CONFIG.venueImage) {
     const wrap = document.getElementById('venue-photo');
     if (wrap) { wrap.style.display = 'block'; wrap.querySelector('img').src = WEDDING_CONFIG.venueImage; }
+  }
+  // Aplicar link de Maps del salón si fue editado desde el admin
+  if (WEDDING_CONFIG._venueMaps) {
+    const btn = document.getElementById('venue-directions');
+    if (btn) btn.href = WEDDING_CONFIG._venueMaps;
   }
 }
 

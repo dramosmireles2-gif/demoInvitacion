@@ -2308,31 +2308,58 @@ function loadEventConfig() {
   try { return JSON.parse(localStorage.getItem(EVENT_CONFIG_KEY) || '{}'); } catch(e) { return {}; }
 }
 
+function extractAddressFromMapsUrl(url) {
+  try {
+    const u = new URL(url);
+    // maps.google.com/maps?q=...
+    const q = u.searchParams.get('q');
+    if (q) return decodeURIComponent(q.replace(/\+/g, ' '));
+    // maps.google.com/maps/place/NAME/@lat,lng
+    const parts = u.pathname.split('/place/');
+    if (parts[1]) return decodeURIComponent(parts[1].split('/@')[0].replace(/\+/g, ' '));
+  } catch(e) {}
+  return null;
+}
+
 function buildEventForm() {
   const cfg = loadEventConfig();
   const form = document.getElementById('event-form');
   if (!form) return;
   const fields = [
-    { key:'weddingDate',   label:'Fecha del evento',     placeholder:'2027-10-02T17:00:00', type:'text' },
-    { key:'churchName',    label:'Nombre de la iglesia', placeholder:'Aposento Alto',        type:'text' },
-    { key:'churchAddress', label:'Dirección iglesia',    placeholder:'C. Insurgentes 418…',  type:'text' },
-    { key:'churchMaps',    label:'Link Google Maps iglesia', placeholder:'https://maps.app.goo.gl/…', type:'text' },
-    { key:'venueName',     label:'Nombre del salón',     placeholder:'Hacienda San Antonio Calichar', type:'text' },
-    { key:'bankName',      label:'Banco',                placeholder:'BBVA',                 type:'text' },
-    { key:'bankClabe',     label:'CLABE / Cuenta',       placeholder:'000000000000000000',   type:'text' },
-    { key:'bankAlias',     label:'Alias de transferencia', placeholder:'andrea.saul.boda',   type:'text' },
-    { key:'rsvpDeadline',  label:'Fecha límite RSVP',    placeholder:'2027-09-15',           type:'date' },
+    { key:'weddingDate',  label:'Fecha del evento',          placeholder:'2027-10-02T17:00:00',         type:'text' },
+    { key:'churchName',   label:'Nombre de la iglesia',       placeholder:'Aposento Alto',               type:'text' },
+    { key:'churchMaps',   label:'Link Google Maps — Iglesia', placeholder:'https://maps.app.goo.gl/…',   type:'text' },
+    { key:'venueName',    label:'Nombre del salón',           placeholder:'Hacienda San Antonio Calichar',type:'text' },
+    { key:'venueMaps',    label:'Link Google Maps — Salón',   placeholder:'https://maps.app.goo.gl/…',   type:'text' },
+    { key:'bankName',     label:'Banco',                      placeholder:'BBVA',                        type:'text' },
+    { key:'bankClabe',    label:'CLABE / Cuenta',             placeholder:'000000000000000000',          type:'text' },
+    { key:'bankAlias',    label:'Alias de transferencia',     placeholder:'andrea.saul.boda',            type:'text' },
+    { key:'rsvpDeadline', label:'Fecha límite RSVP',          placeholder:'2027-09-15',                  type:'date' },
   ];
-  form.innerHTML = fields.map(f => `
-    <div class="event-field">
+
+  form.innerHTML = fields.map(f => {
+    const isMaps = f.key === 'churchMaps' || f.key === 'venueMaps';
+    const val    = cfg[f.key] || '';
+    const preview = isMaps && val ? extractAddressFromMapsUrl(val) : null;
+    return `<div class="event-field">
       <label class="event-label">${f.label}</label>
       <input class="event-input" type="${f.type}" id="ef-${f.key}"
-        placeholder="${f.placeholder}" value="${cfg[f.key] || ''}">
-    </div>`).join('');
+        placeholder="${f.placeholder}" value="${val}"
+        ${isMaps ? `oninput="previewAddress('${f.key}', this.value)"` : ''}>
+      ${isMaps ? `<div id="preview-${f.key}" style="font-size:11px;color:var(--text-light);margin-top:3px;min-height:14px;">${preview ? '📍 ' + preview : ''}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function previewAddress(key, url) {
+  const el = document.getElementById('preview-' + key);
+  if (!el) return;
+  const addr = extractAddressFromMapsUrl(url);
+  el.textContent = addr ? '📍 ' + addr : (url.length > 10 ? 'Link corto — dirección no extraíble automáticamente' : '');
 }
 
 function saveEventConfig() {
-  const fields = ['weddingDate','churchName','churchAddress','churchMaps','venueName','bankName','bankClabe','bankAlias','rsvpDeadline'];
+  const fields = ['weddingDate','churchName','churchMaps','venueName','venueMaps','bankName','bankClabe','bankAlias','rsvpDeadline'];
   const cfg = {};
   fields.forEach(k => {
     const val = document.getElementById('ef-' + k)?.value?.trim();
