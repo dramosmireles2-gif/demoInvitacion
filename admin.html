@@ -923,6 +923,58 @@ body.sidebar-open .sidebar-overlay { display: block; }
 }
 .table-config-input:focus { border-color: var(--gold-light); }
 
+/* ── QR MODAL ── */
+.qr-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.qr-card {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 14px 10px;
+  border: 1px solid var(--parchment);
+  border-radius: 5px;
+  background: var(--cream);
+  text-align: center;
+}
+.qr-card-name { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text); }
+.qr-card-meta { font-size:10px; color:var(--text-light); }
+.qr-card img  { width:120px; height:120px; border-radius:3px; }
+.btn-qr-download {
+  padding: 4px 10px; border: 1px solid var(--parchment);
+  border-radius: 3px; background: var(--white);
+  font-size: 10px; color: var(--text-light); cursor: pointer;
+  transition: all 0.15s; text-decoration: none; display: inline-block;
+}
+.btn-qr-download:hover { border-color: var(--gold-light); color: var(--text); }
+
+/* ── MESSAGES ── */
+.message-item {
+  display: flex; gap: 14px; padding: 14px 22px;
+  border-bottom: 1px solid rgba(232,223,200,0.5);
+}
+.message-item:last-child { border-bottom: none; }
+.message-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--parchment); border: 1px solid var(--cream2);
+  display: flex; align-items: center; justify-content: center;
+  font-family:'Cormorant Garamond',serif; font-size:15px;
+  font-weight:600; color:var(--gold-dark); flex-shrink:0;
+}
+.message-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); }
+.message-time { font-size:11px; color:var(--text-light); margin-left:8px; }
+.message-text { font-size:13px; color:var(--text); margin-top:4px; line-height:1.6; font-style:italic; }
+
+/* ── EVENT FORM ── */
+.event-field { display:flex; flex-direction:column; gap:5px; }
+.event-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; font-weight:500; color:var(--text-light); }
+.event-input { padding:9px 12px; border:1px solid var(--parchment); border-radius:3px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text); background:var(--cream); outline:none; transition:border-color 0.2s; }
+.event-input:focus { border-color: var(--gold-light); }
+@media (max-width:639px) { #event-form { grid-template-columns:1fr; } }
+
 /* Assign dropdown en tabla de invitados */
 .assign-table-select {
   padding: 4px 6px;
@@ -1054,6 +1106,12 @@ body.sidebar-open .sidebar-overlay { display: block; }
     </a>
     <a class="nav-item" href="#section-urls" onclick="setActive(this)">
       <span class="nav-icon"><i data-feather="link"></i></span> Enlaces personalizados
+    </a>
+    <a class="nav-item" href="#section-messages" onclick="setActive(this)">
+      <span class="nav-icon"><i data-feather="message-circle"></i></span> Mensajes
+    </a>
+    <a class="nav-item" href="#section-event" onclick="setActive(this)">
+      <span class="nav-icon"><i data-feather="edit-2"></i></span> Editar evento
     </a>
 
     <span class="nav-section">Otros estilos</span>
@@ -1190,6 +1248,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
                 <button class="filter-btn" onclick="setFilter('confirmed',this)">Confirmados</button>
                 <button class="filter-btn" onclick="setFilter('declined',this)">No asistirán</button>
               </div>
+              <button class="btn-ghost" onclick="exportCSV()" style="font-size:11px;">Exportar CSV</button>
               <button class="btn-primary" onclick="openGuestModal()" style="padding:7px 14px;font-size:11px;">+ Agregar</button>
             </div>
           </div>
@@ -1303,6 +1362,26 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
     </div>
 
+    <!-- DEADLINE RSVP -->
+    <div class="panel" id="deadline-panel" style="margin-bottom:24px;display:none;">
+      <div style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:36px;height:36px;background:rgba(184,150,80,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--yellow);stroke-width:2;fill:none;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);">Fecha límite de confirmación</div>
+            <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">15 de septiembre de 2027</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--yellow);line-height:1;" id="deadline-days">—</div>
+          <div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);">días restantes</div>
+        </div>
+      </div>
+      <div style="height:3px;background:var(--cream2);"><div id="deadline-fill" style="height:100%;background:linear-gradient(to right,var(--yellow),var(--gold));width:0%;transition:width 0.8s;"></div></div>
+    </div>
+
     <!-- URLS -->
     <div class="panel" style="margin-bottom:24px;" id="section-urls">
       <div class="panel-header">
@@ -1310,11 +1389,49 @@ body.sidebar-open .sidebar-overlay { display: block; }
           <span class="panel-title">Enlaces personalizados</span>
           <div class="panel-sub">Un enlace único por invitado — la invitación aparece con su nombre y pases</div>
         </div>
-        <button class="panel-action" onclick="copyAllUrls()">Copiar todos</button>
+        <div style="display:flex;align-items:center;gap:4px;">
+          <button class="panel-action" onclick="openQRModal()">Ver QR</button>
+          <button class="panel-action" onclick="copyAllUrls()">Copiar todos</button>
+        </div>
       </div>
       <div id="urls-list"></div>
     </div>
 
+
+    <!-- MENSAJES RSVP -->
+    <div class="panel" id="section-messages" style="margin-bottom:24px;">
+      <div class="panel-header">
+        <div>
+          <span class="panel-title">Mensajes de invitados</span>
+          <div class="panel-sub" id="messages-sub">Los mensajes que dejaron al confirmar asistencia</div>
+        </div>
+      </div>
+      <div id="messages-list">
+        <div class="activity-item">
+          <div class="activity-dot" style="background:var(--parchment)"></div>
+          <div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Sin mensajes aún</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDITAR EVENTO -->
+    <div class="panel" id="section-event" style="margin-bottom:24px;">
+      <div class="panel-header">
+        <div>
+          <span class="panel-title">Datos del evento</span>
+          <div class="panel-sub">Los cambios se aplican en la invitación al recargar</div>
+        </div>
+        <button class="btn-primary" onclick="saveEventConfig()">Guardar cambios</button>
+      </div>
+      <div style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:16px;" id="event-form">
+        <!-- se construye con JS -->
+      </div>
+      <div style="padding:0 24px 20px;">
+        <div style="background:var(--cream);border:1px solid var(--parchment);border-radius:4px;padding:12px 16px;font-size:12px;color:var(--text-light);line-height:1.6;">
+          💡 Los cambios se guardan localmente y se aplican automáticamente en la invitación. Para hacerlos permanentes, RMKT actualizará el archivo cuando lo solicites.
+        </div>
+      </div>
+    </div>
 
   </div>
 </main>
@@ -1848,6 +1965,8 @@ function initAdmin() {
   buildNavSubDesigns();
   renderUrlsList();
   buildTablesSection();
+  buildEventForm();
+  updateDeadlineCountdown();
 
   if (!db) {
     renderFallback();
@@ -1879,6 +1998,7 @@ function renderFallback() {
         <div class="activity-text" style="color:var(--text-light);">Sin actividad aún — los eventos aparecerán aquí cuando tus invitados abran la invitación</div>
       </div>
     </div>`;
+  renderMessages({});
 }
 
 function updateCapacityBar(confirmedPases) {
@@ -1918,6 +2038,7 @@ function renderDashboard(rsvpData) {
 
   renderGuestTable(rsvpData);
   renderActivity(rsvpData);
+  renderMessages(rsvpData);
 }
 
 function renderGuestTable(rsvpData) {
@@ -2080,6 +2201,168 @@ function copyAllUrls() {
     return g.name + '\n' + base + 'invitacion-aurora.html?g=' + key;
   }).join('\n\n');
   copyText(text, 'Todos los enlaces copiados');
+}
+
+// ── FEATURE 1: QR MODAL ──
+function openQRModal() {
+  const base = getBase();
+  const keys = Object.keys(WEDDING_GUESTS);
+  const overlay = document.createElement('div');
+  overlay.id = 'qr-modal-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,36,22,0.4);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
+
+  overlay.innerHTML = `
+    <div style="background:var(--white);border:1px solid var(--parchment);border-radius:6px;width:min(700px,100%);max-height:85vh;display:flex;flex-direction:column;box-shadow:0 16px 48px rgba(44,36,22,0.18);">
+      <div class="panel-header" style="flex-shrink:0;">
+        <div>
+          <span class="panel-title">Códigos QR</span>
+          <div class="panel-sub">Un QR por invitado — enlace directo a su invitación personalizada</div>
+        </div>
+        <button class="panel-action" onclick="document.getElementById('qr-modal-overlay').remove()">Cerrar</button>
+      </div>
+      <div class="qr-modal-grid">
+        ${keys.map(key => {
+          const g   = WEDDING_GUESTS[key];
+          const url = encodeURIComponent(base + 'invitacion-aurora.html?g=' + key);
+          const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url + '&margin=8&color=2c2416&bgcolor=faf8f4';
+          return `<div class="qr-card">
+            <img src="${qrSrc}" alt="QR ${g.name}" loading="lazy"/>
+            <div class="qr-card-name">${g.name}</div>
+            <div class="qr-card-meta">Mesa ${g.table} · ${g.passes} pases</div>
+            <a class="btn-qr-download" href="${qrSrc}&format=png" download="QR-${key}.png" target="_blank">Descargar</a>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+// ── FEATURE 2: MENSAJES ──
+function renderMessages(rsvpData) {
+  const list = document.getElementById('messages-list');
+  const sub  = document.getElementById('messages-sub');
+  if (!list || !sub) return;
+  const messages = Object.entries(rsvpData)
+    .filter(([, r]) => r.message && r.message.trim())
+    .map(([key, r]) => ({
+      name: r.guestName || WEDDING_GUESTS[key]?.name || key,
+      msg:  r.message.trim(),
+      ts:   r.confirmedAt?.toMillis?.() || 0,
+    }))
+    .sort((a, b) => b.ts - a.ts);
+
+  sub.textContent = messages.length
+    ? messages.length + ' mensaje' + (messages.length !== 1 ? 's' : '') + ' recibidos'
+    : 'Los mensajes que dejaron al confirmar asistencia';
+
+  if (!messages.length) {
+    list.innerHTML = `<div class="activity-item"><div class="activity-dot" style="background:var(--parchment)"></div><div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Sin mensajes aún</div></div></div>`;
+    return;
+  }
+  list.innerHTML = messages.map(m => `
+    <div class="message-item">
+      <div class="message-avatar">${m.name.charAt(0).toUpperCase()}</div>
+      <div>
+        <div>
+          <span class="message-name">${m.name}</span>
+          <span class="message-time">${m.ts ? formatTime(new Date(m.ts)) : ''}</span>
+        </div>
+        <div class="message-text">"${m.msg}"</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── FEATURE 3: EXPORT CSV ──
+function exportCSV() {
+  const keys = Object.keys(WEDDING_GUESTS);
+  const rows = [['Nombre','Pases','Mesa','Estado','Mensaje','Confirmó el']];
+  keys.forEach(key => {
+    const g = WEDDING_GUESTS[key];
+    const r = lastRsvpData[key] || {};
+    let status = 'Pendiente';
+    if (r.attending === true)  status = 'Confirmado';
+    if (r.attending === false) status = 'No asistirá';
+    if (!r.attending && r.lastVisit) status = 'Vio la invitación';
+    const msg  = (r.message || '').replace(/"/g, '""');
+    const date = r.confirmedAt?.toDate
+      ? r.confirmedAt.toDate().toLocaleDateString('es-MX', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})
+      : '';
+    rows.push([g.name, g.passes, g.table, status, '"' + msg + '"', date]);
+  });
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const bom = '﻿'; // UTF-8 BOM para Excel
+  const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'invitados-boda-andrea-saul.csv';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast('CSV descargado');
+}
+
+// ── FEATURE 4: EVENT CONFIG ──
+const EVENT_CONFIG_KEY = 'aurora_event_override';
+
+function loadEventConfig() {
+  try { return JSON.parse(localStorage.getItem(EVENT_CONFIG_KEY) || '{}'); } catch(e) { return {}; }
+}
+
+function buildEventForm() {
+  const cfg = loadEventConfig();
+  const form = document.getElementById('event-form');
+  if (!form) return;
+  const fields = [
+    { key:'weddingDate',   label:'Fecha del evento',     placeholder:'2027-10-02T17:00:00', type:'text' },
+    { key:'churchName',    label:'Nombre de la iglesia', placeholder:'Aposento Alto',        type:'text' },
+    { key:'churchAddress', label:'Dirección iglesia',    placeholder:'C. Insurgentes 418…',  type:'text' },
+    { key:'churchMaps',    label:'Link Google Maps iglesia', placeholder:'https://maps.app.goo.gl/…', type:'text' },
+    { key:'venueName',     label:'Nombre del salón',     placeholder:'Hacienda San Antonio Calichar', type:'text' },
+    { key:'bankName',      label:'Banco',                placeholder:'BBVA',                 type:'text' },
+    { key:'bankClabe',     label:'CLABE / Cuenta',       placeholder:'000000000000000000',   type:'text' },
+    { key:'bankAlias',     label:'Alias de transferencia', placeholder:'andrea.saul.boda',   type:'text' },
+    { key:'rsvpDeadline',  label:'Fecha límite RSVP',    placeholder:'2027-09-15',           type:'date' },
+  ];
+  form.innerHTML = fields.map(f => `
+    <div class="event-field">
+      <label class="event-label">${f.label}</label>
+      <input class="event-input" type="${f.type}" id="ef-${f.key}"
+        placeholder="${f.placeholder}" value="${cfg[f.key] || ''}">
+    </div>`).join('');
+}
+
+function saveEventConfig() {
+  const fields = ['weddingDate','churchName','churchAddress','churchMaps','venueName','bankName','bankClabe','bankAlias','rsvpDeadline'];
+  const cfg = {};
+  fields.forEach(k => {
+    const val = document.getElementById('ef-' + k)?.value?.trim();
+    if (val) cfg[k] = val;
+  });
+  localStorage.setItem(EVENT_CONFIG_KEY, JSON.stringify(cfg));
+  showToast('Cambios guardados — recarga la invitación para verlos');
+  updateDeadlineCountdown();
+}
+
+// ── FEATURE 5: DEADLINE COUNTDOWN ──
+function updateDeadlineCountdown() {
+  const cfg      = loadEventConfig();
+  const deadlineStr = cfg.rsvpDeadline || '2027-09-15';
+  const deadline = new Date(deadlineStr + 'T23:59:59');
+  const now      = new Date();
+  const daysLeft = Math.ceil((deadline - now) / 86400000);
+  const panel    = document.getElementById('deadline-panel');
+
+  if (!panel) return;
+  panel.style.display = 'block';
+
+  const label = deadline.toLocaleDateString('es-MX', {day:'numeric', month:'long', year:'numeric'});
+  document.getElementById('deadline-date-label').textContent = label;
+  document.getElementById('deadline-days').textContent = daysLeft > 0 ? daysLeft : '¡Expiró!';
+
+  const totalDays  = Math.ceil((deadline - new Date(now.getFullYear(), 0, 1)) / 86400000);
+  const elapsed    = Math.ceil((now - new Date(now.getFullYear(), 0, 1)) / 86400000);
+  const pct        = Math.min(Math.max(Math.round((elapsed / totalDays) * 100), 0), 100);
+  document.getElementById('deadline-fill').style.width = pct + '%';
 }
 
 </script>

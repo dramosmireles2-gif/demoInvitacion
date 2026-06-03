@@ -1400,6 +1400,20 @@ const WEDDING_CONFIG = {
   ],
 };
 
+// Aplicar overrides del admin (si existen)
+(function applyAdminOverrides() {
+  try {
+    const ov = JSON.parse(localStorage.getItem('aurora_event_override') || '{}');
+    if (ov.weddingDate)   WEDDING_CONFIG.weddingDate = ov.weddingDate;
+    if (ov.bankName)      WEDDING_CONFIG.gifts.bankName  = ov.bankName;
+    if (ov.bankClabe)     WEDDING_CONFIG.gifts.bankClabe = ov.bankClabe;
+    if (ov.bankAlias)     WEDDING_CONFIG.gifts.bankAlias = ov.bankAlias;
+    if (ov.churchName)    WEDDING_CONFIG.church.name    = ov.churchName;
+    if (ov.churchAddress) WEDDING_CONFIG.church.address = ov.churchAddress;
+    if (ov.churchMaps)    WEDDING_CONFIG.church.mapsLink = ov.churchMaps;
+  } catch(e) {}
+})();
+
 /* ══════════════════════════════════
    INVITADO
 ══════════════════════════════════ */
