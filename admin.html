@@ -2326,7 +2326,7 @@ function buildEventForm() {
   const form = document.getElementById('event-form');
   if (!form) return;
   const fields = [
-    { key:'weddingDate',  label:'Fecha del evento',          placeholder:'2027-10-02T17:00:00',         type:'text' },
+    { key:'weddingDate',  label:'Fecha del evento',          placeholder:'',                            type:'datetime-local' },
     { key:'churchName',   label:'Nombre de la iglesia',       placeholder:'Aposento Alto',               type:'text' },
     { key:'churchMaps',   label:'Link Google Maps — Iglesia', placeholder:'https://maps.app.goo.gl/…',   type:'text' },
     { key:'venueName',    label:'Nombre del salón',           placeholder:'Hacienda San Antonio Calichar',type:'text' },
