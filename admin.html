@@ -1012,7 +1012,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   .btn-ghost { display: none; }
   .topbar { padding: 12px 16px; }
   .btn-primary { padding: 8px 14px; font-size: 11px; }
-  .content { padding: 16px 12px; padding-bottom: 80px; }
+  .content { padding: 16px 12px; padding-bottom: 88px; }
   .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
   .stat-card { padding: 14px 16px; }
   .stat-number { font-size: 36px; }
@@ -1021,20 +1021,48 @@ body.sidebar-open .sidebar-overlay { display: block; }
   .progress-legend { gap: 10px; }
   .legend-item { font-size: 11px; }
   .two-col { gap: 12px; margin-bottom: 16px; }
-  .panel-header { padding: 13px 16px; }
+  .panel-header { padding: 13px 16px; gap: 8px; }
+  .panel-title { font-size: 14px; }
+
+  /* Tabla de invitados: ocultar columnas secundarias, dejar Nombre + Estado + Acciones */
   .guest-table th:nth-child(2), .guest-table td:nth-child(2),
   .guest-table th:nth-child(3), .guest-table td:nth-child(3),
   .guest-table th:nth-child(5), .guest-table td:nth-child(5),
   .guest-table th:nth-child(6), .guest-table td:nth-child(6) { display: none; }
-  .guest-table th, .guest-table td { padding: 11px 16px; }
-  .guest-name-cell { font-size: 14px; }
+  .guest-table th, .guest-table td { padding: 10px 12px; }
+  .guest-name-cell { font-size: 13px; }
   .guest-name-sub { display: none; }
+
+  /* Acciones de fila: más compactas */
+  .guest-table td:last-child { white-space: nowrap; padding: 6px 8px; }
+
   .activity-item { padding: 11px 16px; }
-  /* designs grid removed */
-  .url-row { padding: 10px 16px; flex-wrap: wrap; }
+  .url-row { padding: 10px 14px; flex-wrap: wrap; gap: 8px; }
   .url-row-key { display: none; }
   .bottom-nav { display: block; }
   .sidebar-footer { display: none; }
+
+  /* Modal de configurar mesas — inputs apilados en mobile */
+  #table-config-modal { padding: 20px 16px 16px; }
+  .table-config-generate-row { flex-direction: column !important; align-items: stretch !important; }
+  .table-config-generate-row input { width: 100% !important; }
+  .table-config-generate-row button { width: 100%; margin-top: 4px; }
+
+  /* QR modal — 2 columnas en lugar de auto-fill */
+  .qr-modal-grid { grid-template-columns: 1fr 1fr !important; gap: 10px; padding: 14px; }
+  .qr-card img  { width: 100%; height: auto; }
+  .qr-card      { padding: 10px 8px; }
+
+  /* Messages */
+  .message-item { padding: 12px 16px; gap: 10px; }
+  .message-avatar { width: 30px; height: 30px; font-size: 13px; }
+
+  /* Event form — 1 col ya cubierto por regla aparte */
+  #event-form { gap: 14px; }
+  .event-input { font-size: 14px; }
+
+  /* Mesas grid — 1 col en mobile */
+  #tables-grid { grid-template-columns: 1fr !important; }
 }
 </style>
 </head>
@@ -1850,10 +1878,10 @@ function openTableConfigModal() {
     <div id="table-config-modal">
       <div class="modal-title">Configurar mesas</div>
       <div style="margin-bottom:16px;">
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">
-          <input class="modal-input" type="number" id="new-table-count" min="1" max="50" placeholder="Nº de mesas" style="width:120px;">
-          <input class="modal-input" type="number" id="new-table-cap" min="1" max="30" placeholder="Capacidad" style="width:120px;" value="10">
-          <button class="btn-primary" style="padding:8px 14px;font-size:11px;" onclick="generateTables()">Generar</button>
+        <div class="table-config-generate-row" style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+          <input class="modal-input" type="number" id="new-table-count" min="1" max="50" placeholder="Nº de mesas" style="flex:1;min-width:80px;">
+          <input class="modal-input" type="number" id="new-table-cap" min="1" max="30" placeholder="Capacidad" style="flex:1;min-width:80px;" value="10">
+          <button class="btn-primary" style="padding:8px 14px;font-size:11px;white-space:nowrap;" onclick="generateTables()">Generar</button>
         </div>
         <div style="font-size:11px;color:var(--text-light);">O edita la capacidad de cada mesa individualmente:</div>
       </div>
@@ -2209,10 +2237,10 @@ function openQRModal() {
   const keys = Object.keys(WEDDING_GUESTS);
   const overlay = document.createElement('div');
   overlay.id = 'qr-modal-overlay';
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,36,22,0.4);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,36,22,0.4);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;';
 
   overlay.innerHTML = `
-    <div style="background:var(--white);border:1px solid var(--parchment);border-radius:6px;width:min(700px,100%);max-height:85vh;display:flex;flex-direction:column;box-shadow:0 16px 48px rgba(44,36,22,0.18);">
+    <div style="background:var(--white);border:1px solid var(--parchment);border-radius:6px;width:min(700px,100%);max-height:90vh;display:flex;flex-direction:column;box-shadow:0 16px 48px rgba(44,36,22,0.18);overflow:hidden;">
       <div class="panel-header" style="flex-shrink:0;">
         <div>
           <span class="panel-title">Códigos QR</span>
@@ -2220,7 +2248,7 @@ function openQRModal() {
         </div>
         <button class="panel-action" onclick="document.getElementById('qr-modal-overlay').remove()">Cerrar</button>
       </div>
-      <div class="qr-modal-grid">
+      <div class="qr-modal-grid" style="overflow-y:auto;flex:1;">
         ${keys.map(key => {
           const g   = WEDDING_GUESTS[key];
           const url = encodeURIComponent(base + 'invitacion-aurora.html?g=' + key);
