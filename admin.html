@@ -1639,8 +1639,11 @@ function buildTablesSection() {
   // Calcular totales
   let totalSeats = 0, totalAssigned = 0, totalAvail = 0, fullTables = 0;
   const tableIds = Object.keys(tablesConfig).sort((a,b) => {
-    const na = parseInt(a) || 0, nb = parseInt(b) || 0;
-    return na - nb || a.localeCompare(b);
+    const na = parseInt(a), nb = parseInt(b);
+    if (!isNaN(na) && !isNaN(nb)) return na - nb;
+    if (!isNaN(na)) return -1;
+    if (!isNaN(nb)) return  1;
+    return a.localeCompare(b);
   });
 
   tableIds.forEach(id => {
@@ -1766,12 +1769,13 @@ function generateTables() {
   const count = parseInt(document.getElementById('new-table-count').value) || 0;
   const cap   = parseInt(document.getElementById('new-table-cap').value) || 10;
   if (count < 1 || count > 50) return;
+  // Crear TODAS las mesas 1..N sin saltar — los huecos se rellenan siempre
   for (let i = 1; i <= count; i++) {
-    if (!tablesConfig[String(i)]) {
-      tablesConfig[String(i)] = { label: 'Mesa ' + i, capacity: cap };
-    } else {
-      tablesConfig[String(i)].capacity = cap;
-    }
+    const key = String(i);
+    tablesConfig[key] = {
+      label:    tablesConfig[key]?.label    || 'Mesa ' + i,
+      capacity: tablesConfig[key]?.capacity ?? cap,
+    };
   }
   saveTablesConfig();
   closeTableConfigModal();
