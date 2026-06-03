@@ -630,30 +630,6 @@ body::before {
 }
 
 /* ── NO PETS ── */
-.inv-no-pets {
-  width: 100%; max-width: 480px; padding: 0 24px 32px;
-  animation: fade-up 1s 0.8s both;
-}
-.no-pets-card {
-  display: flex; align-items: center; gap: 14px;
-  background: rgba(252,250,247,0.85);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: 0 2px 16px rgba(201,164,106,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
-  padding: 16px 24px;
-}
-.no-pets-icon { width: 36px; height: 36px; position: relative; flex-shrink: 0; }
-.no-pets-icon::after {
-  content: ''; position: absolute; inset: -3px;
-  border: 1.5px solid var(--gold); border-radius: 50%; opacity: 0.7;
-}
-.no-pets-icon::before {
-  content: ''; position: absolute;
-  width: 38px; height: 1.5px; background: var(--gold);
-  top: 50%; left: -4px; transform: translateY(-50%) rotate(-45deg);
-  opacity: 0.7; border-radius: 2px;
-}
-.no-pets-text { font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--text-2); }
 
 /* ── GUEST CARD ── */
 /* guest+rsvp unified card */
@@ -1188,20 +1164,6 @@ body::before {
     <p class="section-label">Código de vestimenta</p>
     <div class="prism-divider" style="margin-bottom:20px;"></div>
     <div class="dresscode-grid" id="dresscode-grid"></div>
-  </div>
-
-  <!-- 10. NO MASCOTAS -->
-  <div class="inv-no-pets">
-    <div class="no-pets-card">
-      <span class="no-pets-icon"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="14" cy="10" rx="3" ry="4" stroke="#c4a068" stroke-width="1.3" fill="rgba(196,160,104,0.1)"/>
-        <ellipse cx="22" cy="10" rx="3" ry="4" stroke="#c4a068" stroke-width="1.3" fill="rgba(196,160,104,0.1)"/>
-        <path d="M8 20 C8 14 10 12 14 12 L22 12 C26 12 28 14 28 20 C28 24 26 26 22 27 L20 30 L16 30 L14 27 C10 26 8 24 8 20 Z" stroke="#c4a068" stroke-width="1.3" fill="rgba(196,160,104,0.1)"/>
-        <ellipse cx="7" cy="17" rx="2.5" ry="3.5" stroke="#c4a068" stroke-width="1.2" fill="rgba(196,160,104,0.08)"/>
-        <ellipse cx="29" cy="17" rx="2.5" ry="3.5" stroke="#c4a068" stroke-width="1.2" fill="rgba(196,160,104,0.08)"/>
-      </svg></span>
-      <span class="no-pets-text">Agradecemos tu comprensión: el evento es libre de mascotas</span>
-    </div>
   </div>
 
   <div class="prism-divider" style="animation:fade-up 1s 1s both; margin:8px 0 24px;"></div>
