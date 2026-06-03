@@ -53,6 +53,7 @@ body {
   color: var(--text);
   display: flex;
   min-height: 100vh;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -1280,6 +1281,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
               <button class="btn-primary" onclick="openGuestModal()" style="padding:7px 14px;font-size:11px;">+ Agregar</button>
             </div>
           </div>
+          <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
           <table class="guest-table">
             <thead>
               <tr>
@@ -1302,6 +1304,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
             </tbody>
           </table>
+          </div>
         </div>
 
         <!-- ACTIVITY -->
