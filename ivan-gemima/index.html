@@ -990,7 +990,7 @@ body::before {
     </div>
     <div class="card-prism-line"></div>
     <span class="card-date">29 · Agosto · 2026</span>
-    <span class="card-place">Hacienda San Antonio Calichar</span>
+    <span class="card-place">Crown Eventos Plaza Andenes</span>
     <div class="card-hint">
       <span class="hint-dot"></span>
       <span class="hint-text">Toca para abrir</span>
@@ -1162,7 +1162,7 @@ body::before {
         <span class="bank-clabe" id="bank-clabe">000000000000000000</span>
         <button class="copy-btn" onclick="copyBank()">Copiar</button>
       </div>
-      <p class="bank-alias" id="bank-alias">Alias: andrea.saul.boda</p>
+      <p class="bank-alias" id="bank-alias"></p>
     </div>
     <a class="gift-list-btn" id="gift-list-btn" href="#" target="_blank" style="display:none;">
       🎁 Ver lista de regalos
@@ -1263,7 +1263,7 @@ const WEDDING_CONFIG = {
     showBank:    true,
     bankName:    'BBVA',
     bankClabe:   '000000000000000000',
-    bankAlias:   'andrea.saul.boda',
+    bankAlias:   '',
     giftListUrl: '', // URL de tienda de regalos (vacío = ocultar botón)
   },
 
@@ -1643,7 +1643,7 @@ function buildCalendarCTA() {
   const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
     + '&text=Boda+Iv%C3%A1n+%26+Gemima'
     + '&dates=20260829T170000/20260830T000000'
-    + '&location=Hacienda+San+Antonio+Calichar,+Tamaulipas'
+    + '&location=Crown+Eventos+Plaza+Andenes,+Monterrey'
     + '&details=¡Los+esperamos+con+mucho+cariño!';
   document.getElementById('cal-google').href = googleUrl;
 }
