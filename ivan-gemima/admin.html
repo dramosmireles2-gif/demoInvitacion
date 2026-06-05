@@ -1906,10 +1906,12 @@ function closeTableConfigModal() {
 }
 
 function generateTables() {
-  const count = parseInt(document.getElementById('new-table-count').value) || 0;
-  const cap   = parseInt(document.getElementById('new-table-cap').value) || 10;
-  if (count < 1 || count > 50) return;
-  // Crear TODAS las mesas 1..N sin saltar — los huecos se rellenan siempre
+  const countEl = document.getElementById('new-table-count');
+  const capEl   = document.getElementById('new-table-cap');
+  if (!countEl || !capEl) { showToast('Error: no se encontró el formulario'); return; }
+  const count = parseInt(countEl.value);
+  const cap   = parseInt(capEl.value) || 10;
+  if (!count || count < 1 || count > 50) { showToast('Ingresa un número de mesas válido (1-50)'); return; }
   for (let i = 1; i <= count; i++) {
     const key = String(i);
     tablesConfig[key] = {
@@ -1920,6 +1922,7 @@ function generateTables() {
   saveTablesConfig();
   closeTableConfigModal();
   buildTablesSection();
+  showToast(count + ' mesas generadas');
 }
 
 function openAssignModal(tableId) {
