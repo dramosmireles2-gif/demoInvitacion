@@ -1876,7 +1876,7 @@ function openTableConfigModal() {
         <div class="table-config-generate-row" style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
           <input class="modal-input" type="number" id="new-table-count" min="1" max="50" placeholder="Nº de mesas" style="flex:1;min-width:80px;">
           <input class="modal-input" type="number" id="new-table-cap" min="1" max="30" placeholder="Capacidad" style="flex:1;min-width:80px;" value="10">
-          <button class="btn-primary" style="padding:8px 14px;font-size:11px;white-space:nowrap;" onclick="generateTables()">Generar</button>
+          <button class="btn-primary" style="padding:8px 14px;font-size:11px;white-space:nowrap;" onclick="generateTables(document.getElementById('new-table-count').value, document.getElementById('new-table-cap').value)">Generar</button>
         </div>
         <div style="font-size:11px;color:var(--text-light);">O edita la capacidad de cada mesa individualmente:</div>
       </div>
@@ -1905,12 +1905,9 @@ function closeTableConfigModal() {
   if (el) el.remove();
 }
 
-function generateTables() {
-  const countEl = document.getElementById('new-table-count');
-  const capEl   = document.getElementById('new-table-cap');
-  if (!countEl || !capEl) { showToast('Error: no se encontró el formulario'); return; }
-  const count = parseInt(countEl.value);
-  const cap   = parseInt(capEl.value) || 10;
+function generateTables(countVal, capVal) {
+  const count = parseInt(countVal);
+  const cap   = parseInt(capVal) || 10;
   if (!count || count < 1 || count > 50) { showToast('Ingresa un número de mesas válido (1-50)'); return; }
   for (let i = 1; i <= count; i++) {
     const key = String(i);
