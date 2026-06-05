@@ -1853,10 +1853,14 @@ function buildTablesSection() {
     const availText  = avail <= 0 ? 'Mesa llena' : avail === 1 ? '1 asiento libre' : avail + ' asientos libres';
 
     const guestRows = guests.length
-      ? guests.map(({g}) => `
+      ? guests.map(({key, g}) => `
         <div class="table-guest-row">
           <span class="table-guest-name">${g.name}</span>
-          <span class="table-guest-passes">🎟 ${g.passes}</span>
+          <span class="table-guest-passes" style="display:flex;align-items:center;gap:6px;">
+            <span>${g.passes} pases</span>
+            <button onclick="unassignGuest('${key}')" title="Quitar de mesa"
+              style="background:none;border:none;cursor:pointer;color:var(--red);padding:2px 4px;font-size:13px;line-height:1;">✕</button>
+          </span>
         </div>`).join('')
       : '<div class="table-empty-row">Sin invitados asignados</div>';
 
@@ -1864,7 +1868,17 @@ function buildTablesSection() {
       <div class="table-card">
         <div class="table-card-header">
           <span class="table-card-name">${cfg.label}</span>
-          <span class="table-card-capacity">${assignedPasses} / ${cfg.capacity} pases</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span class="table-card-capacity">${assignedPasses} / ${cfg.capacity} pases</span>
+            <button onclick="editTableModal('${id}')" title="Editar mesa"
+              style="background:none;border:none;cursor:pointer;color:var(--text-light);padding:2px 4px;">
+              <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button onclick="deleteTable('${id}')" title="Eliminar mesa"
+              style="background:none;border:none;cursor:pointer;color:var(--red);padding:2px 4px;">
+              <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
         </div>
         <div class="table-occ-bar">
           <div class="table-occ-fill" style="width:${pct}%;background:${fillColor};"></div>
@@ -1945,6 +1959,76 @@ function doGenerateTables() {
 
 function generateTables(countVal, capVal) {
   doGenerateTables();
+}
+
+function unassignGuest(key) {
+  if (!WEDDING_GUESTS[key]) return;
+  WEDDING_GUESTS[key].table = '—';
+  const extras = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
+  if (extras[key]) extras[key].table = '—';
+  else extras[key] = { ...WEDDING_GUESTS[key] };
+  localStorage.setItem('ig_guests_extra', JSON.stringify(extras));
+  syncTablesFromGuests();
+  buildTablesSection();
+  renderGuestTable(lastRsvpData);
+  showToast('Invitado liberado de la mesa');
+}
+
+function deleteTable(tableId) {
+  const cfg = tablesConfig[tableId];
+  if (!confirm('¿Eliminar ' + cfg.label + '? Los invitados asignados quedarán sin mesa.')) return;
+  // Liberar invitados de esta mesa
+  Object.keys(WEDDING_GUESTS).forEach(key => {
+    if (String(WEDDING_GUESTS[key].table) === String(tableId)) {
+      WEDDING_GUESTS[key].table = '—';
+      const extras = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
+      if (extras[key]) extras[key].table = '—';
+      else extras[key] = { ...WEDDING_GUESTS[key] };
+      localStorage.setItem('ig_guests_extra', JSON.stringify(extras));
+    }
+  });
+  delete tablesConfig[tableId];
+  saveTablesConfig();
+  buildTablesSection();
+  renderGuestTable(lastRsvpData);
+  showToast(cfg.label + ' eliminada');
+}
+
+function editTableModal(tableId) {
+  const cfg = tablesConfig[tableId];
+  const overlay = document.createElement('div');
+  overlay.id = 'edit-table-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,36,22,0.35);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:var(--white);border:1px solid var(--parchment);border-radius:6px;padding:28px;width:min(380px,100%);box-shadow:0 16px 48px rgba(44,36,22,0.18);">
+      <div class="modal-title">Editar ${cfg.label}</div>
+      <div class="modal-field">
+        <label class="modal-label">Nombre de la mesa</label>
+        <input class="modal-input" id="et-label" type="text" value="${cfg.label}"/>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Capacidad (personas)</label>
+        <input class="modal-input" id="et-cap" type="number" min="1" max="100" value="${cfg.capacity}"/>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="document.getElementById('edit-table-overlay').remove()">Cancelar</button>
+        <button class="btn-primary" onclick="saveTableEdit('${tableId}')">Guardar</button>
+      </div>
+    </div>`;
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+function saveTableEdit(tableId) {
+  const label = document.getElementById('et-label').value.trim();
+  const cap   = parseInt(document.getElementById('et-cap').value) || 10;
+  if (!label) { showToast('Escribe un nombre para la mesa'); return; }
+  tablesConfig[tableId].label    = label;
+  tablesConfig[tableId].capacity = cap;
+  saveTablesConfig();
+  document.getElementById('edit-table-overlay').remove();
+  buildTablesSection();
+  showToast('Mesa actualizada');
 }
 
 function openAssignModal(tableId) {
