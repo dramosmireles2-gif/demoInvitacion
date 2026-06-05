@@ -1305,6 +1305,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
               <span class="panel-title">Actividad en tiempo real</span>
               <div class="panel-sub">Aperturas y confirmaciones al instante</div>
             </div>
+            <button class="btn-ghost" style="font-size:.8rem;padding:4px 10px;" onclick="clearAllActivity()">Limpiar</button>
           </div>
           <div class="activity-list" id="activity-list">
             <div class="activity-item">
@@ -2144,6 +2145,19 @@ function initAdmin() {
     snapshot.forEach(doc => { rsvpData[doc.id] = doc.data(); });
     renderDashboard(rsvpData);
   });
+}
+
+function clearAllActivity() {
+  if (!confirm('¿Borrar toda la actividad de RSVPs? Esto no elimina invitados.')) return;
+  if (!db) { showToast('Sin conexión a Firestore'); return; }
+  db.collection('rsvps').get().then(snap => {
+    const batch = db.batch();
+    snap.forEach(doc => batch.delete(doc.ref));
+    return batch.commit();
+  }).then(() => {
+    lastRsvpData = {};
+    showToast('Actividad borrada');
+  }).catch(e => showToast('Error al borrar: ' + e.message));
 }
 
 function renderFallback() {
