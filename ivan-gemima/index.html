@@ -8,7 +8,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(201,164,106,0.35); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(201,164,106,0.65); }
 
 :root {
   --bg:           #F7F3EE;
@@ -928,7 +934,7 @@ body::before {
 .inv-time { font-family:'Cormorant SC',serif; font-size:13px; letter-spacing:4px; color:var(--gold-dark); margin-top:10px; }
 
 /* ── FOOTER ── */
-.inv-footer { margin-top: 20px; text-align: center; padding: 0 24px 24px; background: transparent; animation: fade-up 1s 1.4s both; }
+.inv-footer { margin-top: 16px; text-align: center; padding: 0 24px 12px; background: transparent; animation: fade-up 1s 1.4s both; }
 .inv-footer-names { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 28px; color: var(--text); margin-bottom: 6px; display: block; }
 .inv-footer-date  { font-family: 'Cormorant SC', serif; font-size: 12px; font-weight: 400; letter-spacing: 4px; color: var(--text-2); margin-bottom: 8px; display: block; }
 .inv-footer-note  { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-2); display: block; }
