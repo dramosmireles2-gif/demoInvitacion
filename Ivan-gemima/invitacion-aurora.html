@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>Andrea & Saúl — Aurora · 2 · Octubre · 2027</title>
+<title>Iván & Gemima — Aurora</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
@@ -540,32 +540,35 @@ body::before {
 }
 
 /* ── GALERÍA DE NOVIOS ── */
-.inv-gallery { width: 100%; max-width: 480px; padding: 0 24px 40px; animation: fade-up 1s 0.8s both; }
+.inv-gallery { width: 100%; max-width: 480px; padding: 0 16px 40px; animation: fade-up 1s 0.8s both; }
 .gallery-empty {
   text-align: center; padding: 32px 16px;
   font-family: 'Jost', sans-serif; font-size: 12px; color: var(--text-2);
 }
+/* Masonry Pinterest-style */
 .gallery-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+  columns: 2; column-gap: 8px;
 }
 .gallery-item {
-  aspect-ratio: 1; overflow: hidden;
-  border-radius: 14px;
+  break-inside: avoid;
+  margin-bottom: 8px;
+  overflow: hidden;
+  border-radius: 12px;
   cursor: pointer; position: relative;
   border: 1px solid var(--border);
   box-shadow: 0 4px 16px rgba(201,164,106,0.1);
+  display: block;
 }
 .gallery-item img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: auto; display: block;
   transition: transform 0.4s ease;
 }
-.gallery-item:hover img { transform: scale(1.04); }
+.gallery-item:hover img { transform: scale(1.03); }
 .gallery-item .gallery-overlay {
   position: absolute; inset: 0;
   background: rgba(30,21,16,0); transition: background 0.3s;
-  display: flex; align-items: center; justify-content: center;
 }
-.gallery-item:hover .gallery-overlay { background: rgba(30,21,16,0.15); }
+.gallery-item:hover .gallery-overlay { background: rgba(30,21,16,0.12); }
 
 /* Lightbox */
 #lightbox {
@@ -1006,12 +1009,12 @@ body::before {
     <div class="invite-card-shine"></div>
     <div class="invite-card-top-line"></div>
     <span class="card-eyebrow">Con amor, te invitamos</span>
-    <div class="card-monogram">A &amp; S</div>
+    <div class="card-monogram">I &amp; G</div>
     <div class="card-prism-line"></div>
     <div class="card-names">
-      <span class="card-name">Andrea</span>
+      <span class="card-name">Iván</span>
       <span class="card-amp">&amp;</span>
-      <span class="card-name">Saúl</span>
+      <span class="card-name">Gemima</span>
     </div>
     <div class="card-prism-line"></div>
     <span class="card-date">2 · Octubre · 2027</span>
@@ -1036,7 +1039,7 @@ body::before {
       <div class="prism-divider" style="margin-bottom:32px;"></div>
     </div>
     <div style="text-align:center; animation:fade-up 1s 0.4s both;">
-      <div class="inv-names">Andrea<span class="inv-amp">&amp;</span>Saúl</div>
+      <div class="inv-names">Iván<span class="inv-amp">&amp;</span>Gemima</div>
     </div>
     <div class="inv-hero-separator"></div>
     <span class="inv-hero-date">Sábado · 2 de Octubre · 2027</span>
@@ -1045,9 +1048,9 @@ body::before {
   <!-- 2. FOTO PAREJA (antes del contador) -->
   <div class="inv-couple-photo">
     <div class="couple-frame">
-      <img src="./Andrreaysaul.png" alt="Andrea & Saúl" loading="lazy"/>
+      <img src="./Principal.jpeg" alt="Iván & Gemima" loading="lazy"/>
     </div>
-    <p class="couple-caption">Andrea &amp; Saúl</p>
+    <p class="couple-caption">Iván &amp; Gemima</p>
   </div>
 
   <!-- CTA RSVP anticipado -->
@@ -1177,7 +1180,7 @@ body::before {
       Gracias por ser parte de este día tan especial para nosotros. Su presencia es el regalo más grande.
     </p>
     <div class="prism-divider" style="margin-bottom:16px;"></div>
-    <span class="punctuality-note-footer">Andrea &amp; Saúl · 2 de Octubre · 2027</span>
+    <span class="punctuality-note-footer">Iván &amp; Gemima</span>
   </div>
 
   <div class="prism-divider" style="margin:24px auto;"></div>
@@ -1290,7 +1293,7 @@ body::before {
   <!-- 17. FOOTER -->
   <div class="inv-footer">
     <div class="prism-divider" style="margin-bottom:28px;"></div>
-    <p class="inv-footer-names">Andrea &amp; Saúl</p>
+    <p class="inv-footer-names">Iván &amp; Gemima</p>
     <p class="inv-footer-date">2 · Octubre · 2027</p>
     <p class="inv-footer-note">Con amor, los esperamos</p>
     <div class="prism-divider" style="margin-top:24px; margin-bottom:24px;"></div>
@@ -1330,7 +1333,7 @@ const WEDDING_CONFIG = {
 
   music: './musica.mp3', // remplazar con archivo real
 
-  gallery: ['./foto1.png','./foto2.png','./foto3.png','./foto4.png','./foto5.png','./foto6.png'],
+  gallery: ['./foto1.jpeg','./foto2.jpeg','./foto3.jpeg','./foto4.jpeg','./foto5.jpeg','./foto6.jpeg','./foto7.jpeg'],
 
   dresscode: {
     women: {
@@ -1541,7 +1544,7 @@ function buildGallery() {
   const grid = document.getElementById('gallery-grid');
   grid.innerHTML = galleryImages.map((src, i) => `
     <div class="gallery-item" onclick="openLightbox(${i})">
-      <img src="${src}" alt="Foto ${i+1}" loading="lazy"/>
+      <img src="${src}" alt="Foto ${i+1}" loading="lazy" decoding="async"/>
       <div class="gallery-overlay"></div>
     </div>
   `).join('');
