@@ -604,34 +604,6 @@ body::before {
   color: rgba(255,255,255,0.5);
 }
 
-/* ── DRESSCODE ── */
-.inv-dresscode { width: 100%; max-width: 480px; padding: 0 24px 40px; animation: fade-up 1s 0.8s both; }
-.dresscode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.dresscode-card {
-  background: rgba(252,250,247,0.85);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: 0 2px 16px rgba(201,164,106,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
-  padding: 24px 20px;
-  text-align: center;
-}
-.dresscode-icon { display: block; margin: 0 auto 12px; width: 44px; height: 44px; }
-.dresscode-gender {
-  font-family: 'Cormorant SC', serif; font-size: 11px;
-  letter-spacing: 3px; color: var(--gold); margin-bottom: 8px;
-}
-.dresscode-style {
-  font-family: 'Cormorant Garamond', serif; font-size: 15px;
-  color: var(--text); margin-bottom: 10px; line-height: 1.4;
-}
-.dresscode-colors { display: flex; justify-content: center; gap: 6px; margin-bottom: 8px; }
-.color-swatch { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(230,216,199,0.8); flex-shrink: 0; }
-.dresscode-note {
-  font-family: 'Jost', sans-serif; font-size: 10px;
-  letter-spacing: 1px; color: var(--text-2);
-  font-style: italic;
-}
-
 /* ── NO PETS ── */
 
 /* ── GUEST CARD ── */
@@ -1162,13 +1134,6 @@ body::before {
     </div>
   </div>
 
-  <!-- 9. DRESSCODE -->
-  <div class="inv-dresscode">
-    <p class="section-label">Código de vestimenta</p>
-    <div class="prism-divider" style="margin-bottom:20px;"></div>
-    <div class="dresscode-grid" id="dresscode-grid"></div>
-  </div>
-
   <div class="prism-divider" style="animation:fade-up 1s 1s both; margin:8px 0 24px;"></div>
 
   <!-- NOTA DE PUNTUALIDAD / GRACIAS -->
@@ -1335,18 +1300,6 @@ const WEDDING_CONFIG = {
 
   gallery: ['./foto1.jpeg','./foto2.jpeg','./foto3.jpeg','./foto4.jpeg','./foto5.jpeg','./foto6.jpeg','./foto7.jpeg'],
 
-  dresscode: {
-    women: {
-      style:  'Vestido largo o cóctel',
-      colors: ['#c8aa88','#d4c4a8','#b0a090','#e8dcc8'],
-      note:   'Evitar blanco e ivory',
-    },
-    men: {
-      style:  'Traje formal',
-      colors: ['#2c2416','#4a3a2a','#6b5a3e','#b8976a'],
-      note:   'Corbata o moño requerido',
-    },
-  },
 
   gifts: {
     showBank:    true,
@@ -1591,40 +1544,6 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape')     { closeLightbox(); }
 });
 
-/* ══════════════════════════════════
-   DRESSCODE
-══════════════════════════════════ */
-function buildDresscode() {
-  const dc = WEDDING_CONFIG.dresscode;
-  const grid = document.getElementById('dresscode-grid');
-  const SVG_DRESS = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15 6 C15 6 12 10 10 14 L6 28 L38 28 L34 14 C32 10 29 6 29 6 L25 10 L22 8 L19 10 Z" stroke="#c4a068" stroke-width="1.4" fill="rgba(196,160,104,0.08)" stroke-linejoin="round"/>
-    <path d="M16 28 L14 40 L30 40 L28 28" stroke="#c4a068" stroke-width="1.4" fill="rgba(196,160,104,0.06)" stroke-linejoin="round"/>
-    <ellipse cx="22" cy="7" rx="3" ry="3.5" stroke="#c4a068" stroke-width="1.2" fill="none"/>
-    <path d="M19 10 C19 10 20.5 12 22 12 C23.5 12 25 10 25 10" stroke="#dcc090" stroke-width="1" fill="none"/>
-  </svg>`;
-  const SVG_SUIT = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 8 L8 20 L14 22 L14 40 L30 40 L30 22 L36 20 L30 8 L26 14 L22 10 L18 14 Z" stroke="#c4a068" stroke-width="1.4" fill="rgba(196,160,104,0.08)" stroke-linejoin="round"/>
-    <path d="M18 14 L22 10 L26 14" stroke="#dcc090" stroke-width="1.2" fill="rgba(220,192,144,0.12)"/>
-    <line x1="22" y1="18" x2="22" y2="36" stroke="#dcc090" stroke-width="1" stroke-dasharray="2 2"/>
-    <ellipse cx="22" cy="7.5" rx="2.5" ry="3" stroke="#c4a068" stroke-width="1.2" fill="none"/>
-  </svg>`;
-  const items = [
-    { gender: 'Damas', icon: SVG_DRESS, data: dc.women },
-    { gender: 'Caballeros', icon: SVG_SUIT, data: dc.men },
-  ];
-  grid.innerHTML = items.map(item => `
-    <div class="dresscode-card">
-      <span class="dresscode-icon">${item.icon}</span>
-      <p class="dresscode-gender">${item.gender}</p>
-      <p class="dresscode-style">${item.data.style}</p>
-      <div class="dresscode-colors">
-        ${item.data.colors.map(c => `<div class="color-swatch" style="background:${c}" title="${c}"></div>`).join('')}
-      </div>
-      <p class="dresscode-note">${item.data.note}</p>
-    </div>
-  `).join('');
-}
 
 /* ══════════════════════════════════
    REGALOS
@@ -1764,7 +1683,7 @@ function spawnGenderConfetti(color) {
 ══════════════════════════════════ */
 function buildCalendarCTA() {
   const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-    + '&text=Boda+Andrea+%26+Sa%C3%BAl'
+    + '&text=Boda+Iv%C3%A1n+%26+Gemima'
     + '&dates=20260829T170000/20260830T000000'
     + '&location=Hacienda+San+Antonio+Calichar,+Tamaulipas'
     + '&details=¡Los+esperamos+con+mucho+cariño!';
@@ -1775,13 +1694,13 @@ function downloadICS(provider) {
   const icsContent = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Andrea & Saúl//Boda 2026//ES',
+    'PRODID:-//Iván & Gemima//Boda 2026//ES',
     'BEGIN:VEVENT',
     'DTSTART:20260829T170000',
     'DTEND:20260830T010000',
-    'SUMMARY:Boda Andrea & Saúl',
+    'SUMMARY:Boda Iván & Gemima',
     'DESCRIPTION:¡Los esperamos con mucho cariño!',
-    'LOCATION:Hacienda San Antonio Calichar\\, Carretera Reynosa–San Fernando km 12\\, Tamaulipas',
+    'LOCATION:Hacienda San Antonio Calichar\\, Tamaulipas',
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n');
@@ -1790,7 +1709,7 @@ function downloadICS(provider) {
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href = url;
-  a.download = 'boda-andrea-saul.ics';
+  a.download = 'boda-ivan-gemima.ics';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1939,7 +1858,7 @@ buildTimeline();
 buildChurchMap();
 buildVenueImage();
 buildGallery();
-buildDresscode();
+
 buildGifts();
 buildWishlist();
 buildGenderReveal();
