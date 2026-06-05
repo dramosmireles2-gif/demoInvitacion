@@ -1079,9 +1079,29 @@ body::before {
   <div class="inv-locations">
     <p class="section-label">Dónde nos encontramos</p>
 
+    <!-- Card Iglesia -->
+    <div class="location-card">
+      <p class="location-card-label">Ceremonia Religiosa · Por confirmar</p>
+      <div class="location-card-body">
+        <span class="location-card-name">Aposento Alto</span>
+        <span class="location-card-address">C. Insurgentes 418, Chapultepec, San Nicolás de los Garza, N.L.</span>
+        <a class="location-directions-btn" href="https://maps.app.goo.gl/enaa51eixmTVXXjJA" target="_blank">
+          <svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cómo llegar
+        </a>
+      </div>
+      <iframe
+        class="location-card-map"
+        src="https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Aposento Alto">
+      </iframe>
+    </div>
+
     <!-- Card Salón -->
     <div class="location-card">
-      <p class="location-card-label">Recepción · 17:00 HRS</p>
+      <p class="location-card-label">Recepción · Por confirmar</p>
       <div class="location-card-body">
         <span class="location-card-name">Crown Eventos Plaza Andenes</span>
         <a class="location-directions-btn" id="venue-directions" href="https://maps.google.com/?q=CROWN+EVENTOS+Plaza+Andenes+Monterrey" target="_blank">
@@ -1257,10 +1277,18 @@ const WEDDING_CONFIG = {
   weddingDate: '2026-08-29T17:00:00',
 
   schedule: [
-    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M5 10h14M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/></svg>', label: 'Recepción',      place: 'Crown Eventos Plaza Andenes', time: '17:00 HRS' },
-    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', label: 'Baile y festejo', place: 'Crown Eventos Plaza Andenes', time: '18:00 HRS' },
+    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M8 10h.01M16 10h.01"/></svg>', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: 'Por confirmar' },
+    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M5 10h14M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/></svg>', label: 'Recepción',      place: 'Crown Eventos Plaza Andenes', time: 'Por confirmar' },
+    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', label: 'Baile y festejo', place: 'Crown Eventos Plaza Andenes', time: 'Por confirmar' },
     { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>', label: 'Cierre de fiesta', place: '', time: '01:00 HRS' },
   ],
+
+  church: {
+    name:     'Aposento Alto',
+    address:  'C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.',
+    mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
+    mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
+  },
 
   venueImage:  '../Salon.png',
 
