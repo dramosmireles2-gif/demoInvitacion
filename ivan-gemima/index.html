@@ -1049,7 +1049,7 @@ body::before {
   <div class="inv-date-block">
     <div class="prism-divider" style="margin-bottom:20px;"></div>
     <span class="inv-date-main">Sábado · Veintinueve de Agosto</span>
-    <span class="inv-date-nums">02</span>
+    <span class="inv-date-nums">29</span>
     <span class="inv-date-year">2 · 0 · 2 · 6</span>
     <!-- Calendario mini renderizado por JS -->
     <div class="mini-calendar" id="mini-calendar"></div>
@@ -1423,7 +1423,7 @@ function buildMiniCalendar() {
   dows.forEach(d => { html += `<div class="mini-cal-dow">${d}</div>`; });
   for (let i = 0; i < offset; i++) html += '<div class="mini-cal-day empty"></div>';
   for (let d = 1; d <= daysInMonth; d++) {
-    const cls = d === 2 ? 'mini-cal-day wedding' : 'mini-cal-day';
+    const cls = d === 29 ? 'mini-cal-day wedding' : 'mini-cal-day';
     html += `<div class="${cls}">${d}</div>`;
   }
   html += '</div>';
