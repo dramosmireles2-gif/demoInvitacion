@@ -1659,7 +1659,9 @@ function copyText(text, successMsg) {
   }
 }
 
-const VENUE_CAPACITY = 200; // pases máximos del venue
+let VENUE_CAPACITY = (() => {
+  try { return parseInt(JSON.parse(localStorage.getItem('ig_event_config') || '{}').venueCapacity, 10) || 200; } catch(e) { return 200; }
+})();
 
 // ── GUEST CRUD ──
 let currentFilter = 'all';
@@ -2506,10 +2508,11 @@ function buildEventForm() {
   const form = document.getElementById('event-form');
   if (!form) return;
   const fields = [
-    { key:'bankName',     label:'Banco',                      placeholder:'BBVA',                        type:'text' },
-    { key:'bankClabe',    label:'CLABE / Cuenta',             placeholder:'000000000000000000',          type:'text' },
-    { key:'bankAlias',    label:'Alias de transferencia',     placeholder:'ivan.gemima.boda',            type:'text' },
-    { key:'rsvpDeadline', label:'Fecha límite RSVP',          placeholder:'2026-08-15',                  type:'date' },
+    { key:'venueCapacity', label:'Capacidad del venue (pases)', placeholder:'200', type:'number' },
+    { key:'bankName',      label:'Banco',                       placeholder:'BBVA', type:'text' },
+    { key:'bankClabe',     label:'CLABE / Cuenta',              placeholder:'000000000000000000', type:'text' },
+    { key:'bankAlias',     label:'Alias de transferencia',      placeholder:'ivan.gemima.boda', type:'text' },
+    { key:'rsvpDeadline',  label:'Fecha límite RSVP',           placeholder:'2026-08-15', type:'date' },
   ];
 
   form.innerHTML = fields.map(f => {
@@ -2534,15 +2537,17 @@ function previewAddress(key, url) {
 }
 
 function saveEventConfig() {
-  const fields = ['bankName','bankClabe','bankAlias','rsvpDeadline'];
+  const fields = ['venueCapacity','bankName','bankClabe','bankAlias','rsvpDeadline'];
   const cfg = {};
   fields.forEach(k => {
     const val = document.getElementById('ef-' + k)?.value?.trim();
     if (val) cfg[k] = val;
   });
   localStorage.setItem(EVENT_CONFIG_KEY, JSON.stringify(cfg));
-  showToast('Cambios guardados — recarga la invitación para verlos');
+  if (cfg.venueCapacity) VENUE_CAPACITY = parseInt(cfg.venueCapacity, 10) || 200;
+  showToast('Cambios guardados');
   updateDeadlineCountdown();
+  renderGuestTable(lastRsvpData);
 }
 
 // ── FEATURE 5: DEADLINE COUNTDOWN ──
