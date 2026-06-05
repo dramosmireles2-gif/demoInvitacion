@@ -289,7 +289,7 @@ body::before {
 }
 .inv-header { width:100%; max-width:480px; padding:120px 24px 0; text-align:center; animation:fade-up 1s 0.2s both; }
 .inv-prelude { font-family:'Jost',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-dark); margin-bottom:24px; }
-.inv-announce { font-family:'Cormorant SC',serif; font-size:13px; font-weight:400; color:var(--text-2); line-height:1.8; letter-spacing:3px; margin-bottom:32px; text-transform:uppercase; }
+.inv-announce { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; font-weight:400; color:var(--text); line-height:1.7; letter-spacing:0.5px; margin-bottom:32px; }
 .inv-names { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(64px,16vw,88px); line-height:1; color:var(--text); letter-spacing:-1px; animation:fade-up 1s 0.4s both; }
 .inv-amp { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:36px; color:var(--gold); display:block; margin:8px 0; }
 .inv-hero-separator { width:80px; height:1px; background:linear-gradient(90deg,transparent,rgba(201,164,106,0.5),transparent); margin:20px auto; }
@@ -1069,55 +1069,22 @@ body::before {
   <div class="inv-locations">
     <p class="section-label">Dónde nos encontramos</p>
 
-    <!-- Card Iglesia -->
-    <div class="location-card" id="card-church">
-      <p class="location-card-label">Ceremonia religiosa · 15:00 HRS</p>
-      <div class="location-card-photo" id="church-photo" style="display:none;">
-        <img src="" alt="Aposento Alto" loading="lazy"/>
-      </div>
-      <div class="location-card-body">
-        <span class="location-card-name" id="church-name">Aposento Alto</span>
-        <span class="location-card-address" id="church-address">C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.</span>
-        <a class="location-directions-btn" id="church-directions" href="https://maps.app.goo.gl/enaa51eixmTVXXjJA" target="_blank">
-          📍 Cómo llegar
-        </a>
-      </div>
-      <div id="church-map-container">
-        <div class="location-map-placeholder">
-          <span>🗺️</span>
-          <p>Cargando mapa…</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Separador traslado -->
-    <div class="transfer-note">
-      <span class="transfer-note-icon">🚗</span>
-      <span class="transfer-note-title">Traslado a recepción</span>
-      <span class="transfer-note-detail">Aproximadamente 18 min en automóvil</span>
-      <span class="transfer-note-msg">Después de la ceremonia, acompáñanos a la recepción.</span>
-    </div>
-
     <!-- Card Salón -->
     <div class="location-card">
       <p class="location-card-label">Recepción · 17:00 HRS</p>
-      <div class="location-card-photo" id="venue-photo" style="display:none;">
-        <img src="" alt="Hacienda San Antonio Calichar" loading="lazy"/>
-      </div>
       <div class="location-card-body">
-        <span class="location-card-name">Hacienda San Antonio Calichar</span>
-        <span class="location-card-address">Carretera Reynosa–San Fernando km 12, Tamaulipas</span>
-        <a class="location-directions-btn" id="venue-directions" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+Tamaulipas" target="_blank">
+        <span class="location-card-name">Crown Eventos Plaza Andenes</span>
+        <a class="location-directions-btn" id="venue-directions" href="https://maps.google.com/?q=CROWN+EVENTOS+Plaza+Andenes+Monterrey" target="_blank">
           📍 Cómo llegar
         </a>
       </div>
       <iframe
         class="location-card-map"
-        src="https://maps.google.com/maps?q=Hacienda+San+Antonio+Calichar+Tamaulipas&output=embed"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.19911642563!2d-100.29522362525378!3d25.763985908511867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662951431b2525d%3A0x88b3aa2970b18edb!2sCROWN%20EVENTOS%20Plaza%20Andenes!5e0!3m2!1ses-419!2smx!4v1780676652883!5m2!1ses-419!2smx"
         loading="lazy"
         allowfullscreen
         referrerpolicy="no-referrer-when-downgrade"
-        title="Hacienda San Antonio Calichar">
+        title="Crown Eventos Plaza Andenes">
       </iframe>
     </div>
   </div>
@@ -1280,20 +1247,11 @@ const WEDDING_CONFIG = {
   weddingDate: '2026-08-29T17:00:00',
 
   schedule: [
-    { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
-    { icon: '🥂', label: 'Recepción',           place: 'Hacienda San Antonio Calichar', time: '17:00 HRS' },
-    { icon: '🎉', label: 'Baile y festejo',      place: 'Hacienda San Antonio Calichar', time: '18:00 HRS' },
+    { icon: '🥂', label: 'Recepción',           place: 'Crown Eventos Plaza Andenes', time: '17:00 HRS' },
+    { icon: '🎉', label: 'Baile y festejo',      place: 'Crown Eventos Plaza Andenes', time: '18:00 HRS' },
     { icon: '🌙', label: 'Cierre de fiesta',     place: '',                              time: '01:00 HRS' },
   ],
 
-  church: {
-    name:    'Aposento Alto',
-    address: 'C. Insurgentes 418, Chapultepec, 66450 San Nicolás de los Garza, N.L.',
-    mapEmbed: 'https://maps.google.com/maps?q=Aposento+Alto+Insurgentes+418+San+Nicolas+de+los+Garza+NL+Mexico&output=embed',
-    mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
-  },
-
-  churchImage: '../Iglesia.png',
   venueImage:  '../Salon.png',
 
   music: '../musica.mp3',
@@ -1700,7 +1658,7 @@ function downloadICS(provider) {
     'DTEND:20260830T010000',
     'SUMMARY:Boda Iván & Gemima',
     'DESCRIPTION:¡Los esperamos con mucho cariño!',
-    'LOCATION:Hacienda San Antonio Calichar\\, Tamaulipas',
+    'LOCATION:Crown Eventos Plaza Andenes\\, Monterrey\\, N.L.',
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n');
