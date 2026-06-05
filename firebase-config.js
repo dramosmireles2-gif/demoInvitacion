@@ -25,12 +25,13 @@
 // ══════════════════════════════════════════════════════════════
 
 const firebaseConfig = {
-  apiKey:            "TU-API-KEY-AQUI",
-  authDomain:        "TU-PROYECTO.firebaseapp.com",
-  projectId:         "TU-PROYECTO",
-  storageBucket:     "TU-PROYECTO.appspot.com",
-  messagingSenderId: "000000000000",
-  appId:             "1:000000000000:web:0000000000000000000000"
+  apiKey:            "AIzaSyCv57ae_AcqbqmdU0Ut2t1ayPb3yRk1Upc",
+  authDomain:        "fir-invitacion.firebaseapp.com",
+  projectId:         "fir-invitacion",
+  storageBucket:     "fir-invitacion.firebasestorage.app",
+  messagingSenderId: "254531361465",
+  appId:             "1:254531361465:web:87325ab969a18604179968",
+  measurementId:     "G-Q3Y25FPJWF"
 };
 
 window._firebaseConfig = firebaseConfig;
