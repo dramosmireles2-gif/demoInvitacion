@@ -987,7 +987,7 @@ body::before {
 
 <!-- MÚSICA (audio oculto) -->
 <audio id="bg-music" loop preload="none">
-  <source src="./musica.mp3" type="audio/mpeg"/>
+  <source src="../musica.mp3" type="audio/mpeg"/>
 </audio>
 <button id="music-btn" aria-label="Música">🎵</button>
 
@@ -1045,7 +1045,7 @@ body::before {
   <!-- 2. FOTO PAREJA (antes del contador) -->
   <div class="inv-couple-photo">
     <div class="couple-frame">
-      <img src="./Andrreaysaul.png" alt="Andrea & Saúl" loading="lazy"/>
+      <img src="../Andrreaysaul.png" alt="Andrea & Saúl" loading="lazy"/>
     </div>
     <p class="couple-caption">Andrea &amp; Saúl</p>
   </div>
@@ -1301,8 +1301,8 @@ body::before {
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="guests.js"></script>
-<script src="firebase-config.js"></script>
+<script src="../guests.js"></script>
+<script src="../firebase-config.js"></script>
 <script>
 /* ══════════════════════════════════════════════════
    CONFIGURACIÓN DE LA INVITACIÓN
@@ -1325,12 +1325,12 @@ const WEDDING_CONFIG = {
     mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
   },
 
-  churchImage: './Iglesia.png',
-  venueImage:  './Salon.png',
+  churchImage: '../Iglesia.png',
+  venueImage:  '../Salon.png',
 
-  music: './musica.mp3', // remplazar con archivo real
+  music: '../musica.mp3',
 
-  gallery: ['./foto1.png','./foto2.png','./foto3.png','./foto4.png','./foto5.png','./foto6.png'],
+  gallery: ['../foto1.png','../foto2.png','../foto3.png','../foto4.png','../foto5.png','../foto6.png'],
 
   dresscode: {
     women: {
