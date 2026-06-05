@@ -1017,7 +1017,7 @@ body::before {
       <span class="card-name">Gemima</span>
     </div>
     <div class="card-prism-line"></div>
-    <span class="card-date">2 · Octubre · 2027</span>
+    <span class="card-date">29 · Agosto · 2026</span>
     <span class="card-place">Hacienda San Antonio Calichar</span>
     <div class="card-hint">
       <span class="hint-dot"></span>
@@ -1042,7 +1042,7 @@ body::before {
       <div class="inv-names">Iván<span class="inv-amp">&amp;</span>Gemima</div>
     </div>
     <div class="inv-hero-separator"></div>
-    <span class="inv-hero-date">Sábado · 2 de Octubre · 2027</span>
+    <span class="inv-hero-date">Sábado · 29 de Agosto · 2026</span>
   </div>
 
   <!-- 2. FOTO PAREJA (antes del contador) -->
@@ -1076,9 +1076,9 @@ body::before {
   <!-- 4. FECHA + CALENDARIO MINI -->
   <div class="inv-date-block">
     <div class="prism-divider" style="margin-bottom:20px;"></div>
-    <span class="inv-date-main">Sábado · Dos de Octubre</span>
+    <span class="inv-date-main">Sábado · Veintinueve de Agosto</span>
     <span class="inv-date-nums">02</span>
-    <span class="inv-date-year">2 · 0 · 2 · 7</span>
+    <span class="inv-date-year">2 · 0 · 2 · 6</span>
     <!-- Calendario mini renderizado por JS -->
     <div class="mini-calendar" id="mini-calendar"></div>
   </div>
@@ -1199,7 +1199,7 @@ body::before {
     <!-- Bloque RSVP -->
     <div class="inv-rsvp-block">
       <p class="rsvp-title">Confirmar Asistencia</p>
-      <p class="rsvp-sub">Antes del 15 de Septiembre · 2027</p>
+      <p class="rsvp-sub">Antes del 15 de Agosto · 2026</p>
       <div id="rsvp-form">
         <div class="rsvp-options">
           <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')"><span class="rsvp-icon">🤍</span>Asistiré</button>
@@ -1281,7 +1281,7 @@ body::before {
     <div class="calendar-cta-card">
       <span class="calendar-cta-icon">📅</span>
       <p class="calendar-cta-title">¡Aparta la fecha!</p>
-      <p class="calendar-cta-sub">Sábado 2 de Octubre · 2027</p>
+      <p class="calendar-cta-sub">Sábado 29 de Agosto · 2026</p>
       <div class="calendar-cta-btns">
         <a class="cal-provider-btn" id="cal-google" href="#" target="_blank">🗓 Google</a>
         <button class="cal-provider-btn" onclick="downloadICS('apple')">🍎 Apple</button>
@@ -1294,7 +1294,7 @@ body::before {
   <div class="inv-footer">
     <div class="prism-divider" style="margin-bottom:28px;"></div>
     <p class="inv-footer-names">Iván &amp; Gemima</p>
-    <p class="inv-footer-date">2 · Octubre · 2027</p>
+    <p class="inv-footer-date">29 · Agosto · 2026</p>
     <p class="inv-footer-note">Con amor, los esperamos</p>
     <div class="prism-divider" style="margin-top:24px; margin-bottom:24px;"></div>
     <p class="inv-credit">Invitación digital por RMKT Web &amp; Apps</p>
@@ -1312,7 +1312,7 @@ body::before {
    Edita este objeto para personalizar el evento
 ══════════════════════════════════════════════════ */
 const WEDDING_CONFIG = {
-  weddingDate: '2027-10-02T17:00:00',
+  weddingDate: '2026-08-29T17:00:00',
 
   schedule: [
     { icon: '⛪', label: 'Ceremonia religiosa', place: 'Aposento Alto', time: '15:00 HRS' },
@@ -1459,14 +1459,14 @@ function updateMusicBtn() {
 ══════════════════════════════════ */
 function buildMiniCalendar() {
   const container = document.getElementById('mini-calendar');
-  const year = 2027, month = 9; // octubre = mes índice 9
+  const year = 2026, month = 7; // agosto = mes índice 7
   const dows = ['L','M','M','J','V','S','D'];
   const firstDay = new Date(year, month, 1).getDay(); // 0=dom
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   // Ajustar a lunes primero
   const offset = (firstDay === 0) ? 6 : firstDay - 1;
 
-  let html = '<div class="mini-cal-header">Octubre 2027</div><div class="mini-cal-grid">';
+  let html = '<div class="mini-cal-header">Agosto 2026</div><div class="mini-cal-grid">';
   dows.forEach(d => { html += `<div class="mini-cal-dow">${d}</div>`; });
   for (let i = 0; i < offset; i++) html += '<div class="mini-cal-day empty"></div>';
   for (let d = 1; d <= daysInMonth; d++) {
@@ -1765,7 +1765,7 @@ function spawnGenderConfetti(color) {
 function buildCalendarCTA() {
   const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
     + '&text=Boda+Andrea+%26+Sa%C3%BAl'
-    + '&dates=20271002T170000/20271003T000000'
+    + '&dates=20260829T170000/20260830T000000'
     + '&location=Hacienda+San+Antonio+Calichar,+Tamaulipas'
     + '&details=¡Los+esperamos+con+mucho+cariño!';
   document.getElementById('cal-google').href = googleUrl;
@@ -1775,10 +1775,10 @@ function downloadICS(provider) {
   const icsContent = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Andrea & Saúl//Boda 2027//ES',
+    'PRODID:-//Andrea & Saúl//Boda 2026//ES',
     'BEGIN:VEVENT',
-    'DTSTART:20271002T170000',
-    'DTEND:20271003T010000',
+    'DTSTART:20260829T170000',
+    'DTEND:20260830T010000',
     'SUMMARY:Boda Andrea & Saúl',
     'DESCRIPTION:¡Los esperamos con mucho cariño!',
     'LOCATION:Hacienda San Antonio Calichar\\, Carretera Reynosa–San Fernando km 12\\, Tamaulipas',
