@@ -1409,6 +1409,7 @@ function buildTimeline() {
    LOCATION CARDS
 ══════════════════════════════════ */
 function buildChurchMap() {
+  if (!WEDDING_CONFIG.church) return;
   const cfg = WEDDING_CONFIG.church;
   const nameEl = document.getElementById('church-name');
   const addrEl = document.getElementById('church-address');
@@ -1416,7 +1417,6 @@ function buildChurchMap() {
   if (nameEl) nameEl.textContent = cfg.name;
   if (addrEl) addrEl.textContent = cfg.address;
   if (dirEl && cfg.mapsLink) dirEl.href = cfg.mapsLink;
-
   if (cfg.mapEmbed) {
     const container = document.getElementById('church-map-container');
     if (container) container.innerHTML = `<iframe class="location-card-map" src="${cfg.mapEmbed}" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="${cfg.name}"></iframe>`;
