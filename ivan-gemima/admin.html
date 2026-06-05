@@ -1652,7 +1652,7 @@ let _editingKey   = null; // null = nuevo, string = editar
 
 function loadExtraGuests() {
   try {
-    const raw = localStorage.getItem('wedding_guests_extra');
+    const raw = localStorage.getItem('ig_guests_extra');
     if (raw) {
       const extras = JSON.parse(raw);
       Object.assign(WEDDING_GUESTS, extras);
@@ -1661,8 +1661,8 @@ function loadExtraGuests() {
 }
 
 function saveExtraGuests() {
-  const extra = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
-  localStorage.setItem('wedding_guests_extra', JSON.stringify(extra));
+  const extra = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
+  localStorage.setItem('ig_guests_extra', JSON.stringify(extra));
 }
 
 function openGuestModal(key) {
@@ -1709,9 +1709,9 @@ function saveGuest() {
   WEDDING_GUESTS[key] = { name, passes, table };
 
   // persist extra guests
-  const stored = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
+  const stored = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
   stored[key]  = { name, passes, table };
-  localStorage.setItem('wedding_guests_extra', JSON.stringify(stored));
+  localStorage.setItem('ig_guests_extra', JSON.stringify(stored));
 
   closeGuestModal();
   renderUrlsList();
@@ -1722,9 +1722,9 @@ function saveGuest() {
 function deleteGuest(key) {
   if (!confirm('¿Eliminar a ' + WEDDING_GUESTS[key]?.name + '?')) return;
   delete WEDDING_GUESTS[key];
-  const stored = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
+  const stored = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
   delete stored[key];
-  localStorage.setItem('wedding_guests_extra', JSON.stringify(stored));
+  localStorage.setItem('ig_guests_extra', JSON.stringify(stored));
   renderUrlsList();
   renderGuestTable(lastRsvpData);
   showToast('Invitado eliminado');
@@ -1743,7 +1743,7 @@ let tablesConfig = {}; // { "1": { label:"Mesa 1", capacity:10 }, ... }
 
 function loadTablesConfig() {
   try {
-    const saved = localStorage.getItem('wedding_tables_config');
+    const saved = localStorage.getItem('ig_tables_config');
     if (saved) tablesConfig = JSON.parse(saved);
   } catch(e) {}
   // Auto-generar mesas faltantes basadas en los invitados actuales
@@ -1761,7 +1761,7 @@ function syncTablesFromGuests() {
 }
 
 function saveTablesConfig() {
-  localStorage.setItem('wedding_tables_config', JSON.stringify(tablesConfig));
+  localStorage.setItem('ig_tables_config', JSON.stringify(tablesConfig));
 }
 
 function buildTablesSection() {
@@ -1968,12 +1968,12 @@ function confirmAssign(tableId) {
     WEDDING_GUESTS[cb.value].table = tableId;
   });
   // Persistir asignaciones en extras
-  const extras = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
+  const extras = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
   checkboxes.forEach(cb => {
     if (extras[cb.value]) extras[cb.value].table = tableId;
     else extras[cb.value] = { ...WEDDING_GUESTS[cb.value] };
   });
-  localStorage.setItem('wedding_guests_extra', JSON.stringify(extras));
+  localStorage.setItem('ig_guests_extra', JSON.stringify(extras));
   syncTablesFromGuests();
   document.getElementById('assign-modal-overlay').remove();
   buildTablesSection();
@@ -2324,7 +2324,7 @@ function exportCSV() {
 }
 
 // ── FEATURE 4: EVENT CONFIG ──
-const EVENT_CONFIG_KEY = 'aurora_event_override';
+const EVENT_CONFIG_KEY = 'ig_event_override';
 
 function loadEventConfig() {
   try { return JSON.parse(localStorage.getItem(EVENT_CONFIG_KEY) || '{}'); } catch(e) { return {}; }
