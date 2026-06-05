@@ -17,16 +17,6 @@
 const ADMIN_PASSWORD = 'Andrea2027';
 
 const WEDDING_GUESTS = {
-  'rodriguez':  { name: 'Familia Rodríguez',    passes: 2, table: 5  },
-  'herrera':    { name: 'Dr. Martín Herrera',    passes: 4, table: 2  },
-  'soto':       { name: 'Valentina Soto',         passes: 1, table: 8  },
-  'garza':      { name: 'Familia Garza Leal',     passes: 6, table: 1  },
-  'cisneros':   { name: 'Roberto Cisneros',       passes: 2, table: 11 },
-  'pena':       { name: 'Ing. Carlos Peña',       passes: 2, table: 7  },
-  'torres':     { name: 'Familia Torres',          passes: 4, table: 3  },
-  'fuentes':    { name: 'Lic. María Fuentes',     passes: 2, table: 9  },
-  // ── Agrega más invitados aquí ──────────────────────────────
-  // 'lopez':   { name: 'Familia López',          passes: 4, table: 6  },
-  // 'santos':  { name: 'Familia Santos',          passes: 2, table: 10 },
-  // 'reyes':   { name: 'Lic. Jorge Reyes',        passes: 2, table: 4  },
+  // ── Agrega invitados aquí ──────────────────────────────────
+  // 'clave': { name: 'Nombre completo', passes: 2, table: 1 },
 };
