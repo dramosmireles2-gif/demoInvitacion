@@ -990,7 +990,7 @@ body::before {
 
 <!-- MÚSICA (audio oculto) -->
 <audio id="bg-music" loop preload="none">
-  <source src="./musica.mp3" type="audio/mpeg"/>
+  <source src="../musica.mp3" type="audio/mpeg"/>
 </audio>
 <button id="music-btn" aria-label="Música">🎵</button>
 
@@ -1304,8 +1304,8 @@ body::before {
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="guests.js"></script>
-<script src="firebase-config.js"></script>
+<script src="../guests.js"></script>
+<script src="../firebase-config.js"></script>
 <script>
 /* ══════════════════════════════════════════════════
    CONFIGURACIÓN DE LA INVITACIÓN
@@ -1328,10 +1328,10 @@ const WEDDING_CONFIG = {
     mapsLink: 'https://maps.app.goo.gl/enaa51eixmTVXXjJA',
   },
 
-  churchImage: './Iglesia.png',
-  venueImage:  './Salon.png',
+  churchImage: '../Iglesia.png',
+  venueImage:  '../Salon.png',
 
-  music: './musica.mp3', // remplazar con archivo real
+  music: '../musica.mp3',
 
   gallery: ['./foto1.jpeg','./foto2.jpeg','./foto3.jpeg','./foto4.jpeg','./foto5.jpeg','./foto6.jpeg','./foto7.jpeg'],
 

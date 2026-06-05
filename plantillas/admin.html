@@ -1177,7 +1177,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span id="topbar-countdown">cargando…</span>
       </div>
-      <a class="btn-primary" href="invitacion-aurora.html?g=herrera" target="_blank" style="text-decoration:none;">
+      <a class="btn-primary" href="ivan-gemima/index.html?g=herrera" target="_blank" style="text-decoration:none;">
         <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#faf8f4;stroke-width:2;fill:none;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Ver invitación
       </a>
@@ -1634,7 +1634,8 @@ function buildNavSubDesigns() {
 
 // ── HELPERS ──
 function getBase() {
-  return window.location.origin + window.location.pathname.replace('admin.html','');
+  // Admin vive en /plantillas/ — las invitaciones están en la raíz o subcarpetas hermanas
+  return window.location.origin + '/';
 }
 
 function copyText(text, successMsg) {
@@ -2209,7 +2210,7 @@ function renderUrlsList() {
 
   list.innerHTML = keys.map(key => {
     const g   = WEDDING_GUESTS[key];
-    const url = base + 'invitacion-aurora.html?g=' + key;
+    const url = base + 'ivan-gemima/index.html?g=' + key;
     return `<div class="url-row">
       <div>
         <div class="url-row-name">${g.name}</div>
@@ -2229,7 +2230,7 @@ function copyAllUrls() {
   const base = getBase();
   const text = Object.keys(WEDDING_GUESTS).map(key => {
     const g = WEDDING_GUESTS[key];
-    return g.name + '\n' + base + 'invitacion-aurora.html?g=' + key;
+    return g.name + '\n' + base + 'ivan-gemima/index.html?g=' + key;
   }).join('\n\n');
   copyText(text, 'Todos los enlaces copiados');
 }
@@ -2254,7 +2255,7 @@ function openQRModal() {
       <div class="qr-modal-grid" style="overflow-y:auto;flex:1;">
         ${keys.map(key => {
           const g   = WEDDING_GUESTS[key];
-          const url = encodeURIComponent(base + 'invitacion-aurora.html?g=' + key);
+          const url = encodeURIComponent(base + 'ivan-gemima/index.html?g=' + key);
           const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url + '&margin=8&color=2c2416&bgcolor=faf8f4';
           return `<div class="qr-card">
             <img src="${qrSrc}" alt="QR ${g.name}" loading="lazy"/>
