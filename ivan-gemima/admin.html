@@ -1372,11 +1372,22 @@ body.sidebar-open .sidebar-overlay { display: block; }
             <div class="panel-sub" id="tables-summary-sub">Cargando…</div>
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <button class="btn-ghost" onclick="openTableConfigModal()">Configurar mesas</button>
+            <button class="btn-ghost" onclick="toggleTableConfigPanel()">Configurar mesas</button>
           </div>
         </div>
         <!-- Stats rápidos de mesas -->
         <div id="tables-quick-stats" style="display:flex;gap:12px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--parchment);"></div>
+        <!-- Panel de configuración de mesas (inline) -->
+        <div id="table-config-panel" style="display:none;padding:16px 22px;border-bottom:1px solid var(--parchment);background:var(--cream);">
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;font-weight:500;">Generar mesas</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <input type="number" id="tc-count" min="1" max="50" placeholder="Nº de mesas" value=""
+              style="padding:8px 12px;border:1px solid var(--parchment);border-radius:3px;font-size:13px;color:var(--text);background:var(--white);width:120px;outline:none;">
+            <input type="number" id="tc-cap" min="1" max="100" placeholder="Capacidad" value="10"
+              style="padding:8px 12px;border:1px solid var(--parchment);border-radius:3px;font-size:13px;color:var(--text);background:var(--white);width:120px;outline:none;">
+            <button class="btn-primary" style="padding:8px 16px;font-size:12px;" onclick="doGenerateTables()">Generar</button>
+          </div>
+        </div>
       </div>
 
       <!-- Grid de tarjetas por mesa -->
@@ -1905,10 +1916,15 @@ function closeTableConfigModal() {
   if (el) el.remove();
 }
 
-function generateTables(countVal, capVal) {
-  const count = parseInt(countVal);
-  const cap   = parseInt(capVal) || 10;
-  if (!count || count < 1 || count > 50) { showToast('Ingresa un número de mesas válido (1-50)'); return; }
+function toggleTableConfigPanel() {
+  const panel = document.getElementById('table-config-panel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function doGenerateTables() {
+  const count = parseInt(document.getElementById('tc-count').value);
+  const cap   = parseInt(document.getElementById('tc-cap').value) || 10;
+  if (!count || count < 1 || count > 50) { showToast('Ingresa un número de mesas (1-50)'); return; }
   for (let i = 1; i <= count; i++) {
     const key = String(i);
     tablesConfig[key] = {
@@ -1917,9 +1933,13 @@ function generateTables(countVal, capVal) {
     };
   }
   saveTablesConfig();
-  closeTableConfigModal();
   buildTablesSection();
+  document.getElementById('table-config-panel').style.display = 'none';
   showToast(count + ' mesas generadas');
+}
+
+function generateTables(countVal, capVal) {
+  doGenerateTables();
 }
 
 function openAssignModal(tableId) {
