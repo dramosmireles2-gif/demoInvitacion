@@ -2547,7 +2547,7 @@ function saveEventConfig() {
   if (cfg.venueCapacity) VENUE_CAPACITY = parseInt(cfg.venueCapacity, 10) || 200;
   showToast('Cambios guardados');
   updateDeadlineCountdown();
-  renderGuestTable(lastRsvpData);
+  renderDashboard(lastRsvpData);
 }
 
 // ── FEATURE 5: DEADLINE COUNTDOWN ──
