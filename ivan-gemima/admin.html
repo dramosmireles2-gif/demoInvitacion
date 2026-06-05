@@ -2358,11 +2358,6 @@ function buildEventForm() {
   const form = document.getElementById('event-form');
   if (!form) return;
   const fields = [
-    { key:'weddingDate',  label:'Fecha del evento',          placeholder:'',                            type:'datetime-local' },
-    { key:'churchName',   label:'Nombre de la iglesia',       placeholder:'Aposento Alto',               type:'text' },
-    { key:'churchMaps',   label:'Link Google Maps — Iglesia', placeholder:'https://maps.app.goo.gl/…',   type:'text' },
-    { key:'venueName',    label:'Nombre del salón',           placeholder:'Hacienda San Antonio Calichar',type:'text' },
-    { key:'venueMaps',    label:'Link Google Maps — Salón',   placeholder:'https://maps.app.goo.gl/…',   type:'text' },
     { key:'bankName',     label:'Banco',                      placeholder:'BBVA',                        type:'text' },
     { key:'bankClabe',    label:'CLABE / Cuenta',             placeholder:'000000000000000000',          type:'text' },
     { key:'bankAlias',    label:'Alias de transferencia',     placeholder:'ivan.gemima.boda',            type:'text' },
@@ -2391,7 +2386,7 @@ function previewAddress(key, url) {
 }
 
 function saveEventConfig() {
-  const fields = ['weddingDate','churchName','churchMaps','venueName','venueMaps','bankName','bankClabe','bankAlias','rsvpDeadline'];
+  const fields = ['bankName','bankClabe','bankAlias','rsvpDeadline'];
   const cfg = {};
   fields.forEach(k => {
     const val = document.getElementById('ef-' + k)?.value?.trim();
