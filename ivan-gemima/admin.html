@@ -2547,6 +2547,10 @@ function saveEventConfig() {
   if (cfg.venueCapacity) VENUE_CAPACITY = parseInt(cfg.venueCapacity, 10) || 200;
   showToast('Cambios guardados');
   updateDeadlineCountdown();
+  // Recalculate confirmed pases from current rsvp data and repaint bar
+  let _confirmedPases = 0;
+  Object.keys(lastRsvpData).forEach(k => { if (lastRsvpData[k].attending && WEDDING_GUESTS[k]) _confirmedPases += WEDDING_GUESTS[k].passes; });
+  updateCapacityBar(_confirmedPases);
   renderDashboard(lastRsvpData);
 }
 
