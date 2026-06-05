@@ -1489,8 +1489,8 @@ body.sidebar-open .sidebar-overlay { display: block; }
       <label class="modal-label" for="modal-passes">Pases (1–10)</label>
       <input class="modal-input" id="modal-passes" type="number" min="1" max="10" value="2" />
     </div>
-    <div class="modal-field">
-      <label class="modal-label" for="modal-table">Mesa</label>
+    <div class="modal-field" id="modal-table-field" style="display:none;">
+      <label class="modal-label" for="modal-table">Mesa <span style="font-weight:400;opacity:.6;">(opcional)</span></label>
       <input class="modal-input" id="modal-table" type="text" placeholder="Ej. 5" />
     </div>
     <div class="modal-actions">
@@ -1683,12 +1683,14 @@ function saveExtraGuests() {
 function openGuestModal(key) {
   _editingKey = key || null;
   document.getElementById('guest-modal-title').textContent = key ? 'Editar invitado' : 'Agregar invitado';
+  const hasTables = Object.keys(tablesConfig).length > 0;
+  document.getElementById('modal-table-field').style.display = hasTables ? '' : 'none';
   if (key) {
     const g = WEDDING_GUESTS[key];
     document.getElementById('modal-name').value   = g.name;
     document.getElementById('modal-key').value    = key;
     document.getElementById('modal-passes').value = g.passes;
-    document.getElementById('modal-table').value  = g.table;
+    document.getElementById('modal-table').value  = g.table || '';
     document.getElementById('modal-key').readOnly = true;
   } else {
     document.getElementById('modal-name').value   = '';
@@ -1721,27 +1723,44 @@ function saveGuest() {
 
   if (!name || !key) { showToast('Completa nombre y clave'); return; }
 
-  WEDDING_GUESTS[key] = { name, passes, table };
+  const data = { name, passes, table };
+  WEDDING_GUESTS[key] = data;
 
-  // persist extra guests
+  // persist in localStorage
   const stored = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
-  stored[key]  = { name, passes, table };
+  stored[key]  = data;
   localStorage.setItem('ig_guests_extra', JSON.stringify(stored));
+
+  // persist in Firestore so invitation works on any device
+  if (db) {
+    db.collection('guests').doc(key).set(data).catch(e => console.warn('Firestore save guest:', e));
+  }
 
   closeGuestModal();
   renderUrlsList();
   renderGuestTable(lastRsvpData);
+  buildTablesSection();
   showToast(_editingKey ? 'Invitado actualizado' : 'Invitado agregado');
 }
 
 function deleteGuest(key) {
   if (!confirm('¿Eliminar a ' + WEDDING_GUESTS[key]?.name + '?')) return;
   delete WEDDING_GUESTS[key];
+
+  // remove from localStorage
   const stored = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
   delete stored[key];
   localStorage.setItem('ig_guests_extra', JSON.stringify(stored));
+
+  // remove from Firestore (guest doc + rsvp doc)
+  if (db) {
+    db.collection('guests').doc(key).delete().catch(()=>{});
+    db.collection('rsvps').doc(key).delete().catch(()=>{});
+  }
+
   renderUrlsList();
   renderGuestTable(lastRsvpData);
+  buildTablesSection();
   showToast('Invitado eliminado');
 }
 
@@ -2093,15 +2112,32 @@ function confirmAssign(tableId) {
 function initAdmin() {
   loadExtraGuests();
   loadTablesConfig();
-  renderUrlsList();
-  buildTablesSection();
   buildEventForm();
   updateDeadlineCountdown();
 
   if (!db) {
+    renderUrlsList();
+    buildTablesSection();
     renderFallback();
     return;
   }
+
+  // Load guests from Firestore first, then start RSVP listener
+  db.collection('guests').get().then(snapshot => {
+    snapshot.forEach(doc => {
+      WEDDING_GUESTS[doc.id] = doc.data();
+      // keep localStorage in sync
+      const stored = JSON.parse(localStorage.getItem('ig_guests_extra') || '{}');
+      stored[doc.id] = doc.data();
+      localStorage.setItem('ig_guests_extra', JSON.stringify(stored));
+    });
+    renderUrlsList();
+    loadTablesConfig();
+    buildTablesSection();
+  }).catch(() => {
+    renderUrlsList();
+    buildTablesSection();
+  });
 
   db.collection('rsvps').onSnapshot(snapshot => {
     const rsvpData = {};

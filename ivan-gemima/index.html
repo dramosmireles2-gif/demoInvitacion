@@ -1344,12 +1344,32 @@ const WEDDING_CONFIG = {
 const urlParams = new URLSearchParams(window.location.search);
 const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
 const tipoInv   = (urlParams.get('tipo') || '').toLowerCase().trim();
-const guest     = WEDDING_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
-
-document.getElementById('guest-name-text').textContent  = guest.name;
 const SVG_TICKET = `<svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 0 1 0-4V3h20v2a2 2 0 0 1 0 4v2a2 2 0 0 1 0 4v2H2v-2a2 2 0 0 1 0-4V9z"/><line x1="9" y1="3" x2="9" y2="21" stroke-dasharray="2 2"/></svg>`;
-document.getElementById('guest-passes-text').innerHTML  = SVG_TICKET + ' ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
-document.getElementById('guest-table-text').textContent = 'Mesa · ' + guest.table;
+
+function applyGuest(g) {
+  document.getElementById('guest-name-text').textContent  = g.name;
+  document.getElementById('guest-passes-text').innerHTML  = SVG_TICKET + ' ' + g.passes + ' pase' + (g.passes !== 1 ? 's' : '');
+  document.getElementById('guest-table-text').textContent = g.table && g.table !== '—' ? 'Mesa · ' + g.table : '';
+}
+
+let guest = WEDDING_GUESTS[guestKey];
+if (guest) {
+  applyGuest(guest);
+} else if (guestKey && typeof db !== 'undefined' && db) {
+  // Try Firestore — guest was added via admin on another device
+  applyGuest({ name: 'Estimado Invitado', passes: 2, table: '—' }); // placeholder while loading
+  db.collection('guests').doc(guestKey).get().then(doc => {
+    if (doc.exists) {
+      guest = doc.data();
+      WEDDING_GUESTS[guestKey] = guest;
+      applyGuest(guest);
+    }
+  }).catch(() => {});
+} else {
+  guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
+  applyGuest(guest);
+}
+if (!guest) guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
 
 /* ══════════════════════════════════
    SOBRE
