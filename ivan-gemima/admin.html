@@ -1379,13 +1379,18 @@ body.sidebar-open .sidebar-overlay { display: block; }
         <div id="tables-quick-stats" style="display:flex;gap:12px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--parchment);"></div>
         <!-- Panel de configuración de mesas (inline) -->
         <div id="table-config-panel" style="display:none;padding:16px 22px;border-bottom:1px solid var(--parchment);background:var(--cream);">
-          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;font-weight:500;">Generar mesas</div>
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <input type="number" id="tc-count" min="1" max="50" placeholder="Nº de mesas" value=""
-              style="padding:8px 12px;border:1px solid var(--parchment);border-radius:3px;font-size:13px;color:var(--text);background:var(--white);width:120px;outline:none;">
-            <input type="number" id="tc-cap" min="1" max="100" placeholder="Capacidad" value="10"
-              style="padding:8px 12px;border:1px solid var(--parchment);border-radius:3px;font-size:13px;color:var(--text);background:var(--white);width:120px;outline:none;">
-            <button class="btn-primary" style="padding:8px 16px;font-size:12px;" onclick="doGenerateTables()">Generar</button>
+          <div style="display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <label style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);font-weight:500;">Número de mesas</label>
+              <input type="number" id="tc-count" min="1" max="50" placeholder="Ej. 10" value=""
+                style="padding:8px 12px;border:1px solid var(--parchment);border-radius:3px;font-size:13px;color:var(--text);background:var(--white);width:130px;outline:none;">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <label style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);font-weight:500;">Personas por mesa</label>
+              <input type="number" id="tc-cap" min="1" max="100" placeholder="Ej. 10" value="10"
+                style="padding:8px 12px;border:1px solid var(--parchment);border-radius:3px;font-size:13px;color:var(--text);background:var(--white);width:130px;outline:none;">
+            </div>
+            <button class="btn-primary" style="padding:8px 16px;font-size:12px;margin-bottom:1px;" onclick="doGenerateTables()">Generar</button>
           </div>
         </div>
       </div>
