@@ -4,11 +4,13 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>Iván & Gemima — Aurora</title>
+<link rel="icon" href="./favicon.png" type="image/png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+.svg-icon { display:inline-block; vertical-align:middle; flex-shrink:0; }
 
 /* Scrollbar personalizado */
 ::-webkit-scrollbar { width: 4px; }
@@ -972,14 +974,14 @@ body::before {
 <audio id="bg-music" loop preload="none">
   <source src="../musica.mp3" type="audio/mpeg"/>
 </audio>
-<button id="music-btn" aria-label="Música">🎵</button>
+<button id="music-btn" aria-label="Música"><svg class="svg-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></button>
 
 <!-- LIGHTBOX -->
 <div id="lightbox" role="dialog" aria-modal="true">
-  <button id="lightbox-close" aria-label="Cerrar">×</button>
-  <button id="lightbox-prev" aria-label="Anterior">‹</button>
+  <button id="lightbox-close" aria-label="Cerrar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <button id="lightbox-prev" aria-label="Anterior"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
   <img id="lightbox-img" src="" alt="Foto"/>
-  <button id="lightbox-next" aria-label="Siguiente">›</button>
+  <button id="lightbox-next" aria-label="Siguiente"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
   <span id="lightbox-counter"></span>
 </div>
 
@@ -1083,7 +1085,7 @@ body::before {
       <div class="location-card-body">
         <span class="location-card-name">Crown Eventos Plaza Andenes</span>
         <a class="location-directions-btn" id="venue-directions" href="https://maps.google.com/?q=CROWN+EVENTOS+Plaza+Andenes+Monterrey" target="_blank">
-          📍 Cómo llegar
+          <svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cómo llegar
         </a>
       </div>
       <iframe
@@ -1104,7 +1106,7 @@ body::before {
     <div class="prism-divider" style="margin-bottom:20px;"></div>
     <div class="gallery-grid" id="gallery-grid"></div>
     <div class="gallery-empty" id="gallery-empty" style="display:none;">
-      <span style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;">📷</span>
+      <span style="display:block;margin-bottom:8px;opacity:0.4;"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
       Las fotos estarán disponibles pronto
     </div>
   </div>
@@ -1113,7 +1115,7 @@ body::before {
 
   <!-- NOTA DE PUNTUALIDAD / GRACIAS -->
   <div class="punctuality-note">
-    <span class="punctuality-note-icon">🕐</span>
+    <span class="punctuality-note-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="var(--gold)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
     <p class="punctuality-note-title">Una pequeña petición</p>
     <p class="punctuality-note-body">
       Les pedimos con mucho cariño que lleguen puntualmente a la ceremonia, ya que comenzará a la hora indicada y no queremos que se pierdan ni un solo momento.<br/><br/>
@@ -1142,14 +1144,14 @@ body::before {
       <p class="rsvp-sub">Antes del 15 de Agosto · 2026</p>
       <div id="rsvp-form">
         <div class="rsvp-options">
-          <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')"><span class="rsvp-icon">🤍</span>Asistiré</button>
-          <button class="rsvp-btn" id="btn-no"  onclick="selectRSVP('no')"><span class="rsvp-icon">💌</span>No Podré</button>
+          <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')"><span class="rsvp-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>Asistiré</button>
+          <button class="rsvp-btn" id="btn-no"  onclick="selectRSVP('no')"><span class="rsvp-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>No Podré</button>
         </div>
         <textarea class="rsvp-message" id="rsvp-msg" rows="3" placeholder="Un mensaje para los novios... (opcional)"></textarea>
         <button class="rsvp-submit" onclick="submitRSVP()">Confirmar</button>
       </div>
       <div class="rsvp-success" id="rsvp-success">
-        <div class="success-icon">🌸</div>
+        <div class="success-icon"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--gold)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg></div>
         <p class="success-title" id="rsvp-success-title">¡Gracias!</p>
         <p class="success-body" id="rsvp-success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
       </div>
@@ -1173,7 +1175,7 @@ body::before {
       <p class="bank-alias" id="bank-alias"></p>
     </div>
     <a class="gift-list-btn" id="gift-list-btn" href="#" target="_blank" style="display:none;">
-      🎁 Ver lista de regalos
+      <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Ver lista de regalos
     </a>
   </div>
 
@@ -1219,13 +1221,13 @@ body::before {
   <!-- 16. CALENDARIO CTA (llamativo) -->
   <div class="inv-calendar-cta">
     <div class="calendar-cta-card">
-      <span class="calendar-cta-icon">📅</span>
+      <span class="calendar-cta-icon"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
       <p class="calendar-cta-title">¡Aparta la fecha!</p>
       <p class="calendar-cta-sub">Sábado 29 de Agosto · 2026</p>
       <div class="calendar-cta-btns">
-        <a class="cal-provider-btn" id="cal-google" href="#" target="_blank">🗓 Google</a>
-        <button class="cal-provider-btn" onclick="downloadICS('apple')">🍎 Apple</button>
-        <button class="cal-provider-btn" onclick="downloadICS('outlook')">📧 Outlook</button>
+        <a class="cal-provider-btn" id="cal-google" href="#" target="_blank">Google</a>
+        <button class="cal-provider-btn" onclick="downloadICS('apple')">Apple</button>
+        <button class="cal-provider-btn" onclick="downloadICS('outlook')">Outlook</button>
       </div>
     </div>
   </div>
@@ -1255,9 +1257,9 @@ const WEDDING_CONFIG = {
   weddingDate: '2026-08-29T17:00:00',
 
   schedule: [
-    { icon: '🥂', label: 'Recepción',           place: 'Crown Eventos Plaza Andenes', time: '17:00 HRS' },
-    { icon: '🎉', label: 'Baile y festejo',      place: 'Crown Eventos Plaza Andenes', time: '18:00 HRS' },
-    { icon: '🌙', label: 'Cierre de fiesta',     place: '',                              time: '01:00 HRS' },
+    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M5 10h14M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/></svg>', label: 'Recepción',      place: 'Crown Eventos Plaza Andenes', time: '17:00 HRS' },
+    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', label: 'Baile y festejo', place: 'Crown Eventos Plaza Andenes', time: '18:00 HRS' },
+    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C9A46A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>', label: 'Cierre de fiesta', place: '', time: '01:00 HRS' },
   ],
 
   venueImage:  '../Salon.png',
@@ -1314,7 +1316,8 @@ const tipoInv   = (urlParams.get('tipo') || '').toLowerCase().trim();
 const guest     = WEDDING_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
 
 document.getElementById('guest-name-text').textContent  = guest.name;
-document.getElementById('guest-passes-text').innerHTML  = '🎟 ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
+const SVG_TICKET = `<svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 0 1 0-4V3h20v2a2 2 0 0 1 0 4v2a2 2 0 0 1 0 4v2H2v-2a2 2 0 0 1 0-4V9z"/><line x1="9" y1="3" x2="9" y2="21" stroke-dasharray="2 2"/></svg>`;
+document.getElementById('guest-passes-text').innerHTML  = SVG_TICKET + ' ' + guest.passes + ' pase' + (guest.passes !== 1 ? 's' : '');
 document.getElementById('guest-table-text').textContent = 'Mesa · ' + guest.table;
 
 /* ══════════════════════════════════
@@ -1363,12 +1366,19 @@ musicBtn.addEventListener('click', () => {
   else                   { musicAudio.pause(); }
 });
 
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) musicAudio.pause();
+});
+
+const SVG_MUSIC = `<svg class="svg-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
+const SVG_PAUSE = `<svg class="svg-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>`;
+
 function updateMusicBtn() {
   if (musicAudio.paused) {
-    musicBtn.textContent = '🎵';
+    musicBtn.innerHTML = SVG_MUSIC;
     musicBtn.classList.remove('playing');
   } else {
-    musicBtn.textContent = '⏸';
+    musicBtn.innerHTML = SVG_PAUSE;
     musicBtn.classList.add('playing');
   }
 }
