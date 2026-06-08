@@ -3,8 +3,23 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>Iván & Gemima — Aurora</title>
+<title>Iván & Gemima — Boda 29 de Agosto 2026</title>
 <link rel="icon" href="./favicon.png" type="image/png"/>
+
+<!-- Open Graph / WhatsApp / iMessage preview -->
+<meta property="og:type"        content="website"/>
+<meta property="og:url"         content="https://inv.ramosmkt.lat/ivan-gemima/"/>
+<meta property="og:title"       content="💌 Iván &amp; Gemima · Te invitamos a nuestra boda"/>
+<meta property="og:description" content="Sábado 29 de agosto de 2026 · Confirma tu asistencia y celebra este día tan especial con nosotros"/>
+<meta property="og:image"        content="https://inv.ramosmkt.lat/ivan-gemima/Principal.jpeg"/>
+<meta property="og:image:width"  content="1068"/>
+<meta property="og:image:height" content="1600"/>
+<meta property="og:locale"      content="es_MX"/>
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary_large_image"/>
+<meta name="twitter:title"       content="💌 Iván &amp; Gemima · Boda 2026"/>
+<meta name="twitter:description" content="Sábado 29 de agosto de 2026 · Confirma tu asistencia"/>
+<meta name="twitter:image"        content="https://inv.ramosmkt.lat/ivan-gemima/Principal.jpeg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
@@ -725,6 +740,9 @@ body::before {
   width: 100%;
 }
 .rsvp-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+.rsvp-submit:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
+.rsvp-validation { display:none; font-family:'Jost',sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#b87c5a; text-align:center; margin-bottom:12px; padding:8px 12px; background:rgba(184,124,90,0.08); border:1px solid rgba(184,124,90,0.2); border-radius:8px; animation:fade-up 0.3s ease; }
+.rsvp-validation.show { display:block; }
 .rsvp-success { display:none; opacity:0; transform:translateY(14px); text-align:center; padding:32px; background:rgba(255,255,255,0.3); border:1px solid rgba(255,255,255,0.5); border-radius:16px; transition:opacity 0.5s ease,transform 0.5s ease; }
 .rsvp-success.show    { display:block; }
 .rsvp-success.visible { opacity:1; transform:translateY(0); }
@@ -1170,6 +1188,7 @@ body::before {
           <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')"><span class="rsvp-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>Asistiré</button>
           <button class="rsvp-btn" id="btn-no"  onclick="selectRSVP('no')"><span class="rsvp-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>No Podré</button>
         </div>
+        <p class="rsvp-validation" id="rsvp-validation">Selecciona una opción antes de confirmar</p>
         <textarea class="rsvp-message" id="rsvp-msg" rows="3" placeholder="Un mensaje para los novios... (opcional)"></textarea>
         <button class="rsvp-submit" onclick="submitRSVP()">Confirmar</button>
       </div>
@@ -1845,7 +1864,12 @@ function selectRSVP(choice) {
 }
 
 async function submitRSVP() {
-  if (!rsvpChoice) { alert('Por favor selecciona si asistirás o no.'); return; }
+  if (!rsvpChoice) {
+    const valMsg = document.getElementById('rsvp-validation');
+    valMsg.classList.add('show');
+    setTimeout(() => valMsg.classList.remove('show'), 3500);
+    return;
+  }
   const submitBtn = document.querySelector('.rsvp-submit');
   submitBtn.disabled = true; submitBtn.textContent = 'Enviando...';
   const msg = document.getElementById('rsvp-msg').value.trim();
@@ -1857,7 +1881,11 @@ async function submitRSVP() {
         confirmedAt: firebase.firestore.FieldValue.serverTimestamp(),
         lastVisit: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
-    } catch(e) { console.error(e); }
+    } catch(e) {
+      console.error(e);
+      submitBtn.disabled = false; submitBtn.textContent = 'Confirmar';
+      return;
+    }
   }
   document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
   document.getElementById('rsvp-success-body').innerHTML = rsvpChoice === 'yes'
