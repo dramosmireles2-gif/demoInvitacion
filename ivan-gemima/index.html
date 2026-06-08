@@ -1383,27 +1383,32 @@ const WEDDING_CONFIG = {
 };
 
 // Aplicar overrides del admin (si existen)
-(function applyAdminOverrides() {
-  try {
-    const ov = JSON.parse(localStorage.getItem('aurora_event_override') || '{}');
-    if (ov.weddingDate)  WEDDING_CONFIG.weddingDate = ov.weddingDate;
-    if (ov.bankName)     WEDDING_CONFIG.gifts.bankName  = ov.bankName;
-    if (ov.bankClabe)    WEDDING_CONFIG.gifts.bankClabe = ov.bankClabe;
-    if (ov.bankAlias)    WEDDING_CONFIG.gifts.bankAlias = ov.bankAlias;
-    if (ov.churchName)   WEDDING_CONFIG.church.name    = ov.churchName;
-    if (ov.churchMaps) {
-      WEDDING_CONFIG.church.mapsLink = ov.churchMaps;
-      // Intentar extraer dirección del link de Maps (funciona con URLs completas)
-      try {
-        const u = new URL(ov.churchMaps);
-        const q = u.searchParams.get('q');
-        if (q) WEDDING_CONFIG.church.address = decodeURIComponent(q.replace(/\+/g, ' '));
-      } catch(e) {}
-    }
-    if (ov.venueName)   WEDDING_CONFIG._venueName = ov.venueName;
-    if (ov.venueMaps)   WEDDING_CONFIG._venueMaps = ov.venueMaps;
-  } catch(e) {}
-})();
+function _applyEventOverrides(ov) {
+  if (!ov) return;
+  if (ov.bankName)   WEDDING_CONFIG.gifts.bankName  = ov.bankName;
+  if (ov.bankClabe)  WEDDING_CONFIG.gifts.bankClabe = ov.bankClabe;
+  if (ov.bankAlias)  WEDDING_CONFIG.gifts.bankAlias = ov.bankAlias;
+  if (ov.weddingDate) WEDDING_CONFIG.weddingDate    = ov.weddingDate;
+  if (ov.churchName)  WEDDING_CONFIG.church.name    = ov.churchName;
+  if (ov.churchMaps) {
+    WEDDING_CONFIG.church.mapsLink = ov.churchMaps;
+    try {
+      const u = new URL(ov.churchMaps);
+      const q = u.searchParams.get('q');
+      if (q) WEDDING_CONFIG.church.address = decodeURIComponent(q.replace(/\+/g, ' '));
+    } catch(e) {}
+  }
+  if (ov.venueName) WEDDING_CONFIG._venueName = ov.venueName;
+  if (ov.venueMaps) WEDDING_CONFIG._venueMaps = ov.venueMaps;
+}
+// Leer de localStorage primero (fallback rápido)
+try { _applyEventOverrides(JSON.parse(localStorage.getItem('ig_event_override') || '{}')); } catch(e) {}
+// Leer de Firebase para tener la versión más reciente (funciona en cualquier dispositivo)
+if (typeof db !== 'undefined' && db) {
+  db.collection('config').doc('event').get().then(doc => {
+    if (doc.exists) { _applyEventOverrides(doc.data()); buildGifts(); }
+  }).catch(() => {});
+}
 
 /* ══════════════════════════════════
    INVITADO
@@ -1422,22 +1427,24 @@ function applyGuest(g) {
   document.getElementById('guest-table-text').textContent = g.table && g.table !== '—' ? 'Mesa · ' + g.table : '';
 }
 
+let guestReady;
 let guest = WEDDING_GUESTS[guestKey];
 if (guest) {
   applyGuest(guest);
+  guestReady = Promise.resolve();
 } else if (guestKey && typeof db !== 'undefined' && db) {
-  // Try Firestore — guest was added via admin on another device
-  applyGuest({ name: 'Estimado Invitado', passes: 2, table: '—' }); // placeholder while loading
-  db.collection('guests').doc(guestKey).get().then(doc => {
-    if (doc.exists) {
-      guest = doc.data();
-      WEDDING_GUESTS[guestKey] = guest;
-      applyGuest(guest);
-    }
-  }).catch(() => {});
+  guestReady = db.collection('guests').doc(guestKey).get().then(doc => {
+    guest = doc.exists ? doc.data() : { name: 'Estimado Invitado', passes: 2, table: '—' };
+    if (doc.exists) WEDDING_GUESTS[guestKey] = guest;
+    applyGuest(guest);
+  }).catch(() => {
+    guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
+    applyGuest(guest);
+  });
 } else {
   guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
   applyGuest(guest);
+  guestReady = Promise.resolve();
 }
 if (!guest) guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
 
@@ -1446,30 +1453,28 @@ if (!guest) guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
 ══════════════════════════════════ */
 let rsvpChoice = null;
 
-function openEnvelope() {
+async function openEnvelope() {
   const card = document.getElementById('invite-card');
   card.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
   card.style.transform = 'scale(1.05)';
   card.style.opacity = '0';
   spawnPetals();
-  const music = document.getElementById('bg-music');
-  music.play().catch(() => {});
-  setTimeout(() => {
-    const screen = document.getElementById('envelope-screen');
-    const inv    = document.getElementById('invitation');
-    screen.classList.add('hide');
-    inv.style.display = 'flex';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      inv.classList.add('show');
-      startCountdown();
-      trackVisit();
-      checkExistingRSVP();
-      const btn = document.getElementById('music-btn');
-      btn.style.display = 'flex';
-      updateMusicBtn();
-    }));
-    setTimeout(() => { screen.style.display = 'none'; }, 800);
-  }, 700);
+  await new Promise(r => setTimeout(r, 700));
+  await guestReady;
+  const screen = document.getElementById('envelope-screen');
+  const inv    = document.getElementById('invitation');
+  screen.classList.add('hide');
+  inv.style.display = 'flex';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    inv.classList.add('show');
+    startCountdown();
+    trackVisit();
+    checkExistingRSVP();
+    const btn = document.getElementById('music-btn');
+    btn.style.display = 'flex';
+    updateMusicBtn();
+  }));
+  setTimeout(() => { screen.style.display = 'none'; }, 800);
 }
 
 /* ══════════════════════════════════

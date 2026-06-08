@@ -2546,7 +2546,8 @@ function saveEventConfig() {
   });
   localStorage.setItem(EVENT_CONFIG_KEY, JSON.stringify(cfg));
   if (cfg.venueCapacity) VENUE_CAPACITY = parseInt(cfg.venueCapacity, 10) || 200;
-  showToast('Cambios guardados');
+  if (db) db.collection('config').doc('event').set(cfg).catch(() => {});
+  showToast('Cambios guardados — sincronizando con invitación…');
   updateDeadlineCountdown();
   // Recalculate confirmed pases from current rsvp data and repaint bar
   let _confirmedPases = 0;
