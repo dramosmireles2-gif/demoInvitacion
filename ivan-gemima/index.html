@@ -317,17 +317,54 @@ body::before {
 /* ── HERO ── */
 .inv-hero {
   width: 100%;
-  display: flex; flex-direction: column; align-items: center;
-  background: transparent;
-  padding-bottom: 48px;
+  min-height: 100svh;
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  background-image: url('./Principal.jpeg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  padding-bottom: 0;
+  overflow: hidden;
 }
-.inv-header { width:100%; max-width:480px; padding:52px 24px 0; text-align:center; animation:fade-up 1s 0.2s both; }
-.inv-prelude { font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--gold-dark); margin-bottom:24px; }
-.inv-announce { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; font-weight:400; color:var(--text); line-height:1.7; letter-spacing:0.5px; margin-bottom:32px; }
-.inv-names { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(64px,16vw,88px); line-height:1; color:var(--text); letter-spacing:-1px; animation:fade-up 1s 0.4s both; }
-.inv-amp { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:36px; color:var(--gold); display:block; margin:8px 0; }
-.inv-hero-separator { width:80px; height:1px; background:linear-gradient(90deg,transparent,rgba(201,164,106,0.5),transparent); margin:20px auto; }
-.inv-hero-date { font-family:'Cormorant SC',serif; font-weight:400; font-size:14px; letter-spacing:6px; color:var(--text-2); display:block; text-align:center; margin-bottom:16px; }
+.inv-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0)   30%,
+    rgba(0,0,0,0.35) 55%,
+    rgba(0,0,0,0.72) 80%,
+    rgba(0,0,0,0.82) 100%
+  );
+  z-index: 1;
+}
+.inv-hero-content {
+  position: relative; z-index: 2;
+  width: 100%; max-width: 480px;
+  padding: 0 28px 56px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+}
+.inv-header { width:100%; max-width:480px; padding:0; text-align:center; animation:fade-up 1s 0.2s both; }
+.inv-prelude { font-family:'Jost',sans-serif; font-size:11px; font-weight:400; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.75); margin-bottom:20px; }
+.inv-announce { display:none; }
+.inv-names { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(68px,17vw,96px); line-height:1; color:#fff; letter-spacing:-1px; animation:fade-up 1s 0.4s both; text-shadow:0 2px 24px rgba(0,0,0,0.35); }
+.inv-amp { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:38px; color:var(--gold-light); display:block; margin:6px 0; }
+.inv-hero-separator { width:60px; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent); margin:16px auto; }
+.inv-hero-date { font-family:'Cormorant SC',serif; font-weight:400; font-size:12px; letter-spacing:5px; color:rgba(255,255,255,0.8); display:block; text-align:center; margin-bottom:8px; }
+.inv-hero-location { font-family:'Jost',sans-serif; font-size:11px; font-weight:400; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.7); margin-top:4px; margin-bottom:0; }
+.inv-hero-scroll {
+  position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  opacity: 0.65; animation: bounce-down 2s ease-in-out infinite;
+  color: rgba(255,255,255,0.8);
+}
+@keyframes bounce-down {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(6px); }
+}
+
 
 /* ── DATE + MINI CALENDAR ── */
 .inv-date-block { margin:20px auto; text-align:center; animation:fade-up 1s 0.6s both; max-width:480px; padding:0 24px; }
@@ -393,7 +430,7 @@ body::before {
 .countdown-unit { font-family:'Cormorant SC',serif; font-size:12px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--text-2); margin-top:6px; display:block; }
 
 /* ── COUPLE PHOTO ── */
-.inv-couple-photo { width:100%; max-width:480px; padding:0 16px 48px; display:flex; flex-direction:column; align-items:center; animation:fade-up 1s 0.75s both; }
+.inv-couple-photo { display:none !important; }
 .couple-frame { width:min(360px,88vw); border-radius:16px; overflow:hidden; border:1px solid var(--border); box-shadow:0 4px 24px rgba(201,164,106,0.12); }
 .couple-frame img { width:100%; height:auto; object-fit:cover; display:block; }
 .couple-caption { margin-top:20px; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; color:var(--gold-dark); letter-spacing:1px; }
@@ -1081,30 +1118,14 @@ body::before {
 
   <!-- 1. HERO -->
   <div class="inv-hero">
-    <div class="inv-top-border"></div>
-    <div class="inv-header">
-      <p class="inv-prelude">Con la bendición de nuestras familias</p>
-      <p class="inv-announce">Tenemos el honor de invitarles a celebrar el inicio de nuestra vida juntos</p>
-      <div class="prism-divider" style="margin-bottom:32px;"></div>
+    <div class="inv-hero-content">
+      <p class="inv-prelude" style="animation:fade-up 1s 0.2s both;">Sábado · 29 de Agosto · 2026</p>
+      <div class="inv-names" style="animation:fade-up 1s 0.35s both;">Iván<span class="inv-amp">&amp;</span>Gemima</div>
+      <div class="inv-hero-separator"></div>
+      <p class="inv-hero-location" style="animation:fade-up 1s 0.5s both;">Guadalajara · Jalisco</p>
     </div>
-    <div style="text-align:center; animation:fade-up 1s 0.4s both;">
-      <div class="inv-names">Iván<span class="inv-amp">&amp;</span>Gemima</div>
-    </div>
-    <div class="inv-hero-separator"></div>
-    <span class="inv-hero-date">Sábado · 29 de Agosto · 2026</span>
-  </div>
-
-  <!-- 2. FOTO PAREJA (antes del contador) -->
-  <div class="inv-couple-photo">
-    <div class="couple-frame">
-      <img src="./Principal.jpeg" alt="Iván & Gemima" loading="lazy"/>
-    </div>
-    <p class="couple-caption">Iván &amp; Gemima</p>
-    <div class="scroll-hint" aria-hidden="true">
-      <span class="scroll-hint-text">Desliza</span>
-      <div class="scroll-hint-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
+    <div class="inv-hero-scroll" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
   </div>
 
