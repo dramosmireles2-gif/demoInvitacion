@@ -1393,10 +1393,7 @@ body::before {
 
 </div><!-- /invitation -->
 
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="../guests.js"></script>
-<script src="../firebase-config.js"></script>
+<!-- Plantilla sin Firebase — datos estáticos -->
 <script>
 /* ══════════════════════════════════════════════════
    CONFIGURACIÓN DE LA INVITACIÓN
@@ -1460,52 +1457,21 @@ function _applyEventOverrides(ov) {
   if (ov.venueName) WEDDING_CONFIG._venueName = ov.venueName;
   if (ov.venueMaps) WEDDING_CONFIG._venueMaps = ov.venueMaps;
 }
-// Leer de localStorage primero (fallback rápido)
-try { _applyEventOverrides(JSON.parse(localStorage.getItem('as_event_override') || '{}')); } catch(e) {}
-// Leer de Firebase para tener la versión más reciente (funciona en cualquier dispositivo)
-if (typeof db !== 'undefined' && db) {
-  db.collection('config').doc('event').get().then(doc => {
-    if (doc.exists) { _applyEventOverrides(doc.data()); buildGifts(); }
-  }).catch(() => {});
-}
-
 /* ══════════════════════════════════
-   INVITADO
+   INVITADO (estático — plantilla sin Firebase)
 ══════════════════════════════════ */
 const urlParams = new URLSearchParams(window.location.search);
-const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
 const tipoInv   = (urlParams.get('tipo') || '').toLowerCase().trim();
 if (window.history && window.history.replaceState) {
   history.replaceState(null, '', window.location.pathname);
 }
 const SVG_TICKET = `<svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 0 1 0-4V3h20v2a2 2 0 0 1 0 4v2a2 2 0 0 1 0 4v2H2v-2a2 2 0 0 1 0-4V9z"/><line x1="9" y1="3" x2="9" y2="21" stroke-dasharray="2 2"/></svg>`;
 
-function applyGuest(g) {
-  document.getElementById('guest-name-text').textContent  = g.name;
-  document.getElementById('guest-passes-text').innerHTML  = SVG_TICKET + ' ' + g.passes + ' pase' + (g.passes !== 1 ? 's' : '');
-  document.getElementById('guest-table-text').textContent = g.table && g.table !== '—' ? 'Mesa · ' + g.table : '';
-}
-
-let guestReady;
-let guest = WEDDING_GUESTS[guestKey];
-if (guest) {
-  applyGuest(guest);
-  guestReady = Promise.resolve();
-} else if (guestKey && typeof db !== 'undefined' && db) {
-  guestReady = db.collection('guests').doc(guestKey).get().then(doc => {
-    guest = doc.exists ? doc.data() : { name: 'Estimado Invitado', passes: 2, table: '—' };
-    if (doc.exists) WEDDING_GUESTS[guestKey] = guest;
-    applyGuest(guest);
-  }).catch(() => {
-    guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
-    applyGuest(guest);
-  });
-} else {
-  guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
-  applyGuest(guest);
-  guestReady = Promise.resolve();
-}
-if (!guest) guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
+const guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
+document.getElementById('guest-name-text').textContent  = guest.name;
+document.getElementById('guest-passes-text').innerHTML  = SVG_TICKET + ' 2 pases';
+document.getElementById('guest-table-text').textContent = '';
+const guestReady = Promise.resolve();
 
 /* ══════════════════════════════════
    SOBRE
@@ -1767,13 +1733,7 @@ function buildGenderReveal() {
   if (tipoInv !== 'genero') return;
   document.getElementById('section-gender').style.display = 'block';
 
-  // Cargar votos en tiempo real si Firebase está disponible
-  if (db) {
-    db.collection('gender_reveal').doc('votes').onSnapshot(doc => {
-      const data = doc.exists ? doc.data() : { boy: 0, girl: 0 };
-      updateGenderBars(data.boy || 0, data.girl || 0);
-    });
-  }
+  updateGenderBars(0, 0);
 
   // Marcar si ya votó
   const voted = localStorage.getItem('gender_voted');
@@ -1807,21 +1767,12 @@ async function voteGender(choice) {
   disableGenderBtns();
   spawnGenderConfetti(choice === 'boy' ? '#90b8d8' : '#d4a8b8');
 
-  if (db) {
-    try {
-      await db.collection('gender_reveal').doc('votes').set({
-        [choice]: firebase.firestore.FieldValue.increment(1)
-      }, { merge: true });
-    } catch(e) { console.error(e); }
-  } else {
-    // Sin Firebase: actualizar local
-    const boy  = parseInt(document.getElementById('boy-bar').style.width)  || 0;
-    const girl = parseInt(document.getElementById('girl-bar').style.width) || 0;
-    updateGenderBars(
-      choice === 'boy'  ? boy  + 1 : boy,
-      choice === 'girl' ? girl + 1 : girl
-    );
-  }
+  const boy  = parseInt(document.getElementById('boy-bar').style.width)  || 0;
+  const girl = parseInt(document.getElementById('girl-bar').style.width) || 0;
+  updateGenderBars(
+    choice === 'boy'  ? boy  + 1 : boy,
+    choice === 'girl' ? girl + 1 : girl
+  );
 }
 
 function spawnGenderConfetti(color) {
@@ -1940,70 +1891,25 @@ function startCountdown() {
 }
 
 /* ══════════════════════════════════
-   FIREBASE
+   RSVP (sin Firebase — plantilla)
 ══════════════════════════════════ */
-async function trackVisit() {
-  if (!db || !guestKey) return;
-  try {
-    await db.collection('rsvps').doc(guestKey).set({
-      guestName: guest.name, passes: guest.passes, table: guest.table,
-      lastVisit: firebase.firestore.FieldValue.serverTimestamp()
-    }, { merge: true });
-  } catch(e) {}
-}
+function trackVisit() {}
+function checkExistingRSVP() {}
 
-async function checkExistingRSVP() {
-  if (!db || !guestKey) return;
-  try {
-    const doc = await db.collection('rsvps').doc(guestKey).get();
-    if (doc.exists && doc.data().attending !== undefined) {
-      const data = doc.data();
-      document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
-      document.getElementById('rsvp-success-body').innerHTML = data.attending
-        ? 'Tu confirmación ya fue recibida.<br/>¡Los esperamos con mucho cariño!'
-        : 'Ya recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
-      document.getElementById('rsvp-form').style.display = 'none';
-      const suc = document.getElementById('rsvp-success');
-      suc.classList.add('show');
-      requestAnimationFrame(() => requestAnimationFrame(() => suc.classList.add('visible')));
-    }
-  } catch(e) {}
-}
-
-/* ══════════════════════════════════
-   RSVP
-══════════════════════════════════ */
 function selectRSVP(choice) {
   rsvpChoice = choice;
   document.getElementById('btn-yes').className = 'rsvp-btn' + (choice === 'yes' ? ' selected-yes' : '');
   document.getElementById('btn-no').className  = 'rsvp-btn' + (choice === 'no'  ? ' selected-no'  : '');
 }
 
-async function submitRSVP() {
+function submitRSVP() {
   if (!rsvpChoice) {
     const valMsg = document.getElementById('rsvp-validation');
     valMsg.classList.add('show');
     setTimeout(() => valMsg.classList.remove('show'), 3500);
     return;
   }
-  const submitBtn = document.querySelector('.rsvp-submit');
-  submitBtn.disabled = true; submitBtn.textContent = 'Enviando...';
-  const msg = document.getElementById('rsvp-msg').value.trim();
-  if (db && guestKey) {
-    try {
-      await db.collection('rsvps').doc(guestKey).set({
-        guestName: guest.name, attending: rsvpChoice === 'yes', message: msg,
-        passes: guest.passes, table: guest.table,
-        confirmedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        lastVisit: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-    } catch(e) {
-      console.error(e);
-      submitBtn.disabled = false; submitBtn.textContent = 'Confirmar';
-      return;
-    }
-  }
-  document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+  document.getElementById('rsvp-success-title').textContent = '¡Gracias!';
   document.getElementById('rsvp-success-body').innerHTML = rsvpChoice === 'yes'
     ? 'Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!'
     : 'Recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
