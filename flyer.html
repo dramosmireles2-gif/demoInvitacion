@@ -135,11 +135,12 @@ body {
 
 /* ── MOCKUPS ── */
 .mockups-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  align-items: flex-end;
   gap: 20px;
   padding: 16px 40px 16px;
   flex-shrink: 0;
+  justify-content: center;
 }
 
 .mockup-wrap {
@@ -147,6 +148,149 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 12px;
+}
+
+/* Admin devices: laptop + phone side by side */
+.admin-devices {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+.admin-devices-pair {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+/* ── LAPTOP MOCKUP ── */
+.laptop {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.laptop-lid {
+  background: #1c1c1e;
+  border-radius: 7px 7px 0 0;
+  padding: 7px 7px 0;
+  position: relative;
+  width: 220px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.35), 0 2px 6px rgba(0,0,0,0.2);
+}
+.laptop-lid::before {
+  content: '';
+  display: block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #3a3a3c;
+  margin: 0 auto 5px;
+}
+.laptop-screen {
+  width: 206px;
+  height: 128px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+.laptop-hinge {
+  width: 220px;
+  height: 4px;
+  background: linear-gradient(to bottom, #0d0d0d, #2a2a2a);
+}
+.laptop-base {
+  width: 236px;
+  height: 10px;
+  background: linear-gradient(to bottom, #2a2a2c, #1e1e20);
+  border-radius: 0 0 5px 5px;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.laptop-base::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 50px; height: 4px;
+  background: #141416;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Laptop screen content */
+.screen-admin-lap {
+  width: 100%; height: 100%;
+  background: #1e1810;
+  display: flex;
+}
+.admin-sidebar-lap {
+  width: 28px;
+  background: #111008;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0 6px;
+  gap: 5px;
+  flex-shrink: 0;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+.admin-dot-lap {
+  width: 8px; height: 8px; border-radius: 1.5px;
+}
+.admin-main-lap {
+  flex: 1; padding: 6px;
+  display: flex; flex-direction: column; gap: 4px;
+  overflow: hidden;
+}
+.admin-topbar-lap {
+  background: #2c2416; border-radius: 2px;
+  padding: 3px 5px;
+  font-size: 5px; color: var(--gold); letter-spacing: 1px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.admin-stats-lap {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px;
+}
+.stat-lap {
+  border-radius: 2px; padding: 3px 4px; text-align: center;
+}
+.stat-lap span:first-child { font-size: 10px; font-weight: 700; display: block; line-height: 1; }
+.stat-lap span:last-child  { font-size: 4px; letter-spacing: 0.3px; color: rgba(255,255,255,0.35); text-transform: uppercase; display: block; margin-top: 1px; }
+.admin-bar-lap {
+  height: 3px; background: #2a2a1a; border-radius: 2px; overflow: hidden;
+}
+.admin-bar-fill-lap { height: 100%; background: linear-gradient(to right, #8a6d4a, #b8976a); border-radius: 2px; }
+.admin-rows-lap { display: flex; flex-direction: column; gap: 2px; }
+.admin-row-lap {
+  background: #2c2416; border-radius: 1.5px;
+  padding: 2px 4px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.row-name-lap { font-size: 5px; color: rgba(255,255,255,0.65); }
+.row-badge-lap { font-size: 4px; padding: 1px 3px; border-radius: 6px; }
+
+/* Phone small (admin phone) */
+.phone-sm {
+  width: 80px;
+  height: 160px;
+  background: var(--black);
+  border-radius: 16px;
+  padding: 5px 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.15);
+  position: relative;
+  flex-shrink: 0;
+}
+.phone-sm::before {
+  content: '';
+  position: absolute;
+  top: 5px; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 2.5px;
+  background: #333;
+  border-radius: 3px;
+  z-index: 2;
+}
+.phone-sm .phone-screen {
+  border-radius: 12px;
 }
 
 /* Teléfono */
@@ -574,68 +718,120 @@ body {
       </div>
     </div>
 
-    <!-- Admin -->
-    <div class="mockup-wrap">
-      <div class="phone">
-        <div class="phone-screen">
-          <div class="screen-admin">
-            <!-- Sidebar -->
-            <div class="admin-sidebar-m">
-              <div class="admin-dot-m" style="background:var(--gold);opacity:.8;"></div>
-              <div class="admin-dot-m" style="background:rgba(255,255,255,.15);"></div>
-              <div class="admin-dot-m" style="background:rgba(255,255,255,.15);"></div>
-              <div class="admin-dot-m" style="background:rgba(255,255,255,.15);"></div>
+    <!-- Admin: laptop + phone -->
+    <div class="admin-devices">
+      <div class="admin-devices-pair">
+
+        <!-- Laptop -->
+        <div class="laptop">
+          <div class="laptop-lid">
+            <div class="laptop-screen">
+              <div class="screen-admin-lap">
+                <div class="admin-sidebar-lap">
+                  <div class="admin-dot-lap" style="background:var(--gold);opacity:.8;"></div>
+                  <div class="admin-dot-lap" style="background:rgba(255,255,255,.12);"></div>
+                  <div class="admin-dot-lap" style="background:rgba(255,255,255,.12);"></div>
+                  <div class="admin-dot-lap" style="background:rgba(255,255,255,.12);"></div>
+                  <div class="admin-dot-lap" style="background:rgba(255,255,255,.12);"></div>
+                </div>
+                <div class="admin-main-lap">
+                  <div class="admin-topbar-lap">
+                    <span>Andrea &amp; Saúl · Dashboard</span>
+                    <span style="font-size:4px;color:rgba(184,151,106,0.5);font-family:'DM Sans',sans-serif;">02 Oct 2027</span>
+                  </div>
+                  <div class="admin-stats-lap">
+                    <div class="stat-lap" style="background:#2a3a2a;">
+                      <span style="color:#5a8a6e;">23</span><span>Confirmados</span>
+                    </div>
+                    <div class="stat-lap" style="background:#2a2a1a;">
+                      <span style="color:var(--gold);">8</span><span>Pendientes</span>
+                    </div>
+                    <div class="stat-lap" style="background:#2c1a1a;">
+                      <span style="color:#a85a5a;">4</span><span>No asisten</span>
+                    </div>
+                  </div>
+                  <div class="admin-bar-lap">
+                    <div class="admin-bar-fill-lap" style="width:74%;"></div>
+                  </div>
+                  <div class="admin-rows-lap">
+                    <div class="admin-row-lap">
+                      <span class="row-name-lap">Familia García</span>
+                      <span class="row-badge-lap" style="background:rgba(90,138,110,.25);color:#5a8a6e;">✓</span>
+                    </div>
+                    <div class="admin-row-lap">
+                      <span class="row-name-lap">Dr. Herrera</span>
+                      <span class="row-badge-lap" style="background:rgba(90,138,110,.25);color:#5a8a6e;">✓</span>
+                    </div>
+                    <div class="admin-row-lap">
+                      <span class="row-name-lap">Fam. Torres</span>
+                      <span class="row-badge-lap" style="background:rgba(184,150,80,.2);color:#b89650;">—</span>
+                    </div>
+                    <div class="admin-row-lap">
+                      <span class="row-name-lap">Valentina S.</span>
+                      <span class="row-badge-lap" style="background:rgba(90,138,110,.25);color:#5a8a6e;">✓</span>
+                    </div>
+                    <div class="admin-row-lap">
+                      <span class="row-name-lap">Ing. Peña</span>
+                      <span class="row-badge-lap" style="background:rgba(168,90,90,.2);color:#a85a5a;">✗</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <!-- Main -->
-            <div class="admin-main-m">
-              <div class="admin-topbar-m">Andrea &amp; Saúl · Admin</div>
-              <!-- Stats -->
-              <div class="admin-stats-m">
-                <div class="stat-m" style="background:#2a3a2a;">
-                  <div class="stat-m-n" style="color:#5a8a6e;">23</div>
-                  <div class="stat-m-l">Confirmados</div>
-                </div>
-                <div class="stat-m" style="background:#2a2a1a;">
-                  <div class="stat-m-n" style="color:var(--gold);">8</div>
-                  <div class="stat-m-l">Pendientes</div>
-                </div>
+          </div>
+          <div class="laptop-hinge"></div>
+          <div class="laptop-base"></div>
+        </div>
+
+        <!-- Phone small -->
+        <div class="phone-sm">
+          <div class="phone-screen">
+            <div class="screen-admin">
+              <div class="admin-sidebar-m" style="width:22px;">
+                <div class="admin-dot-m" style="background:var(--gold);opacity:.8;width:8px;height:8px;"></div>
+                <div class="admin-dot-m" style="background:rgba(255,255,255,.15);width:8px;height:8px;"></div>
+                <div class="admin-dot-m" style="background:rgba(255,255,255,.15);width:8px;height:8px;"></div>
               </div>
-              <!-- Bar -->
-              <div class="admin-bar-m">
-                <div class="admin-bar-fill" style="width:74%;"></div>
-              </div>
-              <!-- Rows -->
-              <div class="admin-rows-m">
-                <div class="admin-row-m">
-                  <span class="row-name-m">Familia García</span>
-                  <span class="row-badge-m" style="background:rgba(90,138,110,.25);color:#5a8a6e;">✓ Confirmado</span>
+              <div class="admin-main-m" style="padding:5px 5px;">
+                <div class="admin-topbar-m" style="font-size:5px;">A &amp; S · Admin</div>
+                <div class="admin-stats-m">
+                  <div class="stat-m" style="background:#2a3a2a;">
+                    <div class="stat-m-n" style="color:#5a8a6e;font-size:11px;">23</div>
+                    <div class="stat-m-l">Conf.</div>
+                  </div>
+                  <div class="stat-m" style="background:#2a2a1a;">
+                    <div class="stat-m-n" style="color:var(--gold);font-size:11px;">8</div>
+                    <div class="stat-m-l">Pend.</div>
+                  </div>
                 </div>
-                <div class="admin-row-m">
-                  <span class="row-name-m">Dr. Herrera</span>
-                  <span class="row-badge-m" style="background:rgba(90,138,110,.25);color:#5a8a6e;">✓ Confirmado</span>
+                <div class="admin-bar-m">
+                  <div class="admin-bar-fill" style="width:74%;"></div>
                 </div>
-                <div class="admin-row-m">
-                  <span class="row-name-m">Fam. Torres</span>
-                  <span class="row-badge-m" style="background:rgba(184,150,80,.2);color:#b89650;">Pendiente</span>
-                </div>
-                <div class="admin-row-m">
-                  <span class="row-name-m">Valentina S.</span>
-                  <span class="row-badge-m" style="background:rgba(90,138,110,.25);color:#5a8a6e;">✓ Confirmado</span>
-                </div>
-                <div class="admin-row-m">
-                  <span class="row-name-m">Ing. Peña</span>
-                  <span class="row-badge-m" style="background:rgba(168,90,90,.2);color:#a85a5a;">No asistirá</span>
+                <div class="admin-rows-m" style="gap:2px;">
+                  <div class="admin-row-m">
+                    <span class="row-name-m" style="font-size:5px;">García</span>
+                    <span class="row-badge-m" style="background:rgba(90,138,110,.25);color:#5a8a6e;font-size:4px;">✓</span>
+                  </div>
+                  <div class="admin-row-m">
+                    <span class="row-name-m" style="font-size:5px;">Herrera</span>
+                    <span class="row-badge-m" style="background:rgba(90,138,110,.25);color:#5a8a6e;font-size:4px;">✓</span>
+                  </div>
+                  <div class="admin-row-m">
+                    <span class="row-name-m" style="font-size:5px;">Torres</span>
+                    <span class="row-badge-m" style="background:rgba(184,150,80,.2);color:#b89650;font-size:4px;">—</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+      </div><!-- /pair -->
       <div class="mockup-label">
         <div class="mockup-label-title">Tu Panel</div>
-        <div class="mockup-label-desc">Ves todo en tiempo real<br/>desde donde estés</div>
+        <div class="mockup-label-desc">Desktop &amp; celular,<br/>en tiempo real</div>
       </div>
-    </div>
+    </div><!-- /admin-devices -->
 
   </div>
 
