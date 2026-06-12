@@ -85,7 +85,7 @@ body {
 /* ── SIDEBAR ── */
 .sidebar {
   width: 252px;
-  min-height: 100vh;
+  height: 100vh;
   background: var(--sidebar);
   display: flex;
   flex-direction: column;
@@ -1147,25 +1147,25 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
   <nav class="sidebar-nav">
     <span class="nav-section">Panel principal</span>
-    <a class="nav-item active" href="#" onclick="setActive(this)">
+    <a class="nav-item active" href="#" data-target="" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="home"></i></span> Resumen general
     </a>
-    <a class="nav-item" href="#section-guests" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-guests" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="users"></i></span> Lista de invitados
     </a>
-    <a class="nav-item" href="#section-tables" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-tables" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="grid"></i></span> Mesas
     </a>
-    <a class="nav-item" href="#section-activity" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-activity" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="activity"></i></span> Actividad en tiempo real
     </a>
-    <a class="nav-item" href="#section-urls" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-urls" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="link"></i></span> Enlaces personalizados
     </a>
-    <a class="nav-item" href="#section-messages" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-messages" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="message-circle"></i></span> Mensajes
     </a>
-    <a class="nav-item" href="#section-event" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-event" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="edit-2"></i></span> Editar evento
     </a>
 
@@ -1669,11 +1669,21 @@ function toggleDesignNav(el) {
   if (icon) icon.classList.toggle('open', open);
 }
 
-function setActive(el) {
+function navTo(e, el) {
+  e.preventDefault();
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
+  const target = el.dataset.target;
+  if (target) {
+    const sec = document.getElementById(target);
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   if (window.innerWidth < 1024) setTimeout(closeSidebar, 120);
 }
+
+function setActive(el) { navTo({ preventDefault: ()=>{} }, el); }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 
