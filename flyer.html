@@ -969,21 +969,9 @@ function printTabloide() {
   s.textContent = `@media print{
     @page{size:tabloid portrait;margin:0}
     body{zoom:1.65!important}
-    .page{height:989px!important;overflow:hidden!important}
-
-    /* ── HOJA 1: mockups más grandes sin romper layout ── */
-    .mockups-row{padding:16px 40px!important;align-items:center!important}
-    .phone{width:180px!important;height:350px!important}
-    .admin-devices{display:none!important}
-    .tabloid-admin-wrap{display:flex!important}
-    .tab-frame-img{width:440px!important}
-
-    /* ── HOJA 2: reducir huecos para subir sección de contacto ── */
-    .how-2{padding:14px 40px 12px!important}
-    .qr-demo-section{padding:0 40px 8px!important}
-    .contact-section{margin:0 40px 8px!important;padding:16px 20px!important}
-
-    /* ── PRINT: forzar fill en SVG iconos sociales ── */
+    .page{height:989px!important}
+    /* Solo el teléfono de invitación más grande */
+    .phone{width:190px!important;height:370px!important}
     .social-icon svg{fill:#fff!important}
     .social-icon svg.stroke{fill:none!important;stroke:#fff!important}
   }`;
