@@ -11,6 +11,8 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { overflow-x: hidden; max-width: 100%; }
+
 :root {
   --cream: #f5f0e8;
   --cream2: #ede6d6;
@@ -248,6 +250,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* ── TOPBAR ── */
@@ -343,6 +347,9 @@ body {
   padding: 28px 32px 48px;
   flex: 1;
   animation: fadeInUp 0.4s ease both;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* ── STATS ROW ── */
@@ -1162,6 +1169,15 @@ body.sidebar-open .sidebar-overlay { display: block; }
       <span class="nav-icon"><i data-feather="edit-2"></i></span> Editar evento
     </a>
 
+    <span class="nav-section" style="margin-top:10px;">Ver demo</span>
+    <a class="nav-item" onclick="toggleDesignNav(this)" href="#" style="justify-content:space-between;">
+      <span style="display:flex;align-items:center;gap:11px;">
+        <span class="nav-icon"><i data-feather="layers"></i></span> Estilos de invitación
+      </span>
+      <svg class="nav-toggle-icon" viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+    <div class="nav-sub" id="design-sub"></div>
+
   </nav>
 
   <div class="sidebar-footer">
@@ -1616,6 +1632,43 @@ if (sessionStorage.getItem('admin_auth') === '1') {
 function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
 function closeSidebar()   { document.body.classList.remove('sidebar-open'); }
 
+// ── DESIGNS NAV ──
+const DESIGNS = [
+  { label: 'Andrea & Saúl', colors: ['#b8976a','#2c2416','#f5f0e8'], url: '../index.html' },
+  { label: 'Floral',        colors: ['#c2956e','#5a3a2c','#fdf5ee'], url: 'invitacion-floral.html' },
+  { label: 'Aurora',        colors: ['#8cb4c4','#1e3a4a','#f0f7fa'], url: 'invitacion-aurora.html' },
+  { label: 'Ballroom',      colors: ['#c9a96e','#1a1208','#fff8ed'], url: 'invitacion-ballroom.html' },
+  { label: 'Celestial',     colors: ['#9fb4d4','#152040','#f2f5fb'], url: 'invitacion-celestial.html' },
+  { label: 'Cine',          colors: ['#e0c97a','#0e0e0e','#1a1a1a'], url: 'invitacion-cine.html' },
+  { label: 'Cristal',       colors: ['#a8c4d4','#0e2030','#e8f4fb'], url: 'invitacion-cristal.html' },
+  { label: 'Hacienda',      colors: ['#c47a4a','#3a1f10','#fdf0e6'], url: 'invitacion-hacienda.html' },
+  { label: 'Mármol',        colors: ['#b4a090','#1e1814','#f8f4f0'], url: 'invitacion-marmol.html' },
+  { label: 'Minimal',       colors: ['#888','#111','#f9f9f9'],        url: 'invitacion-minimal.html' },
+  { label: 'Nórdico',       colors: ['#7a9aac','#1c2e38','#eef4f7'], url: 'invitacion-nordico.html' },
+  { label: 'Oscura',        colors: ['#b8976a','#0e0c0a','#1e1810'], url: 'invitacion-oscura.html' },
+  { label: 'Acuarela',      colors: ['#d4a0b0','#4a2030','#fdf0f4'], url: 'invitacion-acuarela.html' },
+];
+
+function buildNavSubDesigns() {
+  const sub = document.getElementById('design-sub');
+  if (!sub) return;
+  sub.innerHTML = DESIGNS.map(d => `
+    <a class="nav-sub-item" href="${d.url}" target="_blank">
+      <span>${d.label}</span>
+      <span class="palette-dots">
+        ${d.colors.map(c => `<span class="pd" style="background:${c}"></span>`).join('')}
+      </span>
+    </a>`).join('');
+}
+
+function toggleDesignNav(el) {
+  if (event) event.preventDefault();
+  const sub  = document.getElementById('design-sub');
+  const icon = el.querySelector('.nav-toggle-icon');
+  const open = sub.classList.toggle('open');
+  if (icon) icon.classList.toggle('open', open);
+}
+
 function setActive(el) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
@@ -2013,6 +2066,7 @@ function initAdmin() {
   buildTablesSection();
   buildEventForm();
   updateDeadlineCountdown();
+  buildNavSubDesigns();
   renderDashboard(LOCAL_RSVP);
 }
 
