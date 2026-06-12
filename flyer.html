@@ -963,17 +963,16 @@ function printLetter() {
 }
 
 function printTabloide() {
-  /* Tabloide: 11"×17" — zoom 1.65 (640×1.65=1056px=11") */
+  /* Tabloide: 11"×17" — zoom 1.65 llena 11" de ancho (640×1.65=1056px=11") */
   const s = document.createElement('style');
   s.id = '__tab';
-  s.textContent = `@media print{
-    @page{size:tabloid portrait;margin:0}
-    body{zoom:1.65!important}
-    .page{height:989px!important}
-    .phone{width:165px!important;height:340px!important}
-    .social-icon svg{fill:#fff!important}
-    .social-icon svg.stroke{fill:none!important;stroke:#fff!important}
-  }`;
+  s.textContent = [
+    '@media print{',
+    '@page{size:tabloid portrait;margin:0}',
+    'body{zoom:1.65!important}',
+    '.page{height:989px!important}',
+    '}'
+  ].join('');
   document.head.appendChild(s);
   window.print();
   setTimeout(() => { const el = document.getElementById('__tab'); if (el) el.remove(); }, 800);
