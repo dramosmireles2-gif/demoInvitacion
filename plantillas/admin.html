@@ -11,6 +11,8 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { overflow-x: hidden; max-width: 100%; }
+
 :root {
   --cream: #f5f0e8;
   --cream2: #ede6d6;
@@ -248,6 +250,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* ── TOPBAR ── */
@@ -343,6 +347,9 @@ body {
   padding: 28px 32px 48px;
   flex: 1;
   animation: fadeInUp 0.4s ease both;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* ── STATS ROW ── */
@@ -1064,6 +1071,25 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
   /* Mesas grid — 1 col en mobile */
   #tables-grid { grid-template-columns: 1fr !important; }
+
+  /* Evitar scroll horizontal */
+  body, .content { overflow-x: hidden; }
+
+  /* Banner de bienvenida — padding reducido */
+  .welcome-banner { padding: 12px 14px !important; }
+
+  /* Stat numbers más pequeños en pantallas muy angostas */
+  .stat-number { font-size: 32px !important; }
+
+  /* iOS Safari auto-zoom fix: todos los inputs >= 16px */
+  input, textarea, select, .event-input, .modal-input {
+    font-size: 16px !important;
+  }
+}
+
+/* Auth overlay — gap reducido en pantallas cortas (landscape móvil) */
+@media (max-height: 640px) {
+  #auth-overlay { gap: 14px !important; }
 }
 </style>
 </head>
@@ -1088,7 +1114,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:10px;display:block;">Panel de administración</span>
   </div>
 
-  <div style="width:300px;display:flex;flex-direction:column;gap:10px;position:relative;">
+  <div style="width:min(300px,calc(100vw - 48px));display:flex;flex-direction:column;gap:10px;position:relative;">
     <div style="position:relative;">
       <input id="auth-input" type="password" placeholder="Contraseña de acceso"
         style="width:100%;padding:14px 16px;border:1px solid rgba(184,151,106,0.25);border-radius:3px;background:rgba(255,255,255,0.04);font-family:'DM Sans',sans-serif;font-size:14px;color:#faf8f4;outline:none;letter-spacing:1.5px;transition:border-color 0.2s;caret-color:var(--gold);"
@@ -1143,15 +1169,15 @@ body.sidebar-open .sidebar-overlay { display: block; }
       <span class="nav-icon"><i data-feather="edit-2"></i></span> Editar evento
     </a>
 
-    <span class="nav-section">Otros estilos</span>
-    <!-- Toggle sub-menu -->
-    <div class="nav-item" onclick="toggleDesignNav(this)" style="justify-content:space-between;">
-      <div style="display:flex;align-items:center;gap:11px;">
-        <span class="nav-icon"><i data-feather="eye"></i></span> Ver demo
-      </div>
-      <span class="nav-toggle-icon"><i data-feather="chevron-right"></i></span>
-    </div>
-    <div class="nav-sub" id="nav-sub-designs"></div>
+    <span class="nav-section" style="margin-top:10px;">Ver demo</span>
+    <a class="nav-item" onclick="toggleDesignNav(this)" href="#" style="justify-content:space-between;">
+      <span style="display:flex;align-items:center;gap:11px;">
+        <span class="nav-icon"><i data-feather="layers"></i></span> Estilos de invitación
+      </span>
+      <svg class="nav-toggle-icon" viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+    <div class="nav-sub" id="design-sub"></div>
+
   </nav>
 
   <div class="sidebar-footer">
@@ -1177,7 +1203,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span id="topbar-countdown">cargando…</span>
       </div>
-      <a class="btn-primary" href="ivan-gemima/index.html?g=herrera" target="_blank" style="text-decoration:none;">
+      <a class="btn-primary" href="../index.html" target="_blank" style="text-decoration:none;">
         <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#faf8f4;stroke-width:2;fill:none;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Ver invitación
       </a>
@@ -1188,7 +1214,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   <div class="content">
 
     <!-- BANNER -->
-    <div style="background:linear-gradient(135deg,#3a2810,#6b4a28);border:1px solid rgba(184,151,106,0.25);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
+    <div class="welcome-banner" style="background:linear-gradient(135deg,#3a2810,#6b4a28);border:1px solid rgba(184,151,106,0.25);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
       <div style="width:36px;height:36px;background:rgba(184,151,106,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
         <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--gold-light);stroke-width:1.75;fill:none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
@@ -1520,28 +1546,52 @@ body.sidebar-open .sidebar-overlay { display: block; }
   </div>
 </nav>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="guests.js"></script>
-<script src="firebase-config.js"></script>
+<script>
+/* ── DATOS DEMO (sin Firebase) ── */
+const WEDDING_GUESTS = {
+  'garcia':   { name: 'Familia García',           passes: 4, table: '1' },
+  'herrera':  { name: 'Dr. Herrera y Familia',    passes: 3, table: '2' },
+  'torres':   { name: 'Familia Torres',           passes: 2, table: '3' },
+  'valdez':   { name: 'Ana y Carlos Valdez',      passes: 2, table: '4' },
+  'soto':     { name: 'Valentina Soto',           passes: 1, table: '5' },
+  'pena':     { name: 'Ing. Peña',                passes: 2, table: '6' },
+  'ramirez':  { name: 'Familia Ramírez',          passes: 5, table: '1' },
+  'luna':     { name: 'Dra. Luna',                passes: 2, table: '2' },
+  'morales':  { name: 'Jorge Morales',            passes: 2, table: '3' },
+  'castillo': { name: 'Familia Castillo',         passes: 4, table: '4' },
+  'reyes':    { name: 'Claudia Reyes',            passes: 1, table: '5' },
+  'medina':   { name: 'Roberto y Sofía Medina',   passes: 2, table: '6' },
+  'jimenez':  { name: 'Familia Jiménez',          passes: 3, table: '1' },
+  'vega':     { name: 'Lic. Vega',                passes: 2, table: '2' },
+  'flores':   { name: 'Familia Flores',           passes: 4, table: '3' },
+};
+
+const _n = Date.now();
+const _h = 3600000;
+const LOCAL_RSVP = {
+  'garcia':   { attending: true,      guestName: 'Familia García',        confirmedAt: { toMillis: () => _n - _h*2  }, message: '¡Qué emoción celebrar con ustedes!' },
+  'herrera':  { attending: true,      guestName: 'Dr. Herrera y Familia', confirmedAt: { toMillis: () => _n - _h*5  }, message: '' },
+  'torres':   { attending: undefined, lastVisit: { toMillis: () => _n - _h*1 } },
+  'valdez':   { attending: true,      guestName: 'Ana y Carlos Valdez',   confirmedAt: { toMillis: () => _n - _h*26 }, message: 'Con mucho gusto asistiremos' },
+  'soto':     { attending: true,      guestName: 'Valentina Soto',        confirmedAt: { toMillis: () => _n - _h*8  }, message: '' },
+  'pena':     { attending: false,     guestName: 'Ing. Peña',             confirmedAt: { toMillis: () => _n - _h*50 }, message: 'Lamentablemente no podré asistir' },
+  'ramirez':  { attending: true,      guestName: 'Familia Ramírez',       confirmedAt: { toMillis: () => _n - _h*3  }, message: '' },
+  'luna':     { attending: undefined },
+  'morales':  { attending: true,      guestName: 'Jorge Morales',         confirmedAt: { toMillis: () => _n - _h*12 }, message: '' },
+  'castillo': { attending: undefined, lastVisit: { toMillis: () => _n - _h*4 } },
+  'reyes':    { attending: false,     guestName: 'Claudia Reyes',         confirmedAt: { toMillis: () => _n - _h*28 }, message: 'No podré asistir, lo lamento' },
+  'medina':   { attending: undefined },
+  'jimenez':  { attending: true,      guestName: 'Familia Jiménez',       confirmedAt: { toMillis: () => _n - _h*6  }, message: '' },
+  'vega':     { attending: undefined, lastVisit: { toMillis: () => _n - _h*2 } },
+  'flores':   { attending: true,      guestName: 'Familia Flores',        confirmedAt: { toMillis: () => _n - _h*9  }, message: '¡Ahí estaremos!' },
+};
+
+const db = null; // Demo sin Firebase
+</script>
 <script>
 feather.replace();
 
-// ── DESIGNS ──
-const DESIGNS = [
-  { file: 'index.html',                label: 'Clásico Dorado', palette: ['#b8976a','#2c2416','#f5f0e8'] },
-  { file: 'invitacion-floral.html',    label: 'Floral',         palette: ['#e8b4bb','#7a9b7c','#f9eff0'] },
-  { file: 'invitacion-ballroom.html',  label: 'Ballroom',       palette: ['#c9a84c','#1a1a1a','#f5f0e0'] },
-  { file: 'invitacion-minimal.html',   label: 'Minimal',        palette: ['#c8604a','#111111','#ffffff'] },
-  { file: 'invitacion-hacienda.html',  label: 'Hacienda',       palette: ['#c8854a','#2d5016','#f5e6c8'] },
-  { file: 'invitacion-acuarela.html',  label: 'Acuarela',       palette: ['#c9b8d8','#f2c4a0','#a8d4b4'] },
-  { file: 'invitacion-nordico.html',   label: 'Nórdico',        palette: ['#3d4a2a','#111111','#ffffff'] },
-  { file: 'invitacion-celestial.html', label: 'Celestial',      palette: ['#7b68ee','#1a1a2e','#e8d8f8'] },
-  { file: 'invitacion-cine.html',      label: 'Cine',           palette: ['#d4a84b','#1a1a1a','#f0e8d0'] },
-  { file: 'invitacion-cristal.html',   label: 'Cristal',        palette: ['#a8d4e8','#2a4a5a','#f0f8ff'] },
-  { file: 'invitacion-oscura.html',    label: 'Oscura',         palette: ['#b8976a','#0d0a06','#2c2416'] },
-  { file: 'invitacion-marmol.html',    label: 'Mármol',         palette: ['#c8c0b8','#1a1a1a','#f5f2ee'] },
-];
+// ── (sin sección de diseños — demo independiente) ──
 
 // ── TOAST ──
 let _toastTimer = null;
@@ -1554,6 +1604,7 @@ function showToast(msg) {
 }
 
 // ── AUTH ──
+const ADMIN_PASSWORD = 'demo2027';
 function checkAuth() {
   const val = document.getElementById('auth-input').value;
   if (val === ADMIN_PASSWORD) {
@@ -1581,6 +1632,43 @@ if (sessionStorage.getItem('admin_auth') === '1') {
 function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
 function closeSidebar()   { document.body.classList.remove('sidebar-open'); }
 
+// ── DESIGNS NAV ──
+const DESIGNS = [
+  { label: 'Andrea & Saúl', colors: ['#b8976a','#2c2416','#f5f0e8'], url: '../index.html' },
+  { label: 'Floral',        colors: ['#c2956e','#5a3a2c','#fdf5ee'], url: 'invitacion-floral.html' },
+  { label: 'Aurora',        colors: ['#8cb4c4','#1e3a4a','#f0f7fa'], url: 'invitacion-aurora.html' },
+  { label: 'Ballroom',      colors: ['#c9a96e','#1a1208','#fff8ed'], url: 'invitacion-ballroom.html' },
+  { label: 'Celestial',     colors: ['#9fb4d4','#152040','#f2f5fb'], url: 'invitacion-celestial.html' },
+  { label: 'Cine',          colors: ['#e0c97a','#0e0e0e','#1a1a1a'], url: 'invitacion-cine.html' },
+  { label: 'Cristal',       colors: ['#a8c4d4','#0e2030','#e8f4fb'], url: 'invitacion-cristal.html' },
+  { label: 'Hacienda',      colors: ['#c47a4a','#3a1f10','#fdf0e6'], url: 'invitacion-hacienda.html' },
+  { label: 'Mármol',        colors: ['#b4a090','#1e1814','#f8f4f0'], url: 'invitacion-marmol.html' },
+  { label: 'Minimal',       colors: ['#888','#111','#f9f9f9'],        url: 'invitacion-minimal.html' },
+  { label: 'Nórdico',       colors: ['#7a9aac','#1c2e38','#eef4f7'], url: 'invitacion-nordico.html' },
+  { label: 'Oscura',        colors: ['#b8976a','#0e0c0a','#1e1810'], url: 'invitacion-oscura.html' },
+  { label: 'Acuarela',      colors: ['#d4a0b0','#4a2030','#fdf0f4'], url: 'invitacion-acuarela.html' },
+];
+
+function buildNavSubDesigns() {
+  const sub = document.getElementById('design-sub');
+  if (!sub) return;
+  sub.innerHTML = DESIGNS.map(d => `
+    <a class="nav-sub-item" href="${d.url}" target="_blank">
+      <span>${d.label}</span>
+      <span class="palette-dots">
+        ${d.colors.map(c => `<span class="pd" style="background:${c}"></span>`).join('')}
+      </span>
+    </a>`).join('');
+}
+
+function toggleDesignNav(el) {
+  if (event) event.preventDefault();
+  const sub  = document.getElementById('design-sub');
+  const icon = el.querySelector('.nav-toggle-icon');
+  const open = sub.classList.toggle('open');
+  if (icon) icon.classList.toggle('open', open);
+}
+
 function setActive(el) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
@@ -1589,26 +1677,6 @@ function setActive(el) {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 
-function toggleDesignNav(el) {
-  const sub   = document.getElementById('nav-sub-designs');
-  const icon  = el.querySelector('.nav-toggle-icon');
-  const isOpen = sub.classList.contains('open');
-  sub.classList.toggle('open', !isOpen);
-  if (icon) icon.classList.toggle('open', !isOpen);
-}
-
-function buildNavSubDesigns() {
-  const base = getBase();
-  const sub  = document.getElementById('nav-sub-designs');
-  sub.innerHTML = DESIGNS.map(d => `
-    <a class="nav-sub-item" href="${base}${d.file}?g=herrera" target="_blank">
-      <span>${d.label}</span>
-      <span class="palette-dots">
-        ${d.palette.map(c => `<span class="pd" style="background:${c}"></span>`).join('')}
-      </span>
-    </a>`).join('');
-  feather.replace();
-}
 
 // ── COUNTDOWN ──
 (function countdown() {
@@ -1994,22 +2062,12 @@ function confirmAssign(tableId) {
 function initAdmin() {
   loadExtraGuests();
   loadTablesConfig();
-  buildNavSubDesigns();
   renderUrlsList();
   buildTablesSection();
   buildEventForm();
   updateDeadlineCountdown();
-
-  if (!db) {
-    renderFallback();
-    return;
-  }
-
-  db.collection('rsvps').onSnapshot(snapshot => {
-    const rsvpData = {};
-    snapshot.forEach(doc => { rsvpData[doc.id] = doc.data(); });
-    renderDashboard(rsvpData);
-  });
+  buildNavSubDesigns();
+  renderDashboard(LOCAL_RSVP);
 }
 
 function renderFallback() {
@@ -2210,7 +2268,7 @@ function renderUrlsList() {
 
   list.innerHTML = keys.map(key => {
     const g   = WEDDING_GUESTS[key];
-    const url = base + 'ivan-gemima/index.html?g=' + key;
+    const url = base + 'index.html?g=' + key;
     return `<div class="url-row">
       <div>
         <div class="url-row-name">${g.name}</div>
@@ -2230,7 +2288,7 @@ function copyAllUrls() {
   const base = getBase();
   const text = Object.keys(WEDDING_GUESTS).map(key => {
     const g = WEDDING_GUESTS[key];
-    return g.name + '\n' + base + 'ivan-gemima/index.html?g=' + key;
+    return g.name + '\n' + base + 'index.html?g=' + key;
   }).join('\n\n');
   copyText(text, 'Todos los enlaces copiados');
 }
@@ -2255,7 +2313,7 @@ function openQRModal() {
       <div class="qr-modal-grid" style="overflow-y:auto;flex:1;">
         ${keys.map(key => {
           const g   = WEDDING_GUESTS[key];
-          const url = encodeURIComponent(base + 'ivan-gemima/index.html?g=' + key);
+          const url = encodeURIComponent(base + 'index.html?g=' + key);
           const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url + '&margin=8&color=2c2416&bgcolor=faf8f4';
           return `<div class="qr-card">
             <img src="${qrSrc}" alt="QR ${g.name}" loading="lazy"/>
