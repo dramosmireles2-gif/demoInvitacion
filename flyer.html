@@ -472,6 +472,37 @@ body {
   font-size: 10px; color: var(--gray3); line-height: 1.5;
 }
 
+/* ── TABLOID ADMIN MOCKUP (PNG frame + screen overlays) ── */
+.tabloid-admin-wrap {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+.tab-mockup-frame {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+.tab-frame-img { display: block; width: 420px; }
+/* Phone screen: left≈15% top≈17% w≈9.3% h≈71.5% of PNG (1080×520) */
+.tab-phone-screen {
+  position: absolute;
+  left: 15.0%; top: 16.9%;
+  width: 9.3%; height: 71.5%;
+  object-fit: cover; object-position: top;
+  border-radius: 2px;
+}
+/* Laptop screen: left≈26.4% top≈4.8% w≈71.8% h≈87.5% */
+.tab-laptop-screen {
+  position: absolute;
+  left: 26.4%; top: 4.8%;
+  width: 71.8%; height: 87.5%;
+  object-fit: cover; object-position: top;
+}
+}
+
 /* ── FEATURES STRIP ── */
 .features-1 {
   display: grid; grid-template-columns: repeat(5,1fr);
@@ -742,6 +773,21 @@ body {
       </div>
     </div><!-- /admin-devices -->
 
+    <!-- Tabloid-only admin mockup (PNG frame) -->
+    <div class="tabloid-admin-wrap">
+      <div class="tab-mockup-frame">
+        <img src="mockup-devices.png" class="tab-frame-img" alt="Mockup Admin">
+        <img src="inv.ramosmkt.lat_plantillas_admin.html(Samsung%20Galaxy%20S20%20Ultra).png"
+             class="tab-phone-screen" alt="">
+        <img src="inv.ramosmkt.lat_plantillas_admin.html.png"
+             class="tab-laptop-screen" alt="">
+      </div>
+      <div class="mockup-label">
+        <div class="mockup-label-title">Tu Panel</div>
+        <div class="mockup-label-desc">Desktop &amp; celular,<br/>en tiempo real</div>
+      </div>
+    </div><!-- /tabloid-admin-wrap -->
+
   </div>
 
   <!-- Features / Benefits -->
@@ -917,16 +963,21 @@ function printLetter() {
 }
 
 function printTabloide() {
-  /* Tabloide: 11"×17" — zoom 1.65 llena 11" de ancho (640×1.65=1056px=11") */
+  /* Tabloide: 11"×17" — zoom 1.65 (640×1.65=1056px=11") */
   const s = document.createElement('style');
   s.id = '__tab';
-  s.textContent = [
-    '@media print{',
-    '@page{size:tabloid portrait;margin:0}',
-    'body{zoom:1.65!important}',
-    '.page{height:989px!important}',  /* 640×(17/11)=989px — llena la hoja */
-    '}'
-  ].join('');
+  s.textContent = `@media print{
+    @page{size:tabloid portrait;margin:0}
+    body{zoom:1.65!important}
+    .page{height:989px!important}
+    /* Mockups más grandes */
+    .mockups-row{flex:1!important;padding:20px 40px!important;align-items:center!important}
+    .phone{width:200px!important;height:400px!important}
+    /* Cambiar mockup admin: ocultar CSS y mostrar PNG */
+    .admin-devices{display:none!important}
+    .tabloid-admin-wrap{display:flex!important}
+    .tab-frame-img{width:460px!important}
+  }`;
   document.head.appendChild(s);
   window.print();
   setTimeout(() => { const el = document.getElementById('__tab'); if (el) el.remove(); }, 800);
