@@ -51,8 +51,9 @@ body {
   cursor: pointer;
   border: none;
 }
-.btn-print { background: var(--black); color: var(--white); }
-.btn-urls  { background: var(--green); color: var(--black); }
+.btn-print   { background: var(--black); color: var(--white); }
+.btn-urls    { background: var(--green); color: var(--black); }
+.btn-tabloid { background: #444; color: var(--white); }
 
 /* ── PÁGINA — altura fija = proporciones carta ── */
 .page {
@@ -660,7 +661,8 @@ body {
 
 <div class="toolbar">
   <button class="toolbar-btn btn-urls" onclick="showUrls()">Ver URLs</button>
-  <button class="toolbar-btn btn-print" onclick="window.print()">Imprimir / PDF</button>
+  <button class="toolbar-btn btn-print" onclick="printLetter()">Imprimir Carta</button>
+  <button class="toolbar-btn btn-tabloid" onclick="printTabloide()">Imprimir Tabloide</button>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -910,6 +912,26 @@ body {
 </div><!-- /HOJA 2 -->
 
 <script>
+function printLetter() {
+  window.print();
+}
+
+function printTabloide() {
+  /* Tabloide: 11"×17" — zoom 1.65 llena 11" de ancho (640×1.65=1056px=11") */
+  const s = document.createElement('style');
+  s.id = '__tab';
+  s.textContent = [
+    '@media print{',
+    '@page{size:tabloid portrait;margin:0}',
+    'body{zoom:1.65!important}',
+    '.page{height:989px!important}',  /* 640×(17/11)=989px — llena la hoja */
+    '}'
+  ].join('');
+  document.head.appendChild(s);
+  window.print();
+  setTimeout(() => { const el = document.getElementById('__tab'); if (el) el.remove(); }, 800);
+}
+
 function showUrls() {
   alert(
     'URLs de los QR:\n\n' +
