@@ -124,13 +124,21 @@ body {
   text-transform: uppercase; color: var(--green); margin-bottom: 10px;
 }
 .hero-title-1 {
-  font-weight: 900; font-size: 52px; line-height: 1;
+  font-weight: 900; font-size: 48px; line-height: 1;
   letter-spacing: -2px; color: var(--black); margin-bottom: 6px;
 }
 .hero-title-1 span { color: var(--green); }
 .hero-sub-1 {
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 20px; color: var(--gray3);
+  font-style: italic; font-size: 17px; color: var(--gray3);
+  line-height: 1.4; margin-bottom: 0;
+}
+.hero-price {
+  display: inline-block;
+  background: var(--green); color: var(--black);
+  font-size: 13px; font-weight: 800;
+  padding: 5px 18px; border-radius: 20px;
+  margin-top: 10px; letter-spacing: 0.3px;
 }
 
 /* ── MOCKUPS ── */
@@ -465,19 +473,18 @@ body {
 
 /* ── FEATURES STRIP ── */
 .features-1 {
-  display: grid; grid-template-columns: repeat(4,1fr);
+  display: grid; grid-template-columns: repeat(5,1fr);
   border-top: 1px solid var(--gray2);
   background: var(--gray);
   margin-top: auto;
 }
 .feat-1 {
-  padding: 14px 8px; text-align: center;
+  padding: 10px 6px; text-align: center;
   border-right: 1px solid var(--gray2);
 }
 .feat-1:last-child { border-right: none; }
-.feat-icon-1 { font-size: 22px; display: block; margin-bottom: 5px; }
-.feat-num { font-size: 18px; font-weight: 900; color: var(--black); display: block; }
-.feat-label { font-size: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray3); }
+.feat-icon-1 { font-size: 18px; display: block; margin-bottom: 4px; }
+.feat-label { font-size: 8px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--gray3); line-height: 1.4; }
 
 /* ══════════════════════════════
    HOJA 2
@@ -676,9 +683,10 @@ body {
 
   <!-- Hero -->
   <div class="hero-1">
-    <p class="hero-eyebrow">Invitaciones digitales · Para cualquier ocasión</p>
-    <h1 class="hero-title-1">Tu evento,<br/><span>en su bolsillo</span></h1>
-    <p class="hero-sub-1">Bodas · XV Años · Graduaciones · Cumpleaños</p>
+    <p class="hero-eyebrow">XV años · Bodas · Graduaciones · Cumpleaños</p>
+    <h1 class="hero-title-1">Invitaciones<br/><span>digitales</span></h1>
+    <p class="hero-sub-1">¿Ya tienes tu vestido? Sorprende a tus invitados<br/>con una invitación digital elegante.</p>
+    <div class="hero-price">Desde $799 MXN</div>
   </div>
 
   <!-- Mockups -->
@@ -734,27 +742,27 @@ body {
 
   </div>
 
-  <!-- Features -->
+  <!-- Features / Benefits -->
   <div class="features-1">
     <div class="feat-1">
-      <span class="feat-icon-1">🎟</span>
-      <span class="feat-num">1</span>
-      <span class="feat-label">QR por invitado</span>
+      <span class="feat-icon-1">✅</span>
+      <span class="feat-label">Confirmación<br/>de asistencia</span>
     </div>
     <div class="feat-1">
-      <span class="feat-icon-1">⚡</span>
-      <span class="feat-num">Real</span>
-      <span class="feat-label">Tiempo real</span>
+      <span class="feat-icon-1">🎟</span>
+      <span class="feat-label">QR único<br/>por invitado</span>
+    </div>
+    <div class="feat-1">
+      <span class="feat-icon-1">🎁</span>
+      <span class="feat-label">Mesa de<br/>regalos</span>
+    </div>
+    <div class="feat-1">
+      <span class="feat-icon-1">📍</span>
+      <span class="feat-label">Ubicación<br/>y mapas</span>
     </div>
     <div class="feat-1">
       <span class="feat-icon-1">📱</span>
-      <span class="feat-num">100%</span>
-      <span class="feat-label">Desde el celular</span>
-    </div>
-    <div class="feat-1">
-      <span class="feat-icon-1">✅</span>
-      <span class="feat-num">Sin</span>
-      <span class="feat-label">Apps que instalar</span>
+      <span class="feat-label">Todo desde<br/>tu celular</span>
     </div>
   </div>
 
@@ -834,8 +842,8 @@ body {
   <!-- Contacto -->
   <div class="contact-section">
     <div class="contact-left">
-      <div class="contact-headline">¿Te interesa?<br/><span>Escríbeme</span> ahora</div>
-      <div class="contact-tagline">Cotización sin costo · Respuesta en minutos</div>
+      <div class="contact-headline">¿Organizas un evento?<br/><span>Solicita tu demo</span> gratis</div>
+      <div class="contact-tagline">Escanea · Sin costo · Respuesta en minutos</div>
 
       <div class="social-list">
         <div class="social-item">
