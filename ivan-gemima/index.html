@@ -1550,6 +1550,7 @@ async function openEnvelope() {
     checkExistingRSVP();
     const btn = document.getElementById('music-btn');
     btn.style.display = 'flex';
+    musicAudio.play().catch(() => {});
     updateMusicBtn();
     initScrollReveal();
   }));
