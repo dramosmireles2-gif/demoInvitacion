@@ -462,15 +462,15 @@ body::before {
 }
 .timeline-content { flex: 1; padding-top: 4px; }
 .timeline-time {
-  font-family: 'Cormorant SC', serif; font-size: 11px;
-  letter-spacing: 3px; color: var(--gold); display: block; margin-bottom: 2px;
+  font-family: 'Cormorant SC', serif; font-size: 14px;
+  letter-spacing: 3px; color: var(--gold); display: block; margin-bottom: 3px;
 }
 .timeline-label {
-  font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 400;
-  color: var(--text); display: block; margin-bottom: 2px;
+  font-family: 'Jost', sans-serif; font-size: 17px; font-weight: 400;
+  color: var(--text); display: block; margin-bottom: 3px;
 }
 .timeline-place {
-  font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 400;
+  font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 400;
   letter-spacing: 0.5px; color: var(--text-2);
 }
 
@@ -487,7 +487,7 @@ body::before {
   overflow: hidden; margin-bottom: 16px;
 }
 .location-card-label {
-  font-family: 'Cormorant SC', serif; font-size: 10px;
+  font-family: 'Cormorant SC', serif; font-size: 13px;
   letter-spacing: 4px; color: var(--gold);
   text-transform: uppercase; text-align: center;
   padding: 14px 20px 0;
@@ -507,16 +507,16 @@ body::before {
   text-align: center;
 }
 .location-card-name {
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px;
-  color: var(--text); display: block; margin-bottom: 4px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 26px;
+  color: var(--text); display: block; margin-bottom: 6px;
 }
 .location-card-address {
-  font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 400;
+  font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 400;
   letter-spacing: 0.5px; color: var(--text-2);
   line-height: 1.5; display: block; margin-bottom: 10px;
 }
 .location-card-time {
-  font-family: 'Cormorant SC', serif; font-size: 13px;
+  font-family: 'Cormorant SC', serif; font-size: 16px;
   letter-spacing: 3px; color: var(--gold); display: block;
   margin-bottom: 14px;
 }
@@ -526,7 +526,7 @@ body::before {
   background: var(--gold-dark);
   border: none;
   border-radius: 40px;
-  font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 400;
+  font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 400;
   letter-spacing: 2px; text-transform: uppercase;
   color: white; cursor: pointer;
   transition: opacity 0.2s, transform 0.15s; text-decoration: none;
@@ -1215,12 +1215,13 @@ body::before {
 
     <!-- Card Iglesia -->
     <div class="location-card">
-      <p class="location-card-label">Ceremonia Religiosa · Por confirmar</p>
+      <p class="location-card-label">Civil & Ceremonia Religiosa</p>
       <div class="location-card-photo">
         <img src="../plantillas/Iglesia.png" alt="Aposento Alto" loading="lazy"/>
       </div>
       <div class="location-card-body">
         <span class="location-card-name">Aposento Alto</span>
+        <span class="location-card-time">5:00 pm · Civil &nbsp;|&nbsp; 6:00 pm · Religiosa</span>
         <span class="location-card-address">C. Insurgentes 418, Chapultepec, San Nicolás de los Garza, N.L.</span>
         <a class="location-directions-btn" href="https://maps.app.goo.gl/enaa51eixmTVXXjJA" target="_blank">
           <svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cómo llegar
@@ -1238,9 +1239,10 @@ body::before {
 
     <!-- Card Salón -->
     <div class="location-card">
-      <p class="location-card-label">Recepción · Por confirmar</p>
+      <p class="location-card-label">Recepción</p>
       <div class="location-card-body">
         <span class="location-card-name">Crown Eventos Plaza Andenes</span>
+        <span class="location-card-time">8:00 pm</span>
         <a class="location-directions-btn" id="venue-directions" href="https://maps.google.com/?q=CROWN+EVENTOS+Plaza+Andenes+Monterrey" target="_blank">
           <svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cómo llegar
         </a>
