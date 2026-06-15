@@ -641,16 +641,15 @@ body::before {
 }
 
 /* ── GALERÍA DE NOVIOS ── */
-.inv-gallery { width: 100%; max-width: 480px; padding: 0 16px 40px; animation: fade-up 1s 0.8s both; }
+.inv-gallery { width: 100%; max-width: 480px; padding: 0 16px 56px; animation: fade-up 1s 0.8s both; }
 .gallery-empty {
   text-align: center; padding: 32px 16px;
   font-family: 'Montserrat', sans-serif; font-size: 12px; color: var(--text-2);
 }
-/* Gallery Grid — esquema 2 columnas con foto grande y span */
 .gallery-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
 }
 .gallery-item {
   overflow: hidden;
@@ -658,6 +657,7 @@ body::before {
   cursor: pointer;
   position: relative;
   border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(13,74,43,0.07);
   display: block;
 }
 .gallery-item img {
@@ -671,18 +671,10 @@ body::before {
   background: rgba(0,0,0,0); transition: background 0.3s;
 }
 .gallery-item:hover .gallery-overlay { background: rgba(0,0,0,0.15); }
+.gallery-item.gallery-full  { grid-column: span 6; aspect-ratio: 4/3; }
+.gallery-item.gallery-third { grid-column: span 2; aspect-ratio: 1/1; }
+.gallery-item.gallery-half  { grid-column: span 3; aspect-ratio: 1/1; }
 
-/* Layout narrativo — 10 fotos */
-.gallery-item:nth-child(1) { grid-column: 1; grid-row: span 2; aspect-ratio: 3/4; }
-.gallery-item:nth-child(2) { aspect-ratio: 4/3; }
-.gallery-item:nth-child(3) { aspect-ratio: 4/3; }
-.gallery-item:nth-child(4) { grid-column: span 2; aspect-ratio: 16/9; }
-.gallery-item:nth-child(5),
-.gallery-item:nth-child(6) { aspect-ratio: 1/1; }
-.gallery-item:nth-child(7) { grid-column: span 2; aspect-ratio: 16/7; }
-.gallery-item:nth-child(8) { aspect-ratio: 4/3; }
-.gallery-item:nth-child(9) { grid-column: 2; grid-row: span 2; aspect-ratio: 3/4; }
-.gallery-item:nth-child(10){ aspect-ratio: 4/3; }
 
 /* Lightbox */
 #lightbox {
@@ -1472,16 +1464,16 @@ const WEDDING_CONFIG = {
   music: '../musica.mp3',
 
   gallery: [
-    './foto-005.jpeg',
-    './foto-001.jpeg',
-    './foto-009.jpeg',
-    './foto-003.jpeg',
-    './foto-002.jpeg',
-    './foto-004.jpeg',
-    './foto-010.jpeg',
-    './foto-008.jpeg',
-    './foto-006.jpeg',
-    './foto-007.jpeg',
+    './foto-005.jpeg',  // 0 full — bosque/cascada feature
+    './foto-001.jpeg',  // 1 third
+    './foto-009.jpeg',  // 2 third — atardecer
+    './foto-003.jpeg',  // 3 third — noche catedral
+    './foto-002.jpeg',  // 4 full — campo lavanda
+    './foto-010.jpeg',  // 5 half — Cartagena
+    './foto-004.jpeg',  // 6 half — restaurante
+    './foto-008.jpeg',  // 7 full — evento elegante
+    './foto-006.jpeg',  // 8 half — compromiso
+    './foto-007.jpeg',  // 9 half — flores
   ],
 
   gifts: {
@@ -1703,12 +1695,12 @@ function buildGallery() {
   }
   if (emptyEl) emptyEl.style.display = 'none';
   const grid = document.getElementById('gallery-grid');
-  grid.innerHTML = galleryImages.map((src, i) => `
-    <div class="gallery-item" onclick="openLightbox(${i})">
-      <img src="${src}" alt="Foto ${i+1}" loading="lazy" decoding="async"/>
-      <div class="gallery-overlay"></div>
-    </div>
-  `).join('');
+  // Layout: full | third third third | full | half half | full | half half
+  const spans = ['full','third','third','third','full','half','half','full','half','half'];
+  grid.innerHTML = galleryImages.map((src, i) => {
+    const cls = spans[i] || 'half';
+    return `<div class="gallery-item gallery-${cls}" onclick="openLightbox(${i})"><img src="${src}" alt="Foto ${i+1}" loading="lazy" decoding="async"/><div class="gallery-overlay"></div></div>`;
+  }).join('');
 }
 
 function openLightbox(index) {
