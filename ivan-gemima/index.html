@@ -28,10 +28,20 @@
 .svg-icon { display:inline-block; vertical-align:middle; flex-shrink:0; }
 
 /* Scrollbar personalizado */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 4px; }
-::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, rgba(201,164,106,0.4), rgba(223,192,144,0.7)); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, rgba(201,164,106,0.7), rgba(223,192,144,1)); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #B9955A, #DFC090, #B9955A); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, #C9A46A, #EFD0A0, #C9A46A); }
+
+/* Barra de progreso de lectura */
+#read-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(to right, #B9955A, #DFC090, #C9A46A);
+  z-index: 9999;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 8px rgba(201,164,106,0.6);
+  pointer-events: none;
+}
 
 :root {
   --bg:           #0C0B09;
@@ -1110,6 +1120,7 @@ body::before {
 </style>
 </head>
 <body>
+<div id="read-progress"></div>
 
 <!-- CANVAS PARTÍCULAS FLOTANTES -->
 <canvas id="aurora-canvas"></canvas>
@@ -2134,6 +2145,16 @@ function initScrollReveal() {
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 }
+
+/* Barra de progreso de lectura */
+(function() {
+  const bar = document.getElementById('read-progress');
+  window.addEventListener('scroll', function() {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
