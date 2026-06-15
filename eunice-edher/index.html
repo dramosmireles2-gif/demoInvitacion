@@ -672,19 +672,17 @@ body::before {
 }
 .gallery-item:hover .gallery-overlay { background: rgba(0,0,0,0.15); }
 
-/* Foto 1 — horizontal full width */
-.gallery-item:nth-child(1) { grid-column: span 2; aspect-ratio: 16/9; }
-/* Foto 2 — izquierda, portrait */
-.gallery-item:nth-child(2) { aspect-ratio: 3/4; }
-/* Foto 3 — derecha, ocupa 2 filas (tall) */
-.gallery-item:nth-child(3) { grid-column: 2; grid-row: span 2; }
-/* Foto 4 — izquierda, debajo de foto 2 */
-.gallery-item:nth-child(4) { aspect-ratio: 3/4; }
-/* Fotos 5 y 6 — cuadradas, lado a lado */
+/* Layout narrativo — 10 fotos */
+.gallery-item:nth-child(1) { grid-column: 1; grid-row: span 2; aspect-ratio: 3/4; }
+.gallery-item:nth-child(2) { aspect-ratio: 4/3; }
+.gallery-item:nth-child(3) { aspect-ratio: 4/3; }
+.gallery-item:nth-child(4) { grid-column: span 2; aspect-ratio: 16/9; }
 .gallery-item:nth-child(5),
 .gallery-item:nth-child(6) { aspect-ratio: 1/1; }
-/* Foto 7 — horizontal full width final */
 .gallery-item:nth-child(7) { grid-column: span 2; aspect-ratio: 16/7; }
+.gallery-item:nth-child(8) { aspect-ratio: 4/3; }
+.gallery-item:nth-child(9) { grid-column: 2; grid-row: span 2; aspect-ratio: 3/4; }
+.gallery-item:nth-child(10){ aspect-ratio: 4/3; }
 
 /* Lightbox */
 #lightbox {
@@ -1031,6 +1029,54 @@ body::before {
 .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.16s; opacity:1; transform:none; }
 .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.24s; opacity:1; transform:none; }
 
+/* ── RSVP IMPORTANCE NOTE ── */
+.rsvp-importance-note {
+  background: linear-gradient(135deg, rgba(13,74,43,0.03), rgba(196,163,90,0.05));
+  border: 1px solid rgba(196,163,90,0.28);
+  border-radius: 16px;
+  padding: 24px 20px 20px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.rsvp-importance-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+.rsvp-deadline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.rsvp-deadline-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.rsvp-deadline-date {
+  font-family: 'Cormorant SC', serif;
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--green);
+}
+
+/* ── SECTION SPACING PREMIUM ── */
+.inv-timeline   { padding-bottom: 56px; }
+.inv-locations  { padding-bottom: 56px; }
+.inv-gallery    { padding-bottom: 56px; }
+.inv-gifts      { padding-top: 56px; padding-bottom: 56px; }
+.gallery-grid   { gap: 8px; }
+.gallery-item   { box-shadow: 0 2px 12px rgba(13,74,43,0.07); }
+.inv-date-block { margin: 32px auto; }
+.inv-countdown-wrap { padding: 28px 16px 16px; }
+
 /* ── RESPONSIVE TWEAKS ── */
 @media (max-width:480px) {
   .countdown-item { padding: 14px 6px; }
@@ -1307,8 +1353,16 @@ body::before {
 
     <!-- Bloque RSVP -->
     <div class="inv-rsvp-block">
-      <p class="rsvp-title">Confirmar Asistencia</p>
-      <p class="rsvp-sub">Antes del 30 de Noviembre · 2026</p>
+      <p class="rsvp-title">Confirma tu asistencia</p>
+      <div class="rsvp-importance-note">
+        <p class="rsvp-importance-text">Tu confirmación es muy importante para nosotros. Para poder organizar este día tan especial, te pedimos confirmarla antes de la fecha indicada.</p>
+        <div class="rsvp-deadline">
+          <div class="prism-divider" style="margin-bottom:10px;"></div>
+          <span class="rsvp-deadline-label">Confirmaciones hasta el</span>
+          <span class="rsvp-deadline-date">30 de Noviembre · 2026</span>
+          <div class="prism-divider" style="margin-top:10px;"></div>
+        </div>
+      </div>
       <div id="rsvp-form">
         <div class="rsvp-options">
           <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')"><span class="rsvp-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>Asistiré</button>
@@ -1331,8 +1385,8 @@ body::before {
   <div class="inv-gifts reveal">
     <p class="section-label">Mesa de regalos</p>
     <div class="prism-divider" style="margin-bottom:20px;"></div>
-    <p class="gifts-main-msg" id="gifts-main-msg">El mejor regalo es que estés con nosotros</p>
-    <p class="gifts-sub-msg">Si deseas hacernos un detalle, con mucho cariño te compartimos nuestros datos:</p>
+    <p class="gifts-main-msg" id="gifts-main-msg">El mejor regalo es compartir este día con ustedes</p>
+    <p class="gifts-sub-msg">Pero si desean tener un detalle con nosotros, aquí encontrarán algunas opciones con mucho cariño:</p>
     <div class="bank-card" id="bank-card">
       <p class="bank-card-label">Transferencia bancaria</p>
       <p class="bank-card-name" id="bank-name">BBVA</p>
@@ -1417,7 +1471,18 @@ const WEDDING_CONFIG = {
 
   music: '../musica.mp3',
 
-  gallery: [],
+  gallery: [
+    './foto-005.jpeg',
+    './foto-001.jpeg',
+    './foto-009.jpeg',
+    './foto-003.jpeg',
+    './foto-002.jpeg',
+    './foto-004.jpeg',
+    './foto-010.jpeg',
+    './foto-008.jpeg',
+    './foto-006.jpeg',
+    './foto-007.jpeg',
+  ],
 
   gifts: {
     showBank:    true,
