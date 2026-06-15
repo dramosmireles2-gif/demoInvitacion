@@ -1127,30 +1127,9 @@ body::before {
   <div class="inv-locations reveal">
     <p class="section-label">Dónde nos encontramos</p>
 
-    <!-- Card Iglesia -->
-    <div class="location-card">
-      <p class="location-card-label">Ceremonia Religiosa · Por confirmar</p>
-      <div class="location-card-photo">
-        <img src="../plantillas/Iglesia.png" alt="Iglesia" loading="lazy"/>
-      </div>
-      <div class="location-card-body">
-        <span class="location-card-name" id="church-name">Por confirmar</span>
-        <span class="location-card-address" id="church-address">Dirección por confirmar</span>
-        <a class="location-directions-btn" id="church-directions" href="#" target="_blank">
-          <svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cómo llegar
-        </a>
-      </div>
-      <div id="church-map-container">
-        <div class="location-map-placeholder">
-          <span>📍</span>
-          <p>Ubicación por confirmar</p>
-        </div>
-      </div>
-    </div>
-
     <!-- Card Salón -->
     <div class="location-card">
-      <p class="location-card-label">Recepción · Por confirmar</p>
+      <p class="location-card-label">Ceremonia &amp; Recepción · Por confirmar</p>
       <div class="location-card-body">
         <span class="location-card-name">Por confirmar</span>
         <a class="location-directions-btn" id="venue-directions" href="#" target="_blank">
@@ -1328,8 +1307,7 @@ const WEDDING_CONFIG = {
   weddingDate: '2026-12-19T17:00:00',
 
   schedule: [
-    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FDFBF7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M8 10h.01M16 10h.01"/></svg>', label: 'Ceremonia religiosa', place: 'Por confirmar', time: 'Por confirmar' },
-    { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FDFBF7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M5 10h14M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/></svg>', label: 'Recepción',      place: 'Por confirmar', time: 'Por confirmar' },
+{ icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FDFBF7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M5 10h14M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/></svg>', label: 'Recepción',      place: 'Por confirmar', time: 'Por confirmar' },
     { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FDFBF7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', label: 'Baile y festejo', place: 'Por confirmar', time: 'Por confirmar' },
     { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FDFBF7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>', label: 'Cierre de fiesta', place: '', time: 'Por confirmar' },
   ],
