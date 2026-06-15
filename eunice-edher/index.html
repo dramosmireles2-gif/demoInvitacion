@@ -1032,10 +1032,19 @@ body::before {
 .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.24s; opacity:1; transform:none; }
 
 /* ── RESPONSIVE TWEAKS ── */
+@media (max-width:480px) {
+  .countdown-item { padding: 14px 6px; }
+  .countdown-num  { font-size: clamp(30px, 8.5vw, 44px); }
+  .countdown-unit { font-size: 10px; letter-spacing: 1px; }
+  .countdown-grid { gap: 6px; }
+}
 @media (max-width:360px) {
-  .countdown-num { font-size:28px; }
+  .countdown-item { padding: 12px 4px; }
+  .countdown-num  { font-size: clamp(26px, 7.5vw, 36px); }
+  .countdown-unit { font-size: 9px; letter-spacing: 0.5px; }
+  .countdown-grid { gap: 4px; }
   .dresscode-grid { grid-template-columns:1fr; }
-  .wishlist-grid { grid-template-columns:1fr; }
+  .wishlist-grid  { grid-template-columns:1fr; }
 }
 </style>
 </head>
