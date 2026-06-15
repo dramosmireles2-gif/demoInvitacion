@@ -2085,7 +2085,6 @@ function confirmAssign(tableId) {
 function initAdmin() {
   loadExtraGuests();
   loadTablesConfig();
-  buildEventForm();
   updateDeadlineCountdown();
 
   if (!db) {
@@ -2154,11 +2153,7 @@ function renderFallback() {
 }
 
 function updateCapacityBar(confirmedPases) {
-  const pct = Math.round((confirmedPases / VENUE_CAPACITY) * 100);
-  const avail = VENUE_CAPACITY - confirmedPases;
-  document.getElementById('capacity-text').textContent = confirmedPases + ' / ' + VENUE_CAPACITY + ' pases';
-  document.getElementById('capacity-fill').style.width = Math.min(pct, 100) + '%';
-  document.getElementById('capacity-sub').textContent  = avail + ' pases disponibles aún';
+  // elementos eliminados del UI — función mantenida para evitar errores en llamadas existentes
 }
 
 function renderDashboard(rsvpData) {
