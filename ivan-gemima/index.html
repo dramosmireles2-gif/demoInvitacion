@@ -348,7 +348,7 @@ body::before {
   display: flex; flex-direction: column; align-items: center;
 }
 .inv-header { width:100%; max-width:480px; padding:0; text-align:center; animation:fade-up 1s 0.2s both; }
-.inv-prelude { font-family:'Jost',sans-serif; font-size:11px; font-weight:400; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.75); margin-bottom:20px; }
+.inv-prelude { font-family:'Jost',sans-serif; font-size:14px; font-weight:400; letter-spacing:3px; text-transform:uppercase; color:var(--gold-light); margin-bottom:20px; }
 .inv-announce { display:none; }
 .inv-names { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(68px,17vw,96px); line-height:1; color:#fff; letter-spacing:-1px; animation:fade-up 1s 0.4s both; text-shadow:0 2px 24px rgba(0,0,0,0.35); }
 .inv-amp { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:38px; color:var(--gold-light); display:block; margin:6px 0; }
@@ -369,7 +369,7 @@ body::before {
 
 /* ── DATE + MINI CALENDAR ── */
 .inv-date-block { margin:20px auto; text-align:center; animation:fade-up 1s 0.6s both; max-width:480px; padding:0 24px; }
-.inv-date-main  { font-family:'Cormorant SC',serif; font-size:13px; letter-spacing:6px; color:var(--text-2); font-weight:400; display:block; margin-bottom:12px; }
+.inv-date-main  { font-family:'Cormorant SC',serif; font-size:16px; letter-spacing:6px; color:var(--text); font-weight:400; display:block; margin-bottom:12px; }
 .inv-date-nums  { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:var(--gold-dark); letter-spacing:8px; line-height:1; display:block; }
 .inv-date-year  { font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:6px; color:var(--text-2); display:block; margin-top:8px; }
 
@@ -1004,8 +1004,8 @@ body::before {
   position:relative; z-index:1;
 }
 .calendar-cta-sub {
-  font-family:'Jost',sans-serif; font-size:10px; letter-spacing:3px;
-  color:rgba(255,255,255,0.75); text-transform:uppercase; margin-bottom:20px;
+  font-family:'Jost',sans-serif; font-size:13px; letter-spacing:3px;
+  color:rgba(255,255,255,0.9); text-transform:uppercase; margin-bottom:20px;
   position:relative; z-index:1;
 }
 .calendar-cta-btns {
@@ -1034,7 +1034,7 @@ body::before {
 /* ── FOOTER ── */
 .inv-footer { margin-top: 16px; text-align: center; padding: 0 24px 12px; background: transparent; animation: fade-up 1s 1.4s both; }
 .inv-footer-names { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 28px; color: var(--text); margin-bottom: 6px; display: block; }
-.inv-footer-date  { font-family: 'Cormorant SC', serif; font-size: 12px; font-weight: 400; letter-spacing: 4px; color: var(--text-2); margin-bottom: 8px; display: block; }
+.inv-footer-date  { font-family: 'Cormorant SC', serif; font-size: 15px; font-weight: 400; letter-spacing: 4px; color: var(--text-2); margin-bottom: 8px; display: block; }
 .inv-footer-note  { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text-2); display: block; }
 
 /* ── SCROLL HINT ── */
@@ -1251,7 +1251,7 @@ body::before {
   <!-- 8. GALERÍA -->
   <!-- GALERÍA DE NOVIOS -->
   <div class="inv-gallery reveal" id="gallery-section">
-    <p class="section-label">Nuestra historia</p>
+    <p class="section-label">Momentos</p>
     <div class="prism-divider" style="margin-bottom:20px;"></div>
     <div class="gallery-grid" id="gallery-grid"></div>
     <div class="gallery-empty" id="gallery-empty" style="display:none;">
@@ -1314,7 +1314,7 @@ body::before {
     <p class="section-label">Mesa de regalos</p>
     <div class="prism-divider" style="margin-bottom:20px;"></div>
     <p class="gifts-main-msg" id="gifts-main-msg">El mejor regalo es que estés con nosotros</p>
-    <p class="gifts-sub-msg">Si deseas hacernos un detalle, con mucho cariño te compartimos nuestros datos:</p>
+    <p class="gifts-sub-msg">Si deseas hacernos un detalle, con mucho cariño te compartimos nuestra lista en Liverpool:</p>
     <div class="bank-card" id="bank-card">
       <p class="bank-card-label">Transferencia bancaria</p>
       <p class="bank-card-name" id="bank-name">BBVA</p>
@@ -1428,11 +1428,11 @@ const WEDDING_CONFIG = {
 
 
   gifts: {
-    showBank:    true,
+    showBank:    false,
     bankName:    'BBVA',
     bankClabe:   '000000000000000000',
     bankAlias:   '',
-    giftListUrl: '', // URL de tienda de regalos (vacío = ocultar botón)
+    giftListUrl: 'https://mesaderegalos.liverpool.com.mx/milistaderegalos/51868009',
   },
 
   // Solo visible con ?tipo=cumple en la URL
