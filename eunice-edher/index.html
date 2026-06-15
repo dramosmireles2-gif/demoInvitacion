@@ -566,6 +566,48 @@ body::before {
 /* Legacy: ocultar elementos sueltos anteriores si quedan */
 .inv-map-section, .venue-image-wrap { display: none !important; }
 
+/* ── DRESSCODE ── */
+.inv-dresscode {
+  width: calc(100% - 32px); max-width: 480px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 16px rgba(13,74,43,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+  padding: 32px 28px; text-align: center;
+}
+.dresscode-type {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 26px; color: var(--green); margin-bottom: 12px;
+}
+.dresscode-desc {
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 300;
+  color: var(--text-2); line-height: 1.8; margin-bottom: 24px;
+}
+.dresscode-swatches-wrap {
+  display: flex; justify-content: center; gap: 18px;
+  flex-wrap: wrap; margin-bottom: 32px;
+}
+.dresscode-swatch-item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.dresscode-swatch {
+  width: 34px; height: 34px; border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  border: 1.5px solid rgba(255,255,255,0.6);
+}
+.dresscode-swatch-label {
+  font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 400;
+  letter-spacing: 0.5px; color: var(--text-2); white-space: nowrap;
+}
+.dresscode-avoid {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(164,111,94,0.07);
+  border: 1px solid rgba(164,111,94,0.25);
+  border-radius: 30px; padding: 9px 20px;
+  font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--terra);
+}
+
 /* Venue image — DEPRECATED, now inside location-card */
 .venue-image-caption {
   font-family: 'Cormorant Garamond', serif; font-style: italic;
@@ -1181,6 +1223,47 @@ body::before {
     </p>
     <div class="prism-divider" style="margin-bottom:16px;"></div>
     <span class="punctuality-note-footer">Eunice &amp; Edher</span>
+  </div>
+
+  <!-- DRESSCODE -->
+  <div class="inv-dresscode reveal">
+    <p class="section-label">Código de Vestimenta</p>
+    <div class="prism-divider" style="margin-bottom:20px;"></div>
+    <p class="dresscode-type">Formal Elegante</p>
+    <p class="dresscode-desc">
+      Los invitamos a vestir de manera elegante y sofisticada.<br/>
+      Tonos tierra, verdes, azul marino, terracota, champagne y neutros son perfectos para esta celebración al aire libre.
+    </p>
+    <div class="dresscode-swatches-wrap">
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#0D4A2B;"></div>
+        <span class="dresscode-swatch-label">Verde bosque</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#183A63;"></div>
+        <span class="dresscode-swatch-label">Azul marino</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#A46F5E;"></div>
+        <span class="dresscode-swatch-label">Terracota</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#C4A35A;"></div>
+        <span class="dresscode-swatch-label">Champagne</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#2D7A50;"></div>
+        <span class="dresscode-swatch-label">Eucalipto</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#8B7355;"></div>
+        <span class="dresscode-swatch-label">Tierra</span>
+      </div>
+    </div>
+    <div class="dresscode-avoid">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+      Por favor evitar el blanco y tonos muy claros
+    </div>
   </div>
 
   <!-- Eucalyptus divider entre rsvp y gifts -->
