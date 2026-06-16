@@ -13,18 +13,18 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --cream: #f5f0e8;
-  --cream2: #ede6d6;
-  --parchment: #e8dfc8;
-  --gold: #b8976a;
-  --gold-light: #d4b896;
-  --gold-dark: #8a6d4a;
-  --text: #2c2416;
-  --text-light: #6b5a3e;
-  --white: #faf8f4;
-  --sidebar: #1e1810;
-  --sidebar2: #150f09;
-  --green: #5a8a6e;
+  --cream: #F5F1E8;
+  --cream2: #EDE8DC;
+  --parchment: #E0D9C8;
+  --gold: #C4A35A;
+  --gold-light: #D4B483;
+  --gold-dark: #A88340;
+  --text: #1C2B1A;
+  --text-light: #5A6858;
+  --white: #FDFBF7;
+  --sidebar: #0B3D22;
+  --sidebar2: #071A0F;
+  --green: #1A6B40;
   --red: #a85a5a;
   --yellow: #b89650;
 }
@@ -49,7 +49,7 @@ body {
   font-weight: 400;
   font-size: 14px;
   background: var(--cream);
-  background-image: radial-gradient(circle, rgba(184,151,106,0.09) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(196,163,90,0.09) 1px, transparent 1px);
   background-size: 24px 24px;
   color: var(--text);
   display: flex;
@@ -68,7 +68,7 @@ body {
   align-items: center;
   gap: 10px;
   background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-  color: #faf8f4;
+  color: #FDFBF7;
   padding: 12px 20px;
   border-radius: 4px;
   font-size: 13px;
@@ -99,7 +99,7 @@ body {
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(184,151,106,0.2) transparent;
+  scrollbar-color: rgba(196,163,90,0.2) transparent;
 }
 
 .sidebar-brand {
@@ -141,7 +141,7 @@ body {
 .brand-date {
   font-size: 11px;
   letter-spacing: 1px;
-  color: rgba(184,151,106,0.6);
+  color: rgba(196,163,90,0.6);
   margin-top: 8px;
   display: block;
 }
@@ -174,7 +174,7 @@ body {
 .nav-item.active {
   color: var(--gold-light);
   border-left-color: var(--gold);
-  background: rgba(184,151,106,0.09);
+  background: rgba(196,163,90,0.09);
 }
 
 .nav-icon {
@@ -1100,19 +1100,19 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
 <!-- TOAST -->
 <div id="toast">
-  <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#faf8f4;stroke-width:2.5;fill:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#FDFBF7;stroke-width:2.5;fill:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
   <span id="toast-msg">Enlace copiado</span>
 </div>
 
 <!-- AUTH OVERLAY -->
-<div id="auth-overlay" style="position:fixed;inset:0;background:linear-gradient(160deg,#150f09 0%,#1e1810 60%,#0d0a06 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:32px;">
+<div id="auth-overlay" style="position:fixed;inset:0;background:linear-gradient(160deg,#071A0F 0%,#0B3D22 60%,#051510 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:32px;">
   <!-- Watermark -->
   <div aria-hidden="true" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;user-select:none;">
-    <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(100px,22vw,200px);color:rgba(184,151,106,0.05);line-height:1;white-space:nowrap;">E &amp; E</span>
+    <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(100px,22vw,200px);color:rgba(196,163,90,0.05);line-height:1;white-space:nowrap;">E &amp; E</span>
   </div>
 
   <div style="text-align:center;position:relative;">
-    <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(184,151,106,0.5);display:block;margin-bottom:12px;">RMKT Web &amp; Apps</span>
+    <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(196,163,90,0.5);display:block;margin-bottom:12px;">RMKT Web &amp; Apps</span>
     <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:38px;color:var(--gold-light);display:block;line-height:1.1;">Eunice &amp; Edher</span>
     <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:10px;display:block;">Panel de administración</span>
   </div>
@@ -1120,13 +1120,13 @@ body.sidebar-open .sidebar-overlay { display: block; }
   <div style="width:300px;display:flex;flex-direction:column;gap:10px;position:relative;">
     <div style="position:relative;">
       <input id="auth-input" type="password" placeholder="Contraseña de acceso"
-        style="width:100%;padding:14px 16px;border:1px solid rgba(184,151,106,0.25);border-radius:3px;background:rgba(255,255,255,0.04);font-family:'DM Sans',sans-serif;font-size:14px;color:#faf8f4;outline:none;letter-spacing:1.5px;transition:border-color 0.2s;caret-color:var(--gold);"
-        onfocus="this.style.borderColor='rgba(184,151,106,0.6)'"
-        onblur="this.style.borderColor='rgba(184,151,106,0.25)'"
+        style="width:100%;padding:14px 16px;border:1px solid rgba(196,163,90,0.25);border-radius:3px;background:rgba(255,255,255,0.04);font-family:'DM Sans',sans-serif;font-size:14px;color:#FDFBF7;outline:none;letter-spacing:1.5px;transition:border-color 0.2s;caret-color:var(--gold);"
+        onfocus="this.style.borderColor='rgba(196,163,90,0.6)'"
+        onblur="this.style.borderColor='rgba(196,163,90,0.25)'"
         onkeydown="if(event.key==='Enter')checkAuth()" autofocus />
     </div>
     <button onclick="checkAuth()"
-      style="padding:14px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#faf8f4;cursor:pointer;transition:opacity 0.2s;"
+      style="padding:14px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#FDFBF7;cursor:pointer;transition:opacity 0.2s;"
       onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
       Ingresar
     </button>
@@ -1205,8 +1205,8 @@ body.sidebar-open .sidebar-overlay { display: block; }
   <div class="content">
 
     <!-- BANNER -->
-    <div style="background:linear-gradient(135deg,#3a2810,#6b4a28);border:1px solid rgba(184,151,106,0.25);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
-      <div style="width:36px;height:36px;background:rgba(184,151,106,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
+    <div style="background:linear-gradient(135deg,#0D3A20,#1A6B40);border:1px solid rgba(196,163,90,0.25);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
+      <div style="width:36px;height:36px;background:rgba(196,163,90,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
         <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--gold-light);stroke-width:1.75;fill:none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
       <div>
@@ -1545,7 +1545,7 @@ const DESIGNS = [
   { file: 'invitacion-celestial.html', label: 'Celestial',      palette: ['#7b68ee','#1a1a2e','#e8d8f8'] },
   { file: 'invitacion-cine.html',      label: 'Cine',           palette: ['#d4a84b','#1a1a1a','#f0e8d0'] },
   { file: 'invitacion-cristal.html',   label: 'Cristal',        palette: ['#a8d4e8','#2a4a5a','#f0f8ff'] },
-  { file: 'invitacion-oscura.html',    label: 'Oscura',         palette: ['#b8976a','#0d0a06','#2c2416'] },
+  { file: 'invitacion-oscura.html',    label: 'Oscura',         palette: ['#C4A35A','#071A0F','#1C2B1A'] },
   { file: 'invitacion-marmol.html',    label: 'Mármol',         palette: ['#c8c0b8','#1a1a1a','#f5f2ee'] },
 ];
 
