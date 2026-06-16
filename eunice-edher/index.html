@@ -1427,7 +1427,7 @@ body::before {
       <div class="env-orn-line env-orn-line-r" style="max-width:44px;"></div>
     </div>
     <p class="env-date">19 &nbsp;|&nbsp; Diciembre &nbsp;|&nbsp; 2026</p>
-    <p class="env-place">Santa Teresita, Veracruz</p>
+    <p class="env-place">Córdoba, Veracruz</p>
     <!-- Mini countdown -->
     <div class="env-cd-strip">
       <div class="env-cd-item">
@@ -1466,7 +1466,7 @@ body::before {
       <div class="inv-names" style="animation:fade-up 1s 0.35s both;">Eunice<span class="inv-amp">&amp;</span>Edher</div>
       <p class="inv-hero-quote">Nos encantaría compartir este momento tan especial contigo</p>
       <div class="inv-hero-separator"></div>
-      <p class="inv-hero-location" style="animation:fade-up 1s 0.5s both;">Santa Teresita · Veracruz</p>
+      <p class="inv-hero-location" style="animation:fade-up 1s 0.5s both;">Córdoba · Veracruz</p>
     </div>
     <div class="inv-hero-scroll" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1765,7 +1765,7 @@ const WEDDING_CONFIG = {
 
   church: {
     name:     'Finca Santa Lucía',
-    address:  'Veracruz, México',
+    address:  'Córdoba, Veracruz',
     mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d471.7663112341611!2d-96.9723462520965!3d18.92561741947215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c4e5fa7d42037b%3A0x271b33ceb79711d7!2sFinca%20Santa%20Lucia!5e0!3m2!1ses!2smx!4v1781493582391!5m2!1ses!2smx',
     mapsLink: 'https://www.google.com/maps?q=18.92561741947215,-96.9723462520965',
   },
@@ -2150,7 +2150,7 @@ function buildCalendarCTA() {
   const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
     + '&text=Boda+Eunice+%26+Edher'
     + `&dates=${startStr}/${dateStr}T230000`
-    + '&location=Santa+Teresita%2C+Veracruz'
+    + '&location=C%C3%B3rdoba%2C+Veracruz'
     + '&details=¡Los+esperamos+con+mucho+cariño!';
   document.getElementById('cal-google').href = googleUrl;
 }
@@ -2169,7 +2169,7 @@ function downloadICS(provider) {
     `DTEND:${dateStr}T230000`,
     'SUMMARY:Boda Eunice & Edher',
     'DESCRIPTION:¡Los esperamos con mucho cariño!',
-    'LOCATION:Santa Teresita\\, Veracruz',
+    'LOCATION:Córdoba\\, Veracruz',
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n');
