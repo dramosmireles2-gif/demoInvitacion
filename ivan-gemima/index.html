@@ -855,13 +855,13 @@ body::before {
 .inv-gifts { width: 100%; max-width: 480px; padding: 48px 24px 40px; animation: fade-up 1s 0.8s both; }
 .gifts-main-msg {
   font-family: 'Cormorant Garamond', serif; font-style: italic;
-  font-size: 24px; color: var(--text); text-align: center;
-  line-height: 1.5; margin-bottom: 20px;
+  font-size: 28px; color: var(--white); text-align: center;
+  line-height: 1.4; margin-bottom: 16px; font-weight: 600;
 }
 .gifts-sub-msg {
-  font-family: 'Jost', sans-serif; font-size: 14px;
-  letter-spacing: 1px; color: var(--text-2);
-  text-align: center; margin-bottom: 24px; line-height: 1.7;
+  font-family: 'Jost', sans-serif; font-size: 16px;
+  letter-spacing: 0.5px; color: var(--text);
+  text-align: center; margin-bottom: 28px; line-height: 1.7;
 }
 .bank-card {
   background: var(--glass);
@@ -905,15 +905,16 @@ body::before {
   letter-spacing: 1px; color: var(--text-2); margin-top: 4px;
 }
 .gift-list-btn {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; margin-top: 14px; padding: 15px;
-  background: transparent; border: 1px solid rgba(201,164,106,0.5);
-  border-radius: 40px; font-family: 'Jost', sans-serif;
-  font-size: 14px; letter-spacing: 2px; color: var(--gold-dark);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; margin-top: 14px; padding: 18px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  border: none; border-radius: 40px; font-family: 'Jost', sans-serif;
+  font-size: 16px; font-weight: 600; letter-spacing: 2px; color: #fff;
   cursor: pointer; text-decoration: none;
-  transition: opacity 0.2s, transform 0.15s;
+  box-shadow: 0 4px 20px rgba(201,164,106,0.35);
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
 }
-.gift-list-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.gift-list-btn:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,164,106,0.5); }
 
 /* ── LLUVIA DE SOBRES ── */
 .inv-lluvia {
@@ -925,11 +926,11 @@ body::before {
 }
 .lluvia-title {
   font-family: 'Cormorant Garamond', serif; font-style: italic;
-  font-size: 26px; color: var(--text); margin-bottom: 10px;
+  font-size: 30px; font-weight: 600; color: var(--white); margin-bottom: 12px;
 }
 .lluvia-msg {
-  font-family: 'Jost', sans-serif; font-size: 14px;
-  color: var(--text-2); line-height: 1.7; margin-bottom: 0;
+  font-family: 'Jost', sans-serif; font-size: 16px;
+  color: var(--text); line-height: 1.7; margin-bottom: 0;
 }
 
 /* ── WISHLIST (cumpleaños) ── */
