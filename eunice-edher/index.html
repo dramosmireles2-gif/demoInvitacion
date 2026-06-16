@@ -616,7 +616,7 @@ body::before {
   box-shadow:0 2px 16px rgba(13,74,43,0.06);
   padding:28px 24px 24px;
 }
-.no-kids-icon { font-size:38px; margin-bottom:14px; display:block; }
+.no-kids-icon { margin-bottom:14px; display:flex; justify-content:center; }
 .no-kids-text { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:17px; color:var(--text); line-height:1.6; margin-bottom:10px; }
 .no-kids-note { font-family:'Montserrat',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--terra); }
 
@@ -1617,12 +1617,26 @@ body::before {
     </div>
   </div>
 
+  <!-- Eucalyptus divider entre dresscode y sin niños -->
+  <div class="eucalyptus-divider reveal" style="margin:24px 0;">
+    <svg viewBox="0 0 200 40" width="160" height="32" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.35"><line x1="0" y1="20" x2="68" y2="20" stroke="#0D4A2B" stroke-width="0.8"/><g transform="translate(100,20)"><line x1="-28" y1="0" x2="28" y2="0" stroke="#0D4A2B" stroke-width="0.8"/><ellipse cx="-18" cy="-7" rx="7" ry="4" fill="#2D7A50" transform="rotate(-30,-18,-7)"/><ellipse cx="-8" cy="-10" rx="7" ry="4" fill="#2D7A50" transform="rotate(-15,-8,-10)"/><ellipse cx="4" cy="-9" rx="7" ry="4" fill="#2D7A50" transform="rotate(10,4,-9)"/><ellipse cx="16" cy="-6" rx="6" ry="3.5" fill="#2D7A50" transform="rotate(28,16,-6)"/><ellipse cx="-20" cy="7" rx="6" ry="3.5" fill="#1A6B40" transform="rotate(30,-20,7)"/><ellipse cx="-10" cy="10" rx="6" ry="3.5" fill="#1A6B40" transform="rotate(15,-10,10)"/><ellipse cx="2" cy="10" rx="6" ry="3.5" fill="#1A6B40" transform="rotate(-10,2,10)"/><ellipse cx="14" cy="7" rx="6" ry="3.5" fill="#1A6B40" transform="rotate(-28,14,7)"/></g><line x1="132" y1="20" x2="200" y2="20" stroke="#0D4A2B" stroke-width="0.8"/></svg>
+  </div>
+
   <!-- SIN NIÑOS -->
   <div class="inv-no-kids reveal">
     <p class="section-label">Evento para adultos</p>
     <div class="prism-divider" style="margin-bottom:20px;"></div>
     <div class="no-kids-card">
-      <span class="no-kids-icon">🚫👶</span>
+      <span class="no-kids-icon">
+        <svg viewBox="0 0 64 64" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- silueta bebé -->
+          <circle cx="32" cy="14" r="7" fill="#C4A35A" opacity="0.55"/>
+          <path d="M20 42 C20 30 44 30 44 42 L44 50 C44 52 42 54 40 54 L24 54 C22 54 20 52 20 50 Z" fill="#C4A35A" opacity="0.45"/>
+          <!-- círculo prohibición -->
+          <circle cx="32" cy="32" r="26" stroke="#A85A5A" stroke-width="2.5" opacity="0.75"/>
+          <line x1="13.6" y1="13.6" x2="50.4" y2="50.4" stroke="#A85A5A" stroke-width="2.5" opacity="0.75" stroke-linecap="round"/>
+        </svg>
+      </span>
       <p class="no-kids-text">Por la naturaleza de nuestra celebración, les pedimos amablemente que sea un evento exclusivo para adultos.</p>
       <p class="no-kids-note">Agradecemos su comprensión</p>
     </div>
