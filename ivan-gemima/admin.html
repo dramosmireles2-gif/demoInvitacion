@@ -506,7 +506,7 @@ body {
 }
 
 /* ── GUEST TABLE ── */
-.guest-table { width: 100%; border-collapse: collapse; }
+.guest-table { width: 100%; min-width: 720px; border-collapse: collapse; }
 
 .guest-table th {
   text-align: left;
@@ -1754,7 +1754,7 @@ function toggleEnviado(key) {
       db.collection('guests').doc(key).set(g).catch(() => {});
     });
   }
-  renderGuests(rsvpData);
+  renderGuestTable(lastRsvpData);
 }
 
 function deleteGuest(key) {
