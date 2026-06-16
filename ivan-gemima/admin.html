@@ -559,6 +559,23 @@ body {
 .badge-pending   { background: rgba(184,150,80,0.12);  color: var(--yellow); }
 .badge-declined  { background: rgba(168,90,90,0.1);    color: var(--red); }
 
+.btn-enviado {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; border-radius: 20px; border: 1px solid;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.3px;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-enviado.sent {
+  background: rgba(90,138,110,0.12); border-color: rgba(90,138,110,0.35);
+  color: var(--green);
+}
+.btn-enviado.not-sent {
+  background: transparent; border-color: var(--parchment);
+  color: var(--text-light);
+}
+.btn-enviado:hover { opacity: 0.75; }
+
 .mesa-badge {
   display: inline-flex;
   align-items: center;
@@ -1029,8 +1046,8 @@ body.sidebar-open .sidebar-overlay { display: block; }
   /* Tabla de invitados: ocultar columnas secundarias, dejar Nombre + Estado + Acciones */
   .guest-table th:nth-child(2), .guest-table td:nth-child(2),
   .guest-table th:nth-child(3), .guest-table td:nth-child(3),
-  .guest-table th:nth-child(5), .guest-table td:nth-child(5),
-  .guest-table th:nth-child(6), .guest-table td:nth-child(6) { display: none; }
+  .guest-table th:nth-child(6), .guest-table td:nth-child(6),
+  .guest-table th:nth-child(7), .guest-table td:nth-child(7) { display: none; }
   .guest-table th, .guest-table td { padding: 10px 12px; }
   .guest-name-cell { font-size: 13px; }
   .guest-name-sub { display: none; }
@@ -1267,6 +1284,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
                 <th>Pases</th>
                 <th>Mesa</th>
                 <th>Estado</th>
+                <th>Enviado</th>
                 <th>Mensaje</th>
                 <th>Confirmó el</th>
                 <th></th>
@@ -1714,6 +1732,18 @@ function saveGuest() {
   renderGuestTable(lastRsvpData);
   buildTablesSection();
   showToast(_editingKey ? 'Invitado actualizado' : 'Invitado agregado');
+}
+
+function toggleEnviado(key) {
+  const g = WEDDING_GUESTS[key];
+  if (!g) return;
+  g.enviado = !g.enviado;
+  if (db) {
+    db.collection('guests').doc(key).update({ enviado: g.enviado }).catch(() => {
+      db.collection('guests').doc(key).set(g).catch(() => {});
+    });
+  }
+  renderGuests(rsvpData);
 }
 
 function deleteGuest(key) {
@@ -2257,6 +2287,7 @@ function renderGuestTable(rsvpData) {
       <td><span class="pases-dot">🎟 ${g.passes}</span></td>
       <td><span class="mesa-badge">${g.table}</span></td>
       <td><span class="badge ${badge}">${statusText}</span></td>
+      <td><button class="btn-enviado ${g.enviado ? 'sent' : 'not-sent'}" onclick="toggleEnviado('${key}')">${g.enviado ? '✓ Enviado' : 'Pendiente'}</button></td>
       <td style="font-size:12px;color:var(--text-light);">${msgDisplay}</td>
       <td style="font-size:12px;color:var(--text-light);white-space:nowrap;">${confirmedAtDisplay}</td>
       <td style="white-space:nowrap;">
