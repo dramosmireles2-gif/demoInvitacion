@@ -1150,22 +1150,22 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
   <nav class="sidebar-nav">
     <span class="nav-section">Panel principal</span>
-    <a class="nav-item active" href="#" onclick="setActive(this)">
+    <a class="nav-item active" href="#" onclick="setActive(this);return false;">
       <span class="nav-icon"><i data-feather="home"></i></span> Resumen general
     </a>
-    <a class="nav-item" href="#section-guests" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-guests" onclick="setActive(this);return false;">
       <span class="nav-icon"><i data-feather="users"></i></span> Lista de invitados
     </a>
-    <a class="nav-item" href="#section-tables" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-tables" onclick="setActive(this);return false;">
       <span class="nav-icon"><i data-feather="grid"></i></span> Mesas
     </a>
-    <a class="nav-item" href="#section-activity" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-activity" onclick="setActive(this);return false;">
       <span class="nav-icon"><i data-feather="activity"></i></span> Actividad en tiempo real
     </a>
-    <a class="nav-item" href="#section-urls" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-urls" onclick="setActive(this);return false;">
       <span class="nav-icon"><i data-feather="link"></i></span> Enlaces personalizados
     </a>
-    <a class="nav-item" href="#section-messages" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-messages" onclick="setActive(this);return false;">
       <span class="nav-icon"><i data-feather="message-circle"></i></span> Mensajes
     </a>
 
@@ -1505,19 +1505,19 @@ body.sidebar-open .sidebar-overlay { display: block; }
       <span class="bn-icon"><i data-feather="home"></i></span>
       <span class="bn-label">Resumen</span>
     </a>
-    <a class="bn-item" href="#section-guests">
+    <a class="bn-item" href="#" onclick="scrollToSection('section-guests');return false;">
       <span class="bn-icon"><i data-feather="users"></i></span>
       <span class="bn-label">Invitados</span>
     </a>
-    <a class="bn-item" href="#section-tables">
+    <a class="bn-item" href="#" onclick="scrollToSection('section-tables');return false;">
       <span class="bn-icon"><i data-feather="grid"></i></span>
       <span class="bn-label">Mesas</span>
     </a>
-    <a class="bn-item" href="#section-activity">
+    <a class="bn-item" href="#" onclick="scrollToSection('section-activity');return false;">
       <span class="bn-icon"><i data-feather="activity"></i></span>
       <span class="bn-label">Actividad</span>
     </a>
-    <a class="bn-item" href="#section-urls">
+    <a class="bn-item" href="#" onclick="scrollToSection('section-urls');return false;">
       <span class="bn-icon"><i data-feather="link"></i></span>
       <span class="bn-label">Enlaces</span>
     </a>
@@ -1585,9 +1585,21 @@ if (sessionStorage.getItem('admin_auth') === '1') {
 function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
 function closeSidebar()   { document.body.classList.remove('sidebar-open'); }
 
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  history.replaceState(null, '', location.pathname);
+}
+
 function setActive(el) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
+  const target = el.getAttribute('data-target');
+  if (target) {
+    const section = document.getElementById(target);
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  history.replaceState(null, '', location.pathname);
   if (window.innerWidth < 1024) setTimeout(closeSidebar, 120);
 }
 
