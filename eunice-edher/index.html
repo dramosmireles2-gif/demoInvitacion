@@ -293,7 +293,7 @@ body::before {
 /* ── SECTION LABEL ── */
 .section-label {
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px; letter-spacing: 4px;
+  font-size: 13px; letter-spacing: 4px; font-weight: 600;
   text-transform: uppercase; color: var(--terra);
   text-align: center; margin-bottom: 8px;
 }
@@ -335,14 +335,14 @@ body::before {
   display: flex; flex-direction: column; align-items: center;
 }
 .inv-header { width:100%; max-width:480px; padding:0; text-align:center; animation:fade-up 1s 0.2s both; }
-.inv-prelude { font-family:'Montserrat',sans-serif; font-size:11px; font-weight:400; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.75); margin-bottom:20px; }
+.inv-prelude { font-family:'Montserrat',sans-serif; font-size:14px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.95); margin-bottom:20px; text-shadow:0 1px 10px rgba(0,0,0,0.45); }
 .inv-announce { display:none; }
 .inv-names { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(68px,17vw,96px); line-height:1; color:#fff; letter-spacing:-1px; animation:fade-up 1s 0.4s both; text-shadow:0 2px 24px rgba(0,0,0,0.35); }
 .inv-amp { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:38px; color:var(--gold-light); display:block; margin:6px 0; }
-.inv-hero-quote { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:15px; color:rgba(255,255,255,0.75); max-width:300px; margin:10px auto; }
+.inv-hero-quote { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; color:rgba(255,255,255,0.92); max-width:300px; margin:10px auto; }
 .inv-hero-separator { width:60px; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent); margin:16px auto; }
 .inv-hero-date { font-family:'Cormorant SC',serif; font-weight:400; font-size:12px; letter-spacing:5px; color:rgba(255,255,255,0.8); display:block; text-align:center; margin-bottom:8px; }
-.inv-hero-location { font-family:'Montserrat',sans-serif; font-size:11px; font-weight:400; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.7); margin-top:4px; margin-bottom:0; }
+.inv-hero-location { font-family:'Montserrat',sans-serif; font-size:13px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.92); margin-top:4px; margin-bottom:0; }
 .inv-hero-scroll {
   position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
   z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 4px;
@@ -357,9 +357,9 @@ body::before {
 
 /* ── DATE + MINI CALENDAR ── */
 .inv-date-block { margin:20px auto; text-align:center; animation:fade-up 1s 0.6s both; max-width:480px; padding:0 24px; }
-.inv-date-main  { font-family:'Cormorant SC',serif; font-size:13px; letter-spacing:6px; color:var(--text-2); font-weight:400; display:block; margin-bottom:12px; }
-.inv-date-nums  { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; color:var(--green); letter-spacing:8px; line-height:1; display:block; }
-.inv-date-year  { font-family:'Cormorant SC',serif; font-size:11px; font-weight:500; letter-spacing:6px; color:var(--text-2); display:block; margin-top:8px; }
+.inv-date-main  { font-family:'Cormorant SC',serif; font-size:17px; letter-spacing:6px; color:var(--text-2); font-weight:600; display:block; margin-bottom:12px; }
+.inv-date-nums  { font-family:'Cormorant Garamond',serif; font-size:62px; font-weight:400; color:var(--green); letter-spacing:8px; line-height:1; display:block; }
+.inv-date-year  { font-family:'Cormorant SC',serif; font-size:15px; font-weight:700; letter-spacing:6px; color:var(--text-2); display:block; margin-top:8px; }
 
 /* Mini calendar */
 .mini-calendar {
@@ -475,7 +475,7 @@ body::before {
   overflow: hidden; margin-bottom: 16px;
 }
 .location-card-label {
-  font-family: 'Cormorant SC', serif; font-size: 10px;
+  font-family: 'Cormorant SC', serif; font-size: 13px; font-weight: 700;
   letter-spacing: 4px; color: var(--green);
   text-transform: uppercase; text-align: center;
   padding: 14px 20px 0;
@@ -495,7 +495,7 @@ body::before {
   text-align: center;
 }
 .location-card-name {
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 28px;
   color: var(--text); display: block; margin-bottom: 4px;
 }
 .location-card-address {
@@ -504,7 +504,7 @@ body::before {
   line-height: 1.5; display: block; margin-bottom: 10px;
 }
 .location-card-time {
-  font-family: 'Cormorant SC', serif; font-size: 13px;
+  font-family: 'Cormorant SC', serif; font-size: 18px; font-weight: 600;
   letter-spacing: 3px; color: var(--green); display: block;
   margin-bottom: 14px;
 }
@@ -607,6 +607,18 @@ body::before {
   font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400;
   letter-spacing: 1.5px; text-transform: uppercase; color: var(--terra);
 }
+
+/* ── SIN NIÑOS ── */
+.inv-no-kids { width:100%; max-width:480px; padding:0 16px 40px; text-align:center; }
+.no-kids-card {
+  background:var(--white); border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:0 2px 16px rgba(13,74,43,0.06);
+  padding:28px 24px 24px;
+}
+.no-kids-icon { font-size:38px; margin-bottom:14px; display:block; }
+.no-kids-text { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:17px; color:var(--text); line-height:1.6; margin-bottom:10px; }
+.no-kids-note { font-family:'Montserrat',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--terra); }
 
 /* Venue image — DEPRECATED, now inside location-card */
 .venue-image-caption {
@@ -989,7 +1001,7 @@ body::before {
   0%, 100% { transform: translateY(0); opacity: 0.6; }
   50%       { transform: translateY(8px); opacity: 1; }
 }
-.inv-credit       { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 300; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-2); opacity: 0.35; }
+.inv-credit       { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-2); opacity: 0.65; }
 .inv-credit a     { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(90,104,88,0.25); transition: opacity 0.2s; }
 .inv-credit a:hover { opacity: 0.7; }
 
@@ -1307,23 +1319,23 @@ body::before {
 }
 
 /* ── ESCALA TIPOGRÁFICA — alineada con estilo Iván & Gemima ── */
-.section-label           { font-size: 12px; }
-.inv-prelude             { font-size: 13px; }
-.inv-hero-location       { font-size: 12px; }
-.inv-hero-quote          { font-size: 16px; }
+.section-label           { font-size: 14px; }
+.inv-prelude             { font-size: 16px; }
+.inv-hero-location       { font-size: 14px; }
+.inv-hero-quote          { font-size: 19px; }
 .card-date               { font-size: 13px; }
 .card-place              { font-size: 13px; }
-.inv-date-main           { font-size: 15px; }
-.inv-date-year           { font-size: 13px; }
+.inv-date-main           { font-size: 19px; }
+.inv-date-year           { font-size: 16px; }
 .countdown-label         { font-size: 12px; }
 .countdown-unit          { font-size: 13px; }
 .timeline-time           { font-size: 13px; }
 .timeline-label          { font-size: 16px; font-weight: 400; }
 .timeline-place          { font-size: 13px; }
-.location-card-label     { font-size: 12px; }
-.location-card-name      { font-size: 24px; }
+.location-card-label     { font-size: 14px; }
+.location-card-name      { font-size: 30px; }
 .location-card-address   { font-size: 13px; }
-.location-card-time      { font-size: 15px; }
+.location-card-time      { font-size: 19px; }
 .location-directions-btn { font-size: 12px; }
 .dresscode-type          { font-size: 28px; }
 .dresscode-desc          { font-size: 13px; font-weight: 400; }
@@ -1333,8 +1345,8 @@ body::before {
 .punctuality-note-body   { font-size: 13px; line-height: 1.8; }
 .punctuality-note-footer { font-size: 12px; }
 .rsvp-importance-text    { font-size: 17px; }
-.rsvp-deadline-label     { font-size: 11px; }
-.rsvp-deadline-date      { font-size: 19px; }
+.rsvp-deadline-label     { font-size: 13px; }
+.rsvp-deadline-date      { font-size: 22px; }
 .rsvp-title              { font-size: 24px; }
 .gifts-main-msg          { font-size: 22px; }
 .gifts-sub-msg           { font-size: 13px; }
@@ -1605,6 +1617,17 @@ body::before {
     </div>
   </div>
 
+  <!-- SIN NIÑOS -->
+  <div class="inv-no-kids reveal">
+    <p class="section-label">Evento para adultos</p>
+    <div class="prism-divider" style="margin-bottom:20px;"></div>
+    <div class="no-kids-card">
+      <span class="no-kids-icon">🚫👶</span>
+      <p class="no-kids-text">Por la naturaleza de nuestra celebración, les pedimos amablemente que sea un evento exclusivo para adultos.</p>
+      <p class="no-kids-note">Agradecemos su comprensión</p>
+    </div>
+  </div>
+
   <!-- Eucalyptus divider entre rsvp y gifts -->
   <div class="eucalyptus-divider reveal" style="margin:24px auto;">
     <svg viewBox="0 0 280 32" width="240" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1641,7 +1664,7 @@ body::before {
         <div class="rsvp-deadline">
           <div class="prism-divider" style="margin-bottom:10px;"></div>
           <span class="rsvp-deadline-label">Confirmaciones hasta el</span>
-          <span class="rsvp-deadline-date">30 de Noviembre · 2026</span>
+          <span class="rsvp-deadline-date">31 de Julio · 2026</span>
           <div class="prism-divider" style="margin-top:10px;"></div>
         </div>
       </div>
