@@ -1079,24 +1079,6 @@ body::before {
 #envelope-screen.hide { opacity: 0; transform: scale(0.98); pointer-events: none; }
 #invite-card { display: none !important; }
 
-.env-botanical {
-  position: absolute; pointer-events: none; z-index: 0;
-}
-.env-botanical-tr {
-  top: -10px; right: -10px;
-  width: clamp(150px, 42vw, 220px);
-  mix-blend-mode: multiply;
-}
-.env-botanical-bl {
-  bottom: -10px; left: -10px;
-  width: clamp(140px, 38vw, 200px);
-  mix-blend-mode: multiply;
-}
-.env-botanical-br {
-  bottom: -10px; right: -10px;
-  width: clamp(120px, 32vw, 170px);
-  mix-blend-mode: screen;
-}
 .env-shadow {
   position: absolute; inset: 0; pointer-events: none; z-index: 1;
   background:
@@ -1187,14 +1169,14 @@ body::before {
   background-image: url('./Fondo-sobre.png');
   background-size: cover;
   background-position: center top;
-  filter: blur(3px);
-  opacity: 0.82;
+  filter: blur(2px);
+  opacity: 0.92;
 }
 @media (orientation: landscape), (min-width: 600px) {
   .env-bg-img {
     background-position: center center;
-    filter: blur(5px);
-    opacity: 0.75;
+    filter: blur(4px);
+    opacity: 0.88;
   }
 }
 
@@ -1219,18 +1201,6 @@ body::before {
   from { opacity:0; transform:scale(0.88) translateY(8px); }
   to   { opacity:1; transform:scale(1)    translateY(0); }
 }
-@keyframes env-leaf-tr {
-  from { opacity:0; transform:translate(28px,-28px) scale(0.92); }
-  to   { opacity:1; transform:translate(0,0)         scale(1); }
-}
-@keyframes env-leaf-bl {
-  from { opacity:0; transform:translate(-28px,28px) scale(0.92); }
-  to   { opacity:1; transform:translate(0,0)         scale(1); }
-}
-@keyframes env-leaf-br {
-  from { opacity:0; transform:translate(28px,28px) scaleX(-1) scale(0.92); }
-  to   { opacity:1; transform:translate(0,0)        scaleX(-1) scale(1); }
-}
 @keyframes env-cta-glow {
   0%,100% { box-shadow:0 0 0 1px rgba(196,163,90,.42),0 0 0 5px rgba(196,163,90,.06),0 8px 26px rgba(196,163,90,.14),inset 0 1px 0 rgba(255,255,255,.95); }
   50%     { box-shadow:0 0 0 1.5px rgba(196,163,90,.68),0 0 0 9px rgba(196,163,90,.04),0 14px 38px rgba(196,163,90,.23),inset 0 1px 0 rgba(255,255,255,.95); }
@@ -1247,9 +1217,6 @@ body::before {
 }
 
 /* 2 · Asignación de animaciones de entrada */
-.env-botanical-tr { animation:env-leaf-tr 1.0s cubic-bezier(.25,.46,.45,.94) .08s  both; }
-.env-botanical-bl { animation:env-leaf-bl 1.0s cubic-bezier(.25,.46,.45,.94) .16s  both; }
-.env-botanical-br { animation:env-leaf-br 1.0s cubic-bezier(.25,.46,.45,.94) .22s  both; }
 .env-subtitle      { animation:env-fade-up .65s cubic-bezier(.25,.46,.45,.94) .36s  both; }
 .env-ornament      { animation:env-fade-in .55s ease                          .54s  both; }
 .env-monogram      { animation:env-bloom   .88s cubic-bezier(.16,1,.3,1)      .60s  both; }
@@ -1408,14 +1375,6 @@ body::before {
   <!-- Fondo fotográfico difuminado -->
   <div class="env-bg-img" aria-hidden="true"></div>
 
-  <!-- Rama de olivo superior derecha -->
-  <img class="env-botanical env-botanical-tr" src="./3.png" alt="" aria-hidden="true"/>
-
-  <!-- Gypsophila inferior izquierda -->
-  <img class="env-botanical env-botanical-bl" src="./1.png" alt="" aria-hidden="true"/>
-
-  <!-- Gypsophila inferior derecha -->
-  <img class="env-botanical env-botanical-br" src="./5.png" alt="" aria-hidden="true"/>
 
   <!-- Sombra ambiental izquierda -->
   <div class="env-shadow"></div>
