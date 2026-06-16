@@ -1747,7 +1747,7 @@ body::before {
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="../guests.js"></script>
+<script src="./guests.js"></script>
 <script src="../firebase-config.js"></script>
 <script>
 /* ══════════════════════════════════════════════════
@@ -1847,7 +1847,7 @@ if (guest) {
   applyGuest(guest);
   guestReady = Promise.resolve();
 } else if (guestKey && typeof db !== 'undefined' && db) {
-  guestReady = db.collection('guests').doc(guestKey).get().then(doc => {
+  guestReady = db.collection('ee_guests').doc(guestKey).get().then(doc => {
     guest = doc.exists ? doc.data() : { name: 'Estimado Invitado', passes: 2, table: '—' };
     if (doc.exists) WEDDING_GUESTS[guestKey] = guest;
     applyGuest(guest);
@@ -2246,7 +2246,7 @@ function startCountdown() {
 async function trackVisit() {
   if (!db || !guestKey) return;
   try {
-    await db.collection('rsvps').doc(guestKey).set({
+    await db.collection('ee_rsvps').doc(guestKey).set({
       guestName: guest.name, passes: guest.passes, table: guest.table,
       lastVisit: firebase.firestore.FieldValue.serverTimestamp()
     }, { merge: true });
@@ -2256,7 +2256,7 @@ async function trackVisit() {
 async function checkExistingRSVP() {
   if (!db || !guestKey) return;
   try {
-    const doc = await db.collection('rsvps').doc(guestKey).get();
+    const doc = await db.collection('ee_rsvps').doc(guestKey).get();
     if (doc.exists && doc.data().attending !== undefined) {
       const data = doc.data();
       document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
@@ -2292,7 +2292,7 @@ async function submitRSVP() {
   const msg = document.getElementById('rsvp-msg').value.trim();
   if (db && guestKey) {
     try {
-      await db.collection('rsvps').doc(guestKey).set({
+      await db.collection('ee_rsvps').doc(guestKey).set({
         guestName: guest.name, attending: rsvpChoice === 'yes', message: msg,
         passes: guest.passes, table: guest.table,
         confirmedAt: firebase.firestore.FieldValue.serverTimestamp(),
