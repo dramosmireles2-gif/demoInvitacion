@@ -1506,23 +1506,23 @@ body.sidebar-open .sidebar-overlay { display: block; }
 <!-- BOTTOM NAV (mobile) -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <a class="bn-item active" href="#">
+    <a class="bn-item active" href="#" onclick="bnNav(event, null)">
       <span class="bn-icon"><i data-feather="home"></i></span>
       <span class="bn-label">Resumen</span>
     </a>
-    <a class="bn-item" href="#section-guests">
+    <a class="bn-item" href="#section-guests" onclick="bnNav(event, 'section-guests')">
       <span class="bn-icon"><i data-feather="users"></i></span>
       <span class="bn-label">Invitados</span>
     </a>
-    <a class="bn-item" href="#section-tables">
+    <a class="bn-item" href="#section-tables" onclick="bnNav(event, 'section-tables')">
       <span class="bn-icon"><i data-feather="grid"></i></span>
       <span class="bn-label">Mesas</span>
     </a>
-    <a class="bn-item" href="#section-activity">
+    <a class="bn-item" href="#section-activity" onclick="bnNav(event, 'section-activity')">
       <span class="bn-icon"><i data-feather="activity"></i></span>
       <span class="bn-label">Actividad</span>
     </a>
-    <a class="bn-item" href="#section-urls">
+    <a class="bn-item" href="#section-urls" onclick="bnNav(event, 'section-urls')">
       <span class="bn-icon"><i data-feather="link"></i></span>
       <span class="bn-label">Enlaces</span>
     </a>
@@ -1594,6 +1594,20 @@ function setActive(el) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
   if (window.innerWidth < 1024) setTimeout(closeSidebar, 120);
+  setTimeout(() => history.replaceState(null, '', location.pathname + location.search), 0);
+}
+
+function bnNav(e, targetId) {
+  document.querySelectorAll('.bn-item').forEach(i => i.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  if (targetId) {
+    const el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  setTimeout(() => history.replaceState(null, '', location.pathname + location.search), 0);
+  e.preventDefault();
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
