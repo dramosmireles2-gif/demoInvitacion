@@ -1783,11 +1783,13 @@ let rsvpChoice = null;
 
 async function openEnvelope() {
   const card = document.getElementById('invite-card');
-  card.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
-  card.style.transform = 'scale(1.05)';
-  card.style.opacity = '0';
+  if (card) {
+    card.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+    card.style.transform  = 'scale(1.05)';
+    card.style.opacity    = '0';
+  }
   spawnPetals();
-  await new Promise(r => setTimeout(r, 700));
+  await new Promise(r => setTimeout(r, card ? 700 : 300));
   await guestReady;
   const screen = document.getElementById('envelope-screen');
   const inv    = document.getElementById('invitation');
