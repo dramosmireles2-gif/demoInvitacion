@@ -1528,7 +1528,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="../guests.js"></script>
+<script src="./guests.js"></script>
 <script src="../firebase-config.js"></script>
 <script>
 feather.replace();
@@ -1735,7 +1735,7 @@ function saveGuest() {
 
   // persist in Firestore so invitation works on any device
   if (db) {
-    db.collection('guests').doc(key).set(data).catch(e => console.warn('Firestore save guest:', e));
+    db.collection('ee_guests').doc(key).set(data).catch(e => console.warn('Firestore save guest:', e));
   }
 
   closeGuestModal();
@@ -1750,8 +1750,8 @@ function toggleEnviado(key) {
   if (!g) return;
   g.enviado = !g.enviado;
   if (db) {
-    db.collection('guests').doc(key).update({ enviado: g.enviado }).catch(() => {
-      db.collection('guests').doc(key).set(g).catch(() => {});
+    db.collection('ee_guests').doc(key).update({ enviado: g.enviado }).catch(() => {
+      db.collection('ee_guests').doc(key).set(g).catch(() => {});
     });
   }
   renderGuests(rsvpData);
@@ -1768,8 +1768,8 @@ function deleteGuest(key) {
 
   // remove from Firestore (guest doc + rsvp doc)
   if (db) {
-    db.collection('guests').doc(key).delete().catch(()=>{});
-    db.collection('rsvps').doc(key).delete().catch(()=>{});
+    db.collection('ee_guests').doc(key).delete().catch(()=>{});
+    db.collection('ee_rsvps').doc(key).delete().catch(()=>{});
   }
 
   renderUrlsList();
@@ -2136,7 +2136,7 @@ function initAdmin() {
   }
 
   // Load guests from Firestore first, then start RSVP listener
-  db.collection('guests').get().then(snapshot => {
+  db.collection('ee_guests').get().then(snapshot => {
     snapshot.forEach(doc => {
       WEDDING_GUESTS[doc.id] = doc.data();
       // keep localStorage in sync
@@ -2152,7 +2152,7 @@ function initAdmin() {
     buildTablesSection();
   });
 
-  db.collection('rsvps').onSnapshot(snapshot => {
+  db.collection('ee_rsvps').onSnapshot(snapshot => {
     const rsvpData = {};
     snapshot.forEach(doc => { rsvpData[doc.id] = doc.data(); });
     renderDashboard(rsvpData);
@@ -2162,7 +2162,7 @@ function initAdmin() {
 function clearAllActivity() {
   if (!confirm('¿Borrar toda la actividad de RSVPs? Esto no elimina invitados.')) return;
   if (!db) { showToast('Sin conexión a Firestore'); return; }
-  db.collection('rsvps').get().then(snap => {
+  db.collection('ee_rsvps').get().then(snap => {
     const batch = db.batch();
     snap.forEach(doc => batch.delete(doc.ref));
     return batch.commit();
