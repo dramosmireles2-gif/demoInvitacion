@@ -1016,7 +1016,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
 /* ── RESPONSIVE: TABLET (≤ 1023px) ── */
 @media (max-width: 1200px) {
-  .two-col { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: minmax(0, 1fr); }
   .stats-row { grid-template-columns: 1fr 1fr; gap: 12px; }
 }
 
@@ -1029,7 +1029,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   .topbar-title { font-size: 18px; }
   .content { padding: 20px; }
   .stats-row { grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-  .two-col { grid-template-columns: 1fr; gap: 16px; }
+  .two-col { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .progress-legend { flex-wrap: wrap; gap: 12px; }
   .designs-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -1268,7 +1268,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <div class="two-col">
 
       <!-- LEFT -->
-      <div style="display:flex;flex-direction:column;gap:20px;" id="section-guests">
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0;" id="section-guests">
         <div class="panel">
           <div class="panel-header" style="flex-wrap:wrap;gap:10px;">
             <div>
