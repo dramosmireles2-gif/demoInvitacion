@@ -1519,8 +1519,13 @@ if (typeof db !== 'undefined' && db) {
    INVITADO
 ══════════════════════════════════ */
 const urlParams = new URLSearchParams(window.location.search);
-const guestKey  = (urlParams.get('g') || '').toLowerCase().trim();
-const tipoInv   = (urlParams.get('tipo') || '').toLowerCase().trim();
+let guestKey = (urlParams.get('g') || '').toLowerCase().trim();
+if (guestKey) {
+  sessionStorage.setItem('inv_guest_key', guestKey);
+} else {
+  guestKey = sessionStorage.getItem('inv_guest_key') || '';
+}
+const tipoInv = (urlParams.get('tipo') || '').toLowerCase().trim();
 if (window.history && window.history.replaceState) {
   history.replaceState(null, '', window.location.pathname);
 }
