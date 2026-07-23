@@ -19,4 +19,5 @@ const ADMIN_PASSWORD = 'Andrea2027';
 const WEDDING_GUESTS = {
   // ── Agrega invitados aquí ──────────────────────────────────
   // 'clave': { name: 'Nombre completo', passes: 2, table: 1 },
+  'leslie-castillo': { name: 'Leslie Castillo', passes: 2, table: '—' },
 };
