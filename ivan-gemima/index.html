@@ -2004,20 +2004,26 @@ async function trackVisit() {
   } catch(e) {}
 }
 
+function showRsvpBlocked(attending) {
+  document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
+  document.getElementById('rsvp-success-body').innerHTML = attending
+    ? 'Tu confirmación ya fue recibida.<br/>¡Los esperamos con mucho cariño!'
+    : 'Ya recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+  document.getElementById('rsvp-form').style.display = 'none';
+  const suc = document.getElementById('rsvp-success');
+  suc.classList.add('show');
+  requestAnimationFrame(() => requestAnimationFrame(() => suc.classList.add('visible')));
+}
+
 async function checkExistingRSVP() {
-  if (!db || !guestKey) return;
+  if (!guestKey) return;
+  const local = localStorage.getItem('rsvp_' + guestKey);
+  if (local) { showRsvpBlocked(local === 'yes'); return; }
+  if (!db) return;
   try {
     const doc = await db.collection('rsvps').doc(guestKey).get();
     if (doc.exists && doc.data().attending !== undefined) {
-      const data = doc.data();
-      document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
-      document.getElementById('rsvp-success-body').innerHTML = data.attending
-        ? 'Tu confirmación ya fue recibida.<br/>¡Los esperamos con mucho cariño!'
-        : 'Ya recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
-      document.getElementById('rsvp-form').style.display = 'none';
-      const suc = document.getElementById('rsvp-success');
-      suc.classList.add('show');
-      requestAnimationFrame(() => requestAnimationFrame(() => suc.classList.add('visible')));
+      showRsvpBlocked(doc.data().attending);
     }
   } catch(e) {}
 }
@@ -2054,6 +2060,9 @@ async function submitRSVP() {
       submitBtn.disabled = false; submitBtn.textContent = 'Confirmar';
       return;
     }
+  }
+  if (guestKey) {
+    localStorage.setItem('rsvp_' + guestKey, rsvpChoice === 'yes' ? 'yes' : 'no');
   }
   document.getElementById('rsvp-success-title').textContent = '¡Gracias, ' + guest.name + '!';
   document.getElementById('rsvp-success-body').innerHTML = rsvpChoice === 'yes'
