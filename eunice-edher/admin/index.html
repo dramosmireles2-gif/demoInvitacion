@@ -2536,7 +2536,7 @@ function buildEventForm() {
     { key:'bankName',      label:'Banco',                       placeholder:'BBVA', type:'text' },
     { key:'bankClabe',     label:'CLABE / Cuenta',              placeholder:'000000000000000000', type:'text' },
     { key:'bankAlias',     label:'Alias de transferencia',      placeholder:'eunice.edher.boda', type:'text' },
-    { key:'rsvpDeadline',  label:'Fecha límite RSVP',           placeholder:'2026-07-31', type:'date' },
+    { key:'rsvpDeadline',  label:'Fecha límite RSVP',           placeholder:'2026-08-31', type:'date' },
   ];
 
   form.innerHTML = fields.map(f => {
@@ -2582,7 +2582,7 @@ function saveEventConfig() {
 // ── FEATURE 5: DEADLINE COUNTDOWN ──
 function updateDeadlineCountdown() {
   const cfg      = loadEventConfig();
-  const deadlineStr = cfg.rsvpDeadline || '2026-07-31';
+  const deadlineStr = cfg.rsvpDeadline || '2026-08-31';
   const deadline = new Date(deadlineStr + 'T23:59:59');
   const now      = new Date();
   const daysLeft = Math.ceil((deadline - now) / 86400000);
