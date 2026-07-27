@@ -1153,22 +1153,22 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
   <nav class="sidebar-nav">
     <span class="nav-section">Panel principal</span>
-    <a class="nav-item active" href="#" onclick="setActive(this)">
+    <a class="nav-item active" href="#" data-target="" onclick="return setActive(this)">
       <span class="nav-icon"><i data-feather="home"></i></span> Resumen general
     </a>
-    <a class="nav-item" href="#section-guests" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-guests" onclick="return setActive(this)">
       <span class="nav-icon"><i data-feather="users"></i></span> Lista de invitados
     </a>
-    <a class="nav-item" href="#section-tables" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-tables" onclick="return setActive(this)">
       <span class="nav-icon"><i data-feather="grid"></i></span> Mesas
     </a>
-    <a class="nav-item" href="#section-activity" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-activity" onclick="return setActive(this)">
       <span class="nav-icon"><i data-feather="activity"></i></span> Actividad en tiempo real
     </a>
-    <a class="nav-item" href="#section-urls" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-urls" onclick="return setActive(this)">
       <span class="nav-icon"><i data-feather="link"></i></span> Enlaces personalizados
     </a>
-    <a class="nav-item" href="#section-messages" onclick="setActive(this)">
+    <a class="nav-item" href="#" data-target="section-messages" onclick="return setActive(this)">
       <span class="nav-icon"><i data-feather="message-circle"></i></span> Mensajes
     </a>
 
@@ -1298,14 +1298,13 @@ body.sidebar-open .sidebar-overlay { display: block; }
                 <th>Pases</th>
                 <th>Mesa</th>
                 <th>Estado</th>
-                <th>Enviado</th>
                 <th>Mensaje</th>
                 <th>Confirmó el</th>
                 <th></th>
               </tr>
             </thead>
             <tbody id="guest-tbody">
-              <tr><td colspan="7">
+              <tr><td colspan="6">
                 <div class="empty-state">
                   <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                   <div class="empty-state-title">Cargando invitados…</div>
@@ -1590,22 +1589,26 @@ if (sessionStorage.getItem('admin_auth') === '1') {
 function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
 function closeSidebar()   { document.body.classList.remove('sidebar-open'); }
 
+function scrollToSection(targetId) {
+  if (!targetId) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  const el = document.getElementById(targetId);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
 function setActive(el) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
+  const target = el.dataset.target || null;
+  scrollToSection(target);
   if (window.innerWidth < 1024) setTimeout(closeSidebar, 120);
   setTimeout(() => history.replaceState(null, '', location.pathname + location.search), 0);
+  return false;
 }
 
 function bnNav(e, targetId) {
   document.querySelectorAll('.bn-item').forEach(i => i.classList.remove('active'));
   e.currentTarget.classList.add('active');
-  if (targetId) {
-    const el = document.getElementById(targetId);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  } else {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  scrollToSection(targetId);
   setTimeout(() => history.replaceState(null, '', location.pathname + location.search), 0);
   e.preventDefault();
 }
@@ -2267,7 +2270,7 @@ function renderGuestTable(rsvpData) {
   if (sub) sub.textContent = 'Mostrando ' + keys.length + ' de ' + allKeys.length + ' invitados';
 
   if (!keys.length) {
-    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div class="empty-state-title">Sin invitados</div></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div class="empty-state-title">Sin invitados</div></div></td></tr>';
     return;
   }
 
@@ -2315,7 +2318,6 @@ function renderGuestTable(rsvpData) {
       <td><span class="pases-dot">🎟 ${g.passes}</span></td>
       <td><span class="mesa-badge">${g.table}</span></td>
       <td><span class="badge ${badge}">${statusText}</span></td>
-      <td><button class="btn-enviado ${g.enviado ? 'sent' : 'not-sent'}" onclick="toggleEnviado('${key}')">${g.enviado ? '✓ Enviado' : 'Pendiente'}</button></td>
       <td style="font-size:12px;color:var(--text-light);">${msgDisplay}</td>
       <td style="font-size:12px;color:var(--text-light);white-space:nowrap;">${confirmedAtDisplay}</td>
       <td style="white-space:nowrap;">
