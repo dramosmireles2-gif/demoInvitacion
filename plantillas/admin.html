@@ -11,7 +11,7 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { overflow-x: hidden; max-width: 100%; }
+html { max-width: 100%; }
 
 :root {
   /* Monocromo — el dorado queda solo como acento de marca en las tarjetas de tienda */
@@ -63,7 +63,6 @@ body {
   color: var(--text);
   display: flex;
   min-height: 100vh;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -1133,7 +1132,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   #tables-grid { grid-template-columns: 1fr !important; }
 
   /* Evitar scroll horizontal */
-  body, .content { overflow-x: hidden; }
+  .content { overflow-x: hidden; }
 
   /* Banner de bienvenida — padding reducido */
   .welcome-banner { padding: 12px 14px !important; }
