@@ -832,17 +832,31 @@ body::before {
 .copy-btn:hover { opacity: 0.88; transform: translateY(-1px); }
 .copy-btn.copied { background: rgba(201,164,106,0.1); border-color: var(--gold); color: var(--gold-dark); }
 .bank-alias { font-family: 'Jost', sans-serif; font-size: 13px; letter-spacing: 1px; color: var(--text-2); margin-top: 4px; }
-.gift-list-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; margin-top: 14px; padding: 18px;
-  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-  border: none; border-radius: 40px; font-family: 'Jost', sans-serif;
-  font-size: 16px; font-weight: 600; letter-spacing: 2px; color: #fff;
-  cursor: pointer; text-decoration: none;
-  box-shadow: 0 4px 20px rgba(201,164,106,0.35);
+.gift-store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.gift-store-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  padding: 18px 12px; border-radius: var(--radius-sm); text-decoration: none;
+  font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; text-align: center; color: #fff;
   transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
 }
-.gift-list-btn:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,164,106,0.5); }
+.gift-store-card:hover { opacity: 0.92; transform: translateY(-2px); }
+.store-amazon    { background: linear-gradient(135deg, #232f3e, #37475a); box-shadow: 0 4px 20px rgba(35,47,62,0.35); }
+.store-liverpool { background: linear-gradient(135deg, #c2006b, #e4007c); box-shadow: 0 4px 20px rgba(228,0,124,0.3); }
+
+/* ── MÚSICA / PLAYLIST ── */
+.inv-music { width: 100%; max-width: 480px; padding: 0 24px 40px; text-align: center; }
+.spotify-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; margin-top: 6px; padding: 18px;
+  background: linear-gradient(135deg, #169c46, #1DB954);
+  border: none; border-radius: 40px; font-family: 'Jost', sans-serif;
+  font-size: 15px; font-weight: 600; letter-spacing: 1.5px; color: #fff;
+  cursor: pointer; text-decoration: none;
+  box-shadow: 0 4px 20px rgba(29,185,84,0.35);
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.spotify-btn:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(29,185,84,0.5); }
 
 /* ── LLUVIA DE SOBRES ── */
 .inv-lluvia { width: 100%; max-width: 480px; padding: 0 24px 40px; text-align: center; }
@@ -1156,8 +1170,26 @@ body::before {
       </div>
       <p class="bank-alias" id="bank-alias"></p>
     </div>
-    <a class="gift-list-btn" id="gift-list-btn" href="#" target="_blank" style="display:none;">
-      <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Ver lista de regalos
+    <div class="gift-store-grid" id="gift-store-grid">
+      <a class="gift-store-card store-amazon" id="gift-amazon" href="#" target="_blank" rel="noopener" style="display:none;">
+        <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <span>Lista en Amazon</span>
+      </a>
+      <a class="gift-store-card store-liverpool" id="gift-liverpool" href="#" target="_blank" rel="noopener" style="display:none;">
+        <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <span>Mesa en Liverpool</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- MÚSICA / PLAYLIST COLABORATIVA -->
+  <div class="inv-music reveal" id="section-music" style="display:none;">
+    <p class="section-label">Ayúdanos con el playlist</p>
+    <div class="prism-divider" style="margin-bottom:20px;"></div>
+    <p class="gifts-sub-msg">Agrega tus canciones favoritas a nuestra playlist colaborativa</p>
+    <a class="spotify-btn" id="spotify-btn" href="#" target="_blank" rel="noopener">
+      <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.586 14.424a.622.622 0 0 1-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 1 1-.277-1.213c3.809-.871 7.077-.496 9.713 1.113.293.18.386.563.206.857zm1.223-2.723a.78.78 0 0 1-1.072.257c-2.688-1.652-6.786-2.131-9.965-1.166a.78.78 0 0 1-.452-1.492c3.632-1.102 8.147-.568 11.232 1.329a.78.78 0 0 1 .257 1.072zm.105-2.835C14.692 9.1 9.375 8.926 6.297 9.86a.936.936 0 1 1-.543-1.79c3.532-1.072 9.404-.865 13.115 1.338a.936.936 0 0 1-.955 1.612z"/></svg>
+      <span>Abrir playlist en Spotify</span>
     </a>
   </div>
 
@@ -1223,6 +1255,9 @@ body::before {
 
 </div><!-- /invitation -->
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="./firebase-config.js"></script>
 <script>
 const WEDDING_CONFIG = {
   weddingDate: '2027-10-02T15:00:00',
@@ -1247,11 +1282,13 @@ const WEDDING_CONFIG = {
   gallery: ['./plantillas/foto1.jpeg','./plantillas/foto2.jpeg','./plantillas/foto3.jpeg','./plantillas/foto4.jpeg','./plantillas/foto5.jpeg','./plantillas/foto6.jpeg'],
 
   gifts: {
-    showBank:    true,
-    bankName:    'BBVA',
-    bankClabe:   '000000000000000000',
-    bankAlias:   'andrea.saul.boda',
-    giftListUrl: '',
+    showBank:           true,
+    bankName:           'BBVA',
+    bankClabe:          '000000000000000000',
+    bankAlias:          'andrea.saul.boda',
+    amazonUrl:          '',
+    liverpoolUrl:       '',
+    spotifyPlaylistUrl: '',
   },
 
   wishlist: [
@@ -1444,12 +1481,37 @@ function buildGifts() {
   document.getElementById('bank-name').textContent  = g.bankName;
   document.getElementById('bank-clabe').textContent = g.bankClabe;
   document.getElementById('bank-alias').textContent = g.bankAlias ? 'Alias: ' + g.bankAlias : '';
-  if (!g.showBank) document.getElementById('bank-card').style.display = 'none';
-  if (g.giftListUrl) {
-    const btn = document.getElementById('gift-list-btn');
-    btn.href = g.giftListUrl;
-    btn.style.display = 'flex';
+  document.getElementById('bank-card').style.display = g.showBank ? 'block' : 'none';
+
+  const amazonBtn = document.getElementById('gift-amazon');
+  amazonBtn.style.display = g.amazonUrl ? 'flex' : 'none';
+  if (g.amazonUrl) amazonBtn.href = g.amazonUrl;
+
+  const liverpoolBtn = document.getElementById('gift-liverpool');
+  liverpoolBtn.style.display = g.liverpoolUrl ? 'flex' : 'none';
+  if (g.liverpoolUrl) liverpoolBtn.href = g.liverpoolUrl;
+
+  const musicSection = document.getElementById('section-music');
+  if (g.spotifyPlaylistUrl) {
+    document.getElementById('spotify-btn').href = g.spotifyPlaylistUrl;
+    musicSection.style.display = 'block';
+  } else {
+    musicSection.style.display = 'none';
   }
+}
+
+/* Aplica lo guardado desde el admin (localStorage primero, Firestore después) */
+function _applyGiftOverrides(ov) {
+  if (!ov) return;
+  ['bankName','bankClabe','bankAlias','amazonUrl','liverpoolUrl','spotifyPlaylistUrl'].forEach(k => {
+    if (ov[k]) WEDDING_CONFIG.gifts[k] = ov[k];
+  });
+}
+try { _applyGiftOverrides(JSON.parse(localStorage.getItem('aurora_event_override') || '{}')); } catch(e) {}
+if (typeof db !== 'undefined' && db) {
+  db.collection('demo_config').doc('event').get().then(doc => {
+    if (doc.exists) { _applyGiftOverrides(doc.data()); buildGifts(); }
+  }).catch(() => {});
 }
 
 function copyBank() {
