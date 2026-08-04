@@ -6,7 +6,7 @@
 <title>Admin · Boda Andrea & Saúl</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet"/>
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,20 +14,24 @@
 html { overflow-x: hidden; max-width: 100%; }
 
 :root {
-  --cream: #f5f0e8;
-  --cream2: #ede6d6;
-  --parchment: #e8dfc8;
-  --gold: #b8976a;
-  --gold-light: #d4b896;
-  --gold-dark: #8a6d4a;
-  --text: #2c2416;
-  --text-light: #6b5a3e;
-  --white: #faf8f4;
-  --sidebar: #1e1810;
-  --sidebar2: #150f09;
-  --green: #5a8a6e;
-  --red: #a85a5a;
-  --yellow: #b89650;
+  /* Monocromo — el dorado queda solo como acento de marca en las tarjetas de tienda */
+  --cream: #ffffff;
+  --cream2: #f2f2f2;
+  --parchment: #e2e2e2;
+  --gold: #0a0a0a;
+  --gold-light: #ffffff;
+  --gold-dark: #0a0a0a;
+  --text: #0a0a0a;
+  --text-light: #6f6f6f;
+  --white: #ffffff;
+  --sidebar: #0a0a0a;
+  --sidebar2: #000000;
+  --ink: #0a0a0a;
+  --ink-soft: #6f6f6f;
+  /* Semánticos — se mantienen a color a propósito (estado, no decoración) */
+  --green: #3f8a5c;
+  --red: #c04848;
+  --yellow: #b8860b;
 }
 
 @keyframes fadeInUp {
@@ -45,12 +49,16 @@ html { overflow-x: hidden; max-width: 100%; }
   to   { opacity:1; transform:translateX(0); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
 body {
   font-family: 'DM Sans', sans-serif;
   font-weight: 400;
   font-size: 14px;
   background: var(--cream);
-  background-image: radial-gradient(circle, rgba(184,151,106,0.09) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(10,10,10,0.06) 1px, transparent 1px);
   background-size: 24px 24px;
   color: var(--text);
   display: flex;
@@ -68,8 +76,8 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-  color: #faf8f4;
+  background: var(--ink);
+  color: #ffffff;
   padding: 12px 20px;
   border-radius: 4px;
   font-size: 13px;
@@ -96,12 +104,24 @@ body {
 }
 
 .sidebar-nav {
-  padding: 12px 0 16px;
+  position: relative;
+  padding: 12px 12px 16px;
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(184,151,106,0.2) transparent;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
 }
+
+.nav-indicator {
+  position: absolute;
+  left: 12px; right: 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  z-index: 0;
+  opacity: 0;
+  transition: transform 0.38s cubic-bezier(.22,1,.36,1), height 0.38s cubic-bezier(.22,1,.36,1), opacity 0.2s ease;
+}
+.nav-indicator.ready { opacity: 1; }
 
 .sidebar-brand {
   padding: 28px 24px 22px;
@@ -110,7 +130,7 @@ body {
 }
 
 .brand-monogram {
-  font-family: 'Cormorant Garamond', serif;
+
   font-style: italic;
   font-size: 13px;
   letter-spacing: 3px;
@@ -121,7 +141,7 @@ body {
 }
 
 .brand-names {
-  font-family: 'Cormorant Garamond', serif;
+
   font-style: italic;
   font-size: 24px;
   color: var(--gold-light);
@@ -142,13 +162,13 @@ body {
 .brand-date {
   font-size: 11px;
   letter-spacing: 1px;
-  color: rgba(184,151,106,0.6);
+  color: rgba(255,255,255,0.4);
   margin-top: 8px;
   display: block;
 }
 
 .nav-section {
-  padding: 10px 24px 4px;
+  padding: 10px 12px 4px;
   font-size: 9.5px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -158,25 +178,25 @@ body {
 }
 
 .nav-item {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 11px;
-  padding: 10px 24px;
+  padding: 10px 12px;
+  margin-bottom: 2px;
+  border-radius: 8px;
   font-size: 13px;
   letter-spacing: 0.2px;
-  color: rgba(255,255,255,0.48);
+  color: rgba(255,255,255,0.5);
   cursor: pointer;
-  transition: all 0.18s;
-  border-left: 2px solid transparent;
+  transition: color 0.2s;
   text-decoration: none;
 }
 
-.nav-item:hover { color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.04); }
-.nav-item.active {
-  color: var(--gold-light);
-  border-left-color: var(--gold);
-  background: rgba(184,151,106,0.09);
-}
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.05); }
+.nav-item.active { color: #0a0a0a; font-weight: 700; background: transparent; }
+.nav-item.active:hover { background: transparent; }
 
 .nav-icon {
   width: 17px;
@@ -230,7 +250,7 @@ body {
   flex-shrink: 0;
 }
 .sidebar-footer-brand {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: 13px;
   color: rgba(255,255,255,0.35);
   letter-spacing: 0.5px;
@@ -272,10 +292,11 @@ body {
 .topbar-left { flex: 1; min-width: 0; }
 
 .topbar-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 21px;
+
+  font-size: 19px;
   color: var(--text);
-  font-weight: 400;
+  font-weight: 800;
+  letter-spacing: -0.4px;
   line-height: 1.2;
 }
 
@@ -316,17 +337,18 @@ body {
   border-radius: 3px;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.5px;
   color: var(--white);
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.12s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 .btn-primary:hover { opacity: 0.88; }
+.btn-primary:active { transform: scale(0.96); }
 
 .btn-ghost {
   padding: 9px 16px;
@@ -406,9 +428,11 @@ body {
 }
 
 .stat-number {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 44px;
-  font-weight: 300;
+
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
   line-height: 1;
   color: var(--text);
   margin-bottom: 4px;
@@ -448,7 +472,7 @@ body {
   margin-bottom: 14px;
 }
 
-.progress-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--text); }
+.progress-title { font-size: 15px; font-weight: 700; letter-spacing: -0.1px; color: var(--text); }
 .progress-pct   { font-size: 12px; font-weight: 500; letter-spacing: 0.5px; color: var(--gold); }
 
 .progress-track {
@@ -504,7 +528,7 @@ body {
   justify-content: space-between;
 }
 
-.panel-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--text); }
+.panel-title { font-size: 15px; font-weight: 700; letter-spacing: -0.1px; color: var(--text); }
 .panel-sub   { font-size: 11px; color: var(--text-light); margin-top: 2px; }
 
 .panel-action {
@@ -552,7 +576,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: 14px;
   font-weight: 600;
   color: var(--gold-dark);
@@ -561,22 +585,30 @@ body {
   vertical-align: middle;
 }
 
-.guest-name-cell { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--text); }
+.guest-name-cell { font-size: 14px; font-weight: 600; color: var(--text); }
 .guest-name-sub  { font-size: 11px; color: var(--text-light); margin-top: 1px; }
 
 .badge {
   display: inline-flex;
   align-items: center;
+  gap: 5px;
   padding: 3px 10px;
   border-radius: 20px;
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  border: 1.25px solid transparent;
 }
-.badge-confirmed { background: rgba(90,138,110,0.12); color: var(--green); }
-.badge-pending   { background: rgba(184,150,80,0.12);  color: var(--yellow); }
-.badge-declined  { background: rgba(168,90,90,0.1);    color: var(--red); }
+.badge::before { font-size: 9px; line-height: 1; }
+/* El color sigue marcando el estado, pero la forma es la que realmente distingue:
+   relleno = confirmado, contorno = pendiente, punteado = no asistirá. */
+.badge-confirmed { background: rgba(63,138,92,0.12);  color: var(--green);  border-color: rgba(63,138,92,0.3); }
+.badge-confirmed::before { content: '●'; }
+.badge-pending   { background: transparent; color: var(--yellow); border-color: var(--yellow); }
+.badge-pending::before { content: '○'; }
+.badge-declined  { background: rgba(192,72,72,0.1);   color: var(--red); border-style: dashed; border-color: var(--red); }
+.badge-declined::before { content: '✕'; font-size: 8px; }
 
 .mesa-badge {
   display: inline-flex;
@@ -587,7 +619,7 @@ body {
   border: 1px solid var(--parchment);
   font-size: 12px;
   color: var(--gold-dark);
-  font-family: 'Cormorant Garamond', serif;
+
 }
 
 .pases-dot { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: var(--text-light); }
@@ -614,9 +646,11 @@ body {
   border: 1px solid var(--parchment);
 }
 .cd-n {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: 34px;
-  font-weight: 300;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  font-variant-numeric: tabular-nums;
   color: var(--gold-dark);
   line-height: 1;
   display: block;
@@ -660,7 +694,7 @@ body {
   border-radius: 6px; padding: 28px 28px 24px;
   width: min(440px, 100%); box-shadow: 0 16px 48px rgba(44,36,22,0.18);
 }
-.modal-title { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--text); margin-bottom:20px; }
+.modal-title { font-size:17px; font-weight:700; letter-spacing:-0.2px; color:var(--text); margin-bottom:20px; }
 .modal-field { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
 .modal-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; font-weight:500; color:var(--text-light); }
 .modal-input { padding:9px 12px; border:1px solid var(--parchment); border-radius:3px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text); background:var(--cream); outline:none; transition:border-color 0.2s; }
@@ -701,7 +735,7 @@ body {
 .url-row:hover { background: rgba(245,240,232,0.5); }
 
 .url-row-name {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: 15px;
   color: var(--text);
 }
@@ -777,7 +811,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   gap: 10px;
 }
 .empty-state svg { width: 40px; height: 40px; stroke: var(--parchment); stroke-width: 1.5; fill: none; }
-.empty-state-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--text-light); }
+.empty-state-title { font-size: 17px; color: var(--text-light); }
 .empty-state-sub { font-size: 12px; color: var(--text-light); line-height: 1.6; max-width: 300px; }
 
 /* ── BOTTOM NAV (mobile only) ── */
@@ -815,9 +849,11 @@ body.sidebar-open .sidebar-overlay { display: block; }
   border-top: 3px solid var(--gold);
   border-radius: 5px;
   padding: 14px 16px;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
+.gift-preview-card:hover { box-shadow: 0 8px 22px rgba(10,10,10,0.1); transform: translateY(-2px); }
 .gift-preview-label { font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-light); margin-bottom: 4px; }
-.gift-preview-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text); }
+.gift-preview-title { font-size: 16px; font-weight: 700; color: var(--text); }
 
 /* ── TABLES ── */
 .table-card {
@@ -825,9 +861,9 @@ body.sidebar-open .sidebar-overlay { display: block; }
   border: 1px solid var(--parchment);
   border-radius: 5px;
   overflow: hidden;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
-.table-card:hover { box-shadow: 0 4px 16px rgba(44,36,22,0.07); }
+.table-card:hover { box-shadow: 0 8px 22px rgba(10,10,10,0.1); transform: translateY(-2px); }
 
 .table-card-header {
   padding: 14px 18px 10px;
@@ -837,7 +873,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   border-bottom: 1px solid var(--parchment);
 }
 .table-card-name {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: 17px;
   color: var(--text);
 }
@@ -873,7 +909,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
 }
 .table-guest-row:last-child { border-bottom: none; }
 .table-guest-name {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: 15px;
   color: var(--text);
   flex: 1;
@@ -936,7 +972,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
 }
 .table-config-row:last-child { border-bottom: none; }
 .table-config-label {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: 15px;
   color: var(--text);
   flex: 1;
@@ -972,7 +1008,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   background: var(--cream);
   text-align: center;
 }
-.qr-card-name { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text); }
+.qr-card-name { font-size:13px; font-weight:600; color:var(--text); }
 .qr-card-meta { font-size:10px; color:var(--text-light); }
 .qr-card img  { width:120px; height:120px; border-radius:3px; }
 .btn-qr-download {
@@ -993,10 +1029,10 @@ body.sidebar-open .sidebar-overlay { display: block; }
   width: 34px; height: 34px; border-radius: 50%;
   background: var(--parchment); border: 1px solid var(--cream2);
   display: flex; align-items: center; justify-content: center;
-  font-family:'Cormorant Garamond',serif; font-size:15px;
+  font-size:15px;
   font-weight:600; color:var(--gold-dark); flex-shrink:0;
 }
-.message-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); }
+.message-name { font-size:13.5px; font-weight:600; color:var(--text); }
 .message-time { font-size:11px; color:var(--text-light); margin-left:8px; }
 .message-text { font-size:13px; color:var(--text); margin-top:4px; line-height:1.6; font-style:italic; }
 
@@ -1121,37 +1157,37 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
 <!-- TOAST -->
 <div id="toast">
-  <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#faf8f4;stroke-width:2.5;fill:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#ffffff;stroke-width:2.5;fill:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
   <span id="toast-msg">Enlace copiado</span>
 </div>
 
 <!-- AUTH OVERLAY -->
-<div id="auth-overlay" style="position:fixed;inset:0;background:linear-gradient(160deg,#150f09 0%,#1e1810 60%,#0d0a06 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:32px;">
+<div id="auth-overlay" style="position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:32px;">
   <!-- Watermark -->
   <div aria-hidden="true" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;user-select:none;">
-    <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(100px,22vw,200px);color:rgba(184,151,106,0.05);line-height:1;white-space:nowrap;">A &amp; S</span>
+    <span style="font-style:italic;font-size:clamp(100px,22vw,200px);color:rgba(255,255,255,0.04);line-height:1;white-space:nowrap;">A &amp; S</span>
   </div>
 
   <div style="text-align:center;position:relative;">
-    <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(184,151,106,0.5);display:block;margin-bottom:12px;">RMKT Web &amp; Apps</span>
-    <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:38px;color:var(--gold-light);display:block;line-height:1.1;">Andrea &amp; Saúl</span>
+    <span style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.4);display:block;margin-bottom:12px;">RMKT Web &amp; Apps</span>
+    <span style="font-style:italic;font-size:38px;color:#ffffff;display:block;line-height:1.1;">Andrea &amp; Saúl</span>
     <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:10px;display:block;">Panel de administración</span>
   </div>
 
   <div style="width:min(300px,calc(100vw - 48px));display:flex;flex-direction:column;gap:10px;position:relative;">
     <div style="position:relative;">
       <input id="auth-input" type="password" placeholder="Contraseña de acceso"
-        style="width:100%;padding:14px 16px;border:1px solid rgba(184,151,106,0.25);border-radius:3px;background:rgba(255,255,255,0.04);font-family:'DM Sans',sans-serif;font-size:14px;color:#faf8f4;outline:none;letter-spacing:1.5px;transition:border-color 0.2s;caret-color:var(--gold);"
-        onfocus="this.style.borderColor='rgba(184,151,106,0.6)'"
-        onblur="this.style.borderColor='rgba(184,151,106,0.25)'"
+        style="width:100%;padding:14px 16px;border:1px solid rgba(255,255,255,0.18);border-radius:3px;background:rgba(255,255,255,0.04);font-family:'DM Sans',sans-serif;font-size:14px;color:#ffffff;outline:none;letter-spacing:1.5px;transition:border-color 0.2s;caret-color:#ffffff;"
+        onfocus="this.style.borderColor='rgba(255,255,255,0.55)'"
+        onblur="this.style.borderColor='rgba(255,255,255,0.18)'"
         onkeydown="if(event.key==='Enter')checkAuth()" autofocus />
     </div>
     <button onclick="checkAuth()"
-      style="padding:14px;background:linear-gradient(135deg,var(--gold-dark),var(--gold));border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#faf8f4;cursor:pointer;transition:opacity 0.2s;"
+      style="padding:14px;background:#ffffff;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#0a0a0a;cursor:pointer;transition:opacity 0.2s;"
       onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
       Ingresar
     </button>
-    <p id="auth-error" style="font-size:11px;color:#d4876a;text-align:center;min-height:16px;letter-spacing:0.2px;"></p>
+    <p id="auth-error" style="font-size:11px;color:#e0a0a0;text-align:center;min-height:16px;letter-spacing:0.2px;"></p>
   </div>
 
   <div style="position:absolute;bottom:24px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.12);">02 · Octubre · 2027</div>
@@ -1169,7 +1205,8 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <span class="brand-date">02 · Octubre · 2027</span>
   </div>
 
-  <nav class="sidebar-nav">
+  <nav class="sidebar-nav" id="sidebarNav">
+    <div class="nav-indicator" id="navIndicator"></div>
     <span class="nav-section">Panel principal</span>
     <a class="nav-item active" href="#" data-target="panel-resumen" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="home"></i></span> Resumen general
@@ -1231,7 +1268,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
         <span id="topbar-countdown">cargando…</span>
       </div>
       <a class="btn-primary" href="../index.html" style="text-decoration:none;">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#faf8f4;stroke-width:2;fill:none;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#ffffff;stroke-width:2;fill:none;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Ver invitación
       </a>
     </div>
@@ -1244,13 +1281,13 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <div class="tab-panel active" id="panel-resumen">
 
     <!-- BANNER -->
-    <div class="welcome-banner" style="background:linear-gradient(135deg,#3a2810,#6b4a28);border:1px solid rgba(184,151,106,0.25);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
-      <div style="width:36px;height:36px;background:rgba(184,151,106,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
-        <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--gold-light);stroke-width:1.75;fill:none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <div class="welcome-banner" style="background:#0a0a0a;border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
+      <div style="width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
+        <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:#ffffff;stroke-width:1.75;fill:none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
       <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-light);margin-bottom:4px;">Bienvenido al panel de administración</div>
-        <div style="font-size:12px;color:rgba(212,184,150,0.7);line-height:1.7;">Aquí puedes ver todo en tiempo real: quién abrió su invitación, quién ya confirmó asistencia y cuántos pases están listos. Todo se actualiza automáticamente — sin necesidad de hacer nada.</div>
+        <div style="font-size:15px;font-weight:700;color:#ffffff;margin-bottom:4px;">Bienvenido al panel de administración</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.7;">Aquí puedes ver todo en tiempo real: quién abrió su invitación, quién ya confirmó asistencia y cuántos pases están listos. Todo se actualiza automáticamente — sin necesidad de hacer nada.</div>
       </div>
     </div>
 
@@ -1361,16 +1398,16 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <div class="panel" id="deadline-panel" style="margin-bottom:24px;display:none;">
       <div style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
         <div style="display:flex;align-items:center;gap:14px;">
-          <div style="width:36px;height:36px;background:rgba(184,150,80,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <div style="width:36px;height:36px;background:rgba(184,134,11,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--yellow);stroke-width:2;fill:none;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
           <div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);">Fecha límite de confirmación</div>
+            <div style="font-size:17px;color:var(--text);">Fecha límite de confirmación</div>
             <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">15 de septiembre de 2027</div>
           </div>
         </div>
         <div style="text-align:right;">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--yellow);line-height:1;" id="deadline-days">—</div>
+          <div style="font-size:32px;font-weight:800;letter-spacing:-1px;color:var(--yellow);line-height:1;" id="deadline-days">—</div>
           <div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);">días restantes</div>
         </div>
       </div>
@@ -1761,10 +1798,29 @@ function navTo(e, el) {
   if (contentEl) contentEl.scrollTop = 0;
   window.scrollTo({ top: 0, behavior: 'instant' });
 
+  placeNavIndicator();
   if (window.innerWidth < 1024) setTimeout(closeSidebar, 120);
 }
 
 function setActive(el) { navTo({ preventDefault: ()=>{} }, el); }
+
+// ── Indicador deslizante del sidebar ──
+function placeNavIndicator(animate) {
+  const nav = document.getElementById('sidebarNav');
+  const indicator = document.getElementById('navIndicator');
+  const active = nav && nav.querySelector('.nav-item.active');
+  if (!nav || !indicator || !active) return;
+  const navRect = nav.getBoundingClientRect();
+  const itemRect = active.getBoundingClientRect();
+  if (animate === false) indicator.style.transition = 'none';
+  indicator.style.transform = `translateY(${itemRect.top - navRect.top + nav.scrollTop}px)`;
+  indicator.style.height = itemRect.height + 'px';
+  indicator.classList.add('ready');
+  if (animate === false) {
+    requestAnimationFrame(() => { indicator.style.transition = ''; });
+  }
+}
+window.addEventListener('resize', () => placeNavIndicator(false));
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 
@@ -2114,7 +2170,7 @@ function openAssignModal(tableId) {
               const g = WEDDING_GUESTS[k];
               return `<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(232,223,200,0.5);cursor:pointer;">
                 <input type="checkbox" value="${k}" style="accent-color:var(--gold);width:14px;height:14px;">
-                <span style="font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text);flex:1;">${g.name}</span>
+                <span style="font-size:15px;color:var(--text);flex:1;">${g.name}</span>
                 <span style="font-size:11px;color:var(--text-light);">🎟 ${g.passes}</span>
               </label>`;
             }).join('')
@@ -2161,6 +2217,7 @@ function initAdmin() {
   buildNavSubDesigns();
   renderDashboard(LOCAL_RSVP);
   syncConfigFromFirestore();
+  requestAnimationFrame(() => placeNavIndicator(false));
 }
 
 // Trae la versión más reciente desde Firestore (por si se editó desde otro dispositivo)
@@ -2204,6 +2261,22 @@ function updateCapacityBar(confirmedPases) {
   document.getElementById('capacity-sub').textContent  = avail + ' pases disponibles aún';
 }
 
+function countUpTo(elId, target) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  target = parseInt(target, 10) || 0;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = target; return; }
+  const from  = parseInt(el.textContent, 10) || 0;
+  const start = performance.now(), dur = 700;
+  function tick(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (target - from) * eased);
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
 function renderDashboard(rsvpData) {
   const keys       = Object.keys(WEDDING_GUESTS);
   const totalPases = keys.reduce((s,k) => s + WEDDING_GUESTS[k].passes, 0);
@@ -2219,12 +2292,12 @@ function renderDashboard(rsvpData) {
   const pct = keys.length ? Math.round((confirmed / keys.length) * 100) : 0;
   updateCapacityBar(confirmedPases);
 
-  document.getElementById('stat-total').textContent           = totalPases;
+  countUpTo('stat-total', totalPases);
   document.getElementById('stat-total-detail').textContent    = keys.length + ' invitaciones';
-  document.getElementById('stat-confirmed').textContent       = confirmed;
+  countUpTo('stat-confirmed', confirmed);
   document.getElementById('stat-confirmed-detail').textContent = confirmedPases + ' pases confirmados';
-  document.getElementById('stat-pending').textContent         = pending;
-  document.getElementById('stat-declined').textContent        = declined;
+  countUpTo('stat-pending', pending);
+  countUpTo('stat-declined', declined);
   document.getElementById('progress-pct-text').textContent    = pct + '% completado';
   document.getElementById('progress-fill').style.width        = pct + '%';
   document.getElementById('legend-confirmed').textContent     = 'Confirmados (' + confirmed + ')';
@@ -2419,7 +2492,7 @@ function openQRModal() {
         ${keys.map(key => {
           const g   = WEDDING_GUESTS[key];
           const url = encodeURIComponent(base + 'index.html?g=' + key);
-          const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url + '&margin=8&color=2c2416&bgcolor=faf8f4';
+          const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url + '&margin=8&color=0a0a0a&bgcolor=ffffff';
           return `<div class="qr-card">
             <img src="${qrSrc}" alt="QR ${g.name}" loading="lazy"/>
             <div class="qr-card-name">${g.name}</div>
