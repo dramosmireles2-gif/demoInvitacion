@@ -1361,22 +1361,6 @@ body::before {
 </style>
 </head>
 <body>
-<!-- ── LOCKDOWN ── -->
-<script>
-(function(){
-  var p = new URLSearchParams(window.location.search).get('preview');
-  if (p !== 'rmkt2026') {
-    document.documentElement.style.overflow = 'hidden';
-    var el = document.createElement('div');
-    el.id = 'lockdown-screen';
-    el.innerHTML = '<div class="lk-inner"><p class="lk-soon">Próximamente</p><p class="lk-sub">Este sitio estará disponible próximamente.</p><p class="lk-brand">RMKT Web &amp; Apps</p></div>';
-    var s = document.createElement('style');
-    s.textContent = '#lockdown-screen{position:fixed;inset:0;z-index:99999;background:#F5F1E8;display:flex;align-items:center;justify-content:center;font-family:sans-serif;}.lk-inner{text-align:center;padding:40px 32px;}.lk-soon{font-family:Georgia,serif;font-size:clamp(36px,10vw,64px);font-weight:300;color:#0D4A2B;margin:0 0 16px;letter-spacing:2px;}.lk-sub{font-size:15px;color:#5A6858;margin:0 0 48px;line-height:1.6;max-width:280px;}.lk-brand{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#8A9888;}';
-    document.head.appendChild(s);
-    document.addEventListener('DOMContentLoaded', function(){ document.body.appendChild(el); });
-  }
-})();
-</script>
 
 
 <!-- AMBIENT ORBS ESTÁTICOS -->
