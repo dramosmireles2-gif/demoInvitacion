@@ -911,14 +911,12 @@ body.sidebar-open .sidebar-overlay { display: block; }
 .tb-seat {
   position: absolute; width: 26px; height: 26px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 9.5px; font-weight: 700; cursor: pointer; z-index: 1;
+  font-size: 9.5px; font-weight: 700; cursor: default; z-index: 1;
   border: 1.5px dashed var(--parchment); background: var(--white); color: var(--text-light);
   transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.tb-seat:hover { transform: scale(1.12); }
-.tb-seat.filled { border-style: solid; border-color: var(--text); background: var(--text); color: #fff; }
-.tb-seat.picked { box-shadow: 0 0 0 3px rgba(10,10,10,0.18); transform: scale(1.15); }
-.tb-seat.target { border-color: var(--green); border-style: solid; box-shadow: 0 0 0 3px rgba(63,138,92,0.18); }
+.tb-seat.filled { cursor: pointer; border-style: solid; border-color: var(--text); background: var(--text); color: #fff; }
+.tb-seat.filled:hover { transform: scale(1.12); }
 
 .tb-chip {
   display: inline-flex; align-items: center; gap: 6px;
@@ -927,8 +925,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   color: var(--text); cursor: pointer;
   transition: background 0.15s, color 0.15s, transform 0.12s;
 }
-.tb-chip:hover { transform: translateY(-1px); }
-.tb-chip.picked { background: var(--text); color: #fff; }
+.tb-chip:hover { transform: translateY(-1px); background: var(--cream); }
 .tb-chip .passes { font-weight: 400; opacity: 0.7; font-size: 10.5px; }
 
 /* Modal config mesas */
@@ -1957,6 +1954,7 @@ function deleteGuest(key) {
   localStorage.setItem('wedding_guests_extra', JSON.stringify(stored));
   renderUrlsList();
   renderGuestTable(lastRsvpData);
+  buildTablesSection();
   showToast('Invitado eliminado');
 }
 
@@ -2004,16 +2002,33 @@ function sortedTableIds() {
   });
 }
 
+// Una familia normalmente ocupa una sola mesa (g.table), pero puede repartirse
+// en varias — g.seating = [{table, passes}, ...] cuando está dividida.
+// Sin g.seating se comporta exactamente como antes (100% compatible).
+function getSeating(key) {
+  const g = WEDDING_GUESTS[key];
+  if (Array.isArray(g.seating) && g.seating.length) return g.seating;
+  const t = String(g.table);
+  if (t === '—' || t === '' || t === 'undefined') return [];
+  return [{ table: t, passes: g.passes || 1 }];
+}
+
+function guestsAtTable(tableId) {
+  const out = [];
+  Object.keys(WEDDING_GUESTS).forEach(key => {
+    getSeating(key).forEach(s => { if (String(s.table) === String(tableId) && s.passes > 0) out.push({ key, passes: s.passes }); });
+  });
+  return out.sort((a,b) => WEDDING_GUESTS[a.key].name.localeCompare(WEDDING_GUESTS[b.key].name));
+}
+
 function guestsForTable(tableId) {
-  return Object.keys(WEDDING_GUESTS)
-    .filter(k => String(WEDDING_GUESTS[k].table) === String(tableId))
-    .sort((a,b) => WEDDING_GUESTS[a].name.localeCompare(WEDDING_GUESTS[b].name));
+  return guestsAtTable(tableId).map(x => x.key);
 }
 
 function tableAssignedPasses(tableId, excludeKey) {
-  return guestsForTable(tableId)
-    .filter(k => k !== excludeKey)
-    .reduce((s,k) => s + (WEDDING_GUESTS[k].passes || 1), 0);
+  return guestsAtTable(tableId)
+    .filter(x => x.key !== excludeKey)
+    .reduce((s,x) => s + x.passes, 0);
 }
 
 // Reparte a los invitados de una mesa en orden en un arreglo de "asientos" —
@@ -2021,18 +2036,41 @@ function tableAssignedPasses(tableId, excludeKey) {
 function tableSeatMap(tableId, capacity) {
   const map = new Array(capacity).fill(null);
   let i = 0;
-  guestsForTable(tableId).forEach(key => {
-    const passes = WEDDING_GUESTS[key].passes || 1;
+  guestsAtTable(tableId).forEach(({key, passes}) => {
     for (let p = 0; p < passes && i < capacity; p++, i++) map[i] = key;
   });
   return map;
 }
 
-function assignGuestToTable(key, tableId) {
-  WEDDING_GUESTS[key].table = tableId;
+function mesaColumnText(key) {
+  const seating = getSeating(key);
+  if (seating.length <= 1) return WEDDING_GUESTS[key].table;
+  return seating[0].table + ' +' + (seating.length - 1);
+}
+
+// Guarda el reparto de una familia entre mesas. allocations = { tableId: pases, ... }
+// Solo se guardan las entradas con pases > 0; si queda una sola mesa se colapsa
+// a g.table (sin g.seating) para mantener el dato simple en el caso común.
+function saveGuestSeating(key, allocations) {
+  const entries = Object.keys(allocations)
+    .map(t => ({ table: t, passes: allocations[t] }))
+    .filter(e => e.passes > 0);
+
+  const g = WEDDING_GUESTS[key];
+  if (entries.length === 0) {
+    g.table = '—';
+    delete g.seating;
+  } else if (entries.length === 1) {
+    g.table = entries[0].table;
+    delete g.seating;
+  } else {
+    g.table = entries[0].table;
+    g.seating = entries;
+  }
+
   const extras = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
-  if (extras[key]) extras[key].table = tableId;
-  else extras[key] = { ...WEDDING_GUESTS[key] };
+  extras[key] = { ...g };
+  if (!entries.length || entries.length === 1) delete extras[key].seating;
   localStorage.setItem('wedding_guests_extra', JSON.stringify(extras));
   renderGuestTable(lastRsvpData);
 }
@@ -2161,9 +2199,7 @@ function renderTablesBoard() {
       seat.style.top  = `calc(50% + ${sy}px - 13px)`;
       seat.textContent = occ ? occ.name.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase() : '';
       seat.title = occ ? occ.name : 'Asiento libre';
-      if (boardPicked && boardPicked.type === 'seat' && boardPicked.table === id && boardPicked.index === i) seat.classList.add('picked');
-      if (boardPicked && !occ) seat.classList.add('target');
-      seat.onclick = () => onSeatClick(id, i);
+      if (occKey) seat.onclick = () => openFamilyCard(occKey);
       unit.appendChild(seat);
     }
     board.appendChild(unit);
@@ -2188,60 +2224,102 @@ function renderUnseatedTray() {
   }
   wrap.innerHTML = unseated.map(key => {
     const g = WEDDING_GUESTS[key];
-    const isPicked = boardPicked && boardPicked.type === 'guest' && boardPicked.key === key;
-    return `<button type="button" class="tb-chip${isPicked ? ' picked' : ''}" onclick="onGuestChipClick('${key}')">${g.name} <span class="passes">· ${g.passes}p</span></button>`;
+    return `<button type="button" class="tb-chip" onclick="openFamilyCard('${key}')">${g.name} <span class="passes">· ${g.passes}p</span></button>`;
   }).join('');
 }
 
-// ── Interacción: tocar-origen → tocar-destino ──
-let boardPicked = null; // { type:'guest', key } | { type:'seat', table, index }
+// ── Tarjeta de familia: ver, repartir entre mesas, eliminar ──
+let familyCardState = null; // { key, alloc: { tableId: pases, ... } }
 
-function onGuestChipClick(key) {
-  if (boardPicked && boardPicked.type === 'guest' && boardPicked.key === key) { boardPicked = null; buildTablesSection(); return; }
-  boardPicked = { type: 'guest', key };
-  buildTablesSection();
+function openFamilyCard(key) {
+  const alloc = {};
+  getSeating(key).forEach(s => { alloc[s.table] = (alloc[s.table] || 0) + s.passes; });
+  familyCardState = { key, alloc };
+  renderFamilyCard();
 }
 
-function onSeatClick(tableId, index) {
-  const cfg = tablesConfig[tableId];
-  const effCapacity = Math.max(cfg.capacity, tableAssignedPasses(tableId, null), 1);
-  const occKey = tableSeatMap(tableId, effCapacity)[index];
+function closeFamilyCard() {
+  familyCardState = null;
+  const el = document.getElementById('family-card-overlay');
+  if (el) el.remove();
+}
 
-  if (boardPicked && boardPicked.type === 'guest') {
-    if (occKey) { showToast('Ese asiento ya está ocupado'); return; }
-    const key = boardPicked.key;
-    const g = WEDDING_GUESTS[key];
-    if (tableAssignedPasses(tableId, key) + g.passes > cfg.capacity) {
-      showToast('No caben los ' + g.passes + ' pases juntos en ' + cfg.label);
-      return;
-    }
-    assignGuestToTable(key, tableId);
-    boardPicked = null;
-    showToast(g.name + ' sentado en ' + cfg.label);
-    buildTablesSection();
-    return;
+function familyAllocated() {
+  return Object.values(familyCardState.alloc).reduce((s,n) => s + n, 0);
+}
+
+function adjustFamilyAlloc(tableId, delta) {
+  const { key, alloc } = familyCardState;
+  const g = WEDDING_GUESTS[key];
+  const current = alloc[tableId] || 0;
+  const next = current + delta;
+  if (next < 0) return;
+  if (delta > 0) {
+    if (familyAllocated() >= g.passes) { showToast('Ya repartiste los ' + g.passes + ' pases'); return; }
+    const cfg = tablesConfig[tableId];
+    const otherPasses = tableAssignedPasses(tableId, key);
+    if (otherPasses + next > cfg.capacity) { showToast(cfg.label + ' no tiene lugar'); return; }
+  }
+  alloc[tableId] = next;
+  if (alloc[tableId] === 0) delete alloc[tableId];
+  renderFamilyCard();
+}
+
+function renderFamilyCard() {
+  let overlay = document.getElementById('family-card-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'family-card-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(10,10,10,0.4);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeFamilyCard(); });
+    document.body.appendChild(overlay);
   }
 
-  if (boardPicked && boardPicked.type === 'seat') {
-    if (boardPicked.table === tableId && boardPicked.index === index) { boardPicked = null; buildTablesSection(); return; }
-    if (occKey) { showToast('Ese asiento ya está ocupado'); return; }
-    const srcCfg = tablesConfig[boardPicked.table];
-    const srcCapacity = Math.max(srcCfg.capacity, tableAssignedPasses(boardPicked.table, null), 1);
-    const key = tableSeatMap(boardPicked.table, srcCapacity)[boardPicked.index];
-    if (!key) { boardPicked = null; buildTablesSection(); return; }
-    const g = WEDDING_GUESTS[key];
-    if (tableAssignedPasses(tableId, key) + g.passes > cfg.capacity) {
-      showToast('No caben los ' + g.passes + ' pases juntos en ' + cfg.label);
-      return;
-    }
-    assignGuestToTable(key, tableId);
-    boardPicked = null;
-    showToast(g.name + ' movido a ' + cfg.label);
-    buildTablesSection();
-    return;
-  }
+  const { key, alloc } = familyCardState;
+  const g = WEDDING_GUESTS[key];
+  const allocated = familyAllocated();
+  const tableIds = sortedTableIds();
 
-  if (occKey) { boardPicked = { type: 'seat', table: tableId, index }; buildTablesSection(); }
+  overlay.innerHTML = `
+    <div id="guest-modal" style="width:min(420px,100%);">
+      <div class="modal-title">${g.name}</div>
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:16px;">${g.passes} pase${g.passes !== 1 ? 's' : ''} en total — repártelos en una o varias mesas</div>
+      <div style="max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;">
+        ${tableIds.length === 0 ? '<div style="font-size:12px;color:var(--text-light);">Aún no hay mesas — agrega una primero.</div>' : tableIds.map(id => {
+          const cfg = tablesConfig[id];
+          const count = alloc[id] || 0;
+          return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 4px;border-bottom:1px solid rgba(232,223,200,0.5);">
+            <span style="font-size:13px;color:var(--text);">${cfg.label}</span>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button type="button" onclick="adjustFamilyAlloc('${id}',-1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--parchment);background:var(--white);cursor:pointer;font-weight:700;">−</button>
+              <span style="font-size:13px;font-weight:700;min-width:14px;text-align:center;">${count}</span>
+              <button type="button" onclick="adjustFamilyAlloc('${id}',1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--parchment);background:var(--white);cursor:pointer;font-weight:700;">+</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="font-size:11px;color:${allocated > g.passes ? 'var(--red)' : 'var(--text-light)'};margin-top:12px;">Asignados: ${allocated} / ${g.passes}${allocated < g.passes ? ' — el resto queda sin mesa' : ''}</div>
+      <div class="modal-actions" style="justify-content:space-between;flex-wrap:wrap;">
+        <button class="btn-ghost" style="color:var(--red);border-color:var(--red);" onclick="deleteGuestFromCard('${key}')">Eliminar invitado</button>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-ghost" onclick="closeFamilyCard()">Cancelar</button>
+          <button class="btn-primary" onclick="saveFamilyCard()">Guardar</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function saveFamilyCard() {
+  const { key, alloc } = familyCardState;
+  saveGuestSeating(key, alloc);
+  closeFamilyCard();
+  buildTablesSection();
+  showToast('Mesa actualizada para ' + WEDDING_GUESTS[key].name);
+}
+
+function deleteGuestFromCard(key) {
+  closeFamilyCard();
+  deleteGuest(key);
 }
 
 // ── Arrastrar mesa para acomodar el plano ──
@@ -2277,11 +2355,15 @@ function startTableDrag(e, tableId) {
   window.addEventListener('pointerup', onUp);
 }
 
+const MAX_TABLE_CAPACITY = 15;
+
 function addTable() {
   const nums = Object.keys(tablesConfig).map(k => parseInt(k) || 0);
   const nextNum = (nums.length ? Math.max(...nums) : 0) + 1;
+  const name = prompt('Nombre de la mesa', 'Mesa ' + nextNum);
+  if (name === null) return; // canceló
   const id = String(nextNum);
-  tablesConfig[id] = { label: 'Mesa ' + nextNum, capacity: DEFAULT_TABLE_CAPACITY };
+  tablesConfig[id] = { label: (name.trim() || 'Mesa ' + nextNum), capacity: DEFAULT_TABLE_CAPACITY };
   ensureTablePosition(id, Object.keys(tablesConfig).length - 1);
   saveTablesConfig();
   buildTablesSection();
@@ -2293,7 +2375,7 @@ function resizeTableCapacity(tableId, delta) {
   const assigned = tableAssignedPasses(tableId, null);
   const next = cfg.capacity + delta;
   if (next < Math.max(1, assigned)) { showToast('Hay invitados sentados ahí'); return; }
-  if (next > 30) { showToast('Máximo 30 asientos'); return; }
+  if (next > MAX_TABLE_CAPACITY) { showToast('Máximo ' + MAX_TABLE_CAPACITY + ' asientos por mesa'); return; }
   cfg.capacity = next;
   saveTablesConfig();
   buildTablesSection();
@@ -2318,7 +2400,7 @@ function openTableConfigModal() {
       <div style="margin-bottom:16px;">
         <div class="table-config-generate-row" style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
           <input class="modal-input" type="number" id="new-table-count" min="1" max="50" placeholder="Nº de mesas" style="flex:1;min-width:80px;">
-          <input class="modal-input" type="number" id="new-table-cap" min="1" max="30" placeholder="Capacidad" style="flex:1;min-width:80px;" value="10">
+          <input class="modal-input" type="number" id="new-table-cap" min="1" max="15" placeholder="Capacidad" style="flex:1;min-width:80px;" value="10">
           <button class="btn-primary" style="padding:8px 14px;font-size:11px;white-space:nowrap;" onclick="generateTables()">Generar</button>
         </div>
         <div style="font-size:11px;color:var(--text-light);">Útil para arrancar de cero con muchas mesas de golpe. O edita la capacidad de cada una individualmente:</div>
@@ -2328,7 +2410,7 @@ function openTableConfigModal() {
           const cfg = tablesConfig[id];
           return `<div class="table-config-row">
             <span class="table-config-label">${cfg.label}</span>
-            <input class="table-config-input" type="number" min="1" max="50" value="${cfg.capacity}" onchange="tablesConfig['${id}'].capacity=parseInt(this.value)||10;saveTablesConfig();">
+            <input class="table-config-input" type="number" min="1" max="15" value="${cfg.capacity}" onchange="tablesConfig['${id}'].capacity=Math.min(${MAX_TABLE_CAPACITY},Math.max(1,parseInt(this.value)||10));this.value=tablesConfig['${id}'].capacity;saveTablesConfig();">
             <span style="font-size:11px;color:var(--text-light);">asientos</span>
           </div>`;
         }).join('')}
@@ -2350,7 +2432,7 @@ function closeTableConfigModal() {
 
 function generateTables() {
   const count = parseInt(document.getElementById('new-table-count').value) || 0;
-  const cap   = parseInt(document.getElementById('new-table-cap').value) || 10;
+  const cap   = Math.min(MAX_TABLE_CAPACITY, Math.max(1, parseInt(document.getElementById('new-table-cap').value) || 10));
   if (count < 1 || count > 50) return;
   // Crear TODAS las mesas 1..N sin saltar — los huecos se rellenan siempre
   for (let i = 1; i <= count; i++) {
@@ -2537,7 +2619,7 @@ function renderGuestTable(rsvpData) {
         </div>
       </td>
       <td><span class="pases-dot">🎟 ${g.passes}</span></td>
-      <td><span class="mesa-badge">${g.table}</span></td>
+      <td><span class="mesa-badge">${mesaColumnText(key)}</span></td>
       <td><span class="badge ${badge}">${statusText}</span></td>
       <td style="font-size:12px;color:var(--text-light);">${msgDisplay}</td>
       <td style="font-size:12px;color:var(--text-light);white-space:nowrap;">${confirmedAtDisplay}</td>
