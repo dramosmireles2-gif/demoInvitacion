@@ -854,94 +854,82 @@ body.sidebar-open .sidebar-overlay { display: block; }
 .gift-preview-label { font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-light); margin-bottom: 4px; }
 .gift-preview-title { font-size: 16px; font-weight: 700; color: var(--text); }
 
-/* ── TABLES ── */
-.table-card {
-  background: var(--white);
-  border: 1px solid var(--parchment);
-  border-radius: 5px;
+/* ── TABLES: plano visual ── */
+.board-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+#tables-board {
+  position: relative;
+  min-width: 100%;
+  min-height: 440px;
+  background: radial-gradient(circle, rgba(10,10,10,0.05) 1px, transparent 1px) 0 0/22px 22px;
   overflow: hidden;
-  transition: box-shadow 0.2s, transform 0.2s;
 }
-.table-card:hover { box-shadow: 0 8px 22px rgba(10,10,10,0.1); transform: translateY(-2px); }
-
-.table-card-header {
-  padding: 14px 18px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--parchment);
-}
-.table-card-name {
-
-  font-size: 17px;
-  color: var(--text);
-}
-.table-card-capacity {
-  font-size: 11px;
-  color: var(--text-light);
-  letter-spacing: 0.3px;
+@media (max-width: 639px) {
+  #tables-board { min-width: 640px; min-height: 380px; }
 }
 
-.table-occ-bar {
-  height: 3px;
-  background: var(--cream2);
+.tb-unit { position: absolute; transform: translate(-50%,-50%); }
+.tb-core {
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--text);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  position: relative; z-index: 2; cursor: grab; touch-action: none;
+  transition: width 0.25s ease, height 0.25s ease, box-shadow 0.15s ease;
 }
-.table-occ-fill {
-  height: 100%;
-  border-radius: 0;
-  transition: width 0.6s ease;
-}
+.tb-core.dragging { cursor: grabbing; box-shadow: 0 10px 26px rgba(10,10,10,0.22); transition: none; }
+.tb-label { font-size: 11px; font-weight: 800; letter-spacing: -0.1px; color: var(--text); }
+.tb-sub { font-size: 9px; color: var(--text-light); margin-top: 1px; }
 
-.table-guests-list {
-  padding: 10px 0;
-  max-height: 200px;
-  overflow-y: auto;
+.tb-resize {
+  position: absolute; display: flex; gap: 3px; z-index: 3;
+  bottom: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--text); border-radius: 999px; padding: 2px;
 }
-.table-guest-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 7px 18px;
-  font-size: 13px;
-  border-bottom: 1px solid rgba(232,223,200,0.4);
-  gap: 8px;
+.tb-resize button {
+  width: 20px; height: 20px; border-radius: 999px; border: none; background: transparent;
+  color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
 }
-.table-guest-row:last-child { border-bottom: none; }
-.table-guest-name {
+.tb-resize button:hover  { background: rgba(255,255,255,0.18); }
+.tb-resize button:active { transform: scale(0.9); }
 
-  font-size: 15px;
-  color: var(--text);
-  flex: 1;
+.tb-remove {
+  position: absolute; top: -8px; right: -8px; z-index: 4;
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1.5px solid var(--parchment); background: var(--white); color: var(--red);
+  font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
 }
-.table-guest-passes {
-  font-size: 11px;
-  color: var(--text-light);
-  flex-shrink: 0;
+.tb-rename {
+  position: absolute; top: -8px; left: -8px; z-index: 4;
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1.5px solid var(--parchment); background: var(--white); color: var(--text-light);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
+.tb-rename:hover { color: var(--text); border-color: var(--text); }
 
-.table-card-footer {
-  padding: 10px 18px;
-  background: var(--cream);
-  border-top: 1px solid var(--parchment);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.tb-seat {
+  position: absolute; width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9.5px; font-weight: 700; cursor: pointer; z-index: 1;
+  border: 1.5px dashed var(--parchment); background: var(--white); color: var(--text-light);
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.table-avail {
-  font-size: 12px;
-  font-weight: 500;
-}
-.table-avail.ok   { color: var(--green); }
-.table-avail.warn { color: var(--yellow); }
-.table-avail.full { color: var(--red); }
+.tb-seat:hover { transform: scale(1.12); }
+.tb-seat.filled { border-style: solid; border-color: var(--text); background: var(--text); color: #fff; }
+.tb-seat.picked { box-shadow: 0 0 0 3px rgba(10,10,10,0.18); transform: scale(1.15); }
+.tb-seat.target { border-color: var(--green); border-style: solid; box-shadow: 0 0 0 3px rgba(63,138,92,0.18); }
 
-.table-empty-row {
-  padding: 18px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-light);
-  font-style: italic;
+.tb-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; border-radius: 999px; border: 1.5px solid var(--text);
+  background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--text); cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.12s;
 }
+.tb-chip:hover { transform: translateY(-1px); }
+.tb-chip.picked { background: var(--text); color: #fff; }
+.tb-chip .passes { font-weight: 400; opacity: 0.7; font-size: 10.5px; }
 
 /* Modal config mesas */
 #table-config-overlay {
@@ -1127,9 +1115,6 @@ body.sidebar-open .sidebar-overlay { display: block; }
   /* Event form — 1 col ya cubierto por regla aparte */
   #event-form { gap: 14px; }
   .event-input { font-size: 14px; }
-
-  /* Mesas grid — 1 col en mobile */
-  #tables-grid { grid-template-columns: 1fr !important; }
 
   /* Evitar scroll horizontal */
   .content { overflow-x: hidden; }
@@ -1487,21 +1472,43 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
       <!-- Config header -->
       <div class="panel" style="margin-bottom:14px;">
-        <div class="panel-header">
+        <div class="panel-header" style="flex-wrap:wrap;gap:10px;">
           <div>
             <span class="panel-title">Gestión de mesas</span>
             <div class="panel-sub" id="tables-summary-sub">Cargando…</div>
           </div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <button class="btn-ghost" onclick="openTableConfigModal()">Configurar mesas</button>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="btn-ghost" onclick="openTableConfigModal()">Generar varias</button>
+            <button class="btn-primary" onclick="addTable()">+ Agregar mesa</button>
           </div>
         </div>
         <!-- Stats rápidos de mesas -->
         <div id="tables-quick-stats" style="display:flex;gap:12px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--parchment);"></div>
       </div>
 
-      <!-- Grid de tarjetas por mesa -->
-      <div id="tables-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;"></div>
+      <!-- Plano visual -->
+      <div class="panel" style="margin-bottom:14px;">
+        <div class="panel-header">
+          <div>
+            <span class="panel-title">Plano del salón</span>
+            <div class="panel-sub">Arrastra una mesa para acomodarla · toca un invitado y luego un asiento para sentarlo</div>
+          </div>
+        </div>
+        <div class="board-scroll">
+          <div id="tables-board"></div>
+        </div>
+      </div>
+
+      <!-- Invitados sin mesa -->
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-title">Invitados sin mesa</span>
+            <div class="panel-sub" id="unseated-sub"></div>
+          </div>
+        </div>
+        <div id="unseated-tray" style="padding:16px 22px;display:flex;flex-wrap:wrap;gap:8px;"></div>
+      </div>
 
     </div>
 
@@ -1987,39 +1994,72 @@ function saveTablesConfig() {
   localStorage.setItem('wedding_tables_config', JSON.stringify(tablesConfig));
 }
 
-function buildTablesSection() {
-  // Calcular ocupación por mesa
-  const keys = Object.keys(WEDDING_GUESTS);
-  const byTable = {}; // { tableId: [{ key, g }] }
-
-  keys.forEach(key => {
-    const g = WEDDING_GUESTS[key];
-    const t = String(g.table);
-    if (!byTable[t]) byTable[t] = [];
-    byTable[t].push({ key, g });
-  });
-
-  // Calcular totales
-  let totalSeats = 0, totalAssigned = 0, totalAvail = 0, fullTables = 0;
-  const tableIds = Object.keys(tablesConfig).sort((a,b) => {
+function sortedTableIds() {
+  return Object.keys(tablesConfig).sort((a,b) => {
     const na = parseInt(a), nb = parseInt(b);
     if (!isNaN(na) && !isNaN(nb)) return na - nb;
     if (!isNaN(na)) return -1;
     if (!isNaN(nb)) return  1;
     return a.localeCompare(b);
   });
+}
 
+function guestsForTable(tableId) {
+  return Object.keys(WEDDING_GUESTS)
+    .filter(k => String(WEDDING_GUESTS[k].table) === String(tableId))
+    .sort((a,b) => WEDDING_GUESTS[a].name.localeCompare(WEDDING_GUESTS[b].name));
+}
+
+function tableAssignedPasses(tableId, excludeKey) {
+  return guestsForTable(tableId)
+    .filter(k => k !== excludeKey)
+    .reduce((s,k) => s + (WEDDING_GUESTS[k].passes || 1), 0);
+}
+
+// Reparte a los invitados de una mesa en orden en un arreglo de "asientos" —
+// el índice exacto es solo visual, nada se guarda por asiento individual.
+function tableSeatMap(tableId, capacity) {
+  const map = new Array(capacity).fill(null);
+  let i = 0;
+  guestsForTable(tableId).forEach(key => {
+    const passes = WEDDING_GUESTS[key].passes || 1;
+    for (let p = 0; p < passes && i < capacity; p++, i++) map[i] = key;
+  });
+  return map;
+}
+
+function assignGuestToTable(key, tableId) {
+  WEDDING_GUESTS[key].table = tableId;
+  const extras = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
+  if (extras[key]) extras[key].table = tableId;
+  else extras[key] = { ...WEDDING_GUESTS[key] };
+  localStorage.setItem('wedding_guests_extra', JSON.stringify(extras));
+  renderGuestTable(lastRsvpData);
+}
+
+function ensureTablePosition(id, idx) {
+  const cfg = tablesConfig[id];
+  if (typeof cfg.x === 'number' && typeof cfg.y === 'number') return;
+  const cols = 4;
+  const col = idx % cols, row = Math.floor(idx / cols);
+  cfg.x = 14 + col * 24;
+  cfg.y = 22 + row * 28;
+}
+
+function buildTablesSection() {
+  const tableIds = sortedTableIds();
+
+  // Quick stats (con base en la capacidad configurada, no en la real del plano)
+  let totalSeats = 0, totalAssigned = 0, fullTables = 0;
   tableIds.forEach(id => {
     const cfg = tablesConfig[id];
-    const guests = byTable[id] || [];
-    const assignedPasses = guests.reduce((s, {g}) => s + (g.passes || 1), 0);
+    const assigned = tableAssignedPasses(id, null);
     totalSeats    += cfg.capacity;
-    totalAssigned += assignedPasses;
-    if (assignedPasses >= cfg.capacity) fullTables++;
+    totalAssigned += assigned;
+    if (assigned >= cfg.capacity) fullTables++;
   });
-  totalAvail = totalSeats - totalAssigned;
+  const totalAvail = totalSeats - totalAssigned;
 
-  // Quick stats
   document.getElementById('tables-summary-sub').textContent =
     tableIds.length + ' mesas · ' + totalSeats + ' asientos totales · ' + totalAvail + ' disponibles';
 
@@ -2042,66 +2082,246 @@ function buildTablesSection() {
     </div>
   `;
 
-  // Tarjetas por mesa
-  const grid = document.getElementById('tables-grid');
+  renderTablesBoard();
+  renderUnseatedTray();
+}
+
+function renderTablesBoard() {
+  const board = document.getElementById('tables-board');
+  if (!board) return;
+  const tableIds = sortedTableIds();
+
   if (!tableIds.length) {
-    grid.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-light);font-size:13px;">Sin mesas configuradas — agrega invitados con número de mesa.</div>';
+    board.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-light);font-size:13px;">Sin mesas configuradas — agrega una con "+ Agregar mesa".</div>';
     return;
   }
 
-  grid.innerHTML = tableIds.map(id => {
-    const cfg    = tablesConfig[id];
-    const guests = (byTable[id] || []).sort((a,b) => a.g.name.localeCompare(b.g.name));
-    const assignedPasses = guests.reduce((s, {g}) => s + (g.passes || 1), 0);
-    const avail  = cfg.capacity - assignedPasses;
-    const pct    = Math.min(Math.round((assignedPasses / cfg.capacity) * 100), 100);
-    const fillColor = avail <= 0 ? 'var(--red)' : avail <= 2 ? 'var(--yellow)' : 'var(--green)';
-    const availClass = avail <= 0 ? 'full' : avail <= 2 ? 'warn' : 'ok';
-    const availText  = avail <= 0 ? 'Mesa llena' : avail === 1 ? '1 asiento libre' : avail + ' asientos libres';
+  tableIds.forEach((id, idx) => ensureTablePosition(id, idx));
 
-    const guestRows = guests.length
-      ? guests.map(({g}) => `
-        <div class="table-guest-row">
-          <span class="table-guest-name">${g.name}</span>
-          <span class="table-guest-passes">🎟 ${g.passes}</span>
-        </div>`).join('')
-      : '<div class="table-empty-row">Sin invitados asignados</div>';
+  board.innerHTML = '';
+  tableIds.forEach(id => {
+    const cfg = tablesConfig[id];
+    const assignedPasses = tableAssignedPasses(id, null);
+    // Si por alguna razón hay más pases asignados que capacidad, el plano
+    // se agranda para mostrarlos — nunca escondemos a un invitado ya asignado.
+    const effCapacity = Math.max(cfg.capacity, assignedPasses, 1);
+    const map = tableSeatMap(id, effCapacity);
 
-    return `
-      <div class="table-card">
-        <div class="table-card-header">
-          <span class="table-card-name">${cfg.label}</span>
-          <span class="table-card-capacity">${assignedPasses} / ${cfg.capacity} pases</span>
-        </div>
-        <div class="table-occ-bar">
-          <div class="table-occ-fill" style="width:${pct}%;background:${fillColor};"></div>
-        </div>
-        <div class="table-guests-list">${guestRows}</div>
-        <div class="table-card-footer">
-          <span class="table-avail ${availClass}">${availText}</span>
-          <button class="btn-ghost" style="padding:4px 10px;font-size:11px;" onclick="openAssignModal('${id}')">Asignar</button>
-        </div>
-      </div>`;
+    const unit = document.createElement('div');
+    unit.className = 'tb-unit';
+    unit.style.left = cfg.x + '%';
+    unit.style.top  = cfg.y + '%';
+
+    const size = 46 + effCapacity * 3.4;
+    const core = document.createElement('div');
+    core.className = 'tb-core';
+    core.style.width = size + 'px';
+    core.style.height = size + 'px';
+    core.innerHTML = `<span class="tb-label">${cfg.label}</span><span class="tb-sub">${assignedPasses}/${cfg.capacity}</span>`;
+    core.addEventListener('pointerdown', (e) => startTableDrag(e, id));
+    unit.appendChild(core);
+
+    const resize = document.createElement('div');
+    resize.className = 'tb-resize';
+    resize.innerHTML = '<button type="button" title="Quitar asiento">−</button><button type="button" title="Agregar asiento">+</button>';
+    resize.children[0].onclick = (e) => { e.stopPropagation(); resizeTableCapacity(id, -1); };
+    resize.children[1].onclick = (e) => { e.stopPropagation(); resizeTableCapacity(id, 1); };
+    unit.appendChild(resize);
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'tb-remove';
+    removeBtn.textContent = '×';
+    removeBtn.title = 'Eliminar mesa';
+    removeBtn.onclick = (e) => { e.stopPropagation(); removeTable(id); };
+    unit.appendChild(removeBtn);
+
+    const renameBtn = document.createElement('button');
+    renameBtn.type = 'button';
+    renameBtn.className = 'tb-rename';
+    renameBtn.innerHTML = '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+    renameBtn.title = 'Renombrar mesa';
+    renameBtn.onclick = (e) => {
+      e.stopPropagation();
+      const name = prompt('Nombre de la mesa', cfg.label);
+      if (name && name.trim()) { cfg.label = name.trim(); saveTablesConfig(); buildTablesSection(); }
+    };
+    unit.appendChild(renameBtn);
+
+    const radius = size / 2 + 22;
+    for (let i = 0; i < effCapacity; i++) {
+      const angle = (i / effCapacity) * Math.PI * 2 - Math.PI / 2;
+      const sx = Math.cos(angle) * radius;
+      const sy = Math.sin(angle) * radius;
+      const occKey = map[i];
+      const occ = occKey ? WEDDING_GUESTS[occKey] : null;
+      const seat = document.createElement('div');
+      seat.className = 'tb-seat' + (occ ? ' filled' : '');
+      seat.style.left = `calc(50% + ${sx}px - 13px)`;
+      seat.style.top  = `calc(50% + ${sy}px - 13px)`;
+      seat.textContent = occ ? occ.name.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase() : '';
+      seat.title = occ ? occ.name : 'Asiento libre';
+      if (boardPicked && boardPicked.type === 'seat' && boardPicked.table === id && boardPicked.index === i) seat.classList.add('picked');
+      if (boardPicked && !occ) seat.classList.add('target');
+      seat.onclick = () => onSeatClick(id, i);
+      unit.appendChild(seat);
+    }
+    board.appendChild(unit);
+  });
+}
+
+function renderUnseatedTray() {
+  const sub  = document.getElementById('unseated-sub');
+  const wrap = document.getElementById('unseated-tray');
+  if (!sub || !wrap) return;
+
+  const unseated = Object.keys(WEDDING_GUESTS).filter(k => {
+    const t = String(WEDDING_GUESTS[k].table);
+    return t === '—' || t === '' || t === 'undefined';
+  }).sort((a,b) => WEDDING_GUESTS[a].name.localeCompare(WEDDING_GUESTS[b].name));
+
+  sub.textContent = unseated.length + (unseated.length === 1 ? ' invitado pendiente de mesa' : ' invitados pendientes de mesa');
+
+  if (!unseated.length) {
+    wrap.innerHTML = '<span style="font-size:12px;color:var(--text-light);font-style:italic;">Todos los invitados tienen mesa</span>';
+    return;
+  }
+  wrap.innerHTML = unseated.map(key => {
+    const g = WEDDING_GUESTS[key];
+    const isPicked = boardPicked && boardPicked.type === 'guest' && boardPicked.key === key;
+    return `<button type="button" class="tb-chip${isPicked ? ' picked' : ''}" onclick="onGuestChipClick('${key}')">${g.name} <span class="passes">· ${g.passes}p</span></button>`;
   }).join('');
+}
+
+// ── Interacción: tocar-origen → tocar-destino ──
+let boardPicked = null; // { type:'guest', key } | { type:'seat', table, index }
+
+function onGuestChipClick(key) {
+  if (boardPicked && boardPicked.type === 'guest' && boardPicked.key === key) { boardPicked = null; buildTablesSection(); return; }
+  boardPicked = { type: 'guest', key };
+  buildTablesSection();
+}
+
+function onSeatClick(tableId, index) {
+  const cfg = tablesConfig[tableId];
+  const effCapacity = Math.max(cfg.capacity, tableAssignedPasses(tableId, null), 1);
+  const occKey = tableSeatMap(tableId, effCapacity)[index];
+
+  if (boardPicked && boardPicked.type === 'guest') {
+    if (occKey) { showToast('Ese asiento ya está ocupado'); return; }
+    const key = boardPicked.key;
+    const g = WEDDING_GUESTS[key];
+    if (tableAssignedPasses(tableId, key) + g.passes > cfg.capacity) {
+      showToast('No caben los ' + g.passes + ' pases juntos en ' + cfg.label);
+      return;
+    }
+    assignGuestToTable(key, tableId);
+    boardPicked = null;
+    showToast(g.name + ' sentado en ' + cfg.label);
+    buildTablesSection();
+    return;
+  }
+
+  if (boardPicked && boardPicked.type === 'seat') {
+    if (boardPicked.table === tableId && boardPicked.index === index) { boardPicked = null; buildTablesSection(); return; }
+    if (occKey) { showToast('Ese asiento ya está ocupado'); return; }
+    const srcCfg = tablesConfig[boardPicked.table];
+    const srcCapacity = Math.max(srcCfg.capacity, tableAssignedPasses(boardPicked.table, null), 1);
+    const key = tableSeatMap(boardPicked.table, srcCapacity)[boardPicked.index];
+    if (!key) { boardPicked = null; buildTablesSection(); return; }
+    const g = WEDDING_GUESTS[key];
+    if (tableAssignedPasses(tableId, key) + g.passes > cfg.capacity) {
+      showToast('No caben los ' + g.passes + ' pases juntos en ' + cfg.label);
+      return;
+    }
+    assignGuestToTable(key, tableId);
+    boardPicked = null;
+    showToast(g.name + ' movido a ' + cfg.label);
+    buildTablesSection();
+    return;
+  }
+
+  if (occKey) { boardPicked = { type: 'seat', table: tableId, index }; buildTablesSection(); }
+}
+
+// ── Arrastrar mesa para acomodar el plano ──
+let tableDragState = null;
+function startTableDrag(e, tableId) {
+  e.preventDefault();
+  const board = document.getElementById('tables-board');
+  const boardRect = board.getBoundingClientRect();
+  const core = e.currentTarget;
+  core.classList.add('dragging');
+  core.setPointerCapture(e.pointerId);
+  tableDragState = { tableId, boardRect, core };
+
+  function onMove(ev) {
+    if (!tableDragState) return;
+    const cfg = tablesConfig[tableDragState.tableId];
+    let px = ((ev.clientX - tableDragState.boardRect.left) / tableDragState.boardRect.width) * 100;
+    let py = ((ev.clientY - tableDragState.boardRect.top) / tableDragState.boardRect.height) * 100;
+    px = Math.max(8, Math.min(92, px));
+    py = Math.max(10, Math.min(90, py));
+    cfg.x = px; cfg.y = py;
+    const unit = tableDragState.core.closest('.tb-unit');
+    unit.style.left = px + '%';
+    unit.style.top  = py + '%';
+  }
+  function onUp() {
+    if (tableDragState) { tableDragState.core.classList.remove('dragging'); saveTablesConfig(); }
+    tableDragState = null;
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', onUp);
+  }
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup', onUp);
+}
+
+function addTable() {
+  const nums = Object.keys(tablesConfig).map(k => parseInt(k) || 0);
+  const nextNum = (nums.length ? Math.max(...nums) : 0) + 1;
+  const id = String(nextNum);
+  tablesConfig[id] = { label: 'Mesa ' + nextNum, capacity: DEFAULT_TABLE_CAPACITY };
+  ensureTablePosition(id, Object.keys(tablesConfig).length - 1);
+  saveTablesConfig();
+  buildTablesSection();
+  showToast('Mesa agregada — arrástrala a su lugar');
+}
+
+function resizeTableCapacity(tableId, delta) {
+  const cfg = tablesConfig[tableId];
+  const assigned = tableAssignedPasses(tableId, null);
+  const next = cfg.capacity + delta;
+  if (next < Math.max(1, assigned)) { showToast('Hay invitados sentados ahí'); return; }
+  if (next > 30) { showToast('Máximo 30 asientos'); return; }
+  cfg.capacity = next;
+  saveTablesConfig();
+  buildTablesSection();
+}
+
+function removeTable(tableId) {
+  if (tableAssignedPasses(tableId, null) > 0) { showToast('Quita a los invitados de esta mesa primero'); return; }
+  if (!confirm('¿Eliminar ' + tablesConfig[tableId].label + '?')) return;
+  delete tablesConfig[tableId];
+  saveTablesConfig();
+  buildTablesSection();
 }
 
 function openTableConfigModal() {
   const overlay = document.createElement('div');
   overlay.id = 'table-config-overlay';
-  const tableIds = Object.keys(tablesConfig).sort((a,b) => {
-    const na = parseInt(a)||0, nb = parseInt(b)||0; return na-nb || a.localeCompare(b);
-  });
+  const tableIds = sortedTableIds();
 
   overlay.innerHTML = `
     <div id="table-config-modal">
-      <div class="modal-title">Configurar mesas</div>
+      <div class="modal-title">Generar varias mesas</div>
       <div style="margin-bottom:16px;">
         <div class="table-config-generate-row" style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
           <input class="modal-input" type="number" id="new-table-count" min="1" max="50" placeholder="Nº de mesas" style="flex:1;min-width:80px;">
           <input class="modal-input" type="number" id="new-table-cap" min="1" max="30" placeholder="Capacidad" style="flex:1;min-width:80px;" value="10">
           <button class="btn-primary" style="padding:8px 14px;font-size:11px;white-space:nowrap;" onclick="generateTables()">Generar</button>
         </div>
-        <div style="font-size:11px;color:var(--text-light);">O edita la capacidad de cada mesa individualmente:</div>
+        <div style="font-size:11px;color:var(--text-light);">Útil para arrancar de cero con muchas mesas de golpe. O edita la capacidad de cada una individualmente:</div>
       </div>
       <div id="table-config-list">
         ${tableIds.map(id => {
@@ -2140,68 +2360,10 @@ function generateTables() {
       capacity: tablesConfig[key]?.capacity ?? cap,
     };
   }
+  sortedTableIds().forEach((id, idx) => ensureTablePosition(id, idx));
   saveTablesConfig();
   closeTableConfigModal();
   buildTablesSection();
-}
-
-function openAssignModal(tableId) {
-  const cfg = tablesConfig[tableId];
-  const allKeys = Object.keys(WEDDING_GUESTS);
-  // Invitados sin mesa o en otra mesa
-  const unassigned = allKeys.filter(k => {
-    const t = String(WEDDING_GUESTS[k].table);
-    return t === '—' || t === '' || t === 'undefined';
-  });
-
-  const overlay = document.createElement('div');
-  overlay.id = 'assign-modal-overlay';
-  overlay.innerHTML = `
-    <div id="guest-modal" style="width:min(440px,100%);">
-      <div class="modal-title">Asignar a ${cfg.label}</div>
-      <div style="font-size:12px;color:var(--text-light);margin-bottom:16px;">
-        Selecciona invitados sin mesa asignada para moverlos a esta mesa.
-      </div>
-      <div style="max-height:300px;overflow-y:auto;border:1px solid var(--parchment);border-radius:4px;">
-        ${unassigned.length === 0
-          ? '<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">Todos los invitados ya tienen mesa asignada.</div>'
-          : unassigned.map(k => {
-              const g = WEDDING_GUESTS[k];
-              return `<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(232,223,200,0.5);cursor:pointer;">
-                <input type="checkbox" value="${k}" style="accent-color:var(--gold);width:14px;height:14px;">
-                <span style="font-size:15px;color:var(--text);flex:1;">${g.name}</span>
-                <span style="font-size:11px;color:var(--text-light);">🎟 ${g.passes}</span>
-              </label>`;
-            }).join('')
-        }
-      </div>
-      <div class="modal-actions">
-        <button class="btn-ghost" onclick="document.getElementById('assign-modal-overlay').remove()">Cancelar</button>
-        <button class="btn-primary" onclick="confirmAssign('${tableId}')">Asignar seleccionados</button>
-      </div>
-    </div>`;
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,36,22,0.35);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-  document.body.appendChild(overlay);
-}
-
-function confirmAssign(tableId) {
-  const checkboxes = document.querySelectorAll('#assign-modal-overlay input[type=checkbox]:checked');
-  checkboxes.forEach(cb => {
-    WEDDING_GUESTS[cb.value].table = tableId;
-  });
-  // Persistir asignaciones en extras
-  const extras = JSON.parse(localStorage.getItem('wedding_guests_extra') || '{}');
-  checkboxes.forEach(cb => {
-    if (extras[cb.value]) extras[cb.value].table = tableId;
-    else extras[cb.value] = { ...WEDDING_GUESTS[cb.value] };
-  });
-  localStorage.setItem('wedding_guests_extra', JSON.stringify(extras));
-  syncTablesFromGuests();
-  document.getElementById('assign-modal-overlay').remove();
-  buildTablesSection();
-  renderGuestTable(lastRsvpData);
-  showToast('Invitados asignados a ' + tablesConfig[tableId].label);
 }
 
 // ── INIT ADMIN ──
