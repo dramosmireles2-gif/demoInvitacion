@@ -2288,8 +2288,14 @@ function renderFamilyCard() {
         ${tableIds.length === 0 ? '<div style="font-size:12px;color:var(--text-light);">Aún no hay mesas — agrega una primero.</div>' : tableIds.map(id => {
           const cfg = tablesConfig[id];
           const count = alloc[id] || 0;
+          const free = cfg.capacity - tableAssignedPasses(id, key);
+          const freeColor = free <= 0 ? 'var(--red)' : free <= 2 ? 'var(--yellow)' : 'var(--green)';
+          const freeText  = free <= 0 ? 'Llena' : free + ' libre' + (free !== 1 ? 's' : '');
           return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 4px;border-bottom:1px solid rgba(232,223,200,0.5);">
-            <span style="font-size:13px;color:var(--text);">${cfg.label}</span>
+            <div>
+              <div style="font-size:13px;color:var(--text);">${cfg.label}</div>
+              <div style="font-size:10.5px;color:${freeColor};margin-top:1px;">${freeText}</div>
+            </div>
             <div style="display:flex;align-items:center;gap:10px;">
               <button type="button" onclick="adjustFamilyAlloc('${id}',-1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--parchment);background:var(--white);cursor:pointer;font-weight:700;">−</button>
               <span style="font-size:13px;font-weight:700;min-width:14px;text-align:center;">${count}</span>
