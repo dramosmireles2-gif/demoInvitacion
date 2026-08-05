@@ -697,7 +697,7 @@ body {
 .modal-field { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
 .modal-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; font-weight:500; color:var(--text-light); }
 .modal-input { padding:9px 12px; border:1px solid var(--parchment); border-radius:3px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text); background:var(--cream); outline:none; transition:border-color 0.2s; }
-.modal-input:focus { border-color:var(--gold-light); }
+.modal-input:focus { border-color:var(--text); }
 .modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
 
 /* ── FILTER BUTTONS ── */
@@ -973,7 +973,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   text-align: center;
   outline: none;
 }
-.table-config-input:focus { border-color: var(--gold-light); }
+.table-config-input:focus { border-color: var(--text); }
 
 /* ── QR MODAL ── */
 .qr-modal-grid {
@@ -1024,8 +1024,9 @@ body.sidebar-open .sidebar-overlay { display: block; }
 .event-field { display:flex; flex-direction:column; gap:5px; }
 .event-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; font-weight:500; color:var(--text-light); }
 .event-input { padding:9px 12px; border:1px solid var(--parchment); border-radius:3px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text); background:var(--cream); outline:none; transition:border-color 0.2s; }
-.event-input:focus { border-color: var(--gold-light); }
-@media (max-width:639px) { #event-form { grid-template-columns:1fr; } }
+.event-input:focus { border-color: var(--text); }
+.event-form-grid { display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width:639px) { .event-form-grid { grid-template-columns: 1fr; } }
 
 /* Assign dropdown en tabla de invitados */
 .assign-table-select {
@@ -1040,7 +1041,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   outline: none;
   max-width: 90px;
 }
-.assign-table-select:focus { border-color: var(--gold-light); }
+.assign-table-select:focus { border-color: var(--text); }
 
 /* ── RESPONSIVE: TABLET (≤ 1023px) ── */
 @media (max-width: 1023px) {
@@ -1110,7 +1111,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   .message-avatar { width: 30px; height: 30px; font-size: 13px; }
 
   /* Event form — 1 col ya cubierto por regla aparte */
-  #event-form { gap: 14px; }
+  #event-form, #gifts-form { gap: 14px; }
   .event-input { font-size: 14px; }
 
   /* Evitar scroll horizontal */
@@ -1551,7 +1552,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
           </div>
           <button class="btn-primary" onclick="saveGiftsConfig()">Guardar cambios</button>
         </div>
-        <div style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:16px;" id="gifts-form">
+        <div class="event-form-grid" style="padding:24px;gap:16px;" id="gifts-form">
           <!-- se construye con JS -->
         </div>
         <div style="padding:0 24px 20px;">
@@ -1581,7 +1582,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
         </div>
         <button class="btn-primary" onclick="saveEventConfig()">Guardar cambios</button>
       </div>
-      <div style="padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:16px;" id="event-form">
+      <div class="event-form-grid" style="padding:24px;gap:16px;" id="event-form">
         <!-- se construye con JS -->
       </div>
       <div style="padding:0 24px 20px;">
@@ -2874,7 +2875,7 @@ function buildEventForm() {
     const val    = cfg[f.key] || '';
     const preview = isMaps && val ? extractAddressFromMapsUrl(val) : null;
     return `<div class="event-field">
-      <label class="event-label">${f.label}</label>
+      <label class="event-label" for="ef-${f.key}">${f.label}</label>
       <input class="event-input" type="${f.type}" id="ef-${f.key}"
         placeholder="${f.placeholder}" value="${val}"
         ${isMaps ? `oninput="previewAddress('${f.key}', this.value)"` : ''}>
@@ -2911,7 +2912,7 @@ function buildGiftsForm() {
   const form = document.getElementById('gifts-form');
   if (!form) return;
   form.innerHTML = GIFT_FIELDS.map(f => `<div class="event-field">
-      <label class="event-label">${f.label}</label>
+      <label class="event-label" for="gf-${f.key}">${f.label}</label>
       <input class="event-input" type="${f.type}" id="gf-${f.key}"
         placeholder="${f.placeholder}" value="${cfg[f.key] || ''}"
         oninput="renderGiftsPreview(collectGiftsFormValues())">
