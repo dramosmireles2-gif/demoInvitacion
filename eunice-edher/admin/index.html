@@ -353,6 +353,10 @@ body {
   animation: fadeInUp 0.4s ease both;
 }
 
+/* ── TAB PANELS ── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeInUp 0.3s ease both; }
+
 /* ── STATS ROW ── */
 .stats-row {
   display: grid;
@@ -1152,22 +1156,22 @@ body.sidebar-open .sidebar-overlay { display: block; }
 
   <nav class="sidebar-nav">
     <span class="nav-section">Panel principal</span>
-    <a class="nav-item active" href="#" data-target="" onclick="return setActive(this)">
+    <a class="nav-item active" href="#" data-target="panel-resumen" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="home"></i></span> Resumen general
     </a>
-    <a class="nav-item" href="#" data-target="section-guests" onclick="return setActive(this)">
+    <a class="nav-item" href="#" data-target="section-guests" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="users"></i></span> Lista de invitados
     </a>
-    <a class="nav-item" href="#" data-target="section-tables" onclick="return setActive(this)">
+    <a class="nav-item" href="#" data-target="section-tables" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="grid"></i></span> Mesas
     </a>
-    <a class="nav-item" href="#" data-target="section-activity" onclick="return setActive(this)">
+    <a class="nav-item" href="#" data-target="section-activity" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="activity"></i></span> Actividad en tiempo real
     </a>
-    <a class="nav-item" href="#" data-target="section-urls" onclick="return setActive(this)">
+    <a class="nav-item" href="#" data-target="section-urls" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="link"></i></span> Enlaces personalizados
     </a>
-    <a class="nav-item" href="#" data-target="section-messages" onclick="return setActive(this)">
+    <a class="nav-item" href="#" data-target="section-messages" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="message-circle"></i></span> Mensajes
     </a>
 
@@ -1206,139 +1210,66 @@ body.sidebar-open .sidebar-overlay { display: block; }
   <!-- CONTENT -->
   <div class="content">
 
-    <!-- BANNER -->
-    <div style="background:linear-gradient(135deg,#0D3A20,#1A6B40);border:1px solid rgba(13,74,43,0.25);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
-      <div style="width:36px;height:36px;background:rgba(13,74,43,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
-        <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--gold-light);stroke-width:1.75;fill:none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-light);margin-bottom:4px;">Bienvenido al panel de administración</div>
-        <div style="font-size:12px;color:rgba(212,184,150,0.7);line-height:1.7;">Aquí puedes ver todo en tiempo real: quién abrió su invitación, quién ya confirmó asistencia y cuántos pases están listos. Todo se actualiza automáticamente — sin necesidad de hacer nada.</div>
-      </div>
-    </div>
+    <!-- ── PANEL: RESUMEN ── -->
+    <div class="tab-panel active" id="panel-resumen">
 
-    <!-- STATS -->
-    <div style="font-size:11px;letter-spacing:0.2px;color:var(--text-light);margin-bottom:10px;">Resumen de asistencia · se actualiza automáticamente</div>
-    <div class="stats-row">
-      <div class="stat-card gold">
-        <div class="stat-label">Total de pases</div>
-        <div class="stat-number gold" id="stat-total">—</div>
-        <div class="stat-detail" id="stat-total-detail">asistentes esperados</div>
-        <div class="stat-card-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      </div>
-      <div class="stat-card green">
-        <div class="stat-label">Ya confirmaron</div>
-        <div class="stat-number green" id="stat-confirmed">—</div>
-        <div class="stat-detail" id="stat-confirmed-detail">respondieron que sí</div>
-        <div class="stat-card-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      </div>
-      <div class="stat-card gray">
-        <div class="stat-label">Sin responder</div>
-        <div class="stat-number" id="stat-pending">—</div>
-        <div class="stat-detail">aún no han contestado</div>
-        <div class="stat-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-      </div>
-      <div class="stat-card red">
-        <div class="stat-label">No asistirán</div>
-        <div class="stat-number red" id="stat-declined">—</div>
-        <div class="stat-detail">respondieron que no</div>
-        <div class="stat-card-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-      </div>
-    </div>
-
-    <!-- PROGRESS -->
-    <div class="progress-section">
-      <div class="progress-header">
+      <div style="background:linear-gradient(135deg,#0D3A20,#1A6B40);border:1px solid rgba(13,74,43,0.25);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
+        <div style="width:36px;height:36px;background:rgba(13,74,43,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
+          <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--gold-light);stroke-width:1.75;fill:none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
         <div>
-          <span class="progress-title">Progreso de confirmaciones</span>
-          <div class="panel-sub" style="margin-top:3px;">Porcentaje de invitados que ya confirmaron su asistencia</div>
-        </div>
-        <span class="progress-pct" id="progress-pct-text">—</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-      </div>
-      <div class="progress-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div><span id="legend-confirmed">Confirmados (0)</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div><span id="legend-pending">Pendientes (0)</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div><span id="legend-declined">No asistirán (0)</span></div>
-      </div>
-    </div>
-
-    <!-- CAPACITY BAR -->
-    <!-- TWO COLUMN -->
-    <div class="two-col">
-
-      <!-- LEFT -->
-      <div style="display:flex;flex-direction:column;gap:20px;" id="section-guests">
-        <div class="panel">
-          <div class="panel-header" style="flex-wrap:wrap;gap:10px;">
-            <div>
-              <span class="panel-title">Lista de invitados</span>
-              <div class="panel-sub" id="guest-filter-sub">Cada invitado tiene su propia invitación personalizada</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-              <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                <button class="filter-btn active" onclick="setFilter('all',this)">Todos</button>
-                <button class="filter-btn" onclick="setFilter('pending',this)">Sin confirmar</button>
-                <button class="filter-btn" onclick="setFilter('unopened',this)">No abrieron</button>
-                <button class="filter-btn" onclick="setFilter('confirmed',this)">Confirmados</button>
-                <button class="filter-btn" onclick="setFilter('declined',this)">No asistirán</button>
-              </div>
-              <button class="btn-ghost" onclick="exportCSV()" style="font-size:11px;">Exportar CSV</button>
-              <button class="btn-primary" onclick="openGuestModal()" style="padding:7px 14px;font-size:11px;">+ Agregar</button>
-            </div>
-          </div>
-          <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
-          <table class="guest-table">
-            <thead>
-              <tr>
-                <th>Invitado</th>
-                <th>Pases</th>
-                <th>Mesa</th>
-                <th>Estado</th>
-                <th>Mensaje</th>
-                <th>Confirmó el</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="guest-tbody">
-              <tr><td colspan="6">
-                <div class="empty-state">
-                  <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                  <div class="empty-state-title">Cargando invitados…</div>
-                </div>
-              </td></tr>
-
-            </tbody>
-          </table>
-          </div>
-        </div>
-
-        <!-- ACTIVITY -->
-        <div class="panel" id="section-activity">
-          <div class="panel-header">
-            <div>
-              <span class="panel-title">Actividad en tiempo real</span>
-              <div class="panel-sub">Aperturas y confirmaciones al instante</div>
-            </div>
-            <button class="btn-ghost" style="font-size:.8rem;padding:4px 10px;" onclick="clearAllActivity()">Limpiar</button>
-          </div>
-          <div class="activity-list" id="activity-list">
-            <div class="activity-item">
-              <div class="activity-dot" style="background:var(--parchment)"></div>
-              <div class="activity-body">
-                <div class="activity-text" style="color:var(--text-light)">Sin actividad aún</div>
-              </div>
-            </div>
-          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-light);margin-bottom:4px;">Bienvenido al panel de administración</div>
+          <div style="font-size:12px;color:rgba(212,184,150,0.7);line-height:1.7;">Aquí puedes ver todo en tiempo real: quién abrió su invitación, quién ya confirmó asistencia y cuántos pases están listos. Todo se actualiza automáticamente — sin necesidad de hacer nada.</div>
         </div>
       </div>
 
-      <!-- RIGHT -->
-      <div class="side-panels">
+      <div style="font-size:11px;letter-spacing:0.2px;color:var(--text-light);margin-bottom:10px;">Resumen de asistencia · se actualiza automáticamente</div>
+      <div class="stats-row">
+        <div class="stat-card gold">
+          <div class="stat-label">Total de pases</div>
+          <div class="stat-number gold" id="stat-total">—</div>
+          <div class="stat-detail" id="stat-total-detail">asistentes esperados</div>
+          <div class="stat-card-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-label">Ya confirmaron</div>
+          <div class="stat-number green" id="stat-confirmed">—</div>
+          <div class="stat-detail" id="stat-confirmed-detail">respondieron que sí</div>
+          <div class="stat-card-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </div>
+        <div class="stat-card gray">
+          <div class="stat-label">Sin responder</div>
+          <div class="stat-number" id="stat-pending">—</div>
+          <div class="stat-detail">aún no han contestado</div>
+          <div class="stat-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-label">No asistirán</div>
+          <div class="stat-number red" id="stat-declined">—</div>
+          <div class="stat-detail">respondieron que no</div>
+          <div class="stat-card-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+        </div>
+      </div>
 
-        <!-- Countdown -->
+      <div class="progress-section">
+        <div class="progress-header">
+          <div>
+            <span class="progress-title">Progreso de confirmaciones</span>
+            <div class="panel-sub" style="margin-top:3px;">Porcentaje de invitados que ya confirmaron su asistencia</div>
+          </div>
+          <span class="progress-pct" id="progress-pct-text">—</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div><span id="legend-confirmed">Confirmados (0)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div><span id="legend-pending">Pendientes (0)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div><span id="legend-declined">No asistirán (0)</span></div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:24px;">
         <div class="panel">
           <div class="countdown-admin">
             <div class="countdown-admin-label">Tiempo restante para el evento</div>
@@ -1351,8 +1282,6 @@ body.sidebar-open .sidebar-overlay { display: block; }
             <div style="font-size:10px;color:var(--text-light);text-align:center;margin-top:12px;line-height:1.6;">Finca Santa Lucía · Córdoba, Veracruz</div>
           </div>
         </div>
-
-        <!-- Legend -->
         <div class="panel">
           <div class="panel-header">
             <div>
@@ -1375,102 +1304,148 @@ body.sidebar-open .sidebar-overlay { display: block; }
             </div>
           </div>
         </div>
-
       </div>
+
     </div>
 
-    <!-- MESAS -->
-    <div id="section-tables" style="margin-bottom:24px;">
+    <!-- ── PANEL: INVITADOS ── -->
+    <div class="tab-panel" id="section-guests">
 
-      <!-- Config header -->
+      <div class="panel" style="margin-bottom:24px;">
+        <div class="panel-header" style="flex-wrap:wrap;gap:10px;">
+          <div>
+            <span class="panel-title">Lista de invitados</span>
+            <div class="panel-sub" id="guest-filter-sub">Cada invitado tiene su propia invitación personalizada</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="filter-btn active" onclick="setFilter('all',this)">Todos</button>
+              <button class="filter-btn" onclick="setFilter('pending',this)">Sin confirmar</button>
+              <button class="filter-btn" onclick="setFilter('unopened',this)">No abrieron</button>
+              <button class="filter-btn" onclick="setFilter('confirmed',this)">Confirmados</button>
+              <button class="filter-btn" onclick="setFilter('declined',this)">No asistirán</button>
+            </div>
+            <button class="btn-ghost" onclick="exportCSV()" style="font-size:11px;">Exportar CSV</button>
+            <button class="btn-primary" onclick="openGuestModal()" style="padding:7px 14px;font-size:11px;">+ Agregar</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+          <table class="guest-table">
+            <thead>
+              <tr>
+                <th>Invitado</th>
+                <th>Pases</th>
+                <th>Mesa</th>
+                <th>Estado</th>
+                <th>Mensaje</th>
+                <th>Confirmó el</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="guest-tbody">
+              <tr><td colspan="6">
+                <div class="empty-state">
+                  <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                  <div class="empty-state-title">Cargando invitados…</div>
+                </div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel" id="deadline-panel" style="margin-bottom:24px;display:none;">
+        <div style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="width:36px;height:36px;background:rgba(184,150,80,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--yellow);stroke-width:2;fill:none;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);">Fecha límite de confirmación</div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">15 de agosto de 2026</div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--yellow);line-height:1;" id="deadline-days">—</div>
+            <div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);">días restantes</div>
+          </div>
+        </div>
+        <div style="height:3px;background:var(--cream2);"><div id="deadline-fill" style="height:100%;background:linear-gradient(to right,var(--yellow),var(--gold));width:0%;transition:width 0.8s;"></div></div>
+      </div>
+
+    </div>
+
+    <!-- ── PANEL: MESAS ── -->
+    <div class="tab-panel" id="section-tables">
+
       <div class="panel" style="margin-bottom:14px;">
         <div class="panel-header">
           <div>
             <span class="panel-title">Gestión de mesas</span>
             <div class="panel-sub" id="tables-summary-sub">Cargando…</div>
           </div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <button class="btn-ghost" onclick="toggleTableConfigPanel()">Configurar mesas</button>
-          </div>
+          <button class="btn-ghost" onclick="openTableConfigModal()">Configurar mesas</button>
         </div>
-        <!-- Stats rápidos de mesas -->
         <div id="tables-quick-stats" style="display:flex;gap:12px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--parchment);"></div>
-        <!-- Panel de configuración de mesas (inline) -->
-        <div id="table-config-panel" style="display:none;padding:16px 22px;border-bottom:1px solid var(--parchment);background:var(--cream);">
-          <div style="display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;">
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <label style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);font-weight:500;">Número de mesas</label>
-              <input type="number" id="tc-count" min="1" max="50" placeholder="Ej. 10" value=""
-                style="padding:8px 12px;border:1px solid var(--parchment);border-radius:3px;font-size:13px;color:var(--text);background:var(--white);width:130px;outline:none;">
-            </div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <label style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);font-weight:500;">Personas por mesa</label>
-              <input type="number" id="tc-cap" min="1" max="100" placeholder="Ej. 10" value="10"
-                style="padding:8px 12px;border:1px solid var(--parchment);border-radius:3px;font-size:13px;color:var(--text);background:var(--white);width:130px;outline:none;">
-            </div>
-            <button class="btn-primary" style="padding:8px 16px;font-size:12px;margin-bottom:1px;" onclick="doGenerateTables()">Generar</button>
-          </div>
-        </div>
       </div>
 
-      <!-- Grid de tarjetas por mesa -->
       <div id="tables-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;"></div>
 
     </div>
 
-    <!-- DEADLINE RSVP -->
-    <div class="panel" id="deadline-panel" style="margin-bottom:24px;display:none;">
-      <div style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:14px;">
-          <div style="width:36px;height:36px;background:rgba(184,150,80,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--yellow);stroke-width:2;fill:none;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
+    <!-- ── PANEL: ACTIVIDAD ── -->
+    <div class="tab-panel" id="section-activity">
+      <div class="panel">
+        <div class="panel-header">
           <div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);">Fecha límite de confirmación</div>
-            <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">15 de agosto de 2026</div>
+            <span class="panel-title">Actividad en tiempo real</span>
+            <div class="panel-sub">Aperturas y confirmaciones al instante</div>
+          </div>
+          <button class="btn-ghost" style="font-size:.8rem;padding:4px 10px;" onclick="clearAllActivity()">Limpiar</button>
+        </div>
+        <div class="activity-list" id="activity-list">
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--parchment)"></div>
+            <div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Sin actividad aún</div></div>
           </div>
         </div>
-        <div style="text-align:right;">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--yellow);line-height:1;" id="deadline-days">—</div>
-          <div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);">días restantes</div>
-        </div>
-      </div>
-      <div style="height:3px;background:var(--cream2);"><div id="deadline-fill" style="height:100%;background:linear-gradient(to right,var(--yellow),var(--gold));width:0%;transition:width 0.8s;"></div></div>
-    </div>
-
-    <!-- URLS -->
-    <div class="panel" style="margin-bottom:24px;" id="section-urls">
-      <div class="panel-header">
-        <div>
-          <span class="panel-title">Enlaces personalizados</span>
-          <div class="panel-sub">Un enlace único por invitado — la invitación aparece con su nombre y pases</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:4px;">
-          <button class="panel-action" onclick="openQRModal()">Ver QR</button>
-          <button class="panel-action" onclick="copyAllUrls()">Copiar todos</button>
-        </div>
-      </div>
-      <div id="urls-list" style="display:grid;grid-template-columns:1fr 1fr;gap:0;"></div>
-    </div>
-
-
-    <!-- MENSAJES RSVP -->
-    <div class="panel" id="section-messages" style="margin-bottom:24px;">
-      <div class="panel-header">
-        <div>
-          <span class="panel-title">Mensajes de invitados</span>
-          <div class="panel-sub" id="messages-sub">Los mensajes que dejaron al confirmar asistencia</div>
-        </div>
-      </div>
-      <div id="messages-list">
-        <div class="activity-item">
-          <div class="activity-dot" style="background:var(--parchment)"></div>
-          <div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Sin mensajes aún</div></div>
-        </div>
       </div>
     </div>
 
-    <!-- EDITAR EVENTO -->
+    <!-- ── PANEL: URLS ── -->
+    <div class="tab-panel" id="section-urls">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-title">Enlaces personalizados</span>
+            <div class="panel-sub">Un enlace único por invitado — la invitación aparece con su nombre y pases</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button class="panel-action" onclick="openQRModal()">Ver QR</button>
+            <button class="panel-action" onclick="copyAllUrls()">Copiar todos</button>
+          </div>
+        </div>
+        <div id="urls-list" style="display:grid;grid-template-columns:1fr 1fr;gap:0;"></div>
+      </div>
+    </div>
+
+    <!-- ── PANEL: MENSAJES ── -->
+    <div class="tab-panel" id="section-messages">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-title">Mensajes de invitados</span>
+            <div class="panel-sub" id="messages-sub">Los mensajes que dejaron al confirmar asistencia</div>
+          </div>
+        </div>
+        <div id="messages-list">
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--parchment)"></div>
+            <div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Sin mensajes aún</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </main>
@@ -1504,25 +1479,25 @@ body.sidebar-open .sidebar-overlay { display: block; }
 <!-- BOTTOM NAV (mobile) -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <a class="bn-item active" href="#" onclick="bnNav(event, null)">
+    <a class="bn-item active" href="#" data-target="panel-resumen" onclick="navTo(event,this)">
       <span class="bn-icon"><i data-feather="home"></i></span>
       <span class="bn-label">Resumen</span>
     </a>
-    <a class="bn-item" href="#section-guests" onclick="bnNav(event, 'section-guests')">
+    <a class="bn-item" href="#" data-target="section-guests" onclick="navTo(event,this)">
       <span class="bn-icon"><i data-feather="users"></i></span>
       <span class="bn-label">Invitados</span>
     </a>
-    <a class="bn-item" href="#section-tables" onclick="bnNav(event, 'section-tables')">
+    <a class="bn-item" href="#" data-target="section-tables" onclick="navTo(event,this)">
       <span class="bn-icon"><i data-feather="grid"></i></span>
       <span class="bn-label">Mesas</span>
     </a>
-    <a class="bn-item" href="#section-activity" onclick="bnNav(event, 'section-activity')">
+    <a class="bn-item" href="#" data-target="section-activity" onclick="navTo(event,this)">
       <span class="bn-icon"><i data-feather="activity"></i></span>
       <span class="bn-label">Actividad</span>
     </a>
-    <a class="bn-item" href="#section-urls" onclick="bnNav(event, 'section-urls')">
-      <span class="bn-icon"><i data-feather="link"></i></span>
-      <span class="bn-label">Enlaces</span>
+    <a class="bn-item" href="#" onclick="event.preventDefault();toggleSidebar();">
+      <span class="bn-icon"><i data-feather="menu"></i></span>
+      <span class="bn-label">Más</span>
     </a>
   </div>
 </nav>
@@ -1588,29 +1563,38 @@ if (sessionStorage.getItem('admin_auth') === '1') {
 function toggleSidebar() { document.body.classList.toggle('sidebar-open'); }
 function closeSidebar()   { document.body.classList.remove('sidebar-open'); }
 
-function scrollToSection(targetId) {
-  if (!targetId) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
-  const el = document.getElementById(targetId);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
+const PANEL_TITLES = {
+  'panel-resumen':    'Dashboard',
+  'section-guests':   'Invitados',
+  'section-tables':   'Mesas',
+  'section-activity': 'Actividad en tiempo real',
+  'section-urls':     'Enlaces personalizados',
+  'section-messages': 'Mensajes',
+};
 
-function setActive(el) {
-  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
-  const target = el.dataset.target || null;
-  scrollToSection(target);
+function navTo(e, el) {
+  if (e && e.preventDefault) e.preventDefault();
+  const target = el.dataset.target;
+  if (!target) return;
+
+  document.querySelectorAll('.nav-item, .bn-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('[data-target="' + target + '"]').forEach(i => i.classList.add('active'));
+
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById(target);
+  if (panel) panel.classList.add('active');
+
+  const titleEl = document.querySelector('.topbar-title');
+  if (titleEl) titleEl.textContent = PANEL_TITLES[target] || 'Dashboard';
+
+  const contentEl = document.querySelector('.content');
+  if (contentEl) contentEl.scrollTop = 0;
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
   if (window.innerWidth < 1024) setTimeout(closeSidebar, 120);
-  setTimeout(() => history.replaceState(null, '', location.pathname + location.search), 0);
-  return false;
 }
 
-function bnNav(e, targetId) {
-  document.querySelectorAll('.bn-item').forEach(i => i.classList.remove('active'));
-  e.currentTarget.classList.add('active');
-  scrollToSection(targetId);
-  setTimeout(() => history.replaceState(null, '', location.pathname + location.search), 0);
-  e.preventDefault();
-}
+function setActive(el) { navTo({ preventDefault: () => {} }, el); }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
 
@@ -1904,14 +1888,10 @@ function buildTablesSection() {
     const availText  = avail <= 0 ? 'Mesa llena' : avail === 1 ? '1 asiento libre' : avail + ' asientos libres';
 
     const guestRows = guests.length
-      ? guests.map(({key, g}) => `
+      ? guests.map(({g}) => `
         <div class="table-guest-row">
           <span class="table-guest-name">${g.name}</span>
-          <span class="table-guest-passes" style="display:flex;align-items:center;gap:6px;">
-            <span>${g.passes} pases</span>
-            <button onclick="unassignGuest('${key}')" title="Quitar de mesa"
-              style="background:none;border:none;cursor:pointer;color:var(--red);padding:2px 4px;font-size:13px;line-height:1;">✕</button>
-          </span>
+          <span class="table-guest-passes">🎟 ${g.passes}</span>
         </div>`).join('')
       : '<div class="table-empty-row">Sin invitados asignados</div>';
 
@@ -1919,17 +1899,7 @@ function buildTablesSection() {
       <div class="table-card">
         <div class="table-card-header">
           <span class="table-card-name">${cfg.label}</span>
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span class="table-card-capacity">${assignedPasses} / ${cfg.capacity} pases</span>
-            <button onclick="editTableModal('${id}')" title="Editar mesa"
-              style="background:none;border:none;cursor:pointer;color:var(--text-light);padding:2px 4px;">
-              <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            </button>
-            <button onclick="deleteTable('${id}')" title="Eliminar mesa"
-              style="background:none;border:none;cursor:pointer;color:var(--red);padding:2px 4px;">
-              <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-            </button>
-          </div>
+          <span class="table-card-capacity">${assignedPasses} / ${cfg.capacity} pases</span>
         </div>
         <div class="table-occ-bar">
           <div class="table-occ-fill" style="width:${pct}%;background:${fillColor};"></div>
@@ -1986,15 +1956,10 @@ function closeTableConfigModal() {
   if (el) el.remove();
 }
 
-function toggleTableConfigPanel() {
-  const panel = document.getElementById('table-config-panel');
-  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-}
-
-function doGenerateTables() {
-  const count = parseInt(document.getElementById('tc-count').value);
-  const cap   = parseInt(document.getElementById('tc-cap').value) || 10;
-  if (!count || count < 1 || count > 50) { showToast('Ingresa un número de mesas (1-50)'); return; }
+function generateTables() {
+  const count = parseInt(document.getElementById('new-table-count').value) || 0;
+  const cap   = parseInt(document.getElementById('new-table-cap').value) || 10;
+  if (count < 1 || count > 50) { showToast('Ingresa un número de mesas (1-50)'); return; }
   for (let i = 1; i <= count; i++) {
     const key = String(i);
     tablesConfig[key] = {
@@ -2003,13 +1968,9 @@ function doGenerateTables() {
     };
   }
   saveTablesConfig();
+  closeTableConfigModal();
   buildTablesSection();
-  document.getElementById('table-config-panel').style.display = 'none';
   showToast(count + ' mesas generadas');
-}
-
-function generateTables(countVal, capVal) {
-  doGenerateTables();
 }
 
 function unassignGuest(key) {
