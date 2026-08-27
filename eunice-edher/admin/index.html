@@ -98,12 +98,25 @@ body {
 }
 
 .sidebar-nav {
+  position: relative;
   padding: 12px 0 16px;
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(13,74,43,0.2) transparent;
 }
+
+.nav-indicator {
+  position: absolute;
+  left: 0; right: 0;
+  background: rgba(255,255,255,0.06);
+  border-left: 2px solid var(--gold);
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.38s cubic-bezier(.22,1,.36,1), height 0.38s cubic-bezier(.22,1,.36,1), opacity 0.2s ease;
+}
+.nav-indicator.ready { opacity: 1; }
 
 .sidebar-brand {
   padding: 28px 24px 22px;
@@ -160,6 +173,8 @@ body {
 }
 
 .nav-item {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 11px;
@@ -168,17 +183,12 @@ body {
   letter-spacing: 0.2px;
   color: rgba(255,255,255,0.48);
   cursor: pointer;
-  transition: all 0.18s;
-  border-left: 2px solid transparent;
+  transition: color 0.18s;
   text-decoration: none;
 }
 
-.nav-item:hover { color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.04); }
-.nav-item.active {
-  color: var(--gold-light);
-  border-left-color: var(--gold);
-  background: rgba(13,74,43,0.09);
-}
+.nav-item:hover { color: rgba(255,255,255,0.82); }
+.nav-item.active { color: var(--gold-light); }
 
 .nav-icon {
   width: 17px;
@@ -907,6 +917,332 @@ body.sidebar-open .sidebar-overlay { display: block; }
   font-style: italic;
 }
 
+/* ── MESAS: plano visual ── */
+.board-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+#tables-board {
+  position: relative;
+  min-width: 100%;
+  min-height: 440px;
+  background: radial-gradient(circle, rgba(13,74,43,0.10) 1px, transparent 1px) 0 0/22px 22px;
+  overflow: hidden;
+}
+@media (max-width: 639px) {
+  #tables-board { min-width: 640px; min-height: 380px; }
+}
+
+.tb-unit { position: absolute; transform: translate(-50%,-50%); }
+.tb-core {
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--text);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  position: relative; z-index: 2; cursor: pointer; touch-action: none;
+  overflow: hidden;
+  transition: width 0.25s ease, height 0.25s ease, box-shadow 0.15s ease;
+}
+.tb-core.dragging { cursor: grabbing; box-shadow: 0 10px 26px rgba(44,36,22,0.22); transition: none; }
+.tb-core--rect { border-radius: 12px; }
+.tb-core--imperial { border-radius: 8px; background: linear-gradient(180deg, var(--white), var(--cream)); }
+.tb-label { font-size: 11px; font-weight: 800; letter-spacing: -0.1px; color: var(--text); }
+.tb-sub { font-size: 9px; color: var(--text-light); margin-top: 1px; }
+
+/* Medidor de mezcla de grupos (franja al pie del núcleo) */
+.tb-mix { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; display: flex; }
+.tb-mix span { display: block; min-width: 2px; }
+
+.tb-seat {
+  position: absolute; width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9.5px; font-weight: 700; cursor: default; z-index: 1;
+  border: 1.5px dashed var(--parchment); background: var(--white); color: var(--text-light);
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+/* relleno = color del grupo (o neutro), borde = estado RSVP */
+.tb-seat.filled {
+  cursor: pointer; border-style: solid;
+  background: var(--seat-color, var(--text));
+  border-color: var(--seat-color, var(--text));
+  color: #fff;
+}
+.tb-seat.filled.is-pending {
+  background: var(--white);
+  color: var(--seat-color, var(--text));
+  border-color: var(--seat-color, var(--text));
+  border-style: dashed;
+}
+.tb-seat.filled:hover { transform: scale(1.12); }
+
+.tb-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; border-radius: 999px; border: 1.5px solid var(--text);
+  background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--text); cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.12s;
+}
+.tb-chip:hover { transform: translateY(-1px); background: var(--cream); }
+.tb-chip .passes { font-weight: 400; opacity: 0.7; font-size: 10.5px; }
+.chip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--text-light); }
+.chip-dot.is-confirmed { background: var(--green); }
+.chip-dot.is-pending   { background: var(--yellow); }
+.chip-dot.is-declined  { background: var(--red); }
+
+/* Estado de ocupación de cada mesa en el plano (anillo de color) */
+.tb-core { border-color: var(--tb-ring, var(--text)); }
+.tb-core.is-empty   { --tb-ring: var(--parchment); opacity: 0.72; }
+.tb-core.is-partial { --tb-ring: var(--text); }
+.tb-core.is-near    { --tb-ring: var(--yellow); }
+.tb-core.is-full    { --tb-ring: var(--green); }
+.tb-core.is-over    { --tb-ring: var(--red); box-shadow: 0 0 0 3px rgba(168,90,90,0.16); }
+
+/* Badge de alerta sobre la mesa */
+.tb-flag {
+  position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
+  z-index: 6; white-space: nowrap;
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.2px;
+  color: #fff; background: var(--red);
+  padding: 2px 7px; border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(44,36,22,0.28);
+}
+.tb-flag.warn { background: var(--yellow); }
+
+/* Resaltado al hacer clic en un aviso del panel de salud */
+@keyframes tbPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26,107,64,0); }
+  40%      { box-shadow: 0 0 0 12px rgba(26,107,64,0.20); }
+}
+.tb-unit.highlight { z-index: 20; }
+.tb-unit.highlight .tb-core { animation: tbPulse 1.1s ease 2; }
+
+/* Panel: salud del acomodo */
+.seg { display: inline-flex; border: 1px solid var(--parchment); border-radius: 999px; overflow: hidden; }
+.seg button {
+  border: none; background: var(--white); color: var(--text-light);
+  font-size: 11px; font-weight: 600; padding: 6px 12px; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.seg button + button { border-left: 1px solid var(--parchment); }
+.seg button.active { background: var(--gold); color: #fff; }
+
+.health-list { padding: 8px 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.health-row {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 9px 12px; border: none; background: none; border-radius: 6px;
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: var(--text); text-align: left;
+}
+.health-row.clickable { cursor: pointer; }
+.health-row.clickable:hover { background: var(--cream); }
+.health-row .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.health-row.ok   .dot { background: var(--green); }
+.health-row.warn .dot { background: var(--yellow); }
+.health-row.bad  .dot { background: var(--red); }
+.health-row .h-meta { margin-left: auto; font-size: 11px; color: var(--text-light); white-space: nowrap; }
+.health-empty {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 12px; font-size: 13px; color: var(--green);
+}
+
+/* Selector de mesa en la Lista de invitados */
+.mesa-select {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  padding: 4px 6px; border: 1px solid var(--parchment); border-radius: 6px;
+  background: var(--white); color: var(--text); max-width: 132px; cursor: pointer;
+}
+.mesa-select:focus { outline: none; border-color: var(--gold-light); }
+.mesa-multi {
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600;
+  padding: 4px 9px; border-radius: 999px; border: 1px solid var(--gold);
+  background: var(--white); color: var(--gold-dark); cursor: pointer; white-space: nowrap;
+}
+
+/* Nota de mesa en el plano */
+.tb-note {
+  position: absolute; left: 50%; transform: translateX(-50%); z-index: 3;
+  white-space: nowrap; max-width: 132px; overflow: hidden; text-overflow: ellipsis;
+  font-size: 10px; color: var(--text-light);
+  background: var(--cream); border: 1px solid var(--parchment);
+  padding: 2px 8px; border-radius: 6px;
+}
+
+/* Arrastrar invitados sobre el plano */
+.tb-chip { touch-action: none; }
+.tb-seat { touch-action: none; }
+.tb-seat.filled { cursor: grab; }
+body.dragging-guest { cursor: grabbing; user-select: none; }
+body.dragging-guest .tb-seat.filled,
+body.dragging-guest .tb-chip { cursor: grabbing; }
+.guest-drag-ghost {
+  position: fixed; z-index: 4000; pointer-events: none;
+  transform: translate(-50%, -150%);
+  background: var(--gold-dark); color: #fff;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+  padding: 6px 12px; border-radius: 999px; white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(44,36,22,0.38);
+}
+.tb-core.drop-target {
+  --tb-ring: var(--gold);
+  box-shadow: 0 0 0 4px rgba(26,107,64,0.24);
+}
+#unseated-panel.drop-target {
+  outline: 2px dashed var(--gold);
+  outline-offset: -2px;
+  background: rgba(26,107,64,0.04);
+}
+
+/* ── Modales genéricos (tarjeta de mesa, grupos) ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 550; display: none;
+  align-items: center; justify-content: center; padding: 20px;
+  background: rgba(44,36,22,0.4); backdrop-filter: blur(4px);
+}
+.modal-box {
+  background: var(--white); border: 1px solid var(--parchment); border-radius: 8px;
+  padding: 24px; max-height: 86vh; overflow-y: auto;
+  box-shadow: 0 20px 56px rgba(44,36,22,0.22);
+}
+
+/* Tarjeta de mesa */
+.tc-lbl { display: block; font-size: 10.5px; letter-spacing: 0.4px; text-transform: uppercase;
+  color: var(--text-light); margin: 14px 0 5px; }
+.tc-lbl:first-of-type { margin-top: 8px; }
+.tc-shapes { display: flex; gap: 6px; }
+.tc-shape {
+  flex: 1; padding: 8px 4px; border: 1px solid var(--parchment); border-radius: 6px;
+  background: var(--white); color: var(--text-light); font-size: 11.5px; font-weight: 600; cursor: pointer;
+}
+.tc-shape.sel { background: var(--gold); color: #fff; border-color: var(--gold); }
+.tc-cap { display: flex; align-items: center; gap: 10px; }
+.tc-cap button {
+  width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--parchment);
+  background: var(--white); font-size: 15px; font-weight: 700; cursor: pointer; color: var(--text);
+}
+.tc-cap > span:not(.tc-hint) { font-size: 15px; font-weight: 700; min-width: 20px; text-align: center; }
+.tc-hint { font-size: 11px; color: var(--text-light); }
+.tc-mix { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+.tc-mix span { display: block; min-width: 2px; }
+.tc-mix-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11px; color: var(--text-light); }
+.tc-mix-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+
+/* Gestor de grupos */
+.group-row {
+  display: flex; align-items: center; gap: 8px; padding: 8px 0;
+  border-bottom: 1px solid rgba(232,223,200,0.55); flex-wrap: wrap;
+}
+.group-name {
+  flex: 1 1 130px; padding: 6px 9px; border: 1px solid var(--parchment); border-radius: 5px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); background: var(--white); outline: none;
+}
+.group-name:focus { border-color: var(--gold-light); }
+.group-swatches { display: flex; gap: 4px; flex-wrap: wrap; }
+.group-swatch {
+  width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0;
+}
+.group-swatch.sel { border-color: var(--text); }
+.group-del {
+  border: none; background: none; color: var(--red); cursor: pointer; font-size: 13px; padding: 4px 6px;
+}
+
+/* Leyenda de grupos sobre el plano */
+#groups-legend {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  padding: 12px 22px 0; font-size: 11px; color: var(--text-light);
+}
+#groups-legend .gl-item { display: inline-flex; align-items: center; gap: 5px; }
+#groups-legend .gl-item i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+#groups-legend .gl-edit {
+  border: none; background: none; color: var(--gold-dark); cursor: pointer; font-size: 11px;
+  text-decoration: underline; padding: 0; margin-left: 2px;
+}
+
+/* Selector de grupo en la Lista de invitados */
+.grupo-select {
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  padding: 4px 6px; border: 1px solid var(--parchment); border-radius: 6px;
+  background: var(--white); color: var(--text); max-width: 130px; cursor: pointer;
+}
+.grupo-select:focus { outline: none; border-color: var(--gold-light); }
+.grupo-cell { display: inline-flex; align-items: center; gap: 6px; }
+.grupo-cell .gc-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* Campo de nota en el modal de configurar mesas */
+.table-config-row { flex-wrap: wrap; }
+.table-config-note {
+  flex: 1 1 100%;
+  padding: 6px 9px; border: 1px solid var(--parchment); border-radius: 4px;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--text);
+  background: var(--white); outline: none;
+}
+.table-config-note:focus { border-color: var(--gold-light); }
+.table-config-shape {
+  padding: 5px 6px; border: 1px solid var(--parchment); border-radius: 4px;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; background: var(--white); color: var(--text);
+}
+
+/* Modo recepción — pantalla completa */
+#reception-overlay {
+  display: none; position: fixed; inset: 0; z-index: 3000; padding: 24px;
+  background: linear-gradient(160deg, var(--sidebar) 0%, var(--sidebar2) 100%);
+  flex-direction: column; align-items: center; justify-content: center;
+}
+.rc-close {
+  position: absolute; top: 18px; right: 20px;
+  width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255,255,255,0.1); color: #fff; font-size: 17px;
+}
+.rc-inner { width: min(640px, 100%); text-align: center; }
+.rc-title {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: clamp(28px, 6vw, 44px); color: var(--gold-light); margin-bottom: 22px;
+}
+.rc-input {
+  width: 100%; font-family: 'DM Sans', sans-serif;
+  font-size: clamp(17px, 4vw, 25px); padding: 17px 22px;
+  border: 2px solid rgba(255,255,255,0.16); border-radius: 14px;
+  background: rgba(255,255,255,0.06); color: #fff; outline: none;
+}
+.rc-input::placeholder { color: rgba(255,255,255,0.4); }
+.rc-input:focus { border-color: var(--gold-light); }
+.rc-results { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; max-height: 56vh; overflow-y: auto; }
+.rc-hint { color: rgba(255,255,255,0.45); font-size: 15px; padding: 18px; }
+.rc-card { background: var(--white); border-radius: 14px; padding: 16px 22px; text-align: left; }
+.rc-card-name { font-family: 'Cormorant Garamond', serif; font-size: 21px; color: var(--text); }
+.rc-card-mesa {
+  font-family: 'Cormorant Garamond', serif; font-weight: 600; line-height: 1.1; margin: 3px 0;
+  font-size: clamp(28px, 7vw, 46px); color: var(--gold-dark);
+}
+.rc-card-sub { font-size: 13px; color: var(--text-light); }
+
+/* Impresión: Lista por mesa / Plano */
+#print-root { display: none; }
+@media print {
+  body { background: #fff !important; }
+  body > *:not(#print-root) { display: none !important; }
+  #print-root { display: block !important; color: #000; font-family: 'DM Sans', system-ui, sans-serif; }
+  #print-root .pk-head { border-bottom: 1.5px solid #000; padding-bottom: 3mm; margin-bottom: 7mm; }
+  #print-root .pk-head h1 { font-family: 'Cormorant Garamond', serif; font-size: 22pt; margin: 0 0 1mm; }
+  #print-root .pk-head p { font-size: 9pt; color: #555; }
+  .pk-list .pk-table { break-inside: avoid; margin-bottom: 6mm; }
+  .pk-list h2 {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 13pt; border-bottom: 1px solid #999; padding-bottom: 1mm; margin-bottom: 2mm;
+  }
+  .pk-list h2 .pk-count { font-size: 9pt; font-weight: 400; color: #555; }
+  .pk-list .pk-note { font-size: 9pt; font-style: italic; color: #555; margin: 0 0 1.5mm; }
+  .pk-list ol { margin: 0; padding-left: 7mm; font-size: 10.5pt; line-height: 1.55; }
+  .pk-list .pk-pend { color: #777; font-size: 8.5pt; }
+  .pk-list .pk-empty { list-style: none; color: #999; font-style: italic; }
+  .pk-list .pk-unseated h2 { color: #a00; border-color: #a00; }
+  .pk-plan .pk-board {
+    position: relative; width: 100%; height: 165mm; margin-top: 4mm;
+    border: 1px solid #000; overflow: hidden;
+  }
+  .pk-plan .tb-remove, .pk-plan .tb-resize, .pk-plan .tb-rename, .pk-plan .tb-flag { display: none !important; }
+  .pk-plan .tb-core { border-color: #000 !important; box-shadow: none !important; opacity: 1 !important; background: #fff !important; }
+  .pk-plan .tb-mix { display: none !important; }
+  .pk-plan .tb-seat.filled { background: #000 !important; color: #fff !important; border-color: #000 !important; }
+  .pk-plan .tb-note { background: #fff; border-color: #000; color: #000; }
+  @page { margin: 14mm; }
+}
+
 /* Modal config mesas */
 #table-config-overlay {
   position: fixed; inset: 0;
@@ -983,21 +1319,74 @@ body.sidebar-open .sidebar-overlay { display: block; }
 .btn-qr-download:hover { border-color: var(--gold-light); color: var(--text); }
 
 /* ── MESSAGES ── */
-.message-item {
-  display: flex; gap: 14px; padding: 14px 22px;
-  border-bottom: 1px solid rgba(232,223,200,0.5);
+/* ── MENSAJES: tarjetas ── */
+#messages-list.msg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 14px;
+  padding: 20px 22px;
 }
-.message-item:last-child { border-bottom: none; }
-.message-avatar {
-  width: 34px; height: 34px; border-radius: 50%;
-  background: var(--parchment); border: 1px solid var(--cream2);
+.message-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  border-top: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 1px 3px rgba(44,36,22,0.05);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.message-card:hover { box-shadow: 0 10px 26px rgba(44,36,22,0.10); transform: translateY(-2px); }
+.message-card-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  line-height: 0.5;
+  height: 16px;
+  color: var(--parchment);
+  user-select: none;
+}
+.message-card-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text);
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.message-card-foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(232,223,200,0.6);
+}
+.message-card-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #fff; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-family:'Cormorant Garamond',serif; font-size:15px;
-  font-weight:600; color:var(--gold-dark); flex-shrink:0;
+  font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 15px;
 }
-.message-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); }
-.message-time { font-size:11px; color:var(--text-light); margin-left:8px; }
-.message-text { font-size:13px; color:var(--text); margin-top:4px; line-height:1.6; font-style:italic; }
+.message-card-who { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.message-card-name {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.message-card-date { font-size: 11px; color: var(--text-light); }
+.msg-pill {
+  flex-shrink: 0;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.3px;
+  padding: 3px 8px; border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.msg-pill.ok { color: var(--green); }
+.msg-pill.no { color: var(--red); }
 
 /* ── EVENT FORM ── */
 .event-field { display:flex; flex-direction:column; gap:5px; }
@@ -1091,15 +1480,11 @@ body.sidebar-open .sidebar-overlay { display: block; }
   .qr-card      { padding: 10px 8px; }
 
   /* Messages */
-  .message-item { padding: 12px 16px; gap: 10px; }
-  .message-avatar { width: 30px; height: 30px; font-size: 13px; }
+  #messages-list.msg-grid { padding: 16px; gap: 12px; }
 
   /* Event form — 1 col ya cubierto por regla aparte */
   #event-form { gap: 14px; }
   .event-input { font-size: 14px; }
-
-  /* Mesas grid — 1 col en mobile */
-  #tables-grid { grid-template-columns: 1fr !important; }
 }
 </style>
 </head>
@@ -1154,7 +1539,8 @@ body.sidebar-open .sidebar-overlay { display: block; }
     <span class="brand-date">19 · Diciembre · 2026</span>
   </div>
 
-  <nav class="sidebar-nav">
+  <nav class="sidebar-nav" id="sidebarNav">
+    <div class="nav-indicator" id="navIndicator"></div>
     <span class="nav-section">Panel principal</span>
     <a class="nav-item active" href="#" data-target="panel-resumen" onclick="navTo(event,this)">
       <span class="nav-icon"><i data-feather="home"></i></span> Resumen general
@@ -1336,6 +1722,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
                 <th>Invitado</th>
                 <th>Pases</th>
                 <th>Mesa</th>
+                <th>Grupo</th>
                 <th>Estado</th>
                 <th>Mensaje</th>
                 <th>Confirmó el</th>
@@ -1343,7 +1730,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
               </tr>
             </thead>
             <tbody id="guest-tbody">
-              <tr><td colspan="6">
+              <tr><td colspan="8">
                 <div class="empty-state">
                   <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                   <div class="empty-state-title">Cargando invitados…</div>
@@ -1376,20 +1763,68 @@ body.sidebar-open .sidebar-overlay { display: block; }
     </div>
 
     <!-- ── PANEL: MESAS ── -->
-    <div class="tab-panel" id="section-tables">
+    <div class="tab-panel" id="section-tables" style="margin-bottom:24px;">
 
+      <!-- Config header -->
       <div class="panel" style="margin-bottom:14px;">
-        <div class="panel-header">
+        <div class="panel-header" style="flex-wrap:wrap;gap:10px;">
           <div>
             <span class="panel-title">Gestión de mesas</span>
             <div class="panel-sub" id="tables-summary-sub">Cargando…</div>
           </div>
-          <button class="btn-ghost" onclick="openTableConfigModal()">Configurar mesas</button>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button class="btn-ghost" onclick="openGroupsModal()">Grupos</button>
+            <button class="btn-ghost" onclick="openTableConfigModal()">Generar varias</button>
+            <button class="btn-primary" onclick="addTable()">+ Agregar mesa</button>
+          </div>
         </div>
         <div id="tables-quick-stats" style="display:flex;gap:12px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--parchment);"></div>
       </div>
 
-      <div id="tables-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;"></div>
+      <!-- Salud del acomodo -->
+      <div class="panel" style="margin-bottom:14px;" id="tables-health-panel">
+        <div class="panel-header" style="flex-wrap:wrap;gap:10px;">
+          <div>
+            <span class="panel-title">Salud del acomodo</span>
+            <div class="panel-sub" id="health-sub">Revisando…</div>
+          </div>
+          <div class="seg" id="rsvp-count-seg" title="Qué invitados cuentan para el acomodo">
+            <button type="button" class="active" data-mode="all" onclick="setTablesRsvpMode('all', this)">Todos</button>
+            <button type="button" data-mode="confirmed" onclick="setTablesRsvpMode('confirmed', this)">Solo confirmados</button>
+          </div>
+        </div>
+        <div class="health-list" id="health-list"></div>
+      </div>
+
+      <!-- Plano visual -->
+      <div class="panel" style="margin-bottom:14px;">
+        <div class="panel-header" style="flex-wrap:wrap;gap:10px;">
+          <div>
+            <span class="panel-title">Plano del salón</span>
+            <div class="panel-sub">Toca una mesa para editarla · arrástrala para moverla · arrastra un invitado del cajón o entre mesas para acomodarlo</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn-ghost" style="font-size:11px;" onclick="openReception()">🔍 Modo recepción</button>
+            <button class="btn-ghost" style="font-size:11px;" onclick="printSeatingList()">⎙ Lista por mesa</button>
+            <button class="btn-ghost" style="font-size:11px;" onclick="printFloorPlan()">⎙ Plano</button>
+          </div>
+        </div>
+        <div id="groups-legend"></div>
+        <div class="board-scroll">
+          <div id="tables-board"></div>
+        </div>
+      </div>
+
+      <!-- Invitados sin mesa -->
+      <div class="panel" id="unseated-panel">
+        <div class="panel-header">
+          <div>
+            <span class="panel-title">Invitados sin mesa</span>
+            <div class="panel-sub" id="unseated-sub"></div>
+          </div>
+        </div>
+        <div id="unseated-tray" style="padding:16px 22px;display:flex;flex-wrap:wrap;gap:8px;"></div>
+      </div>
 
     </div>
 
@@ -1465,6 +1900,10 @@ body.sidebar-open .sidebar-overlay { display: block; }
       <label class="modal-label" for="modal-passes">Pases (1–10)</label>
       <input class="modal-input" id="modal-passes" type="number" min="1" max="10" value="2" />
     </div>
+    <div class="modal-field">
+      <label class="modal-label" for="modal-group">Grupo <span style="font-weight:400;opacity:.6;">(opcional)</span></label>
+      <select class="modal-input" id="modal-group"></select>
+    </div>
     <div class="modal-field" id="modal-table-field" style="display:none;">
       <label class="modal-label" for="modal-table">Mesa <span style="font-weight:400;opacity:.6;">(opcional)</span></label>
       <input class="modal-input" id="modal-table" type="text" placeholder="Ej. 5" />
@@ -1501,6 +1940,9 @@ body.sidebar-open .sidebar-overlay { display: block; }
     </a>
   </div>
 </nav>
+
+<!-- Área de impresión (Lista por mesa / Plano) — oculta salvo al imprimir -->
+<div id="print-root"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -1591,12 +2033,38 @@ function navTo(e, el) {
   if (contentEl) contentEl.scrollTop = 0;
   window.scrollTo({ top: 0, behavior: 'instant' });
 
+  placeNavIndicator();
   if (window.innerWidth < 1024) setTimeout(closeSidebar, 120);
 }
 
 function setActive(el) { navTo({ preventDefault: () => {} }, el); }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+// ── Indicador deslizante del sidebar ──
+function placeNavIndicator(animate) {
+  const nav = document.getElementById('sidebarNav');
+  const indicator = document.getElementById('navIndicator');
+  const active = nav && nav.querySelector('.nav-item.active');
+  if (!nav || !indicator || !active) return;
+  const navRect = nav.getBoundingClientRect();
+  const itemRect = active.getBoundingClientRect();
+  if (animate === false) indicator.style.transition = 'none';
+  indicator.style.transform = `translateY(${itemRect.top - navRect.top + nav.scrollTop}px)`;
+  indicator.style.height = itemRect.height + 'px';
+  indicator.classList.add('ready');
+  if (animate === false) {
+    requestAnimationFrame(() => { indicator.style.transition = ''; });
+  }
+}
+window.addEventListener('resize', () => placeNavIndicator(false));
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  const vis = id => { const el = document.getElementById(id); return el && el.style.display !== 'none' && el.style.display !== ''; };
+  if (vis('reception-overlay'))   { closeReception(); return; }
+  if (vis('groups-overlay'))      { closeGroupsModal(); return; }
+  if (vis('table-card-overlay'))  { closeTableCard(); return; }
+  closeSidebar();
+});
 
 function toggleDesignNav(el) {
   const sub   = document.getElementById('nav-sub-designs');
@@ -1690,8 +2158,9 @@ function openGuestModal(key) {
   document.getElementById('guest-modal-title').textContent = key ? 'Editar invitado' : 'Agregar invitado';
   const hasTables = Object.keys(tablesConfig).length > 0;
   document.getElementById('modal-table-field').style.display = hasTables ? '' : 'none';
+  const g = key ? WEDDING_GUESTS[key] : null;
+  document.getElementById('modal-group').innerHTML = groupOptions(g && g.group);
   if (key) {
-    const g = WEDDING_GUESTS[key];
     document.getElementById('modal-name').value   = g.name;
     document.getElementById('modal-key').value    = key;
     document.getElementById('modal-passes').value = g.passes;
@@ -1725,10 +2194,13 @@ function saveGuest() {
   const key    = document.getElementById('modal-key').value.trim().toLowerCase().replace(/\s+/g,'');
   const passes = parseInt(document.getElementById('modal-passes').value, 10) || 1;
   const table  = document.getElementById('modal-table').value.trim();
+  const group  = document.getElementById('modal-group').value;
 
   if (!name || !key) { showToast('Completa nombre y clave'); return; }
 
-  const data = { name, passes, table };
+  // fusiona con lo que ya tenía (mesa repartida, enviado, etc.) en vez de reemplazar
+  const data = { ...(WEDDING_GUESTS[key] || {}), name, passes, table };
+  if (group) data.group = group; else delete data.group;
   WEDDING_GUESTS[key] = data;
 
   // persist in localStorage
@@ -1788,6 +2260,126 @@ function setFilter(filter, btn) {
   renderGuestTable(lastRsvpData);
 }
 
+// ── GRUPOS / ETIQUETAS DE INVITADO ──
+let WEDDING_GROUPS = [];
+const GROUP_PALETTE = ['#4A9B6A','#0D4A2B','#b89650','#a85a5a','#7a6db8','#4f89ad','#c17aa0','#7d7468'];
+const DEFAULT_GROUPS = [
+  { id: 'novia',   name: 'Familia novia', color: '#c17aa0' },
+  { id: 'novio',   name: 'Familia novio', color: '#4f89ad' },
+  { id: 'amigos',  name: 'Amigos',        color: '#4A9B6A' },
+  { id: 'trabajo', name: 'Trabajo',       color: '#b89650' },
+];
+
+function loadGroups() {
+  try {
+    const raw = localStorage.getItem('ee_groups');
+    WEDDING_GROUPS = raw ? JSON.parse(raw) : DEFAULT_GROUPS.map(g => ({ ...g }));
+  } catch (e) { WEDDING_GROUPS = DEFAULT_GROUPS.map(g => ({ ...g })); }
+  if (!Array.isArray(WEDDING_GROUPS) || !WEDDING_GROUPS.length) WEDDING_GROUPS = DEFAULT_GROUPS.map(g => ({ ...g }));
+}
+function saveGroups() {
+  localStorage.setItem('ee_groups', JSON.stringify(WEDDING_GROUPS));
+  if (db) db.collection('ee_config').doc('groups').set({ list: WEDDING_GROUPS }).catch(e => console.warn('Firestore groups:', e));
+}
+function groupOf(key) {
+  const gid = WEDDING_GUESTS[key] && WEDDING_GUESTS[key].group;
+  if (!gid) return null;
+  return WEDDING_GROUPS.find(x => x.id === gid) || null;
+}
+function groupOptions(cur) {
+  return '<option value="">Sin grupo</option>' +
+    WEDDING_GROUPS.map(g => `<option value="${g.id}"${g.id === cur ? ' selected' : ''}>${escapeHtml(g.name)}</option>`).join('');
+}
+function assignGuestGroup(key, groupId, skipRender) {
+  const g = WEDDING_GUESTS[key];
+  if (!g) return;
+  if (groupId) g.group = groupId; else delete g.group;
+  const extras = JSON.parse(localStorage.getItem('ee_guests_extra') || '{}');
+  extras[key] = { ...g };
+  if (!g.group) delete extras[key].group;
+  localStorage.setItem('ee_guests_extra', JSON.stringify(extras));
+  if (db) db.collection('ee_guests').doc(key).set({ ...extras[key] }).catch(e => console.warn('Firestore grupo:', e));
+  if (!skipRender) { renderGuestTable(lastRsvpData); buildTablesSection(); }
+}
+
+// Composición por grupo de una mesa (pases por grupo, sin los que no asisten).
+function tableGroupMix(id) {
+  const tally = {};
+  guestsAtTable(id, true).forEach(({ key, passes }) => {
+    const grp = groupOf(key);
+    const k = grp ? grp.id : '_none';
+    if (!tally[k]) tally[k] = { count: 0, color: grp ? grp.color : 'var(--parchment)', name: grp ? grp.name : 'Sin grupo' };
+    tally[k].count += passes;
+  });
+  return Object.values(tally).sort((a, b) => b.count - a.count);
+}
+
+// ── GESTOR DE GRUPOS ──
+function openGroupsModal() {
+  let ov = document.getElementById('groups-overlay');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'groups-overlay';
+    ov.className = 'modal-overlay';
+    ov.addEventListener('click', e => { if (e.target === ov) closeGroupsModal(); });
+    document.body.appendChild(ov);
+  }
+  ov.innerHTML = `<div class="modal-box" style="width:min(480px,100%);">
+    <div class="modal-title">Grupos de invitados</div>
+    <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;">El color aparece en los asientos del plano y en el medidor de mezcla de cada mesa.</div>
+    <div id="groups-list"></div>
+    <button class="btn-ghost" style="margin-top:12px;font-size:12px;" onclick="addGroup()">➕ Agregar grupo</button>
+    <div class="modal-actions"><button class="btn-primary" onclick="closeGroupsModal()">Listo</button></div>
+  </div>`;
+  ov.style.display = 'flex';
+  renderGroupsList();
+}
+function closeGroupsModal() {
+  const e = document.getElementById('groups-overlay');
+  if (e) e.style.display = 'none';
+}
+function renderGroupsList() {
+  const l = document.getElementById('groups-list');
+  if (!l) return;
+  l.innerHTML = WEDDING_GROUPS.map((grp, i) => `
+    <div class="group-row">
+      <input class="group-name" type="text" value="${escapeHtml(grp.name)}"
+        onchange="WEDDING_GROUPS[${i}].name=this.value.trim()||'Grupo';saveGroups();renderGroupsList();refreshGroupUI();">
+      <div class="group-swatches">
+        ${GROUP_PALETTE.map(c => `<button type="button" class="group-swatch${grp.color === c ? ' sel' : ''}" style="background:${c}"
+          onclick="WEDDING_GROUPS[${i}].color='${c}';saveGroups();renderGroupsList();refreshGroupUI();"></button>`).join('')}
+      </div>
+      <button type="button" class="group-del" title="Borrar grupo" onclick="removeGroup(${i})">✕</button>
+    </div>`).join('');
+}
+function addGroup() {
+  const used = WEDDING_GROUPS.map(g => g.color);
+  const color = GROUP_PALETTE.find(c => !used.includes(c)) || GROUP_PALETTE[WEDDING_GROUPS.length % GROUP_PALETTE.length];
+  WEDDING_GROUPS.push({ id: 'g' + Date.now().toString(36), name: 'Nuevo grupo', color });
+  saveGroups(); renderGroupsList(); refreshGroupUI();
+}
+function removeGroup(i) {
+  const grp = WEDDING_GROUPS[i];
+  const inUse = Object.keys(WEDDING_GUESTS).filter(k => WEDDING_GUESTS[k].group === grp.id);
+  if (inUse.length && !confirm(`${inUse.length} invitado(s) tienen "${grp.name}". ¿Quitarles el grupo y borrarlo?`)) return;
+  inUse.forEach(k => assignGuestGroup(k, '', true));
+  WEDDING_GROUPS.splice(i, 1);
+  saveGroups(); renderGroupsList(); refreshGroupUI();
+}
+function refreshGroupUI() {
+  buildTablesSection();
+  if (document.getElementById('guest-tbody')) renderGuestTable(lastRsvpData);
+}
+
+function renderGroupsLegend() {
+  const el = document.getElementById('groups-legend');
+  if (!el) return;
+  if (!WEDDING_GROUPS.length) { el.innerHTML = ''; return; }
+  el.innerHTML = WEDDING_GROUPS.map(g =>
+    `<span class="gl-item"><i style="background:${g.color}"></i>${escapeHtml(g.name)}</span>`
+  ).join('') + `<button type="button" class="gl-edit" onclick="openGroupsModal()">Editar grupos</button>`;
+}
+
 // ── TABLES CONFIG ──
 const DEFAULT_TABLE_CAPACITY = 10;
 let tablesConfig = {}; // { "1": { label:"Mesa 1", capacity:10 }, ... }
@@ -1815,39 +2407,225 @@ function saveTablesConfig() {
   localStorage.setItem('ee_tables_config', JSON.stringify(tablesConfig));
 }
 
-function buildTablesSection() {
-  // Calcular ocupación por mesa
-  const keys = Object.keys(WEDDING_GUESTS);
-  const byTable = {}; // { tableId: [{ key, g }] }
-
-  keys.forEach(key => {
-    const g = WEDDING_GUESTS[key];
-    const t = String(g.table);
-    if (!byTable[t]) byTable[t] = [];
-    byTable[t].push({ key, g });
-  });
-
-  // Calcular totales
-  let totalSeats = 0, totalAssigned = 0, totalAvail = 0, fullTables = 0;
-  const tableIds = Object.keys(tablesConfig).sort((a,b) => {
+function sortedTableIds() {
+  return Object.keys(tablesConfig).sort((a,b) => {
     const na = parseInt(a), nb = parseInt(b);
     if (!isNaN(na) && !isNaN(nb)) return na - nb;
     if (!isNaN(na)) return -1;
     if (!isNaN(nb)) return  1;
     return a.localeCompare(b);
   });
+}
 
+// Una familia normalmente ocupa una sola mesa (g.table), pero puede repartirse
+// en varias — g.seating = [{table, passes}, ...] cuando está dividida.
+function getSeating(key) {
+  const g = WEDDING_GUESTS[key];
+  if (Array.isArray(g.seating) && g.seating.length) return g.seating;
+  const t = String(g.table);
+  if (t === '—' || t === '' || t === 'undefined') return [];
+  return [{ table: t, passes: g.passes || 1 }];
+}
+
+// ── RSVP: cómo se cruza el acomodo con las confirmaciones ──
+// 'all'       → cuenta a confirmados y pendientes (los que aún no responden reservan lugar)
+// 'confirmed' → solo confirmados ocupan asiento (vista "cómo queda si solo vienen los que dijeron que sí")
+let tablesRsvpMode = 'all';
+
+function rsvpStatus(key) {
+  const r = (typeof lastRsvpData !== 'undefined' && lastRsvpData) ? lastRsvpData[key] : null;
+  if (r && r.attending === true)  return 'confirmed';
+  if (r && r.attending === false) return 'declined';
+  return 'pending';
+}
+
+// ¿Este invitado ocupa un asiento? Los que dijeron que NO nunca ocupan.
+// strict = ignora el filtro de la vista (para cálculos de capacidad reales).
+function guestOccupies(key, strict) {
+  const st = rsvpStatus(key);
+  if (st === 'declined') return false;
+  if (!strict && tablesRsvpMode === 'confirmed' && st !== 'confirmed') return false;
+  return true;
+}
+
+function setTablesRsvpMode(mode, btn) {
+  tablesRsvpMode = mode;
+  document.querySelectorAll('#rsvp-count-seg button').forEach(b => b.classList.toggle('active', b === btn));
+  buildTablesSection();
+}
+
+// Pases de un invitado que YA están sentados en una mesa existente.
+function seatedPasses(key) {
+  return getSeating(key).reduce((s,x) => s + (tablesConfig[String(x.table)] ? x.passes : 0), 0);
+}
+
+// Estado de ocupación de una mesa (para el color del anillo en el plano).
+function tableState(id) {
+  const cap = tablesConfig[id].capacity;
+  const assigned = tableAssignedPasses(id, null, true);
+  if (assigned > cap) return 'over';
+  if (assigned === 0) return 'empty';
+  if (assigned === cap) return 'full';
+  if (cap - assigned <= 2) return 'near';
+  return 'partial';
+}
+
+function guestsAtTable(tableId, strict) {
+  const out = [];
+  Object.keys(WEDDING_GUESTS).forEach(key => {
+    if (!guestOccupies(key, strict)) return;
+    getSeating(key).forEach(s => { if (String(s.table) === String(tableId) && s.passes > 0) out.push({ key, passes: s.passes }); });
+  });
+  return out.sort((a,b) => WEDDING_GUESTS[a.key].name.localeCompare(WEDDING_GUESTS[b.key].name));
+}
+
+function guestsForTable(tableId) {
+  return guestsAtTable(tableId).map(x => x.key);
+}
+
+function tableAssignedPasses(tableId, excludeKey, strict) {
+  return guestsAtTable(tableId, strict)
+    .filter(x => x.key !== excludeKey)
+    .reduce((s,x) => s + x.passes, 0);
+}
+
+// Reparte a los invitados de una mesa en orden en un arreglo de "asientos".
+function tableSeatMap(tableId, capacity) {
+  const map = new Array(capacity).fill(null);
+  let i = 0;
+  guestsAtTable(tableId).forEach(({key, passes}) => {
+    for (let p = 0; p < passes && i < capacity; p++, i++) map[i] = key;
+  });
+  return map;
+}
+
+function mesaColumnText(key) {
+  const seating = getSeating(key);
+  if (seating.length === 0) return '—';
+  if (seating.length === 1) return seating[0].table;
+  return seating[0].table + ' +' + (seating.length - 1);
+}
+
+// ── Celda de mesa editable en la Lista de invitados ──
+function mesaCellHtml(key) {
+  const seating = getSeating(key);
+  if (seating.length > 1) {
+    return `<button type="button" class="mesa-multi" onclick="openFamilyCard('${key}')" title="Repartida en varias mesas — toca para editar">${seating.length} mesas</button>`;
+  }
+  const cur = seating.length ? String(seating[0].table) : '';
+  const ids = sortedTableIds();
+  let opts = '<option value="">Sin mesa</option>';
+  if (cur && !ids.includes(cur)) opts += `<option value="${cur}" selected>Mesa ${cur}</option>`;
+  opts += ids.map(id => `<option value="${id}"${id === cur ? ' selected' : ''}>${escapeHtml(tablesConfig[id].label)}</option>`).join('');
+  opts += '<option value="__new__">➕ Nueva mesa…</option>';
+  return `<select class="mesa-select" onchange="onMesaSelect('${key}', this)">${opts}</select>`;
+}
+
+function grupoCellHtml(key) {
+  const cur = (WEDDING_GUESTS[key] && WEDDING_GUESTS[key].group) || '';
+  const grp = groupOf(key);
+  const dot = grp ? `<span class="gc-dot" style="background:${grp.color}"></span>` : '';
+  return `<span class="grupo-cell">${dot}<select class="grupo-select" onchange="assignGuestGroup('${key}', this.value)">${groupOptions(cur)}</select></span>`;
+}
+
+function onMesaSelect(key, sel) {
+  const val = sel.value;
+  if (val === '__new__') {
+    const nextNum = (Object.keys(tablesConfig).map(k => parseInt(k) || 0).sort((a,b) => b - a)[0] || 0) + 1;
+    const name = prompt('Nombre o número de la mesa nueva', 'Mesa ' + nextNum);
+    if (!name || !name.trim()) { renderGuestTable(lastRsvpData); return; }
+    const t = name.trim();
+    const id = /^\d+$/.test(t) ? t : String(nextNum);
+    if (!tablesConfig[id]) {
+      tablesConfig[id] = { label: /^\d+$/.test(t) ? 'Mesa ' + t : t, capacity: DEFAULT_TABLE_CAPACITY };
+      ensureTablePosition(id, Object.keys(tablesConfig).length - 1);
+      saveTablesConfig();
+    }
+    assignGuestTable(key, id);
+    return;
+  }
+  assignGuestTable(key, val);
+}
+
+function assignGuestTable(key, tableId) {
+  const g = WEDDING_GUESTS[key];
+  if (!g) return;
+  const id = tableId ? String(tableId) : '';
+  g.table = id || '—';
+  delete g.seating;
+
+  const extras = JSON.parse(localStorage.getItem('ee_guests_extra') || '{}');
+  extras[key] = { ...g };
+  delete extras[key].seating;
+  localStorage.setItem('ee_guests_extra', JSON.stringify(extras));
+  if (db) db.collection('ee_guests').doc(key).set({ ...extras[key] }).catch(e => console.warn('Firestore mesa:', e));
+
+  if (id && tablesConfig[id]) {
+    const over = tableAssignedPasses(id, null, true) - tablesConfig[id].capacity;
+    showToast(over > 0
+      ? `${g.name} → ${tablesConfig[id].label} · ${over} de más`
+      : `${g.name} → ${tablesConfig[id].label}`);
+  } else if (!id) {
+    showToast(`${g.name} — sin mesa`);
+  }
+  renderGuestTable(lastRsvpData);
+  buildTablesSection();
+}
+
+// Guarda el reparto de una familia entre mesas. allocations = { tableId: pases, ... }
+function saveGuestSeating(key, allocations) {
+  const entries = Object.keys(allocations)
+    .map(t => ({ table: t, passes: allocations[t] }))
+    .filter(e => e.passes > 0);
+
+  const g = WEDDING_GUESTS[key];
+  const totalPasses = g.passes || 1;
+  const allocated = entries.reduce((s, e) => s + e.passes, 0);
+
+  if (entries.length === 0) {
+    // nadie sentado
+    g.table = '—';
+    delete g.seating;
+  } else if (entries.length === 1 && allocated >= totalPasses) {
+    // una sola mesa con TODOS los pases → forma simple
+    g.table = entries[0].table;
+    delete g.seating;
+  } else {
+    // varias mesas, o una sola mesa parcial (ej. 3 de 4) → guardar el reparto explícito
+    g.table = entries[0].table;
+    g.seating = entries;
+  }
+
+  const extras = JSON.parse(localStorage.getItem('ee_guests_extra') || '{}');
+  extras[key] = { ...g };
+  if (!g.seating) delete extras[key].seating;
+  localStorage.setItem('ee_guests_extra', JSON.stringify(extras));
+  if (db) db.collection('ee_guests').doc(key).set({ ...extras[key] }).catch(e => console.warn('Firestore seating:', e));
+  renderGuestTable(lastRsvpData);
+}
+
+function ensureTablePosition(id, idx) {
+  const cfg = tablesConfig[id];
+  if (typeof cfg.x === 'number' && typeof cfg.y === 'number') return;
+  const cols = 4;
+  const col = idx % cols, row = Math.floor(idx / cols);
+  cfg.x = 14 + col * 24;
+  cfg.y = 22 + row * 28;
+}
+
+function buildTablesSection() {
+  const tableIds = sortedTableIds();
+
+  let totalSeats = 0, totalAssigned = 0, fullTables = 0;
   tableIds.forEach(id => {
     const cfg = tablesConfig[id];
-    const guests = byTable[id] || [];
-    const assignedPasses = guests.reduce((s, {g}) => s + (g.passes || 1), 0);
+    const assigned = tableAssignedPasses(id, null);
     totalSeats    += cfg.capacity;
-    totalAssigned += assignedPasses;
-    if (assignedPasses >= cfg.capacity) fullTables++;
+    totalAssigned += assigned;
+    if (assigned >= cfg.capacity) fullTables++;
   });
-  totalAvail = totalSeats - totalAssigned;
+  const totalAvail = totalSeats - totalAssigned;
 
-  // Quick stats
   document.getElementById('tables-summary-sub').textContent =
     tableIds.length + ' mesas · ' + totalSeats + ' asientos totales · ' + totalAvail + ' disponibles';
 
@@ -1870,77 +2648,788 @@ function buildTablesSection() {
     </div>
   `;
 
-  // Tarjetas por mesa
-  const grid = document.getElementById('tables-grid');
+  renderGroupsLegend();
+  renderTablesBoard();
+  renderUnseatedTray();
+  renderHealth();
+}
+
+function renderTablesBoard() {
+  const board = document.getElementById('tables-board');
+  if (!board) return;
+  const tableIds = sortedTableIds();
+
   if (!tableIds.length) {
-    grid.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-light);font-size:13px;">Sin mesas configuradas — agrega invitados con número de mesa.</div>';
+    board.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-light);font-size:13px;">Sin mesas configuradas — agrega una con "+ Agregar mesa".</div>';
     return;
   }
 
-  grid.innerHTML = tableIds.map(id => {
-    const cfg    = tablesConfig[id];
-    const guests = (byTable[id] || []).sort((a,b) => a.g.name.localeCompare(b.g.name));
-    const assignedPasses = guests.reduce((s, {g}) => s + (g.passes || 1), 0);
-    const avail  = cfg.capacity - assignedPasses;
-    const pct    = Math.min(Math.round((assignedPasses / cfg.capacity) * 100), 100);
-    const fillColor = avail <= 0 ? 'var(--red)' : avail <= 2 ? 'var(--yellow)' : 'var(--green)';
-    const availClass = avail <= 0 ? 'full' : avail <= 2 ? 'warn' : 'ok';
-    const availText  = avail <= 0 ? 'Mesa llena' : avail === 1 ? '1 asiento libre' : avail + ' asientos libres';
+  tableIds.forEach((id, idx) => ensureTablePosition(id, idx));
 
-    const guestRows = guests.length
-      ? guests.map(({g}) => `
-        <div class="table-guest-row">
-          <span class="table-guest-name">${g.name}</span>
-          <span class="table-guest-passes">🎟 ${g.passes}</span>
-        </div>`).join('')
-      : '<div class="table-empty-row">Sin invitados asignados</div>';
+  board.innerHTML = '';
+  tableIds.forEach(id => {
+    const cfg = tablesConfig[id];
+    const assignedPasses = tableAssignedPasses(id, null);
+    const effCapacity = Math.max(cfg.capacity, assignedPasses, 1);
+    const map = tableSeatMap(id, effCapacity);
 
-    return `
-      <div class="table-card">
-        <div class="table-card-header">
-          <span class="table-card-name">${cfg.label}</span>
-          <span class="table-card-capacity">${assignedPasses} / ${cfg.capacity} pases</span>
-        </div>
-        <div class="table-occ-bar">
-          <div class="table-occ-fill" style="width:${pct}%;background:${fillColor};"></div>
-        </div>
-        <div class="table-guests-list">${guestRows}</div>
-        <div class="table-card-footer">
-          <span class="table-avail ${availClass}">${availText}</span>
-          <button class="btn-ghost" style="padding:4px 10px;font-size:11px;" onclick="openAssignModal('${id}')">Asignar</button>
-        </div>
-      </div>`;
+    const unit = document.createElement('div');
+    unit.className = 'tb-unit';
+    unit.dataset.tableId = id;
+    unit.style.left = cfg.x + '%';
+    unit.style.top  = cfg.y + '%';
+
+    const state = tableState(id);
+    const shape = cfg.shape || 'round';
+    let w, h;
+    if (shape === 'rect')          { w = 58 + Math.ceil(effCapacity / 2) * 24; h = 54; }
+    else if (shape === 'imperial') { w = 76 + Math.ceil(effCapacity / 2) * 30; h = 40; }
+    else                           { w = h = 46 + effCapacity * 3.4; }
+
+    const core = document.createElement('div');
+    core.className = 'tb-core is-' + state + (shape !== 'round' ? ' tb-core--' + shape : '');
+    core.style.width = w + 'px';
+    core.style.height = h + 'px';
+    core.innerHTML = `<span class="tb-label">${cfg.label}</span><span class="tb-sub">${assignedPasses}/${cfg.capacity}</span>`;
+    core.addEventListener('pointerdown', (e) => startTableDrag(e, id));
+    unit.appendChild(core);
+
+    // Badge de alerta: sobrecupo o mesa con una sola persona
+    const strictAssigned = tableAssignedPasses(id, null, true);
+    let flag = '';
+    if (strictAssigned > cfg.capacity)  flag = { cls: 'bad',  txt: 'Sobrecupo +' + (strictAssigned - cfg.capacity) };
+    else if (strictAssigned === 1)      flag = { cls: 'warn', txt: '1 persona' };
+    if (flag) {
+      const fl = document.createElement('div');
+      fl.className = 'tb-flag ' + flag.cls;
+      fl.textContent = flag.txt;
+      unit.appendChild(fl);
+    }
+
+    // Medidor de mezcla de grupos (franja fina al pie del núcleo)
+    const mix = tableGroupMix(id);
+    if (mix.length) {
+      const mixTotal = mix.reduce((s, m) => s + m.count, 0);
+      const bar = document.createElement('div');
+      bar.className = 'tb-mix';
+      bar.innerHTML = mix.map(m => `<span style="flex:${m.count};background:${m.color}" title="${escapeHtml(m.name)} ${Math.round(m.count / mixTotal * 100)}%"></span>`).join('');
+      core.appendChild(bar);
+    }
+
+    const seatPos = computeSeatOffsets(shape, w, h, effCapacity);
+    for (let i = 0; i < effCapacity; i++) {
+      const { sx, sy } = seatPos[i];
+      const occKey = map[i];
+      const occ = occKey ? WEDDING_GUESTS[occKey] : null;
+      const seat = document.createElement('div');
+      const occSt = occKey ? rsvpStatus(occKey) : '';
+      const grp  = occKey ? groupOf(occKey) : null;
+      seat.className = 'tb-seat' + (occ ? ' filled is-' + occSt : '');
+      if (grp) seat.style.setProperty('--seat-color', grp.color);
+      seat.style.left = `calc(50% + ${sx}px - 13px)`;
+      seat.style.top  = `calc(50% + ${sy}px - 13px)`;
+      seat.textContent = occ ? occ.name.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase() : '';
+      seat.title = occ
+        ? occ.name + (grp ? ' · ' + grp.name : '') + (occSt === 'pending' ? ' · sin confirmar' : '') + ' · arrastra para mover'
+        : 'Asiento libre';
+      if (occKey) seat.addEventListener('pointerdown', (ev) => startGuestDrag(ev, occKey, id));
+      unit.appendChild(seat);
+    }
+
+    if (cfg.note && cfg.note.trim()) {
+      const noteEl = document.createElement('div');
+      noteEl.className = 'tb-note';
+      noteEl.textContent = cfg.note.trim();
+      noteEl.title = cfg.note.trim();
+      const noteY = (shape === 'round' ? w / 2 + 22 : h / 2 + 20) + 30;
+      noteEl.style.top = `calc(50% + ${noteY}px)`;
+      unit.appendChild(noteEl);
+      core.title = cfg.label + ' · ' + cfg.note.trim();
+    }
+
+    board.appendChild(unit);
+  });
+}
+
+// Posición de cada asiento según la forma de la mesa (offset desde el centro del núcleo).
+function computeSeatOffsets(shape, w, h, count) {
+  const out = [];
+  if (shape === 'round') {
+    const r = Math.max(w, h) / 2 + 22;
+    for (let i = 0; i < count; i++) {
+      const a = (i / count) * Math.PI * 2 - Math.PI / 2;
+      out.push({ sx: Math.cos(a) * r, sy: Math.sin(a) * r });
+    }
+    return out;
+  }
+  // rect / imperial: dos filas de asientos (arriba y abajo de la mesa)
+  const topN = Math.ceil(count / 2);
+  const botN = count - topN;
+  const yOff = h / 2 + 20;
+  for (let k = 0; k < topN; k++) out.push({ sx: -w / 2 + (w / (topN + 1)) * (k + 1), sy: -yOff });
+  for (let k = 0; k < botN; k++) out.push({ sx: -w / 2 + (w / (botN + 1)) * (k + 1), sy:  yOff });
+  return out;
+}
+
+function renderUnseatedTray() {
+  const sub  = document.getElementById('unseated-sub');
+  const wrap = document.getElementById('unseated-tray');
+  if (!sub || !wrap) return;
+
+  // Un invitado aparece aquí si le faltan pases por sentar: sin mesa del todo,
+  // o repartido en mesas pero con pases sobrantes (ej. 4 pases, solo 3 asignados).
+  // Los que dijeron que NO nunca aparecen; en vista "solo confirmados" tampoco los pendientes.
+  const pending = Object.keys(WEDDING_GUESTS).map(key => {
+    const g = WEDDING_GUESTS[key];
+    const seated = seatedPasses(key);
+    return { key, g, st: rsvpStatus(key), seated, missing: (g.passes || 1) - seated };
+  }).filter(x => x.missing > 0 && guestOccupies(x.key))
+    .sort((a,b) => a.g.name.localeCompare(b.g.name));
+
+  const totalMissing = pending.reduce((s,x) => s + x.missing, 0);
+
+  sub.textContent = pending.length
+    ? pending.length + (pending.length === 1 ? ' invitado' : ' invitados') + ' · ' +
+      totalMissing + (totalMissing === 1 ? ' pase sin mesa' : ' pases sin mesa')
+    : 'Todos los invitados tienen mesa';
+
+  if (!pending.length) {
+    wrap.innerHTML = '<span style="font-size:12px;color:var(--text-light);font-style:italic;">Todos los invitados tienen mesa</span>';
+    return;
+  }
+  wrap.innerHTML = pending.map(({key, g, st, seated, missing}) => {
+    const meta = seated > 0 ? `· faltan ${missing} de ${g.passes}` : `· ${g.passes}p`;
+    return `<button type="button" class="tb-chip" onpointerdown="startGuestDrag(event, '${key}', null)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFamilyCard('${key}');}"><span class="chip-dot is-${st}"></span>${g.name} <span class="passes">${meta}</span></button>`;
   }).join('');
+}
+
+// ── SALUD DEL ACOMODO ──
+function renderHealth() {
+  const list = document.getElementById('health-list');
+  const sub  = document.getElementById('health-sub');
+  if (!list || !sub) return;
+
+  const tableIds = sortedTableIds();
+  const issues = [];
+
+  // Problemas por mesa
+  tableIds.forEach(id => {
+    const cfg = tablesConfig[id];
+    const assigned = tableAssignedPasses(id, null, true);
+    if (assigned > cfg.capacity)
+      issues.push({ sev: 'bad', text: `${cfg.label} sobrepasada por ${assigned - cfg.capacity} pase${assigned - cfg.capacity !== 1 ? 's' : ''}`, table: id });
+    else if (assigned === 0)
+      issues.push({ sev: 'warn', text: `${cfg.label} sin nadie`, table: id, meta: `${cfg.capacity} lugares` });
+    else if (assigned === 1)
+      issues.push({ sev: 'warn', text: `${cfg.label}: solo 1 persona`, table: id });
+
+    // Mesa homogénea: 4+ personas y todas del mismo grupo
+    const mix = tableGroupMix(id);
+    if (assigned >= 4 && mix.length === 1 && mix[0].name !== 'Sin grupo')
+      issues.push({ sev: 'warn', text: `${cfg.label}: todos del grupo "${mix[0].name}"`, table: id });
+  });
+
+  // Pases sin mesa, separados por estado de confirmación
+  let missConfirmed = 0, missPending = 0, declinedSeated = 0;
+  Object.keys(WEDDING_GUESTS).forEach(key => {
+    const st = rsvpStatus(key);
+    const g  = WEDDING_GUESTS[key];
+    const missing = (g.passes || 1) - seatedPasses(key);
+    if (st === 'declined') {
+      if (getSeating(key).some(s => tablesConfig[String(s.table)])) declinedSeated++;
+      return;
+    }
+    if (missing <= 0) return;
+    if (st === 'confirmed') missConfirmed += missing;
+    else                    missPending  += missing;
+  });
+  if (missConfirmed > 0)
+    issues.push({ sev: 'bad',  text: `${missConfirmed} pase${missConfirmed !== 1 ? 's' : ''} de invitados confirmados sin mesa` });
+  if (missPending > 0)
+    issues.push({ sev: 'warn', text: `${missPending} pase${missPending !== 1 ? 's' : ''} por confirmar aún sin mesa` });
+  if (declinedSeated > 0)
+    issues.push({ sev: 'warn', text: declinedSeated === 1
+      ? '1 invitado que no asiste aún tiene lugar asignado'
+      : `${declinedSeated} invitados que no asisten aún tienen lugar asignado` });
+
+  // Capacidad vs confirmaciones
+  const totalSeats = tableIds.reduce((s, id) => s + tablesConfig[id].capacity, 0);
+  let confPasses = 0, pendPasses = 0;
+  Object.keys(WEDDING_GUESTS).forEach(key => {
+    const st = rsvpStatus(key);
+    if (st === 'confirmed') confPasses += WEDDING_GUESTS[key].passes || 1;
+    else if (st === 'pending') pendPasses += WEDDING_GUESTS[key].passes || 1;
+  });
+  const capLine = totalSeats
+    ? { sev: (confPasses > totalSeats ? 'bad' : 'ok'),
+        text: `Capacidad: ${totalSeats} asientos · ${confPasses} confirmados` + (pendPasses ? ` · ${pendPasses} por confirmar` : ''),
+        meta: confPasses > totalSeats ? `faltan ${confPasses - totalSeats}` : `${totalSeats - confPasses} libres` }
+    : null;
+
+  const bad  = issues.filter(i => i.sev === 'bad').length;
+  const warn = issues.filter(i => i.sev === 'warn').length;
+  sub.textContent = (bad + warn) === 0
+    ? 'Todo en orden'
+    : `${bad + warn} aviso${bad + warn !== 1 ? 's' : ''}` + (bad ? ` · ${bad} por resolver` : '');
+
+  const rows = [];
+  if (!issues.length) {
+    rows.push(`<div class="health-empty">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Acomodo sin conflictos
+    </div>`);
+  } else {
+    issues.sort((a,b) => (a.sev === 'bad' ? 0 : 1) - (b.sev === 'bad' ? 0 : 1));
+    issues.forEach(i => {
+      const cls = i.sev === 'bad' ? 'bad' : 'warn';
+      const clickable = i.table ? ' clickable' : '';
+      const onclick = i.table ? ` onclick="highlightTable('${i.table}')"` : '';
+      rows.push(`<button type="button" class="health-row ${cls}${clickable}"${onclick}>
+        <span class="dot"></span>
+        <span>${i.text}</span>
+        ${i.meta ? `<span class="h-meta">${i.meta}</span>` : ''}
+      </button>`);
+    });
+  }
+  if (capLine) {
+    rows.push(`<div class="health-row ${capLine.sev === 'bad' ? 'bad' : 'ok'}" style="cursor:default;">
+      <span class="dot"></span>
+      <span>${capLine.text}</span>
+      <span class="h-meta">${capLine.meta}</span>
+    </div>`);
+  }
+  list.innerHTML = rows.join('');
+}
+
+function highlightTable(id) {
+  const unit = document.querySelector('.tb-unit[data-table-id="' + id + '"]');
+  if (!unit) return;
+  const scroller = unit.closest('.board-scroll') || unit;
+  scroller.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  unit.classList.remove('highlight');
+  void unit.offsetWidth;
+  unit.classList.add('highlight');
+  setTimeout(() => unit.classList.remove('highlight'), 2400);
+}
+
+// ── IMPRIMIR / EXPORTAR (sin dependencias) ──
+function printSeatingList() {
+  const root = document.getElementById('print-root');
+  const ids  = sortedTableIds();
+  const fecha = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  let totalPpl = 0;
+  const blocks = ids.map(id => {
+    const cfg = tablesConfig[id];
+    const guests = guestsAtTable(id, true); // sin los que no asisten
+    const ppl = guests.reduce((s, x) => s + x.passes, 0);
+    totalPpl += ppl;
+    const rows = guests.length
+      ? guests.map(x => {
+          const g = WEDDING_GUESTS[x.key];
+          const pend = rsvpStatus(x.key) === 'pending' ? ' <span class="pk-pend">(por confirmar)</span>' : '';
+          const grp = groupOf(x.key);
+          const gtag = grp ? ` <span class="pk-pend">· ${escapeHtml(grp.name)}</span>` : '';
+          return `<li>${escapeHtml(g.name)} — ${x.passes} ${x.passes === 1 ? 'lugar' : 'lugares'}${gtag}${pend}</li>`;
+        }).join('')
+      : '<li class="pk-empty">Sin invitados asignados</li>';
+    return `<section class="pk-table">
+      <h2><span>${escapeHtml(cfg.label)}</span><span class="pk-count">${ppl}/${cfg.capacity} lugares</span></h2>
+      ${cfg.note && cfg.note.trim() ? `<p class="pk-note">${escapeHtml(cfg.note.trim())}</p>` : ''}
+      <ol>${rows}</ol>
+    </section>`;
+  }).join('');
+
+  const unseated = Object.keys(WEDDING_GUESTS)
+    .filter(k => guestOccupies(k, true) && ((WEDDING_GUESTS[k].passes || 1) - seatedPasses(k)) > 0)
+    .sort((a, b) => WEDDING_GUESTS[a].name.localeCompare(WEDDING_GUESTS[b].name));
+  const unseatedBlock = unseated.length ? `<section class="pk-table pk-unseated">
+    <h2><span>Sin mesa</span><span class="pk-count">${unseated.length}</span></h2>
+    <ol>${unseated.map(k => {
+      const g = WEDDING_GUESTS[k]; const m = (g.passes || 1) - seatedPasses(k);
+      return `<li>${escapeHtml(g.name)} — ${m} ${m === 1 ? 'lugar' : 'lugares'}</li>`;
+    }).join('')}</ol>
+  </section>` : '';
+
+  root.className = 'pk-list';
+  root.innerHTML = `
+    <header class="pk-head">
+      <h1>Acomodo por mesas · Eunice &amp; Edher</h1>
+      <p>${fecha} · ${ids.length} mesas · ${totalPpl} personas acomodadas</p>
+    </header>
+    ${blocks || '<p>Aún no hay mesas configuradas.</p>'}
+    ${unseatedBlock}`;
+  window.print();
+}
+
+function printFloorPlan() {
+  const root  = document.getElementById('print-root');
+  const board = document.getElementById('tables-board');
+  root.className = 'pk-plan';
+  root.innerHTML = `
+    <header class="pk-head">
+      <h1>Plano del salón · Eunice &amp; Edher</h1>
+      <p>${new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+    </header>
+    <div class="pk-board">${board ? board.innerHTML : ''}</div>`;
+  window.print();
+}
+
+window.addEventListener('afterprint', () => {
+  const r = document.getElementById('print-root');
+  if (r) { r.innerHTML = ''; r.className = ''; }
+});
+
+// ── MODO RECEPCIÓN (buscador de mesa a pantalla completa) ──
+function openReception() {
+  let ov = document.getElementById('reception-overlay');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'reception-overlay';
+    ov.innerHTML = `
+      <button class="rc-close" onclick="closeReception()" aria-label="Salir">✕</button>
+      <div class="rc-inner">
+        <div class="rc-title">Encuentra tu mesa</div>
+        <input id="rc-input" class="rc-input" type="text" placeholder="Escribe tu nombre o apellido…" autocomplete="off" oninput="receptionSearch(this.value)">
+        <div id="rc-results" class="rc-results"></div>
+      </div>`;
+    document.body.appendChild(ov);
+  }
+  ov.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  receptionSearch('');
+  setTimeout(() => document.getElementById('rc-input')?.focus(), 60);
+}
+
+function closeReception() {
+  const ov = document.getElementById('reception-overlay');
+  if (ov) ov.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function receptionSearch(q) {
+  const box = document.getElementById('rc-results');
+  if (!box) return;
+  const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const nq = norm(q.trim());
+  if (!nq) { box.innerHTML = '<div class="rc-hint">Empieza a escribir para buscar…</div>'; return; }
+
+  const hits = Object.keys(WEDDING_GUESTS)
+    .filter(k => norm(WEDDING_GUESTS[k].name).includes(nq))
+    .sort((a, b) => WEDDING_GUESTS[a].name.localeCompare(WEDDING_GUESTS[b].name))
+    .slice(0, 10);
+
+  if (!hits.length) { box.innerHTML = '<div class="rc-hint">Sin resultados — pregunta en la mesa de bienvenida.</div>'; return; }
+
+  box.innerHTML = hits.map(k => {
+    const g = WEDDING_GUESTS[k];
+    const seating = getSeating(k).filter(s => tablesConfig[String(s.table)]);
+    let mesaBig, extra = '';
+    if (!seating.length) { mesaBig = 'Sin asignar'; }
+    else if (seating.length === 1) { mesaBig = tablesConfig[String(seating[0].table)].label; }
+    else { mesaBig = seating.map(s => tablesConfig[String(s.table)].label).join(' · '); extra = ' · repartida'; }
+    return `<div class="rc-card">
+      <div class="rc-card-name">${escapeHtml(g.name)}</div>
+      <div class="rc-card-mesa">${escapeHtml(mesaBig)}</div>
+      <div class="rc-card-sub">${g.passes} ${g.passes === 1 ? 'lugar' : 'lugares'}${extra}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Tarjeta de familia: ver, repartir entre mesas, eliminar ──
+let familyCardState = null; // { key, alloc: { tableId: pases, ... } }
+
+function openFamilyCard(key) {
+  const alloc = {};
+  getSeating(key).forEach(s => { alloc[s.table] = (alloc[s.table] || 0) + s.passes; });
+  familyCardState = { key, alloc };
+  renderFamilyCard();
+}
+
+function closeFamilyCard() {
+  familyCardState = null;
+  const el = document.getElementById('family-card-overlay');
+  if (el) el.remove();
+}
+
+function familyAllocated() {
+  return Object.values(familyCardState.alloc).reduce((s,n) => s + n, 0);
+}
+
+function adjustFamilyAlloc(tableId, delta) {
+  const { key, alloc } = familyCardState;
+  const g = WEDDING_GUESTS[key];
+  const current = alloc[tableId] || 0;
+  const next = current + delta;
+  if (next < 0) return;
+  if (delta > 0) {
+    if (familyAllocated() >= g.passes) { showToast('Ya repartiste los ' + g.passes + ' pases'); return; }
+    const cfg = tablesConfig[tableId];
+    const otherPasses = tableAssignedPasses(tableId, key, true);
+    if (otherPasses + next > cfg.capacity) { showToast(cfg.label + ' no tiene lugar'); return; }
+  }
+  alloc[tableId] = next;
+  if (alloc[tableId] === 0) delete alloc[tableId];
+  renderFamilyCard();
+}
+
+function renderFamilyCard() {
+  let overlay = document.getElementById('family-card-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'family-card-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,36,22,0.4);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeFamilyCard(); });
+    document.body.appendChild(overlay);
+  }
+
+  const { key, alloc } = familyCardState;
+  const g = WEDDING_GUESTS[key];
+  const allocated = familyAllocated();
+  const tableIds = sortedTableIds();
+
+  overlay.innerHTML = `
+    <div id="guest-modal" style="width:min(420px,100%);">
+      <div class="modal-title">${g.name}</div>
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;">${g.passes} pase${g.passes !== 1 ? 's' : ''} en total — repártelos en una o varias mesas</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+        <span style="font-size:12px;color:var(--text-light);">Grupo</span>
+        <select class="grupo-select" style="max-width:none;flex:1;" onchange="assignGuestGroup('${key}', this.value); renderFamilyCard();">${groupOptions(g.group)}</select>
+      </div>
+      <div style="max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;">
+        ${tableIds.length === 0 ? '<div style="font-size:12px;color:var(--text-light);">Aún no hay mesas — agrega una primero.</div>' : tableIds.map(id => {
+          const cfg = tablesConfig[id];
+          const count = alloc[id] || 0;
+          const free = cfg.capacity - tableAssignedPasses(id, key, true);
+          const freeColor = free <= 0 ? 'var(--red)' : free <= 2 ? 'var(--yellow)' : 'var(--green)';
+          const freeText  = free <= 0 ? 'Llena' : free + ' libre' + (free !== 1 ? 's' : '');
+          return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 4px;border-bottom:1px solid rgba(232,223,200,0.5);">
+            <div>
+              <div style="font-size:13px;color:var(--text);">${cfg.label}</div>
+              <div style="font-size:10.5px;color:${freeColor};margin-top:1px;">${freeText}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button type="button" onclick="adjustFamilyAlloc('${id}',-1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--parchment);background:var(--white);cursor:pointer;font-weight:700;">−</button>
+              <span style="font-size:13px;font-weight:700;min-width:14px;text-align:center;">${count}</span>
+              <button type="button" onclick="adjustFamilyAlloc('${id}',1)" style="width:24px;height:24px;border-radius:50%;border:1px solid var(--parchment);background:var(--white);cursor:pointer;font-weight:700;">+</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="font-size:11px;color:${allocated > g.passes ? 'var(--red)' : 'var(--text-light)'};margin-top:12px;">Asignados: ${allocated} / ${g.passes}${allocated < g.passes ? ' — el resto queda sin mesa' : ''}</div>
+      <div class="modal-actions" style="justify-content:space-between;flex-wrap:wrap;">
+        <button class="btn-ghost" style="color:var(--red);border-color:var(--red);" onclick="deleteGuestFromCard('${key}')">Eliminar invitado</button>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-ghost" onclick="closeFamilyCard()">Cancelar</button>
+          <button class="btn-primary" onclick="saveFamilyCard()">Guardar</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function saveFamilyCard() {
+  const { key, alloc } = familyCardState;
+  saveGuestSeating(key, alloc);
+  closeFamilyCard();
+  buildTablesSection();
+  showToast('Mesa actualizada para ' + WEDDING_GUESTS[key].name);
+}
+
+function deleteGuestFromCard(key) {
+  closeFamilyCard();
+  deleteGuest(key);
+}
+
+// ── Arrastrar mesa para acomodar el plano · tocar sin arrastrar = abrir tarjeta ──
+function startTableDrag(e, tableId) {
+  if (e.button != null && e.button !== 0) return;
+  e.preventDefault();
+  const board = document.getElementById('tables-board');
+  const boardRect = board.getBoundingClientRect();
+  const core = e.currentTarget;
+  const sx0 = e.clientX, sy0 = e.clientY;
+  const cfg = tablesConfig[tableId];
+  let moved = false;
+
+  function onMove(ev) {
+    if (!moved) {
+      if (Math.hypot(ev.clientX - sx0, ev.clientY - sy0) < 6) return;
+      moved = true;
+      core.classList.add('dragging');
+    }
+    let px = ((ev.clientX - boardRect.left) / boardRect.width) * 100;
+    let py = ((ev.clientY - boardRect.top) / boardRect.height) * 100;
+    px = Math.max(8, Math.min(92, px));
+    py = Math.max(10, Math.min(90, py));
+    cfg.x = px; cfg.y = py;
+    const unit = core.closest('.tb-unit');
+    unit.style.left = px + '%';
+    unit.style.top  = py + '%';
+  }
+  function onUp() {
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', onUp);
+    if (moved) { core.classList.remove('dragging'); saveTablesConfig(); }
+    else { openTableCard(tableId); }
+  }
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup', onUp);
+}
+
+// ── Tarjeta de mesa: nombre, forma, capacidad, nota, composición, eliminar ──
+function openTableCard(id) {
+  if (!tablesConfig[id]) return;
+  let ov = document.getElementById('table-card-overlay');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'table-card-overlay';
+    ov.className = 'modal-overlay';
+    ov.addEventListener('click', e => { if (e.target === ov) closeTableCard(); });
+    document.body.appendChild(ov);
+  }
+  ov.dataset.tableId = id;
+  ov.style.display = 'flex';
+  renderTableCard();
+}
+function closeTableCard() {
+  const ov = document.getElementById('table-card-overlay');
+  if (ov) ov.style.display = 'none';
+}
+function renderTableCard() {
+  const ov = document.getElementById('table-card-overlay');
+  if (!ov || ov.style.display === 'none') return;
+  const id = ov.dataset.tableId;
+  const cfg = tablesConfig[id];
+  if (!cfg) { closeTableCard(); return; }
+  const shape  = cfg.shape || 'round';
+  const maxCap = maxCapacityFor(shape);
+  const seated = tableAssignedPasses(id, null, true);
+  const mix    = tableGroupMix(id);
+  const total  = mix.reduce((s, m) => s + m.count, 0);
+  const SH = { round: 'Redonda', rect: 'Rectangular', imperial: 'Imperial' };
+
+  ov.innerHTML = `<div class="modal-box" style="width:min(400px,100%);">
+    <div class="modal-title">${escapeHtml(cfg.label)}</div>
+
+    <label class="tc-lbl">Nombre</label>
+    <input class="modal-input" type="text" value="${escapeHtml(cfg.label)}"
+      onchange="tablesConfig['${id}'].label=this.value.trim()||'Mesa';saveTablesConfig();buildTablesSection();renderTableCard();">
+
+    <label class="tc-lbl">Forma</label>
+    <div class="tc-shapes">
+      ${['round','rect','imperial'].map(s => `<button type="button" class="tc-shape${shape === s ? ' sel' : ''}" onclick="setTableShape('${id}','${s}');renderTableCard();">${SH[s]}</button>`).join('')}
+    </div>
+
+    <label class="tc-lbl">Capacidad</label>
+    <div class="tc-cap">
+      <button type="button" onclick="resizeTableCapacity('${id}',-1);renderTableCard();">−</button>
+      <span>${cfg.capacity}</span>
+      <button type="button" onclick="resizeTableCapacity('${id}',1);renderTableCard();">+</button>
+      <span class="tc-hint">${seated} sentados · máx ${maxCap}</span>
+    </div>
+
+    <label class="tc-lbl">Nota</label>
+    <input class="modal-input" type="text" placeholder="ej. mesa de niños" value="${escapeHtml(cfg.note || '')}"
+      onchange="tablesConfig['${id}'].note=this.value.trim();saveTablesConfig();buildTablesSection();">
+
+    ${total ? `<label class="tc-lbl">Composición</label>
+      <div class="tc-mix">${mix.map(m => `<span style="flex:${m.count};background:${m.color}"></span>`).join('')}</div>
+      <div class="tc-mix-legend">${mix.map(m => `<span><i style="background:${m.color}"></i>${escapeHtml(m.name)} · ${Math.round(m.count / total * 100)}%</span>`).join('')}</div>` : ''}
+
+    <div class="modal-actions" style="justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <button class="btn-ghost" style="color:var(--red);border-color:var(--red);" onclick="removeTable('${id}'); tablesConfig['${id}'] ? renderTableCard() : closeTableCard();">Eliminar mesa</button>
+      <button class="btn-primary" onclick="closeTableCard()">Listo</button>
+    </div>
+  </div>`;
+}
+
+// ── Arrastrar un INVITADO: del cajón a una mesa, o de mesa a mesa ──
+// fromTable = null cuando viene del cajón "sin mesa"; = id de mesa cuando viene de un asiento.
+function tableUnitAt(x, y) {
+  for (const el of document.elementsFromPoint(x, y)) {
+    const unit = el.closest && el.closest('.tb-unit');
+    if (unit) return unit;
+  }
+  return null;
+}
+function pointInEl(x, y, el) {
+  if (!el) return false;
+  const r = el.getBoundingClientRect();
+  return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+}
+
+function startGuestDrag(e, key, fromTable) {
+  if (e.button != null && e.button !== 0) return;
+  if (!WEDDING_GUESTS[key]) return;
+  const startX = e.clientX, startY = e.clientY;
+  let ghost = null, moved = false;
+
+  function clearTargets() {
+    document.querySelectorAll('.tb-core.drop-target').forEach(c => c.classList.remove('drop-target'));
+    const up = document.getElementById('unseated-panel');
+    if (up) up.classList.remove('drop-target');
+  }
+
+  function onMove(ev) {
+    if (!moved) {
+      if (Math.hypot(ev.clientX - startX, ev.clientY - startY) < 6) return;
+      moved = true;
+      document.body.classList.add('dragging-guest');
+      ghost = document.createElement('div');
+      ghost.className = 'guest-drag-ghost';
+      ghost.textContent = WEDDING_GUESTS[key].name;
+      document.body.appendChild(ghost);
+    }
+    ghost.style.left = ev.clientX + 'px';
+    ghost.style.top  = ev.clientY + 'px';
+
+    clearTargets();
+    const unit = tableUnitAt(ev.clientX, ev.clientY);
+    if (unit) {
+      const core = unit.querySelector('.tb-core');
+      if (core) core.classList.add('drop-target');
+    } else if (fromTable != null && pointInEl(ev.clientX, ev.clientY, document.getElementById('unseated-panel'))) {
+      document.getElementById('unseated-panel').classList.add('drop-target');
+    }
+  }
+
+  function onUp(ev) {
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', onUp);
+    document.body.classList.remove('dragging-guest');
+    clearTargets();
+    if (ghost) ghost.remove();
+
+    if (!moved) { openFamilyCard(key); return; }   // fue un toque → abrir tarjeta para repartir
+
+    const unit = tableUnitAt(ev.clientX, ev.clientY);
+    if (unit) {
+      dropGuestOnTable(key, unit.dataset.tableId, fromTable);
+    } else if (fromTable != null && pointInEl(ev.clientX, ev.clientY, document.getElementById('unseated-panel'))) {
+      dropGuestOnTable(key, null, fromTable);
+    }
+  }
+
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup', onUp);
+}
+
+function dropGuestOnTable(key, targetId, fromTable) {
+  const g = WEDDING_GUESTS[key];
+  if (!g) return;
+
+  // Reparto actual (solo mesas que aún existen)
+  const alloc = {};
+  getSeating(key).forEach(s => {
+    const t = String(s.table);
+    if (tablesConfig[t]) alloc[t] = (alloc[t] || 0) + s.passes;
+  });
+
+  if (targetId == null) {                       // soltado en el cajón "sin mesa"
+    if (fromTable == null) return;
+    if (!alloc[String(fromTable)]) return;
+    delete alloc[String(fromTable)];
+  } else {
+    targetId = String(targetId);
+    if (String(fromTable) === targetId) return; // soltado en la misma mesa
+    if (fromTable != null) {                    // mover asiento(s) de una mesa a otra
+      const mv = alloc[String(fromTable)] || 0;
+      if (!mv) return;
+      delete alloc[String(fromTable)];
+      alloc[targetId] = (alloc[targetId] || 0) + mv;
+    } else {                                    // desde el cajón: acomodar los pases que faltan
+      const seated = Object.values(alloc).reduce((s, n) => s + n, 0);
+      const missing = (g.passes || 1) - seated;
+      if (missing <= 0) { showToast(`${g.name} ya está acomodada`); return; }
+      alloc[targetId] = (alloc[targetId] || 0) + missing;
+    }
+  }
+
+  saveGuestSeating(key, alloc);
+  buildTablesSection();
+
+  if (targetId != null && tablesConfig[targetId]) {
+    const over = tableAssignedPasses(targetId, null, true) - tablesConfig[targetId].capacity;
+    showToast(over > 0
+      ? `${g.name} → ${tablesConfig[targetId].label} · ${over} de más`
+      : `${g.name} → ${tablesConfig[targetId].label}`);
+  } else {
+    showToast(`${g.name} — sin mesa`);
+  }
+}
+
+const MAX_TABLE_CAPACITY = 15;
+
+// Tope de capacidad según la forma: una mesa imperial (larga) admite más gente.
+function maxCapacityFor(shape) {
+  return shape === 'imperial' ? 30 : MAX_TABLE_CAPACITY;
+}
+
+// Cambia la forma de una mesa. Empujón suave: si la capacidad sigue en el default,
+// la sube a una acorde a la forma (reversible — el usuario puede editarla).
+function setTableShape(id, shape) {
+  const cfg = tablesConfig[id];
+  if (!cfg) return;
+  cfg.shape = shape;
+  const suggested = shape === 'imperial' ? 16 : shape === 'rect' ? 12 : 0;
+  if (suggested > cfg.capacity && cfg.capacity === DEFAULT_TABLE_CAPACITY) {
+    cfg.capacity = suggested;
+    showToast(`${cfg.label} — capacidad ajustada a ${suggested}, edítala si quieres`);
+  }
+  saveTablesConfig();
+  buildTablesSection();
+  if (document.getElementById('table-config-overlay')) renderTableConfigList();
+}
+
+function addTable() {
+  const nums = Object.keys(tablesConfig).map(k => parseInt(k) || 0);
+  const nextNum = (nums.length ? Math.max(...nums) : 0) + 1;
+  const name = prompt('Nombre de la mesa', 'Mesa ' + nextNum);
+  if (name === null) return;
+  const id = String(nextNum);
+  tablesConfig[id] = { label: (name.trim() || 'Mesa ' + nextNum), capacity: DEFAULT_TABLE_CAPACITY };
+  ensureTablePosition(id, Object.keys(tablesConfig).length - 1);
+  saveTablesConfig();
+  buildTablesSection();
+  showToast('Mesa agregada — arrástrala a su lugar');
+}
+
+function resizeTableCapacity(tableId, delta) {
+  const cfg = tablesConfig[tableId];
+  const assigned = tableAssignedPasses(tableId, null);
+  const next = cfg.capacity + delta;
+  const cap  = maxCapacityFor(cfg.shape || 'round');
+  if (next < Math.max(1, assigned)) { showToast('Hay invitados sentados ahí'); return; }
+  if (next > cap) { showToast('Máximo ' + cap + ' asientos en esta mesa'); return; }
+  cfg.capacity = next;
+  saveTablesConfig();
+  buildTablesSection();
+}
+
+function removeTable(tableId) {
+  if (tableAssignedPasses(tableId, null) > 0) { showToast('Quita a los invitados de esta mesa primero'); return; }
+  if (!confirm('¿Eliminar ' + tablesConfig[tableId].label + '?')) return;
+  delete tablesConfig[tableId];
+  saveTablesConfig();
+  buildTablesSection();
 }
 
 function openTableConfigModal() {
   const overlay = document.createElement('div');
   overlay.id = 'table-config-overlay';
-  const tableIds = Object.keys(tablesConfig).sort((a,b) => {
-    const na = parseInt(a)||0, nb = parseInt(b)||0; return na-nb || a.localeCompare(b);
-  });
 
   overlay.innerHTML = `
     <div id="table-config-modal">
-      <div class="modal-title">Configurar mesas</div>
+      <div class="modal-title">Generar varias mesas</div>
       <div style="margin-bottom:16px;">
         <div class="table-config-generate-row" style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
           <input class="modal-input" type="number" id="new-table-count" min="1" max="50" placeholder="Nº de mesas" style="flex:1;min-width:80px;">
-          <input class="modal-input" type="number" id="new-table-cap" min="1" max="30" placeholder="Capacidad" style="flex:1;min-width:80px;" value="10">
-          <button class="btn-primary" style="padding:8px 14px;font-size:11px;white-space:nowrap;" onclick="generateTables(document.getElementById('new-table-count').value, document.getElementById('new-table-cap').value)">Generar</button>
+          <input class="modal-input" type="number" id="new-table-cap" min="1" max="15" placeholder="Capacidad" style="flex:1;min-width:80px;" value="10">
+          <button class="btn-primary" style="padding:8px 14px;font-size:11px;white-space:nowrap;" onclick="generateTables()">Generar</button>
         </div>
-        <div style="font-size:11px;color:var(--text-light);">O edita la capacidad de cada mesa individualmente:</div>
+        <div style="font-size:11px;color:var(--text-light);">Útil para arrancar de cero con muchas mesas de golpe. O edita capacidad y notas de cada una:</div>
       </div>
-      <div id="table-config-list">
-        ${tableIds.map(id => {
-          const cfg = tablesConfig[id];
-          return `<div class="table-config-row">
-            <span class="table-config-label">${cfg.label}</span>
-            <input class="table-config-input" type="number" min="1" max="50" value="${cfg.capacity}" onchange="tablesConfig['${id}'].capacity=parseInt(this.value)||10;saveTablesConfig();">
-            <span style="font-size:11px;color:var(--text-light);">asientos</span>
-          </div>`;
-        }).join('')}
-      </div>
+      <div id="table-config-list"></div>
       <div class="modal-actions">
         <button class="btn-ghost" onclick="closeTableConfigModal()">Cerrar</button>
         <button class="btn-primary" onclick="closeTableConfigModal();buildTablesSection();">Guardar y ver</button>
@@ -1949,6 +3438,28 @@ function openTableConfigModal() {
 
   overlay.addEventListener('click', e => { if (e.target === overlay) closeTableConfigModal(); });
   document.body.appendChild(overlay);
+  renderTableConfigList();
+}
+
+function renderTableConfigList() {
+  const list = document.getElementById('table-config-list');
+  if (!list) return;
+  list.innerHTML = sortedTableIds().map(id => {
+    const cfg = tablesConfig[id];
+    const sh  = cfg.shape || 'round';
+    const max = maxCapacityFor(sh);
+    return `<div class="table-config-row">
+      <span class="table-config-label">${escapeHtml(cfg.label)}</span>
+      <input class="table-config-input" type="number" min="1" max="${max}" value="${cfg.capacity}" onchange="tablesConfig['${id}'].capacity=Math.min(${max},Math.max(1,parseInt(this.value)||10));this.value=tablesConfig['${id}'].capacity;saveTablesConfig();">
+      <span style="font-size:11px;color:var(--text-light);">lug.</span>
+      <select class="table-config-shape" onchange="setTableShape('${id}', this.value)">
+        <option value="round"${sh === 'round' ? ' selected' : ''}>Redonda</option>
+        <option value="rect"${sh === 'rect' ? ' selected' : ''}>Rectangular</option>
+        <option value="imperial"${sh === 'imperial' ? ' selected' : ''}>Imperial</option>
+      </select>
+      <input class="table-config-note" type="text" placeholder="Nota — ej. mesa de niños" value="${escapeHtml(cfg.note || '')}" onchange="tablesConfig['${id}'].note=this.value.trim();saveTablesConfig();">
+    </div>`;
+  }).join('');
 }
 
 function closeTableConfigModal() {
@@ -1958,155 +3469,33 @@ function closeTableConfigModal() {
 
 function generateTables() {
   const count = parseInt(document.getElementById('new-table-count').value) || 0;
-  const cap   = parseInt(document.getElementById('new-table-cap').value) || 10;
+  const cap   = Math.min(MAX_TABLE_CAPACITY, Math.max(1, parseInt(document.getElementById('new-table-cap').value) || 10));
   if (count < 1 || count > 50) { showToast('Ingresa un número de mesas (1-50)'); return; }
   for (let i = 1; i <= count; i++) {
     const key = String(i);
     tablesConfig[key] = {
       label:    tablesConfig[key]?.label    || 'Mesa ' + i,
       capacity: tablesConfig[key]?.capacity ?? cap,
+      note:     tablesConfig[key]?.note,
+      shape:    tablesConfig[key]?.shape,
+      x:        tablesConfig[key]?.x,
+      y:        tablesConfig[key]?.y,
     };
   }
+  sortedTableIds().forEach((id, idx) => ensureTablePosition(id, idx));
   saveTablesConfig();
   closeTableConfigModal();
   buildTablesSection();
   showToast(count + ' mesas generadas');
 }
 
-function unassignGuest(key) {
-  if (!WEDDING_GUESTS[key]) return;
-  WEDDING_GUESTS[key].table = '—';
-  const extras = JSON.parse(localStorage.getItem('ee_guests_extra') || '{}');
-  if (extras[key]) extras[key].table = '—';
-  else extras[key] = { ...WEDDING_GUESTS[key] };
-  localStorage.setItem('ee_guests_extra', JSON.stringify(extras));
-  syncTablesFromGuests();
-  buildTablesSection();
-  renderGuestTable(lastRsvpData);
-  showToast('Invitado liberado de la mesa');
-}
-
-function deleteTable(tableId) {
-  const cfg = tablesConfig[tableId];
-  if (!confirm('¿Eliminar ' + cfg.label + '? Los invitados asignados quedarán sin mesa.')) return;
-  // Liberar invitados de esta mesa
-  Object.keys(WEDDING_GUESTS).forEach(key => {
-    if (String(WEDDING_GUESTS[key].table) === String(tableId)) {
-      WEDDING_GUESTS[key].table = '—';
-      const extras = JSON.parse(localStorage.getItem('ee_guests_extra') || '{}');
-      if (extras[key]) extras[key].table = '—';
-      else extras[key] = { ...WEDDING_GUESTS[key] };
-      localStorage.setItem('ee_guests_extra', JSON.stringify(extras));
-    }
-  });
-  delete tablesConfig[tableId];
-  saveTablesConfig();
-  buildTablesSection();
-  renderGuestTable(lastRsvpData);
-  showToast(cfg.label + ' eliminada');
-}
-
-function editTableModal(tableId) {
-  const cfg = tablesConfig[tableId];
-  const overlay = document.createElement('div');
-  overlay.id = 'edit-table-overlay';
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,36,22,0.35);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
-  overlay.innerHTML = `
-    <div style="background:var(--white);border:1px solid var(--parchment);border-radius:6px;padding:28px;width:min(380px,100%);box-shadow:0 16px 48px rgba(44,36,22,0.18);">
-      <div class="modal-title">Editar ${cfg.label}</div>
-      <div class="modal-field">
-        <label class="modal-label">Nombre de la mesa</label>
-        <input class="modal-input" id="et-label" type="text" value="${cfg.label}"/>
-      </div>
-      <div class="modal-field">
-        <label class="modal-label">Capacidad (personas)</label>
-        <input class="modal-input" id="et-cap" type="number" min="1" max="100" value="${cfg.capacity}"/>
-      </div>
-      <div class="modal-actions">
-        <button class="btn-ghost" onclick="document.getElementById('edit-table-overlay').remove()">Cancelar</button>
-        <button class="btn-primary" onclick="saveTableEdit('${tableId}')">Guardar</button>
-      </div>
-    </div>`;
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-  document.body.appendChild(overlay);
-}
-
-function saveTableEdit(tableId) {
-  const label = document.getElementById('et-label').value.trim();
-  const cap   = parseInt(document.getElementById('et-cap').value) || 10;
-  if (!label) { showToast('Escribe un nombre para la mesa'); return; }
-  tablesConfig[tableId].label    = label;
-  tablesConfig[tableId].capacity = cap;
-  saveTablesConfig();
-  document.getElementById('edit-table-overlay').remove();
-  buildTablesSection();
-  showToast('Mesa actualizada');
-}
-
-function openAssignModal(tableId) {
-  const cfg = tablesConfig[tableId];
-  const allKeys = Object.keys(WEDDING_GUESTS);
-  // Invitados sin mesa o en otra mesa
-  const unassigned = allKeys.filter(k => {
-    const t = String(WEDDING_GUESTS[k].table);
-    return t === '—' || t === '' || t === 'undefined';
-  });
-
-  const overlay = document.createElement('div');
-  overlay.id = 'assign-modal-overlay';
-  overlay.innerHTML = `
-    <div id="guest-modal" style="width:min(440px,100%);">
-      <div class="modal-title">Asignar a ${cfg.label}</div>
-      <div style="font-size:12px;color:var(--text-light);margin-bottom:16px;">
-        Selecciona invitados sin mesa asignada para moverlos a esta mesa.
-      </div>
-      <div style="max-height:300px;overflow-y:auto;border:1px solid var(--parchment);border-radius:4px;">
-        ${unassigned.length === 0
-          ? '<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">Todos los invitados ya tienen mesa asignada.</div>'
-          : unassigned.map(k => {
-              const g = WEDDING_GUESTS[k];
-              return `<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(232,223,200,0.5);cursor:pointer;">
-                <input type="checkbox" value="${k}" style="accent-color:var(--gold);width:14px;height:14px;">
-                <span style="font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text);flex:1;">${g.name}</span>
-                <span style="font-size:11px;color:var(--text-light);">🎟 ${g.passes}</span>
-              </label>`;
-            }).join('')
-        }
-      </div>
-      <div class="modal-actions">
-        <button class="btn-ghost" onclick="document.getElementById('assign-modal-overlay').remove()">Cancelar</button>
-        <button class="btn-primary" onclick="confirmAssign('${tableId}')">Asignar seleccionados</button>
-      </div>
-    </div>`;
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(44,36,22,0.35);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-  document.body.appendChild(overlay);
-}
-
-function confirmAssign(tableId) {
-  const checkboxes = document.querySelectorAll('#assign-modal-overlay input[type=checkbox]:checked');
-  checkboxes.forEach(cb => {
-    WEDDING_GUESTS[cb.value].table = tableId;
-  });
-  // Persistir asignaciones en extras
-  const extras = JSON.parse(localStorage.getItem('ee_guests_extra') || '{}');
-  checkboxes.forEach(cb => {
-    if (extras[cb.value]) extras[cb.value].table = tableId;
-    else extras[cb.value] = { ...WEDDING_GUESTS[cb.value] };
-  });
-  localStorage.setItem('ee_guests_extra', JSON.stringify(extras));
-  syncTablesFromGuests();
-  document.getElementById('assign-modal-overlay').remove();
-  buildTablesSection();
-  renderGuestTable(lastRsvpData);
-  showToast('Invitados asignados a ' + tablesConfig[tableId].label);
-}
-
 // ── INIT ADMIN ──
 function initAdmin() {
   loadExtraGuests();
+  loadGroups();
   loadTablesConfig();
   updateDeadlineCountdown();
+  requestAnimationFrame(() => placeNavIndicator(false));
 
   if (!db) {
     renderUrlsList();
@@ -2114,6 +3503,16 @@ function initAdmin() {
     renderFallback();
     return;
   }
+
+  // Traer grupos guardados en Firestore (por si se editaron en otro dispositivo)
+  db.collection('ee_config').doc('groups').get().then(d => {
+    if (d.exists && Array.isArray(d.data().list) && d.data().list.length) {
+      WEDDING_GROUPS = d.data().list;
+      localStorage.setItem('ee_groups', JSON.stringify(WEDDING_GROUPS));
+      buildTablesSection();
+      if (document.getElementById('guest-tbody')) renderGuestTable(lastRsvpData);
+    }
+  }).catch(() => {});
 
   // Load guests from Firestore first, then start RSVP listener
   db.collection('ee_guests').get().then(snapshot => {
@@ -2207,6 +3606,7 @@ function renderDashboard(rsvpData) {
   renderGuestTable(rsvpData);
   renderActivity(rsvpData);
   renderMessages(rsvpData);
+  buildTablesSection();   // el acomodo reacciona a las confirmaciones (colores, salud, "sin mesa")
 }
 
 function renderGuestTable(rsvpData) {
@@ -2230,7 +3630,7 @@ function renderGuestTable(rsvpData) {
   if (sub) sub.textContent = 'Mostrando ' + keys.length + ' de ' + allKeys.length + ' invitados';
 
   if (!keys.length) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div class="empty-state-title">Sin invitados</div></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div class="empty-state-title">Sin invitados</div></div></td></tr>';
     return;
   }
 
@@ -2276,7 +3676,8 @@ function renderGuestTable(rsvpData) {
         </div>
       </td>
       <td><span class="pases-dot">🎟 ${g.passes}</span></td>
-      <td><span class="mesa-badge">${g.table}</span></td>
+      <td>${mesaCellHtml(key)}</td>
+      <td>${grupoCellHtml(key)}</td>
       <td><span class="badge ${badge}">${statusText}</span></td>
       <td style="font-size:12px;color:var(--text-light);">${msgDisplay}</td>
       <td style="font-size:12px;color:var(--text-light);white-space:nowrap;">${confirmedAtDisplay}</td>
@@ -2407,6 +3808,12 @@ function openQRModal() {
 }
 
 // ── FEATURE 2: MENSAJES ──
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
 function renderMessages(rsvpData) {
   const list = document.getElementById('messages-list');
   const sub  = document.getElementById('messages-sub');
@@ -2417,28 +3824,44 @@ function renderMessages(rsvpData) {
       name: r.guestName || WEDDING_GUESTS[key]?.name || key,
       msg:  r.message.trim(),
       ts:   r.confirmedAt?.toMillis?.() || 0,
+      attending: r.attending,
+      passes: r.passes || WEDDING_GUESTS[key]?.passes || null,
     }))
     .sort((a, b) => b.ts - a.ts);
 
   sub.textContent = messages.length
-    ? messages.length + ' mensaje' + (messages.length !== 1 ? 's' : '') + ' recibidos'
+    ? messages.length + ' mensaje' + (messages.length !== 1 ? 's' : '') + ' recibido' + (messages.length !== 1 ? 's' : '')
     : 'Los mensajes que dejaron al confirmar asistencia';
 
   if (!messages.length) {
+    list.className = '';
     list.innerHTML = `<div class="activity-item"><div class="activity-dot" style="background:var(--parchment)"></div><div class="activity-body"><div class="activity-text" style="color:var(--text-light)">Sin mensajes aún</div></div></div>`;
     return;
   }
-  list.innerHTML = messages.map(m => `
-    <div class="message-item">
-      <div class="message-avatar">${m.name.charAt(0).toUpperCase()}</div>
-      <div>
-        <div>
-          <span class="message-name">${m.name}</span>
-          <span class="message-time">${m.ts ? formatTime(new Date(m.ts)) : ''}</span>
+
+  list.className = 'msg-grid';
+  list.innerHTML = messages.map(m => {
+    const initial = (m.name.trim().charAt(0) || '·').toUpperCase();
+    const date = m.ts
+      ? new Date(m.ts).toLocaleDateString('es-MX', { day: 'numeric', month: 'long' })
+      : '';
+    let pill = '';
+    if (m.attending === true)  pill = `<span class="msg-pill ok">Confirmó${m.passes ? ' · ' + m.passes + 'p' : ''}</span>`;
+    else if (m.attending === false) pill = `<span class="msg-pill no">No asistirá</span>`;
+    return `
+      <div class="message-card">
+        <div class="message-card-quote">&ldquo;</div>
+        <div class="message-card-text">${escapeHtml(m.msg)}</div>
+        <div class="message-card-foot">
+          <div class="message-card-avatar">${escapeHtml(initial)}</div>
+          <div class="message-card-who">
+            <span class="message-card-name">${escapeHtml(m.name)}</span>
+            ${date ? `<span class="message-card-date">${date}</span>` : ''}
+          </div>
+          ${pill}
         </div>
-        <div class="message-text">"${m.msg}"</div>
-      </div>
-    </div>`).join('');
+      </div>`;
+  }).join('');
 }
 
 // ── FEATURE 3: EXPORT CSV ──
