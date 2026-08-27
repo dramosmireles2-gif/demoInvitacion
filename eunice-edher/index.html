@@ -1836,7 +1836,7 @@ function _applyEventOverrides(ov) {
 try { _applyEventOverrides(JSON.parse(localStorage.getItem('ee_event_override') || '{}')); } catch(e) {}
 // Leer de Firebase para tener la versión más reciente
 if (typeof db !== 'undefined' && db) {
-  db.collection('config').doc('event').get().then(doc => {
+  db.collection('ee_config').doc('event').get().then(doc => {
     if (doc.exists) { _applyEventOverrides(doc.data()); buildGifts(); }
   }).catch(() => {});
 }
