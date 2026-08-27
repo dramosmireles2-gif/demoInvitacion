@@ -1510,7 +1510,7 @@ function _applyEventOverrides(ov) {
 try { _applyEventOverrides(JSON.parse(localStorage.getItem('ig_event_override') || '{}')); } catch(e) {}
 // Leer de Firebase para tener la versión más reciente (funciona en cualquier dispositivo)
 if (typeof db !== 'undefined' && db) {
-  db.collection('config').doc('event').get().then(doc => {
+  db.collection('ig_config').doc('event').get().then(doc => {
     if (doc.exists) { _applyEventOverrides(doc.data()); buildGifts(); }
   }).catch(() => {});
 }
