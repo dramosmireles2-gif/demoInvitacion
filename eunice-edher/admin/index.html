@@ -1749,7 +1749,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
             </div>
             <div>
               <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);">Fecha límite de confirmación</div>
-              <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">15 de agosto de 2026</div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">10 de octubre de 2026</div>
             </div>
           </div>
           <div style="text-align:right;">
@@ -3921,7 +3921,7 @@ function buildEventForm() {
     { key:'bankName',      label:'Banco',                       placeholder:'BBVA', type:'text' },
     { key:'bankClabe',     label:'CLABE / Cuenta',              placeholder:'000000000000000000', type:'text' },
     { key:'bankAlias',     label:'Alias de transferencia',      placeholder:'eunice.edher.boda', type:'text' },
-    { key:'rsvpDeadline',  label:'Fecha límite RSVP',           placeholder:'2026-08-31', type:'date' },
+    { key:'rsvpDeadline',  label:'Fecha límite RSVP',           placeholder:'2026-10-10', type:'date' },
   ];
 
   form.innerHTML = fields.map(f => {
@@ -3967,7 +3967,7 @@ function saveEventConfig() {
 // ── FEATURE 5: DEADLINE COUNTDOWN ──
 function updateDeadlineCountdown() {
   const cfg      = loadEventConfig();
-  const deadlineStr = cfg.rsvpDeadline || '2026-08-31';
+  const deadlineStr = cfg.rsvpDeadline || '2026-10-10';
   const deadline = new Date(deadlineStr + 'T23:59:59');
   const now      = new Date();
   const daysLeft = Math.ceil((deadline - now) / 86400000);
