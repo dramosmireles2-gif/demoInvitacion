@@ -1089,16 +1089,13 @@ body::before {
     <div class="location-card">
       <p class="location-card-label">Recepción</p>
       <div class="location-card-body">
-        <span class="location-card-name">San Nicolás de los Garza, N.L.</span>
+        <span class="location-card-name">Hacienda La Concepción</span>
         <span class="location-card-time">6:00 pm</span>
-        <a class="location-directions-btn" id="venue-directions" href="https://maps.google.com/?q=Hacienda+San+Antonio+Calichar+San+Nicolas+de+los+Garza" target="_blank">
+        <a class="location-directions-btn" id="venue-directions" href="https://www.google.com/maps/place/Hacienda+La+Concepci%C3%B3n/@25.4358425,-101.6821815,10z" target="_blank" rel="noopener">
           <svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cómo llegar
         </a>
       </div>
-      <div class="location-map-placeholder">
-        <span>📍</span>
-        <p>San Nicolás de los Garza, N.L.</p>
-      </div>
+      <iframe class="location-card-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d922386.5376217915!2d-101.68218151450836!3d25.435842500000007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86880fe9a853e5f3%3A0x84701cf0dd64a645!2sHacienda%20La%20Concepci%C3%B3n!5e0!3m2!1ses-419!2smx!4v1788379506843!5m2!1ses-419!2smx" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="Hacienda La Concepción"></iframe>
     </div>
   </div>
 
@@ -1614,7 +1611,7 @@ function buildCalendarCTA() {
   const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
     + '&text=Boda+Iv%C3%A1n+%26+Gemima'
     + '&dates=20260829T150000/20260830T010000'
-    + '&location=Hacienda+San+Antonio+Calichar,+San+Nicol%C3%A1s+de+los+Garza'
+    + '&location=Hacienda+La+Concepci%C3%B3n'
     + '&details=¡Los+esperamos+con+mucho+cariño!';
   document.getElementById('cal-google').href = googleUrl;
 }
