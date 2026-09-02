@@ -901,6 +901,42 @@ body::before {
   100%{ opacity:0; transform:translateY(105vh) rotate(720deg); }
 }
 
+/* ── DRESSCODE ── */
+.inv-dresscode {
+  width: 100%; max-width: 480px; padding: 0 24px 40px; text-align: center;
+}
+.dresscode-type {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 28px; color: var(--white); margin-bottom: 10px; font-weight: 600;
+}
+.dresscode-desc {
+  font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300;
+  color: var(--text-2); line-height: 1.8; margin-bottom: 28px;
+}
+.dresscode-swatches-wrap {
+  display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.dresscode-swatch-item {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+}
+.dresscode-swatch {
+  width: 36px; height: 36px; border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  border: 1.5px solid rgba(201,164,106,0.2);
+}
+.dresscode-swatch-label {
+  font-family: 'Jost', sans-serif; font-size: 9px; font-weight: 400;
+  letter-spacing: 1px; color: var(--text-2); text-transform: uppercase; white-space: nowrap;
+}
+.dresscode-avoid {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(201,164,106,0.06);
+  border: 1px solid rgba(201,164,106,0.2);
+  border-radius: 30px; padding: 10px 22px;
+  font-family: 'Jost', sans-serif; font-size: 12px;
+  letter-spacing: 0.5px; color: var(--text-2);
+}
+
 /* ── CALENDAR CTA ── */
 .inv-calendar-cta { width: 100%; max-width: 480px; padding: 0 24px 20px; animation: fade-up 1s 1.3s both; }
 .calendar-cta-card {
@@ -1202,6 +1238,47 @@ body::before {
     <p class="lluvia-title">Lluvia de Sobres</p>
   </div>
 
+  <!-- DRESSCODE -->
+  <div class="inv-dresscode reveal">
+    <p class="section-label">Código de Vestimenta</p>
+    <div class="prism-divider" style="margin-bottom:20px;"></div>
+    <p class="dresscode-type">Formal Elegante</p>
+    <p class="dresscode-desc">
+      Los invitamos a vestir de manera elegante.<br/>
+      Tonos obscuros, neutros y tierra son ideales para esta celebración.
+    </p>
+    <div class="dresscode-swatches-wrap">
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#1a1a2e;"></div>
+        <span class="dresscode-swatch-label">Azul noche</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#3d2b1f;"></div>
+        <span class="dresscode-swatch-label">Café oscuro</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#5c4a3a;"></div>
+        <span class="dresscode-swatch-label">Taupe</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#6b4c5e;"></div>
+        <span class="dresscode-swatch-label">Vino</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#8b7355;"></div>
+        <span class="dresscode-swatch-label">Tierra</span>
+      </div>
+      <div class="dresscode-swatch-item">
+        <div class="dresscode-swatch" style="background:#c9a86c;"></div>
+        <span class="dresscode-swatch-label">Champagne</span>
+      </div>
+    </div>
+    <div class="dresscode-avoid">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+      Por favor evitar el blanco y tonos muy claros
+    </div>
+  </div>
+
   <!-- WISHLIST (solo ?tipo=cumple) -->
   <div class="inv-wishlist" id="section-wishlist" style="display:none;">
     <p class="section-label">Lista de deseos</p>
@@ -1289,7 +1366,7 @@ const WEDDING_CONFIG = {
     bankClabe:          '000000000000000000',
     bankAlias:          'ivan.gemima.boda',
     amazonUrl:          '',
-    liverpoolUrl:       '',
+    liverpoolUrl:       'https://mesaderegalos.liverpool.com.mx/milistaderegalos/51868009',
     spotifyPlaylistUrl: 'https://open.spotify.com/playlist/2XhbnwESuQFlagfhfQPRGk',
   },
 
