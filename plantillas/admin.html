@@ -1559,7 +1559,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
     <p id="auth-error" style="font-size:11px;color:#d4876a;text-align:center;min-height:16px;letter-spacing:0.2px;"></p>
   </div>
 
-  <div style="position:absolute;bottom:24px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.12);">19 · Diciembre · 2026</div>
+  <div style="position:absolute;bottom:24px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.12);">18 · Octubre · 2027</div>
 </div>
 
 <!-- SIDEBAR OVERLAY -->
@@ -1568,10 +1568,10 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-brand">
-    <span class="brand-monogram">A &amp; S · 2026</span>
+    <span class="brand-monogram">I &amp; G · 2027</span>
     <span class="brand-names">Iván &amp; Gemima</span>
     <span class="brand-label">Panel de administración</span>
-    <span class="brand-date">19 · Diciembre · 2026</span>
+    <span class="brand-date">18 · Octubre · 2027</span>
   </div>
 
   <nav class="sidebar-nav" id="sidebarNav">
@@ -1606,7 +1606,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
 
   <div class="sidebar-footer">
     <div class="sidebar-footer-brand">RMKT Web &amp; Apps</div>
-    <div class="sidebar-footer-sub">Invitaciones digitales · 2026</div>
+    <div class="sidebar-footer-sub">Invitaciones digitales · 2027</div>
   </div>
 </aside>
 
@@ -1790,7 +1790,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
             </div>
             <div>
               <div style="font-family:'DM Sans',sans-serif;font-size:17px;color:var(--text);">Fecha límite de confirmación</div>
-              <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">10 de octubre de 2026</div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">15 de septiembre de 2027</div>
             </div>
           </div>
           <div style="text-align:right;">
@@ -2221,7 +2221,7 @@ function buildNavSubDesigns() {
 
 // ── COUNTDOWN ──
 (function countdown() {
-  const target = new Date('2026-12-19T14:20:00');
+  const target = new Date('2027-10-18T16:00:00');
   function update() {
     const diff = target - new Date();
     if (diff <= 0) return;
@@ -4222,7 +4222,7 @@ function saveGiftsConfig() {
 // ── FEATURE 5: DEADLINE COUNTDOWN ──
 function updateDeadlineCountdown() {
   const cfg      = loadEventConfig();
-  const deadlineStr = cfg.rsvpDeadline || '2026-10-10';
+  const deadlineStr = cfg.rsvpDeadline || '2027-09-15';
   const deadline = new Date(deadlineStr + 'T23:59:59');
   const now      = new Date();
   const daysLeft = Math.ceil((deadline - now) / 86400000);
