@@ -1187,7 +1187,8 @@ body::before {
     <p class="section-label">Ayúdanos con el playlist</p>
     <div class="prism-divider" style="margin-bottom:20px;"></div>
     <p class="gifts-sub-msg">Agrega tus canciones favoritas a nuestra playlist colaborativa</p>
-    <a class="spotify-btn" id="spotify-btn" href="#" target="_blank" rel="noopener">
+    <div id="spotify-embed" style="width:100%;margin-bottom:16px;"></div>
+    <a class="spotify-btn" id="spotify-btn" href="#" target="_blank" rel="noopener" style="display:none;">
       <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.586 14.424a.622.622 0 0 1-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 1 1-.277-1.213c3.809-.871 7.077-.496 9.713 1.113.293.18.386.563.206.857zm1.223-2.723a.78.78 0 0 1-1.072.257c-2.688-1.652-6.786-2.131-9.965-1.166a.78.78 0 0 1-.452-1.492c3.632-1.102 8.147-.568 11.232 1.329a.78.78 0 0 1 .257 1.072zm.105-2.835C14.692 9.1 9.375 8.926 6.297 9.86a.936.936 0 1 1-.543-1.79c3.532-1.072 9.404-.865 13.115 1.338a.936.936 0 0 1-.955 1.612z"/></svg>
       <span>Abrir playlist en Spotify</span>
     </a>
@@ -1288,7 +1289,7 @@ const WEDDING_CONFIG = {
     bankAlias:          'ivan.gemima.boda',
     amazonUrl:          '',
     liverpoolUrl:       '',
-    spotifyPlaylistUrl: '',
+    spotifyPlaylistUrl: 'https://open.spotify.com/playlist/2XhbnwESuQFlagfhfQPRGk',
   },
 
   wishlist: [
@@ -1493,7 +1494,13 @@ function buildGifts() {
 
   const musicSection = document.getElementById('section-music');
   if (g.spotifyPlaylistUrl) {
+    const embedEl = document.getElementById('spotify-embed');
+    const playlistId = g.spotifyPlaylistUrl.replace(/.*playlist\/([^?]+).*/, '$1');
+    embedEl.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/${playlistId}"
+      width="100%" height="380" frameborder="0" allowtransparency="true"
+      allow="encrypted-media" style="border-radius:12px;"></iframe>`;
     document.getElementById('spotify-btn').href = g.spotifyPlaylistUrl;
+    document.getElementById('spotify-btn').style.display = 'inline-flex';
     musicSection.style.display = 'block';
   } else {
     musicSection.style.display = 'none';
