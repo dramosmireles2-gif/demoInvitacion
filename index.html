@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>Iván & Gemima — Boda 29 de Agosto 2026</title>
+<title>Iván & Gemima — Boda 18 de Octubre 2027</title>
 <link rel="icon" href="./favicon.png" type="image/png"/>
 
 <!-- Open Graph / WhatsApp / iMessage preview -->
 <meta property="og:type"        content="website"/>
 <meta property="og:url"         content="https://inv.ramosmkt.lat/"/>
 <meta property="og:title"       content="💌 Iván &amp; Gemima · Te invitamos a nuestra boda"/>
-<meta property="og:description" content="Sábado 29 de agosto de 2026 · Confirma tu asistencia y celebra este día tan especial con nosotros"/>
+<meta property="og:description" content="Sábado 18 de octubre de 2027 · Confirma tu asistencia y celebra este día tan especial con nosotros"/>
 <meta property="og:image"       content="https://inv.ramosmkt.lat/ivan-gemima/Principal.jpeg"/>
 <meta property="og:locale"      content="es_MX"/>
 <!-- Twitter / X Card -->
 <meta name="twitter:card"        content="summary_large_image"/>
-<meta name="twitter:title"       content="💌 Iván &amp; Gemima · Boda 2026"/>
-<meta name="twitter:description" content="Sábado 29 de agosto de 2026 · Confirma tu asistencia"/>
+<meta name="twitter:title"       content="💌 Iván &amp; Gemima · Boda 2027"/>
+<meta name="twitter:description" content="Sábado 18 de octubre de 2027 · Confirma tu asistencia"/>
 <meta name="twitter:image"       content="https://inv.ramosmkt.lat/ivan-gemima/Principal.jpeg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -1009,7 +1009,7 @@ body::before {
       <span class="card-name">Gemima</span>
     </div>
     <div class="card-prism-line"></div>
-    <span class="card-date">29 · Agosto · 2026</span>
+    <span class="card-date">18 · Octubre · 2027</span>
     <span class="card-place">San Nicolás de los Garza, N.L.</span>
     <div class="card-hint">
       <span class="hint-dot"></span>
@@ -1025,7 +1025,7 @@ body::before {
   <!-- HERO -->
   <div class="inv-hero">
     <div class="inv-hero-content">
-      <p class="inv-prelude" style="animation:fade-up 1s 0.2s both;">Sábado · 29 de Agosto · 2026</p>
+      <p class="inv-prelude" style="animation:fade-up 1s 0.2s both;">Sábado · 18 de Octubre · 2027</p>
       <div class="inv-names" style="animation:fade-up 1s 0.35s both;">Iván<span class="inv-amp">&amp;</span>Gemima</div>
       <div class="inv-hero-separator"></div>
       <p class="inv-hero-location" style="animation:fade-up 1s 0.5s both;">San Nicolás de los Garza · Nuevo León</p>
@@ -1051,8 +1051,8 @@ body::before {
   <!-- FECHA + MINI CALENDARIO -->
   <div class="inv-date-block reveal">
     <div class="prism-divider" style="margin-bottom:20px;"></div>
-    <span class="inv-date-main">Sábado · Dos de Octubre</span>
-    <span class="inv-date-nums">02</span>
+    <span class="inv-date-main">Sábado · Dieciocho de Octubre</span>
+    <span class="inv-date-nums">18</span>
     <span class="inv-date-year">2 · 0 · 2 · 7</span>
     <div class="mini-calendar" id="mini-calendar"></div>
   </div>
@@ -1246,7 +1246,7 @@ body::before {
   <div class="inv-footer reveal">
     <div class="prism-divider" style="margin-bottom:28px;"></div>
     <p class="inv-footer-names">Iván &amp; Gemima</p>
-    <p class="inv-footer-date">29 · Agosto · 2026</p>
+    <p class="inv-footer-date">18 · Octubre · 2027</p>
     <p class="inv-footer-note">Con amor, los esperamos</p>
     <div class="prism-divider" style="margin-top:24px; margin-bottom:24px;"></div>
     <p class="inv-credit">Invitación digital por <a href="https://ramosmkt.lat/" target="_blank">RMKT</a> Web &amp; Apps</p>
@@ -1259,7 +1259,7 @@ body::before {
 <script src="./firebase-config.js"></script>
 <script>
 const WEDDING_CONFIG = {
-  weddingDate: '2026-08-29T15:00:00',
+  weddingDate: '2027-10-18T16:00:00',
 
   schedule: [
     { icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>', label: 'Ceremonia Civil', place: 'Aposento Alto', time: '3:00 pm' },
@@ -1376,17 +1376,17 @@ function updateMusicBtn() {
 ══════════════════════════════════ */
 function buildMiniCalendar() {
   const container = document.getElementById('mini-calendar');
-  const year = 2026, month = 7; // agosto = índice 7
+  const year = 2027, month = 9; // octubre = índice 9
   const dows = ['L','M','M','J','V','S','D'];
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const offset = (firstDay === 0) ? 6 : firstDay - 1;
 
-  let html = '<div class="mini-cal-header">Agosto 2026</div><div class="mini-cal-grid">';
+  let html = '<div class="mini-cal-header">Octubre 2027</div><div class="mini-cal-grid">';
   dows.forEach(d => { html += `<div class="mini-cal-dow">${d}</div>`; });
   for (let i = 0; i < offset; i++) html += '<div class="mini-cal-day empty"></div>';
   for (let d = 1; d <= daysInMonth; d++) {
-    const cls = d === 2 ? 'mini-cal-day wedding' : 'mini-cal-day';
+    const cls = d === 18 ? 'mini-cal-day wedding' : 'mini-cal-day';
     html += `<div class="${cls}">${d}</div>`;
   }
   html += '</div>';
@@ -1611,7 +1611,7 @@ function spawnGenderConfetti(color) {
 function buildCalendarCTA() {
   const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
     + '&text=Boda+Iv%C3%A1n+%26+Gemima'
-    + '&dates=20260829T150000/20260830T010000'
+    + '&dates=20271018T160000/20271019T020000'
     + '&location=Hacienda+La+Concepci%C3%B3n'
     + '&details=¡Los+esperamos+con+mucho+cariño!';
   document.getElementById('cal-google').href = googleUrl;
@@ -1621,10 +1621,10 @@ function downloadICS(provider) {
   const icsContent = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Iván & Gemima//Boda 2026//ES',
+    'PRODID:-//Iván & Gemima//Boda 2027//ES',
     'BEGIN:VEVENT',
-    'DTSTART:20260829T150000',
-    'DTEND:20260830T010000',
+    'DTSTART:20271018T160000',
+    'DTEND:20271019T020000',
     'SUMMARY:Boda Iván & Gemima',
     'DESCRIPTION:¡Los esperamos con mucho cariño!',
     'LOCATION:San Nicolás de los Garza, N.L.\\, San Nicolás de los Garza\\, N.L.',
