@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin · Boda Andrea & Saúl</title>
+<title>Admin · Boda Iván & Gemima</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet"/>
@@ -1503,7 +1503,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
 
   <div style="text-align:center;position:relative;">
     <span style="font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(10,10,10,0.5);display:block;margin-bottom:12px;">RMKT Web &amp; Apps</span>
-    <span style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:38px;color:var(--gold-light);display:block;line-height:1.1;">Andrea &amp; Saúl</span>
+    <span style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:38px;color:var(--gold-light);display:block;line-height:1.1;">Iván &amp; Gemima</span>
     <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:10px;display:block;">Panel de administración</span>
   </div>
 
@@ -1533,7 +1533,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
 <aside class="sidebar">
   <div class="sidebar-brand">
     <span class="brand-monogram">A &amp; S · 2026</span>
-    <span class="brand-names">Andrea &amp; Saúl</span>
+    <span class="brand-names">Iván &amp; Gemima</span>
     <span class="brand-label">Panel de administración</span>
     <span class="brand-date">19 · Diciembre · 2026</span>
   </div>
@@ -1584,7 +1584,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
     </button>
     <div class="topbar-left">
       <div class="topbar-title">Dashboard</div>
-      <div class="topbar-sub">Boda · Andrea &amp; Saúl</div>
+      <div class="topbar-sub">Boda · Iván &amp; Gemima</div>
     </div>
     <div class="topbar-actions">
       <div class="countdown-chip">
@@ -2004,41 +2004,41 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
 <script>
 /* ── DATOS DEMO ── */
 const WEDDING_GUESTS = {
-  'garcia':   { name: 'Familia García',           passes: 4, table: '1' },
-  'herrera':  { name: 'Dr. Herrera y Familia',    passes: 3, table: '2' },
-  'torres':   { name: 'Familia Torres',           passes: 2, table: '3' },
-  'valdez':   { name: 'Ana y Carlos Valdez',      passes: 2, table: '4' },
-  'soto':     { name: 'Valentina Soto',           passes: 1, table: '5' },
-  'pena':     { name: 'Ing. Peña',                passes: 2, table: '6' },
-  'ramirez':  { name: 'Familia Ramírez',          passes: 5, table: '1' },
-  'luna':     { name: 'Dra. Luna',                passes: 2, table: '2' },
-  'morales':  { name: 'Jorge Morales',            passes: 2, table: '3' },
-  'castillo': { name: 'Familia Castillo',         passes: 4, table: '4' },
-  'reyes':    { name: 'Claudia Reyes',            passes: 1, table: '5' },
-  'medina':   { name: 'Roberto y Sofía Medina',   passes: 2, table: '6' },
-  'jimenez':  { name: 'Familia Jiménez',          passes: 3, table: '1' },
-  'vega':     { name: 'Lic. Vega',                passes: 2, table: '2' },
-  'flores':   { name: 'Familia Flores',           passes: 4, table: '3' },
+  'garcia':    { name: 'Familia García Pérez',      passes: 4, table: '1' },
+  'hernandez': { name: 'Familia Hernández',         passes: 3, table: '2' },
+  'martinez':  { name: 'Familia Martínez',          passes: 2, table: '3' },
+  'lopez':     { name: 'Ana y Luis López',          passes: 2, table: '4' },
+  'soto':      { name: 'Dra. Soto',                 passes: 1, table: '5' },
+  'ramos':     { name: 'Familia Ramos',             passes: 2, table: '6' },
+  'gutierrez': { name: 'Familia Gutiérrez',         passes: 5, table: '1' },
+  'luna':      { name: 'Ing. Luna y Familia',       passes: 2, table: '2' },
+  'morales':   { name: 'Patricia Morales',          passes: 2, table: '3' },
+  'castillo':  { name: 'Familia Castillo',          passes: 4, table: '4' },
+  'reyes':     { name: 'Diego Reyes',               passes: 1, table: '5' },
+  'medina':    { name: 'Roberto y Sofía Medina',    passes: 2, table: '6' },
+  'jimenez':   { name: 'Familia Jiménez Ruiz',      passes: 3, table: '1' },
+  'vega':      { name: 'Lic. Vega',                 passes: 2, table: '2' },
+  'flores':    { name: 'Familia Flores',            passes: 4, table: '3' },
 };
 
 const _n = Date.now();
 const _h = 3600000;
 const LOCAL_RSVP = {
-  'garcia':   { attending: true,      guestName: 'Familia García',        confirmedAt: { toMillis: () => _n - _h*2  }, message: '¡Qué emoción celebrar con ustedes!' },
-  'herrera':  { attending: true,      guestName: 'Dr. Herrera y Familia', confirmedAt: { toMillis: () => _n - _h*5  }, message: '' },
-  'torres':   { attending: undefined, lastVisit: { toMillis: () => _n - _h*1 } },
-  'valdez':   { attending: true,      guestName: 'Ana y Carlos Valdez',   confirmedAt: { toMillis: () => _n - _h*26 }, message: 'Con mucho gusto asistiremos' },
-  'soto':     { attending: true,      guestName: 'Valentina Soto',        confirmedAt: { toMillis: () => _n - _h*8  }, message: '' },
-  'pena':     { attending: false,     guestName: 'Ing. Peña',             confirmedAt: { toMillis: () => _n - _h*50 }, message: 'Lamentablemente no podré asistir' },
-  'ramirez':  { attending: true,      guestName: 'Familia Ramírez',       confirmedAt: { toMillis: () => _n - _h*3  }, message: '' },
-  'luna':     { attending: undefined },
-  'morales':  { attending: true,      guestName: 'Jorge Morales',         confirmedAt: { toMillis: () => _n - _h*12 }, message: '' },
-  'castillo': { attending: undefined, lastVisit: { toMillis: () => _n - _h*4 } },
-  'reyes':    { attending: false,     guestName: 'Claudia Reyes',         confirmedAt: { toMillis: () => _n - _h*28 }, message: 'No podré asistir, lo lamento' },
-  'medina':   { attending: undefined },
-  'jimenez':  { attending: true,      guestName: 'Familia Jiménez',       confirmedAt: { toMillis: () => _n - _h*6  }, message: '' },
-  'vega':     { attending: undefined, lastVisit: { toMillis: () => _n - _h*2 } },
-  'flores':   { attending: true,      guestName: 'Familia Flores',        confirmedAt: { toMillis: () => _n - _h*9  }, message: '¡Ahí estaremos!' },
+  'garcia':    { attending: true,      guestName: 'Familia García Pérez',   confirmedAt: { toMillis: () => _n - _h*2  }, message: '¡Qué emoción ser parte de su boda! Los queremos mucho.' },
+  'hernandez': { attending: true,      guestName: 'Familia Hernández',      confirmedAt: { toMillis: () => _n - _h*5  }, message: 'Ahí estaremos con mucho gusto, que Dios los bendiga.' },
+  'martinez':  { attending: undefined, lastVisit: { toMillis: () => _n - _h*1 } },
+  'lopez':     { attending: true,      guestName: 'Ana y Luis López',       confirmedAt: { toMillis: () => _n - _h*26 }, message: 'Con todo el gusto del mundo, los acompañaremos.' },
+  'soto':      { attending: true,      guestName: 'Dra. Soto',              confirmedAt: { toMillis: () => _n - _h*8  }, message: '' },
+  'ramos':     { attending: false,     guestName: 'Familia Ramos',          confirmedAt: { toMillis: () => _n - _h*50 }, message: 'Lamentablemente no podremos asistir, que tengan un día precioso.' },
+  'gutierrez': { attending: true,      guestName: 'Familia Gutiérrez',      confirmedAt: { toMillis: () => _n - _h*3  }, message: '' },
+  'luna':      { attending: undefined },
+  'morales':   { attending: true,      guestName: 'Patricia Morales',       confirmedAt: { toMillis: () => _n - _h*12 }, message: '¡Felicidades a los novios! Dios los bendiga siempre.' },
+  'castillo':  { attending: undefined, lastVisit: { toMillis: () => _n - _h*4 } },
+  'reyes':     { attending: false,     guestName: 'Diego Reyes',            confirmedAt: { toMillis: () => _n - _h*28 }, message: 'No podré estar presente, les deseo lo mejor.' },
+  'medina':    { attending: undefined },
+  'jimenez':   { attending: true,      guestName: 'Familia Jiménez Ruiz',   confirmedAt: { toMillis: () => _n - _h*6  }, message: 'Que Dios los llene de amor y bendiciones en su nuevo camino.' },
+  'vega':      { attending: undefined, lastVisit: { toMillis: () => _n - _h*2 } },
+  'flores':    { attending: true,      guestName: 'Familia Flores',         confirmedAt: { toMillis: () => _n - _h*9  }, message: '¡Ahí estaremos para celebrar con ustedes!' },
 };
 </script>
 <script>
@@ -2046,7 +2046,7 @@ feather.replace();
 
 // ── DESIGNS ──
 const DESIGNS = [
-  { file: 'index.html',                label: 'Clásico Dorado', palette: ['#b8976a','#2c2416','#f5f0e8'] },
+  { file: 'index.html',                label: 'Iván & Gemima', palette: ['#b8976a','#2c2416','#f5f0e8'] },
   { file: 'invitacion-floral.html',    label: 'Floral',         palette: ['#e8b4bb','#7a9b7c','#f9eff0'] },
   { file: 'invitacion-ballroom.html',  label: 'Ballroom',       palette: ['#c9a84c','#1a1a1a','#f5f0e0'] },
   { file: 'invitacion-minimal.html',   label: 'Minimal',        palette: ['#c8604a','#111111','#ffffff'] },
@@ -3049,7 +3049,7 @@ function printSeatingList() {
   root.className = 'pk-list';
   root.innerHTML = `
     <header class="pk-head">
-      <h1>Acomodo por mesas · Andrea &amp; Saúl</h1>
+      <h1>Acomodo por mesas · Iván &amp; Gemima</h1>
       <p>${fecha} · ${ids.length} mesas · ${totalPpl} personas acomodadas</p>
     </header>
     ${blocks || '<p>Aún no hay mesas configuradas.</p>'}
@@ -3063,7 +3063,7 @@ function printFloorPlan() {
   root.className = 'pk-plan';
   root.innerHTML = `
     <header class="pk-head">
-      <h1>Plano del salón · Andrea &amp; Saúl</h1>
+      <h1>Plano del salón · Iván &amp; Gemima</h1>
       <p>${new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
     </header>
     <div class="pk-board">${board ? board.innerHTML : ''}</div>`;
@@ -3841,7 +3841,7 @@ function renderUrlsList() {
 
   list.innerHTML = keys.map(key => {
     const g   = WEDDING_GUESTS[key];
-    const url = base + 'andrea-saul/?g=' + key;
+    const url = base + 'ivan-gemima/?g=' + key;
     return `<div class="url-row">
       <div>
         <div class="url-row-name">${g.name}</div>
@@ -3861,7 +3861,7 @@ function copyAllUrls() {
   const base = getBase();
   const text = Object.keys(WEDDING_GUESTS).map(key => {
     const g = WEDDING_GUESTS[key];
-    return g.name + '\n' + base + 'andrea-saul/?g=' + key;
+    return g.name + '\n' + base + 'ivan-gemima/?g=' + key;
   }).join('\n\n');
   copyText(text, 'Todos los enlaces copiados');
 }
@@ -3886,7 +3886,7 @@ function openQRModal() {
       <div class="qr-modal-grid" style="overflow-y:auto;flex:1;">
         ${keys.map(key => {
           const g   = WEDDING_GUESTS[key];
-          const url = encodeURIComponent(base + 'andrea-saul/?g=' + key);
+          const url = encodeURIComponent(base + 'ivan-gemima/?g=' + key);
           const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + url + '&margin=8&color=2c2416&bgcolor=faf8f4';
           return `<div class="qr-card">
             <img src="${qrSrc}" alt="QR ${g.name}" loading="lazy"/>
@@ -3980,7 +3980,7 @@ function exportCSV() {
   const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
-  a.href = url; a.download = 'invitados-boda-andrea-saul.csv';
+  a.href = url; a.download = 'invitados-boda-ivan-gemima.csv';
   document.body.appendChild(a); a.click();
   document.body.removeChild(a); URL.revokeObjectURL(url);
   showToast('CSV descargado');
@@ -4088,7 +4088,7 @@ function countUpTo(elId, target) {
 const GIFT_FIELDS = [
   { key:'bankName',           label:'Banco',                           placeholder:'BBVA',                                      type:'text' },
   { key:'bankClabe',          label:'CLABE / Cuenta',                  placeholder:'000000000000000000',                        type:'text' },
-  { key:'bankAlias',          label:'Alias de transferencia',          placeholder:'andrea.saul.boda',                          type:'text' },
+  { key:'bankAlias',          label:'Alias de transferencia',          placeholder:'ivan.gemima.boda',                          type:'text' },
   { key:'amazonUrl',          label:'Link de lista — Amazon',          placeholder:'https://www.amazon.com.mx/wedding/...',      type:'text' },
   { key:'liverpoolUrl',       label:'Link de mesa — Liverpool',        placeholder:'https://mesaderegalos.liverpool.com.mx/...', type:'text' },
   { key:'spotifyPlaylistUrl', label:'Playlist colaborativa — Spotify', placeholder:'https://open.spotify.com/playlist/...',      type:'text' },
