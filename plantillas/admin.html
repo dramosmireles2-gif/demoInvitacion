@@ -15,15 +15,15 @@
   --cream: #ffffff;
   --cream2: #f2f2f2;
   --parchment: #e2e2e2;
-  --gold: #0a0a0a;
+  --gold: #3a4e66;
   --gold-light: #ffffff;
-  --gold-dark: #0a0a0a;
-  --text: #0a0a0a;
+  --gold-dark: #3a4e66;
+  --text: #3a4e66;
   --text-light: #6f6f6f;
   --white: #ffffff;
-  --sidebar: #0a0a0a;
-  --sidebar2: #000000;
-  --ink: #0a0a0a;
+  --sidebar: #3a4e66;
+  --sidebar2: #263547;
+  --ink: #3a4e66;
   --ink-soft: #6f6f6f;
   --green: #3f8a5c;
   --red: #c04848;
@@ -50,7 +50,7 @@ body {
   font-weight: 400;
   font-size: 14px;
   background: var(--cream);
-  background-image: radial-gradient(circle, rgba(10,10,10,0.06) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(58,78,102,0.06) 1px, transparent 1px);
   background-size: 24px 24px;
   color: var(--text);
   display: flex;
@@ -101,7 +101,7 @@ body {
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(10,10,10,0.2) transparent;
+  scrollbar-color: rgba(58,78,102,0.2) transparent;
 }
 
 .nav-indicator {
@@ -155,7 +155,7 @@ body {
 .brand-date {
   font-size: 11px;
   letter-spacing: 1px;
-  color: rgba(10,10,10,0.6);
+  color: rgba(58,78,102,0.6);
   margin-top: 8px;
   display: block;
 }
@@ -921,7 +921,7 @@ body.sidebar-open .sidebar-overlay { display: block; }
   position: relative;
   min-width: 100%;
   min-height: 440px;
-  background: radial-gradient(circle, rgba(10,10,10,0.06) 1px, transparent 1px) 0 0/22px 22px;
+  background: radial-gradient(circle, rgba(58,78,102,0.06) 1px, transparent 1px) 0 0/22px 22px;
   overflow: visible;
   transition: min-height 0.3s ease;
 }
@@ -1531,14 +1531,14 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
 </div>
 
 <!-- AUTH OVERLAY -->
-<div id="auth-overlay" style="position:fixed;inset:0;background:linear-gradient(160deg,#111111 0%,#222222 60%,#000000 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:32px;">
+<div id="auth-overlay" style="position:fixed;inset:0;background:linear-gradient(160deg,#3a4e66 0%,#2c3d52 60%,#1c2733 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;gap:32px;">
   <!-- Watermark -->
   <div aria-hidden="true" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;user-select:none;">
-    <span style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:clamp(100px,22vw,200px);color:rgba(10,10,10,0.04);line-height:1;white-space:nowrap;">A &amp; S</span>
+    <span style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:clamp(100px,22vw,200px);color:rgba(58,78,102,0.04);line-height:1;white-space:nowrap;">A &amp; S</span>
   </div>
 
   <div style="text-align:center;position:relative;">
-    <span style="font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(10,10,10,0.5);display:block;margin-bottom:12px;">RMKT Web &amp; Apps</span>
+    <span style="font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(58,78,102,0.5);display:block;margin-bottom:12px;">RMKT Web &amp; Apps</span>
     <span style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:38px;color:var(--gold-light);display:block;line-height:1.1;">Iván &amp; Gemima</span>
     <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:10px;display:block;">Panel de administración</span>
   </div>
@@ -1546,13 +1546,13 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
   <div style="width:300px;display:flex;flex-direction:column;gap:10px;position:relative;">
     <div style="position:relative;">
       <input id="auth-input" type="password" placeholder="Contraseña de acceso"
-        style="width:100%;padding:14px 16px;border:1px solid rgba(10,10,10,0.25);border-radius:3px;background:rgba(255,255,255,0.04);font-family:'DM Sans',sans-serif;font-size:14px;color:#ffffff;outline:none;letter-spacing:1.5px;transition:border-color 0.2s;caret-color:var(--gold-light);"
-        onfocus="this.style.borderColor='rgba(10,10,10,0.6)'"
-        onblur="this.style.borderColor='rgba(10,10,10,0.25)'"
+        style="width:100%;padding:14px 16px;border:1px solid rgba(58,78,102,0.25);border-radius:3px;background:rgba(255,255,255,0.04);font-family:'DM Sans',sans-serif;font-size:14px;color:#ffffff;outline:none;letter-spacing:1.5px;transition:border-color 0.2s;caret-color:var(--gold-light);"
+        onfocus="this.style.borderColor='rgba(58,78,102,0.6)'"
+        onblur="this.style.borderColor='rgba(58,78,102,0.25)'"
         onkeydown="if(event.key==='Enter')checkAuth()" autofocus />
     </div>
     <button onclick="checkAuth()"
-      style="padding:14px;background:#ffffff;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#0a0a0a;cursor:pointer;transition:opacity 0.2s;"
+      style="padding:14px;background:#ffffff;border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#3a4e66;cursor:pointer;transition:opacity 0.2s;"
       onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
       Ingresar
     </button>
@@ -1640,7 +1640,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
     <!-- ── PANEL: RESUMEN ── -->
     <div class="tab-panel active" id="panel-resumen">
 
-      <div style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.1);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
+      <div style="background:#3a4e66;border:1px solid rgba(255,255,255,0.1);border-radius:5px;padding:18px 24px;margin-bottom:26px;display:flex;align-items:flex-start;gap:16px;">
         <div style="width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
           <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:#ffffff;stroke-width:1.75;fill:none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
