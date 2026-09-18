@@ -3830,7 +3830,10 @@ function renderGuestTable(rsvpData) {
     let confirmedAtDisplay = '—';
     if (r?.confirmedAt) {
       try {
-        const d = r.confirmedAt.toDate ? r.confirmedAt.toDate() : new Date(r.confirmedAt);
+        const d = r.confirmedAt.toDate ? r.confirmedAt.toDate()
+                 : r.confirmedAt.toMillis ? new Date(r.confirmedAt.toMillis())
+                 : new Date(r.confirmedAt);
+        if (isNaN(d.getTime())) throw new Error('fecha inválida');
         const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
         confirmedAtDisplay = d.getDate() + ' ' + months[d.getMonth()] + ' · ' +
           String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
@@ -4048,9 +4051,13 @@ function exportCSV() {
     if (r.attending === false) status = 'No asistirá';
     if (!r.attending && r.lastVisit) status = 'Vio la invitación';
     const msg  = (r.message || '').replace(/"/g, '""');
-    const date = r.confirmedAt?.toDate
-      ? r.confirmedAt.toDate().toLocaleDateString('es-MX', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})
-      : '';
+    let date = '';
+    if (r.confirmedAt) {
+      const dt = r.confirmedAt.toDate ? r.confirmedAt.toDate()
+               : r.confirmedAt.toMillis ? new Date(r.confirmedAt.toMillis())
+               : new Date(r.confirmedAt);
+      if (!isNaN(dt.getTime())) date = dt.toLocaleDateString('es-MX', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    }
     rows.push([g.name, g.passes, g.table, status, '"' + msg + '"', date]);
   });
   const csv = rows.map(r => r.join(',')).join('\n');
