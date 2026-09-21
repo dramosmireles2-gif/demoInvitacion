@@ -3526,6 +3526,10 @@ function initAdmin() {
     renderUrlsList();
     loadTablesConfig();
     buildTablesSection();
+    // Si el listener de RSVPs ya disparó antes de que cargara la lista de
+    // invitados, el dashboard se calculó con WEDDING_GUESTS vacío. Se
+    // vuelve a renderizar aquí con los invitados ya completos.
+    renderDashboard(lastRsvpData);
   }).catch(() => {
     renderUrlsList();
     buildTablesSection();
