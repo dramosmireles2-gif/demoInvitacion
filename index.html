@@ -799,6 +799,11 @@ body::before {
 .rsvp-success.visible .success-title { opacity:1; transform:translateY(0); }
 .success-body  { font-family:'Jost',sans-serif; font-size:12px; font-weight:500; letter-spacing:1px; color:var(--text-2); line-height:1.7; opacity:0; transform:translateY(8px); transition:opacity 0.4s ease 0.52s,transform 0.4s ease 0.52s; }
 .rsvp-success.visible .success-body { opacity:1; transform:translateY(0); }
+.rsvp-closed { display:none; flex-direction:column; align-items:center; gap:10px; text-align:center; padding:32px 24px; background:rgba(255,255,255,0.25); border:1px solid rgba(201,164,106,0.3); border-radius:16px; }
+.rsvp-closed.show { display:flex; }
+.rsvp-closed-icon { margin-bottom:4px; opacity:0.8; }
+.rsvp-closed-title { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:20px; color:var(--text); }
+.rsvp-closed-body { font-family:'Jost',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.5px; color:var(--text-2); line-height:1.75; }
 
 /* ── GIFTS ── */
 .inv-gifts { width: 100%; max-width: 480px; padding: 48px 24px 40px; animation: fade-up 1s 0.8s both; }
@@ -1174,7 +1179,7 @@ body::before {
     </div>
     <div class="inv-rsvp-block">
       <p class="rsvp-title">Confirmar Asistencia</p>
-      <p class="rsvp-sub">Antes del 15 de Septiembre · 2027</p>
+      <p class="rsvp-sub">Antes del 10 de Noviembre · 2027</p>
       <div id="rsvp-form">
         <div class="rsvp-options">
           <button class="rsvp-btn" id="btn-yes" onclick="selectRSVP('yes')"><span class="rsvp-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>Asistiré</button>
@@ -1188,6 +1193,11 @@ body::before {
         <div class="success-icon"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--gold)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg></div>
         <p class="success-title" id="rsvp-success-title">¡Gracias!</p>
         <p class="success-body" id="rsvp-success-body">Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!</p>
+      </div>
+      <div class="rsvp-closed" id="rsvp-closed">
+        <div class="rsvp-closed-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--gold)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <p class="rsvp-closed-title">Período de confirmación concluido</p>
+        <p class="rsvp-closed-body">El período de confirmación de asistencia ha concluido el 10 de noviembre de 2027. Agradecemos su interés y los esperamos en esta celebración.</p>
       </div>
     </div>
   </div>
@@ -1376,10 +1386,36 @@ const WEDDING_CONFIG = {
 /* ══════════════════════════════════
    INVITADO (estático — demo)
 ══════════════════════════════════ */
-const tipoInv = (new URLSearchParams(window.location.search).get('tipo') || '').toLowerCase().trim();
+const _urlParams = new URLSearchParams(window.location.search);
+const tipoInv = (_urlParams.get('tipo') || '').toLowerCase().trim();
+let guestKey = (_urlParams.get('g') || '').toLowerCase().trim();
+if (guestKey) { sessionStorage.setItem('demo_guest_key', guestKey); }
+else { guestKey = sessionStorage.getItem('demo_guest_key') || ''; }
+
+const RSVP_DEADLINE = new Date('2027-11-10T23:59:59');
+
 const SVG_TICKET = `<svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 0 1 0-4V3h20v2a2 2 0 0 1 0 4v2a2 2 0 0 1 0 4v2H2v-2a2 2 0 0 1 0-4V9z"/><line x1="9" y1="3" x2="9" y2="21" stroke-dasharray="2 2"/></svg>`;
 
-const guest = { name: 'Estimado Invitado', passes: 2, table: '—' };
+const DEMO_GUESTS = {
+  'garcia':    { name: 'Familia García Pérez',   passes: 4, table: '1' },
+  'hernandez': { name: 'Familia Hernández',       passes: 3, table: '2' },
+  'martinez':  { name: 'Familia Martínez',        passes: 2, table: '3' },
+  'lopez':     { name: 'Ana y Luis López',        passes: 2, table: '4' },
+  'soto':      { name: 'Dra. Soto',              passes: 1, table: '5' },
+  'ramos':     { name: 'Familia Ramos',           passes: 2, table: '6' },
+  'gutierrez': { name: 'Familia Gutiérrez',       passes: 5, table: '1' },
+  'luna':      { name: 'Ing. Luna y Familia',     passes: 2, table: '2' },
+  'morales':   { name: 'Patricia Morales',        passes: 2, table: '3' },
+  'castillo':  { name: 'Familia Castillo',        passes: 4, table: '4' },
+  'reyes':     { name: 'Diego Reyes',             passes: 1, table: '5' },
+  'medina':    { name: 'Roberto y Sofía Medina',  passes: 2, table: '6' },
+  'jimenez':   { name: 'Familia Jiménez Ruiz',    passes: 3, table: '1' },
+  'vega':      { name: 'Lic. Vega',              passes: 2, table: '2' },
+  'flores':    { name: 'Familia Flores',          passes: 4, table: '3' },
+  'testguest': { name: 'Invitado de Prueba',      passes: 2, table: '1' },
+};
+
+let guest = DEMO_GUESTS[guestKey] || { name: 'Estimado Invitado', passes: 2, table: '—' };
 
 function applyGuest(g) {
   document.getElementById('guest-name-text').textContent  = g.name;
@@ -1388,8 +1424,50 @@ function applyGuest(g) {
 }
 applyGuest(guest);
 
-function trackVisit() {}
-function checkExistingRSVP() {}
+if (!DEMO_GUESTS[guestKey] && guestKey && db) {
+  db.collection('demo_guests').doc(guestKey).get().then(doc => {
+    if (doc.exists) { guest = doc.data(); applyGuest(guest); }
+  }).catch(() => {});
+}
+
+async function trackVisit() {
+  if (!db || !guestKey) return;
+  try {
+    await db.collection('demo_rsvps').doc(guestKey).set({
+      lastVisit: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch(e) {}
+}
+
+function showRsvpClosed() {
+  document.getElementById('rsvp-form').style.display = 'none';
+  document.getElementById('rsvp-closed').classList.add('show');
+}
+
+function showRsvpBlocked(attending) {
+  document.getElementById('rsvp-success-title').textContent = attending ? '¡Asistencia confirmada!' : 'Respuesta recibida';
+  document.getElementById('rsvp-success-body').innerHTML = attending
+    ? 'Tu confirmación ya fue recibida.<br/>¡Los esperamos con mucho cariño!'
+    : 'Ya recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
+  document.getElementById('rsvp-form').style.display = 'none';
+  const suc = document.getElementById('rsvp-success');
+  suc.classList.add('show');
+  requestAnimationFrame(() => requestAnimationFrame(() => suc.classList.add('visible')));
+}
+
+async function checkExistingRSVP() {
+  if (new Date() > RSVP_DEADLINE) { showRsvpClosed(); return; }
+  if (!guestKey) return;
+  const local = localStorage.getItem('demo_rsvp_' + guestKey);
+  if (local) { showRsvpBlocked(local === 'yes'); return; }
+  if (!db) return;
+  try {
+    const doc = await db.collection('demo_rsvps').doc(guestKey).get();
+    if (doc.exists && doc.data().attending !== undefined) {
+      showRsvpBlocked(doc.data().attending);
+    }
+  } catch(e) {}
+}
 
 /* ══════════════════════════════════
    SOBRE
@@ -1766,7 +1844,8 @@ function selectRSVP(choice) {
   document.getElementById('btn-no').className  = 'rsvp-btn' + (choice === 'no'  ? ' selected-no'  : '');
 }
 
-function submitRSVP() {
+async function submitRSVP() {
+  if (new Date() > RSVP_DEADLINE) { showRsvpClosed(); return; }
   if (!rsvpChoice) {
     const valMsg = document.getElementById('rsvp-validation');
     valMsg.classList.add('show');
@@ -1774,8 +1853,24 @@ function submitRSVP() {
     return;
   }
   const submitBtn = document.querySelector('.rsvp-submit');
-  submitBtn.disabled = true;
-  document.getElementById('rsvp-success-title').textContent = '¡Gracias!';
+  submitBtn.disabled = true; submitBtn.textContent = 'Enviando...';
+  const msg = document.getElementById('rsvp-msg').value.trim();
+  if (db && guestKey) {
+    try {
+      await db.collection('demo_rsvps').doc(guestKey).set({
+        guestName: guest.name, attending: rsvpChoice === 'yes', message: msg,
+        passes: guest.passes, table: guest.table,
+        confirmedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastVisit: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    } catch(e) {
+      console.error('RSVP error:', e);
+      submitBtn.disabled = false; submitBtn.textContent = 'Confirmar';
+      return;
+    }
+  }
+  if (guestKey) { localStorage.setItem('demo_rsvp_' + guestKey, rsvpChoice === 'yes' ? 'yes' : 'no'); }
+  document.getElementById('rsvp-success-title').textContent = '¡Gracias' + (guest.name !== 'Estimado Invitado' ? ', ' + guest.name : '') + '!';
   document.getElementById('rsvp-success-body').innerHTML = rsvpChoice === 'yes'
     ? 'Tu confirmación ha sido recibida.<br/>¡Los esperamos con mucho cariño!'
     : 'Recibimos tu respuesta.<br/>¡Los tendremos presentes con mucho cariño!';
