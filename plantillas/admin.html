@@ -1790,7 +1790,7 @@ body.dragging-guest .tb-chip { cursor: grabbing; }
             </div>
             <div>
               <div style="font-family:'DM Sans',sans-serif;font-size:17px;color:var(--text);">Fecha límite de confirmación</div>
-              <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">10 de noviembre de 2027</div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:2px;" id="deadline-date-label">15 de septiembre de 2027</div>
             </div>
           </div>
           <div style="text-align:right;">
@@ -2056,7 +2056,6 @@ const WEDDING_GUESTS = {
   'jimenez':   { name: 'Familia Jiménez Ruiz',      passes: 3, table: '1' },
   'vega':      { name: 'Lic. Vega',                 passes: 2, table: '2' },
   'flores':    { name: 'Familia Flores',            passes: 4, table: '3' },
-  'testguest': { name: 'Invitado de Prueba',        passes: 2, table: '1' },
 };
 
 const _n = Date.now();
@@ -4112,7 +4111,7 @@ function buildEventForm() {
     { key:'churchMaps',   label:'Link Google Maps — Iglesia', placeholder:'https://maps.app.goo.gl/…',   type:'text' },
     { key:'venueName',    label:'Nombre del salón',           placeholder:'Hacienda San Antonio',        type:'text' },
     { key:'venueMaps',    label:'Link Google Maps — Salón',   placeholder:'https://maps.app.goo.gl/…',   type:'text' },
-    { key:'rsvpDeadline', label:'Fecha límite RSVP',          placeholder:'2027-11-10',                  type:'date' },
+    { key:'rsvpDeadline', label:'Fecha límite RSVP',          placeholder:'2027-09-15',                  type:'date' },
   ];
 
   form.innerHTML = fields.map(f => {
@@ -4223,7 +4222,7 @@ function saveGiftsConfig() {
 // ── FEATURE 5: DEADLINE COUNTDOWN ──
 function updateDeadlineCountdown() {
   const cfg      = loadEventConfig();
-  const deadlineStr = cfg.rsvpDeadline || '2027-11-10';
+  const deadlineStr = cfg.rsvpDeadline || '2027-09-15';
   const deadline = new Date(deadlineStr + 'T23:59:59');
   const now      = new Date();
   const daysLeft = Math.ceil((deadline - now) / 86400000);
